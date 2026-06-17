@@ -107,6 +107,30 @@ Ordinary pages:
 
 ## Current State
 
+## 2026-06-17 Wrap Snapshot
+
+Current git state:
+
+- Worktree clean.
+- `main` is synced with `origin/main`.
+- Latest commit: `dbd2851 Align header menu with site pages`.
+
+Files changed in the latest session:
+
+- `onixbit-tilda-header.html` — header menu aligned with actual pages.
+- `onixbit-tilda-insert-links.md` — header upload note updated.
+- `onixbit-codex-handoff.md` — state updated for resume.
+
+Latest verification:
+
+- `npx playwright test onixbit-pages-smoke.spec.js`: 12 passed.
+
+Exact next action:
+
+1. In Tilda, replace the global header block with `onixbit-tilda-header.html`.
+2. Replace site custom CSS with `onixbit-tilda-site-styles.css` if the restored Onixbit palette has not yet been uploaded.
+3. Publish pages and then run a focused live audit on the working Tilda domain.
+
 ## 2026-06-17 Header Menu Restored To Page Map
 
 The header menu was corrected to match the actual multipage structure instead of the temporary product-menu wording.
