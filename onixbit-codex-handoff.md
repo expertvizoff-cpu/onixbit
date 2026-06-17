@@ -200,52 +200,30 @@ Known earlier Tilda issue:
 
 - A stray Tilda placeholder block showed `Html code will be here` in the global footer area. It should be removed from the global footer page if still present.
 
-## 2026-06-17 GitHub Setup Started
+## 2026-06-17 GitHub Setup Complete
 
 The user asked to connect the project to GitHub.
 
 Local git state:
 - `lifephoto` is now a local git repo initialized on `main`.
 - `.gitignore` was created to keep `node_modules`, Playwright/test output, large temporary Bitrix24 captures, screenshots, and superseded hero blocks out of the repo.
-- 73 files are staged for the first commit.
-- No commit has been made yet.
-- `user.name` and `user.email` are not configured.
+- First commit exists: `032a345 Initial Onixbit Tilda site`.
+- `user.name` is `expertvizoff-cpu`.
+- `user.email` is `expert.vizoff@gmail.com`.
 - GitHub CLI (`gh`) is not installed.
-- No GitHub remote has been added.
+- GitHub remote is configured:
+  - `origin git@github.com:expertvizoff-cpu/onixbit.git`
+- Local `main` tracks `origin/main`; latest checked state was clean and not ahead/behind.
 
-Do not commit/push until the user provides:
-- GitHub repository URL, for example `https://github.com/USERNAME/REPO.git`;
-- commit author name and email.
-
-Suggested commands after user provides them:
-1. `git config user.name "..."`
-2. `git config user.email "..."`
-3. `git commit -m "Initial Onixbit Tilda site"`
-4. `git remote add origin <repo-url>`
-5. `git push -u origin main`
+For future changes:
+1. edit files;
+2. run focused validation where useful;
+3. commit with a clear message;
+4. push to `origin main`.
 
 ## Next Action
 
-Primary next step is GitHub connection, because the newest user request was "Давай подключимся к github".
-
-Ask the user for:
-- GitHub repository URL, for example `https://github.com/USERNAME/REPO.git`;
-- commit author name;
-- commit author email.
-
-Then:
-1. set local git config with the provided author name/email;
-2. commit the staged files with `Initial Onixbit Tilda site`;
-3. add `origin` from the provided GitHub URL;
-4. push `main` with `git push -u origin main`.
-
-Current GitHub blockers:
-- no commit has been made yet;
-- no remote has been added yet;
-- `gh` CLI is not installed;
-- `user.name` and `user.email` are not configured.
-
-After GitHub is connected, return to the Tilda production step:
+Primary next step is the Tilda production step:
 - replace site custom CSS with `onixbit-tilda-site-styles.css`;
 - replace global header with `onixbit-tilda-header.html`;
 - replace global footer blocks with `onixbit-tilda-contacts-footer.html` and `onixbit-tilda-privacy-modal.html`;
