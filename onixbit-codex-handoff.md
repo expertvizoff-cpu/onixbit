@@ -107,6 +107,19 @@ Ordinary pages:
 
 ## Current State
 
+## 2026-06-17 Header Menu Restored To Page Map
+
+The header menu was corrected to match the actual multipage structure instead of the temporary product-menu wording.
+
+Applied files:
+
+- `onixbit-tilda-header.html`: desktop and mobile menu now use `Внедрение`, `Интеграции`, `Тарифы`, `Кейсы`, `Контакты` with links to the corresponding pages.
+- `onixbit-tilda-insert-links.md`: header description updated to the same menu.
+
+Verification:
+
+- `npx playwright test onixbit-pages-smoke.spec.js`: 12 passed.
+
 ## 2026-06-17 Restored Onixbit Brand Palette
 
 The user asked to roll back to the palette from the provided brand collection: bright red, black, white, accent yellow, neutral gray, metallic/robot visual language and Montserrat-like bold typography.

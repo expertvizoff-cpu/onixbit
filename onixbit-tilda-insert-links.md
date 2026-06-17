@@ -10,7 +10,7 @@
 
 ### Шапка
 
-1. [onixbit-tilda-header.html](/home/aleksander/projects/lifephoto/onixbit-tilda-header.html) — глобальная шапка: Возможности, Решения, Цены, Внедрение, Кейсы
+1. [onixbit-tilda-header.html](/home/aleksander/projects/lifephoto/onixbit-tilda-header.html) — глобальная шапка: Внедрение, Интеграции, Тарифы, Кейсы, Контакты
 
 ### Подвал
 
