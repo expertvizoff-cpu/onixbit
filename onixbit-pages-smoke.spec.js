@@ -28,7 +28,7 @@ const pages = [
       "onixbit-tilda-cases.html",
     ],
     counts: {
-      ".obx-problems__scan-row": 4,
+      ".obx-problems__pain-card": 4,
       ".obx-audience__card": 4,
       ".obx-home-system__node": 8,
       ".obx-home-process__step": 5,
@@ -53,7 +53,7 @@ const pages = [
     counts: {
       ".obx-deep--scope": 1,
       ".obx-deep--scope .obx-deep__card": 6,
-      ".obx-problems__scan-row": 4,
+      ".obx-problems__pain-card": 4,
       ".obx-process__step": 6,
       ".obx-why__card": 4,
       ".obx-trust__card": 4,

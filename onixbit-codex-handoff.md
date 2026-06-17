@@ -107,9 +107,26 @@ Ordinary pages:
 
 ## Current State
 
-## 2026-06-17 Bitrix24-Style Product Concept
+## 2026-06-17 Restored Onixbit Brand Palette
 
-The latest user direction replaced the previous red/black designer concept with a Bitrix24.ru-inspired product UI concept. Current direction:
+The user asked to roll back to the palette from the provided brand collection: bright red, black, white, accent yellow, neutral gray, metallic/robot visual language and Montserrat-like bold typography.
+
+Applied files:
+
+- `onixbit-tilda-site-styles.css`: removed the final `28. Bitrix24 inspired product UI refresh` layer, so the active final visual layer is again `26. Onixbit brand refresh: red / black / white system`.
+- `onixbit-tilda-insert-links.md`: updated the current concept note to the Onixbit brand collection.
+
+Scope note:
+
+- This rollback changes the active visual palette/style layer. It does not remove page-specific hero blocks, `obx-product-tabs`, or the current multipage content structure unless the user asks for a deeper content/structure rollback.
+
+Verification:
+
+- `npx playwright test onixbit-pages-smoke.spec.js`: 12 passed after updating the smoke selector from the old `.obx-problems__scan-row` to the current `.obx-problems__pain-card`.
+
+## 2026-06-17 Superseded Bitrix24-Style Product Concept
+
+This temporary direction replaced the previous red/black designer concept with a Bitrix24.ru-inspired product UI concept. It is now superseded by the restored Onixbit brand palette. The temporary direction was:
 
 - bright SaaS palette: light blue/white backgrounds, cyan-blue product accents, lime-green CTA buttons, dark blue text;
 - product-style structure: short H1s, feature tabs in every hero, menu by product logic (`Возможности`, `Решения`, `Цены`, `Внедрение`, `Кейсы`);
@@ -118,7 +135,7 @@ The latest user direction replaced the previous red/black designer concept with 
 
 Applied files:
 
-- `onixbit-tilda-site-styles.css`: final section `28. Bitrix24 inspired product UI refresh`;
+- `onixbit-tilda-site-styles.css`: previously had final section `28. Bitrix24 inspired product UI refresh`; this section has now been removed;
 - all mapped hero blocks now include `obx-product-tabs`;
 - all mapped content blocks were text/concept refreshed toward product capabilities, solutions, integrations, prices, partner proof and business stories;
 - `onixbit-tilda-insert-links.md` regenerated with the current upload order and block names.

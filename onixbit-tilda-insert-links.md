@@ -1,10 +1,10 @@
 # Onixbit Tilda Insert Links
 
-Актуальная концепция: Bitrix24-style product UI. Сначала обновить общий CSS, затем глобальные блоки, затем страницы в указанном порядке.
+Актуальная концепция: фирменная коллекция Onixbit — красный, чёрный, белый, жёлтый, серые и металлические акценты. Сначала обновить общий CSS, затем глобальные блоки, затем страницы в указанном порядке.
 
 ## Общий CSS
 
-- [onixbit-tilda-site-styles.css](/home/aleksander/projects/lifephoto/onixbit-tilda-site-styles.css) — единые стили сайта, включая финальный Bitrix24-style слой
+- [onixbit-tilda-site-styles.css](/home/aleksander/projects/lifephoto/onixbit-tilda-site-styles.css) — единые стили сайта, активный финальный слой — Onixbit brand refresh
 
 ## Глобальные страницы Tilda
 
