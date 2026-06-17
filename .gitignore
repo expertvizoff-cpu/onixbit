@@ -1,0 +1,27 @@
+# Dependencies
+node_modules/
+
+# Test and browser output
+test-results/
+playwright-report/
+blob-report/
+*.log
+
+# OS/editor noise
+.DS_Store
+*.tmp
+
+# Large temporary source captures and screenshots
+b24-*.html
+b24-table-*.html
+2026-*.jpg
+onixbit-*-before.png
+onixbit-live-*.png
+onixbit-motion-*.png
+onixbit-brand-preview-*.png
+onixbit-brand-style-preview*.png
+onixbit-header-live.png
+onixbit-og-preview-1200x630-old-generated-logo.png
+# Superseded Tilda blocks kept locally only
+onixbit-tilda-hero.html
+onixbit-tilda-hero-v2.html

@@ -1,0 +1,93 @@
+<!-- Главная: компактный блок доверия -->
+<section class="obx-home-trust" id="company">
+  <div class="obx-home-trust__inner">
+    <div class="obx-home-trust__panel">
+      <div class="obx-home-trust__content">
+        <img class="obx-home-trust__logo" src="https://onixbit.su/upload/onixbitru/logo/onixbit-logo-cyrillic-footer-light.png" width="150" height="45" alt="Ониксбит">
+        <div class="obx-home-trust__eyebrow">Партнёр по внедрению</div>
+        <h2 class="obx-home-trust__title">Сертифицированный партнёр, который превращает продукт в рабочую систему</h2>
+        <p class="obx-home-trust__text">Bitrix24 показывает возможности продукта. Мы показываем, почему внедрение этих возможностей можно доверить Ониксбит: статус, компетенции и открытые документы.</p>
+      </div>
+
+      <div class="obx-home-trust__proofs" aria-label="Подтверждения компетенций">
+        <div class="obx-home-trust__main-proof">
+          <span>Статус</span>
+          <strong>Золотой партнёр Битрикс24</strong>
+        </div>
+        <div class="obx-home-trust__proof"><strong>CRM</strong><span>воронки, сделки, контроль продаж</span></div>
+        <div class="obx-home-trust__proof"><strong>Процессы</strong><span>задачи, регламенты, автоматизация</span></div>
+        <div class="obx-home-trust__proof"><strong>1С</strong><span>обмен данными и документы</span></div>
+        <div class="obx-home-trust__proof"><strong>Коробка</strong><span>проекты с особой инфраструктурой</span></div>
+      </div>
+
+      <div class="obx-home-trust__certs" aria-label="Сертификаты Ониксбит">
+        <button class="obx-home-trust__cert" type="button" data-obx-home-cert-title="Золотой партнёр Битрикс24" data-obx-home-cert-src="https://onixbit.su/upload/onixbitru/sertifikat/%D0%97%D0%BE%D0%BB%D0%BE%D1%82%D0%BE%D0%B9%20%D0%BF%D0%B0%D1%80%D1%82%D0%BD%D1%91%D1%80%20%D0%91%D0%B8%D1%82%D1%80%D0%B8%D0%BA%D1%8124.jpg">
+          <img src="https://onixbit.su/upload/onixbitru/sertifikat/%D0%97%D0%BE%D0%BB%D0%BE%D1%82%D0%BE%D0%B9%20%D0%BF%D0%B0%D1%80%D1%82%D0%BD%D1%91%D1%80%20%D0%91%D0%B8%D1%82%D1%80%D0%B8%D0%BA%D1%8124.jpg" alt="Золотой партнёр Битрикс24" loading="lazy">
+          <span>Золотой партнёр</span>
+        </button>
+        <button class="obx-home-trust__cert" type="button" data-obx-home-cert-title="Компетенция CRM" data-obx-home-cert-src="https://onixbit.su/upload/onixbitru/sertifikat/%D0%9A%D0%BE%D0%BC%D0%BF%D0%B5%D1%82%D0%B5%D0%BD%D1%86%D0%B8%D1%8F%20CRM.jpg">
+          <img src="https://onixbit.su/upload/onixbitru/sertifikat/%D0%9A%D0%BE%D0%BC%D0%BF%D0%B5%D1%82%D0%B5%D0%BD%D1%86%D0%B8%D1%8F%20CRM.jpg" alt="Компетенция CRM" loading="lazy">
+          <span>CRM</span>
+        </button>
+        <button class="obx-home-trust__cert" type="button" data-obx-home-cert-title="Компетенция Бизнес-процессы" data-obx-home-cert-src="https://onixbit.su/upload/onixbitru/sertifikat/%D0%9A%D0%BE%D0%BC%D0%BF%D0%B5%D1%82%D0%B5%D0%BD%D1%86%D0%B8%D1%8F%20%D0%91%D0%B8%D0%B7%D0%BD%D0%B5%D1%81-%D0%BF%D1%80%D0%BE%D1%86%D0%B5%D1%81%D1%81%D1%8B.jpg">
+          <img src="https://onixbit.su/upload/onixbitru/sertifikat/%D0%9A%D0%BE%D0%BC%D0%BF%D0%B5%D1%82%D0%B5%D0%BD%D1%86%D0%B8%D1%8F%20%D0%91%D0%B8%D0%B7%D0%BD%D0%B5%D1%81-%D0%BF%D1%80%D0%BE%D1%86%D0%B5%D1%81%D1%81%D1%8B.jpg" alt="Компетенция Бизнес-процессы" loading="lazy">
+          <span>Процессы</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="obx-home-trust__modal" aria-hidden="true">
+    <div class="obx-home-trust__modal-dialog" role="dialog" aria-modal="true" aria-label="Просмотр сертификата">
+      <button class="obx-home-trust__modal-close" type="button" aria-label="Закрыть"></button>
+      <img class="obx-home-trust__modal-image" alt="">
+      <div class="obx-home-trust__modal-title"></div>
+    </div>
+  </div>
+</section>
+
+<script>
+  (function () {
+    var root = document.querySelector(".obx-home-trust");
+    if (!root) return;
+
+    var modal = root.querySelector(".obx-home-trust__modal");
+    var image = root.querySelector(".obx-home-trust__modal-image");
+    var title = root.querySelector(".obx-home-trust__modal-title");
+    var close = root.querySelector(".obx-home-trust__modal-close");
+    var lastActive = null;
+
+    function open(button) {
+      var src = button.getAttribute("data-obx-home-cert-src");
+      var name = button.getAttribute("data-obx-home-cert-title") || "";
+      if (!src) return;
+      lastActive = document.activeElement;
+      image.src = src;
+      image.alt = name;
+      title.textContent = name;
+      modal.classList.add("is-open");
+      modal.setAttribute("aria-hidden", "false");
+      document.documentElement.style.overflow = "hidden";
+      close.focus();
+    }
+
+    function closeModal() {
+      modal.classList.remove("is-open");
+      modal.setAttribute("aria-hidden", "true");
+      image.removeAttribute("src");
+      document.documentElement.style.overflow = "";
+      if (lastActive && lastActive.focus) lastActive.focus();
+    }
+
+    root.querySelectorAll("[data-obx-home-cert-src]").forEach(function (button) {
+      button.addEventListener("click", function () { open(button); });
+    });
+    close.addEventListener("click", closeModal);
+    modal.addEventListener("click", function (event) {
+      if (event.target === modal) closeModal();
+    });
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape" && modal.classList.contains("is-open")) closeModal();
+    });
+  })();
+</script>
