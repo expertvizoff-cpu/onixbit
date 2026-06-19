@@ -18,10 +18,15 @@ export const metadata: Metadata = {
   },
   description:
     "Ониксбит внедряет Битрикс24, разрабатывает сайты на 1С-Битрикс и помогает связать CRM, сайт и 1С:Предприятие.",
+  manifest: "/site.webmanifest",
   icons: {
-    icon: [{ url: "/media/icons/favicon.png", type: "image/png" }],
-    shortcut: "/media/icons/favicon.png",
-    apple: "/media/icons/favicon.png",
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/media/icons/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "/media/icons/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+    ],
+    shortcut: "/favicon.ico",
+    apple: [{ url: "/media/icons/apple-touch-icon.png", sizes: "180x180" }],
   },
   openGraph: {
     title: "Ониксбит — разработка и интеграции для B2B",

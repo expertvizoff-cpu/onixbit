@@ -1,176 +1,312 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import Image from "next/image";
+import { useState } from "react";
+import type { PointerEvent } from "react";
 import type { DirectionId } from "@/data/site";
 
-const crmStages = [
-  { title: "Лид", value: "12", color: "#47b6ff" },
-  { title: "Квалификация", value: "8", color: "#31c48d" },
-  { title: "КП", value: "5", color: "#ffba49" },
-  { title: "Согласование", value: "3", color: "#ff6b6b" },
-];
+type Stage = {
+  tab: string;
+  label: string;
+  title: string;
+  copy: string;
+  progress: number;
+};
 
-const siteStates = [
-  { title: "Каталог", note: "фильтры, карточки, остатки" },
-  { title: "Корзина", note: "состав заказа и скидки" },
-  { title: "Заявка", note: "передача в CRM" },
-];
+const sceneStages: Record<DirectionId, Stage[]> = {
+  bitrix24: [
+    {
+      tab: "Новая",
+      label: "01 / новая",
+      title: "Собираем входящие сделки",
+      copy: "Заявки, звонки и формы сразу попадают в нужную воронку.",
+      progress: 26,
+    },
+    {
+      tab: "Подготовка",
+      label: "02 / подготовка",
+      title: "Настраиваем рабочие этапы",
+      copy: "Менеджер видит следующий шаг, срок и ответственного по сделке.",
+      progress: 52,
+    },
+    {
+      tab: "Счёт",
+      label: "03 / счёт",
+      title: "Автоматизируем счёт и КП",
+      copy: "Роботы помогают создать документ, напомнить и перевести сделку дальше.",
+      progress: 76,
+    },
+    {
+      tab: "В работе",
+      label: "04 / работа",
+      title: "Контролируем сделку до оплаты",
+      copy: "Воронка показывает зависшие сделки, результат и план следующего касания.",
+      progress: 100,
+    },
+  ],
+  sites: [
+    {
+      tab: "Сайты",
+      label: "01 / сайты",
+      title: "Работаем в админке 1С-Битрикс",
+      copy: "Настраиваем структуру сайта, разделы и служебные параметры.",
+      progress: 25,
+    },
+    {
+      tab: "Добавить",
+      label: "02 / создание",
+      title: "Добавляем сайт или раздел",
+      copy: "Готовим настройки, домен, папку, шаблон и языковые параметры.",
+      progress: 50,
+    },
+    {
+      tab: "Таблица",
+      label: "03 / таблица",
+      title: "Проверяем записи и активность",
+      copy: "Администратор видит ID, сортировку, активность и название сайта.",
+      progress: 75,
+    },
+    {
+      tab: "Действия",
+      label: "04 / действия",
+      title: "Управляем действиями записи",
+      copy: "Изменение, копирование и удаление доступны из стандартного меню.",
+      progress: 100,
+    },
+  ],
+  onec: [
+    {
+      tab: "Рабочий стол",
+      label: "01 / рабочий стол",
+      title: "Открываем рабочее место 1С",
+      copy: "Проверяем разделы, доступы и начальную навигацию пользователя.",
+      progress: 25,
+    },
+    {
+      tab: "Документы",
+      label: "02 / документы",
+      title: "Настраиваем документы и файлы",
+      copy: "Формы, папки, реквизиты и маршруты приводятся к единому порядку.",
+      progress: 50,
+    },
+    {
+      tab: "Задачи",
+      label: "03 / задачи",
+      title: "Собираем процессы и задачи",
+      copy: "Пользователь видит свои действия, сроки и ответственных без лишних окон.",
+      progress: 75,
+    },
+    {
+      tab: "Настройки",
+      label: "04 / настройки",
+      title: "Закрепляем права и настройки",
+      copy: "Роли, регламенты и обмены фиксируются в понятной рабочей схеме.",
+      progress: 100,
+    },
+  ],
+};
 
-const onecStates = [
-  { title: "Заказы", value: "48" },
-  { title: "Остатки", value: "12 840" },
-  { title: "Обмен", value: "06:40" },
-];
+const sceneMeta: Record<DirectionId, { chrome: string; label: string; aria: string }> = {
+  bitrix24: {
+    chrome: "CRM Битрикс24",
+    label: "Интерфейс CRM Битрикс24",
+    aria: "Настройка воронки продаж Битрикс24",
+  },
+  sites: {
+    chrome: "1С-Битрикс: Управление сайтом",
+    label: "Административный интерфейс 1С-Битрикс",
+    aria: "Админка 1С-Битрикс Список сайтов",
+  },
+  onec: {
+    chrome: "1С:Предприятие",
+    label: "Интерфейс 1С:Предприятие",
+    aria: "Окно 1С:Предприятие Документооборот",
+  },
+};
+
+function setButtonState(index: number, active: number, baseClass: string) {
+  return [baseClass, index <= active ? "is-active" : "", index === active ? "is-current" : ""]
+    .filter(Boolean)
+    .join(" ");
+}
 
 export function ProductScene({ type }: { type: DirectionId }) {
   const [active, setActive] = useState(0);
+  const stages = sceneStages[type];
+  const safeActive = Math.min(active, stages.length - 1);
+  const stage = stages[safeActive];
+  const meta = sceneMeta[type];
 
-  const content = useMemo(() => {
-    if (type === "bitrix24") {
-      return {
-        logo: "Bitrix24",
-        title: "CRM-воронка",
-        tabs: crmStages.map((stage) => stage.title),
-      };
-    }
-    if (type === "sites") {
-      return {
-        logo: "1C-Битрикс",
-        title: "Сайт и магазин",
-        tabs: siteStates.map((state) => state.title),
-      };
-    }
-    return {
-      logo: "1C",
-      title: "1С:Предприятие",
-      tabs: onecStates.map((state) => state.title),
-    };
-  }, [type]);
+  function setSceneStage(index: number) {
+    setActive(Math.max(0, Math.min(index, stages.length - 1)));
+  }
 
-  const safeActive = Math.min(active, content.tabs.length - 1);
+  function handlePointerMove(event: PointerEvent<HTMLDivElement>) {
+    const rect = event.currentTarget.getBoundingClientRect();
+    const x = (event.clientX - rect.left) / rect.width - 0.5;
+    const y = (event.clientY - rect.top) / rect.height - 0.5;
+    event.currentTarget.style.setProperty("--ob-product-x", (x * 20).toFixed(2) + "px");
+    event.currentTarget.style.setProperty("--ob-product-y", (y * 16).toFixed(2) + "px");
+  }
+
+  function resetPointer(event: PointerEvent<HTMLDivElement>) {
+    event.currentTarget.style.setProperty("--ob-product-x", "0px");
+    event.currentTarget.style.setProperty("--ob-product-y", "0px");
+  }
 
   return (
-    <div className={`ob-scene ob-scene--${type}`}>
-      <div className="ob-scene__top">
-        <div className="ob-scene__logo">{content.logo}</div>
-        <div>
-          <span>Интерактив</span>
-          <strong>{content.title}</strong>
+    <div
+      className={"ob-product-scene ob-product-scene--" + type}
+      aria-label={meta.label}
+      onPointerMove={handlePointerMove}
+      onPointerLeave={resetPointer}
+    >
+      <div className="ob-product-desk">
+        <div className="ob-product-chrome">
+          <span />
+          <span />
+          <span />
+          <strong>{meta.chrome}</strong>
+        </div>
+        <div className="ob-product-canvas">
+          <div className="ob-product-frame" aria-label={meta.aria}>
+            {type === "bitrix24" && (
+              <Bitrix24Workspace active={safeActive} setActive={setSceneStage} />
+            )}
+            {type === "sites" && (
+              <BitrixWorkspace active={safeActive} setActive={setSceneStage} />
+            )}
+            {type === "onec" && (
+              <OneCWorkspace active={safeActive} setActive={setSceneStage} />
+            )}
+          </div>
         </div>
       </div>
 
-      {type === "bitrix24" && (
-        <div className="ob-crm" aria-label="CRM-воронка Битрикс24">
-          {crmStages.map((stage, index) => (
-            <button
-              className={`ob-crm__stage ${index === safeActive ? "is-active" : ""}`}
-              key={stage.title}
-              onMouseEnter={() => setActive(index)}
-              onFocus={() => setActive(index)}
-              type="button"
-              style={{ "--stage": stage.color } as import("react").CSSProperties}
-            >
-              <span>{stage.title}</span>
-              <strong>{stage.value}</strong>
-              <em>сделок</em>
-            </button>
-          ))}
-          <div className="ob-crm__drawer">
-            <span>Автоматизация стадии</span>
-            <strong>{crmStages[safeActive].title}</strong>
-            <p>
-              Роботы, задачи менеджеру, уведомления и контроль следующего
-              действия.
-            </p>
-          </div>
+      <div className="ob-product-status" aria-live="polite">
+        <span>{stage.label}</span>
+        <strong>{stage.title}</strong>
+        <p>{stage.copy}</p>
+        <div className="ob-product-progress">
+          <i style={{ width: stage.progress + "%" }} />
         </div>
-      )}
+      </div>
 
-      {type === "sites" && (
-        <div className="ob-site-ui" aria-label="Интерфейс сайта на 1С-Битрикс">
-          <div className="ob-browser">
-            <div className="ob-browser__bar">
-              <i />
-              <i />
-              <i />
-              <span>catalog.onixbit.demo</span>
-            </div>
-            <div className="ob-browser__body">
-              <aside>
-                <b>Разделы</b>
-                <span />
-                <span />
-                <span />
-              </aside>
-              <main>
-                <div className="ob-shop-card is-wide" />
-                <div className="ob-shop-card" />
-                <div className="ob-shop-card" />
-                <div className="ob-shop-card" />
-              </main>
-              <section className={`ob-cart-preview state-${safeActive}`}>
-                <strong>{siteStates[safeActive].title}</strong>
-                <p>{siteStates[safeActive].note}</p>
-                <button type="button" onMouseEnter={() => setActive(2)}>
-                  Оформить
-                </button>
-              </section>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {type === "onec" && (
-        <div className="ob-onec-ui" aria-label="Интерфейс 1С:Предприятие">
-          <div className="ob-onec-window">
-            <div className="ob-onec-window__toolbar">
-              <span>Продажи</span>
-              <span>Склад</span>
-              <span>Обмен</span>
-            </div>
-            <div className="ob-onec-window__body">
-              <aside>
-                <b>Навигация</b>
-                <span>Документы</span>
-                <span>Справочники</span>
-                <span>Синхронизация</span>
-              </aside>
-              <main>
-                {onecStates.map((state, index) => (
-                  <button
-                    className={index === safeActive ? "is-active" : ""}
-                    key={state.title}
-                    onMouseEnter={() => setActive(index)}
-                    onFocus={() => setActive(index)}
-                    type="button"
-                  >
-                    <span>{state.title}</span>
-                    <strong>{state.value}</strong>
-                  </button>
-                ))}
-                <div className="ob-onec-table">
-                  <i />
-                  <i />
-                  <i />
-                  <i />
-                </div>
-              </main>
-            </div>
-          </div>
-        </div>
-      )}
-
-      <div className="ob-scene__tabs" aria-label="Состояния интерактива">
-        {content.tabs.map((tab, index) => (
+      <div className="ob-product-controls" role="tablist" aria-label="Состояния интерактива">
+        {stages.map((item, index) => (
           <button
-            className={safeActive === index ? "is-active" : ""}
-            key={tab}
-            onClick={() => setActive(index)}
+            className={index === safeActive ? "is-active" : ""}
+            key={item.tab}
+            onClick={() => setSceneStage(index)}
+            onFocus={() => setSceneStage(index)}
+            onMouseEnter={() => setSceneStage(index)}
+            role="tab"
+            aria-selected={index === safeActive}
             type="button"
           >
-            {tab}
+            {item.tab}
           </button>
         ))}
+      </div>
+    </div>
+  );
+}
+
+function Bitrix24Workspace({ active, setActive }: { active: number; setActive: (index: number) => void }) {
+  return (
+    <div className="obc-product-ui obc-product-ui--b24">
+      <div className="obc-product-topbar obc-b24-topbar">
+        <Image src="/media/logos/bitrix24-logo.svg" alt="Битрикс24" width={118} height={22} />
+        <strong>CRM</strong>
+        <span>Сделки</span>
+        <button type="button">Расширения</button>
+      </div>
+      <div className="obc-b24-page">
+        <div className="obc-b24-title">
+          <strong>Воронки продаж: Сделки</strong>
+          <span>Настройки стадий</span>
+        </div>
+        <div className="obc-b24-funnels">
+          <div className="obc-b24-row obc-b24-row--muted">
+            <span>Общая</span><i>Новая</i><i>Подготовка</i><i>Счёт</i><i>В работе</i><i>Финал</i><em>Успех</em>
+          </div>
+          <div className="obc-b24-row">
+            <span>Продажи</span>
+            {["Новая", "Подготовка", "Счёт на пред.", "В работе"].map((label, index) => (
+              <button
+                className={setButtonState(index, active, index === 2 ? "obc-b24-stage obc-b24-stage--cyan" : index === 3 ? "obc-b24-stage obc-b24-stage--green" : "obc-b24-stage")}
+                key={label}
+                onClick={() => setActive(index)}
+                onMouseEnter={() => setActive(index)}
+                type="button"
+              >
+                {label}
+              </button>
+            ))}
+            <i className="obc-b24-stage--orange">Финал</i><em>Успех</em>
+          </div>
+          <div className="obc-b24-row obc-b24-row--muted">
+            <span>Сервис</span><i>Обращение</i><i>Диагностика</i><i>КП</i><i>Оплата</i><i>Закрыто</i><em>Успех</em>
+          </div>
+        </div>
+        <div className="obc-b24-card">
+          <strong>Карточка сделки</strong>
+          <span>дело, комментарий, задача, история</span>
+          <button type="button">что нужно сделать</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function BitrixWorkspace({ active, setActive }: { active: number; setActive: (index: number) => void }) {
+  return (
+    <div className="obc-product-ui obc-product-ui--cms">
+      <div className="obc-cms-topbar">
+        <strong>Администрирование</strong>
+        <label>поиск...</label>
+        <span>Наталья Сергеева</span>
+        <Image src="/media/logos/1c-bitrix-logo.svg" alt="1С-Битрикс" width={84} height={17} />
+      </div>
+      <div className="obc-cms-body">
+        <aside className="obc-cms-sidebar">
+          <span>Избранное</span>
+          <button className={setButtonState(0, active, "")} onClick={() => setActive(0)} onMouseEnter={() => setActive(0)} type="button">Сайты</button>
+          <span>Пользователи</span><span>Поиск</span><span>Проактивная защита</span><span>Настройка HTTPS</span><span>Локализация</span>
+        </aside>
+        <main className="obc-cms-main">
+          <div className="obc-cms-crumbs">Рабочий стол › Настройки › Настройки продукта › Сайты</div>
+          <div className="obc-cms-title"><strong>Список сайтов</strong><i aria-hidden="true" /></div>
+          <button className={setButtonState(1, active, "obc-cms-add")} onClick={() => setActive(1)} onMouseEnter={() => setActive(1)} type="button">+ Добавить сайт</button>
+          <div className="obc-cms-table">
+            <div className="obc-cms-head"><span /><span>ID</span><span>Акт.</span><span>Сортировка</span><span>Название</span></div>
+            <button className={setButtonState(2, active, "obc-cms-row is-active")} onClick={() => setActive(2)} onMouseEnter={() => setActive(2)} type="button"><span aria-hidden="true" /><strong>s1</strong><em>Да</em><b>1</b><i>Моя компания</i></button>
+            <button className="obc-cms-row" type="button"><span aria-hidden="true" /><strong>aq</strong><em>Да</em><b>100</b><i>Каталог</i></button>
+          </div>
+          <button className={setButtonState(3, active, "obc-cms-menu")} onClick={() => setActive(3)} onMouseEnter={() => setActive(3)} type="button"><span>Изменить</span><span>Копировать</span><strong>Удалить</strong></button>
+        </main>
+      </div>
+    </div>
+  );
+}
+
+function OneCWorkspace({ active, setActive }: { active: number; setActive: (index: number) => void }) {
+  const ribbon = ["Рабочий стол", "Документы и файлы", "Задачи и процессы", "Настройки"];
+  return (
+    <div className="obc-product-ui obc-product-ui--onec">
+      <div className="obc-onec-titlebar">
+        <Image src="/media/logos/1c-logo-small.svg" alt="1С" width={22} height={11} />
+        <strong>ООО НПЦ Меркурий / Администратор</strong>
+        <span>1С:Предприятие</span>
+      </div>
+      <div className="obc-onec-ribbon">
+        {ribbon.map((item, index) => (
+          <button className={setButtonState(index, active, "")} key={item} onClick={() => setActive(index)} onMouseEnter={() => setActive(index)} type="button"><b aria-hidden="true" /><span>{item}</span></button>
+        ))}
+      </div>
+      <div className="obc-onec-workspace">
+        <aside className="obc-onec-left"><strong>Документы</strong><span>Входящие документы</span><span>Исходящие документы</span><em>Внутренние документы</em><span>Файлы</span><span>Мои задачи</span><span>Списки рассылки</span></aside>
+        <main className="obc-onec-main"><div className="obc-onec-tabs"><span>Внутренние документы</span><span>Регистрация</span><span>Резолюции</span><span>Связи</span></div><div className="obc-onec-tools"><button>Создать</button><button>Найти</button><button>Печать</button></div><div className="obc-onec-content"><div className="obc-onec-tree"><strong>Папки</strong><span>Бухгалтерия</span><span>Информационно-справочные</span><em>Секретариат</em><span>Производство</span></div><div className="obc-onec-list"><strong>Наименование</strong><span>Порядок регистрации телефонных звонков</span><span>Договор поставки материалов</span><span>Акт оказания услуг</span></div></div></main>
       </div>
     </div>
   );

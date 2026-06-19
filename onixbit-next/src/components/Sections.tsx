@@ -252,7 +252,7 @@ export function LicenseGrid() {
   ];
 
   return (
-    <section className="ob-section ob-section--licenses">
+    <section className="ob-section ob-section--licenses" id="tariffs">
       <div className="ob-container">
         <SectionIntro
           kicker="Лицензии"
