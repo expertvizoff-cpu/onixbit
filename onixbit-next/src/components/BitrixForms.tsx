@@ -1,6 +1,5 @@
 "use client";
 
-import { CheckCircle2 } from "lucide-react";
 import { useEffect, useRef } from "react";
 
 const popupLoader =
@@ -73,21 +72,6 @@ export function InlineBitrixForm({ className = "" }: { className?: string }) {
 export function LeadFormPanel({ className = "" }: { className?: string }) {
   return (
     <aside className={`ob-lead-panel ${className}`} aria-label="Форма заявки Битрикс24">
-      <div className="ob-lead-panel__top">
-        <span className="ob-lead-panel__label">Форма Битрикс24</span>
-        <h3>Заявка на консультацию</h3>
-        <p>
-          Заявка попадёт в CRM. Мы вернёмся с первым уточнением по проекту и
-          предложим ближайший практичный шаг.
-        </p>
-      </div>
-
-      <div className="ob-lead-panel__steps" aria-label="Что будет после отправки заявки">
-        <span><CheckCircle2 size={16} /> уточним контекст</span>
-        <span><CheckCircle2 size={16} /> предложим ближайший шаг</span>
-        <span><CheckCircle2 size={16} /> обозначим границы проекта</span>
-      </div>
-
       <div className="ob-lead-panel__frame">
         <InlineBitrixForm />
       </div>
