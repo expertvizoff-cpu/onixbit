@@ -2,7 +2,7 @@
 
 import Script from "next/script";
 import { usePathname } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 declare global {
   interface Window {
@@ -13,9 +13,16 @@ declare global {
 export function YandexMetrika({ counterId }: { counterId?: string }) {
   const pathname = usePathname();
   const numericId = Number(counterId);
+  const didSendInitialHit = useRef(false);
 
   useEffect(() => {
     if (!Number.isFinite(numericId) || !window.ym) return;
+
+    if (!didSendInitialHit.current) {
+      didSendInitialHit.current = true;
+      return;
+    }
+
     window.ym(numericId, "hit", pathname);
   }, [numericId, pathname]);
 

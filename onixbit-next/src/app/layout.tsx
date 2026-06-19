@@ -7,6 +7,9 @@ import { JsonLd } from "@/components/JsonLd";
 import { YandexMetrika } from "@/components/YandexMetrika";
 import "./globals.css";
 
+const yandexMetrikaCounterId =
+  process.env.NEXT_PUBLIC_YANDEX_METRIKA_ID || "88710867";
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://onixbit.ru"),
   title: {
@@ -39,7 +42,7 @@ export default function RootLayout({
         <Footer />
         <MobileDock />
         <LeadPopupBridge />
-        <YandexMetrika counterId={process.env.NEXT_PUBLIC_YANDEX_METRIKA_ID} />
+        <YandexMetrika counterId={yandexMetrikaCounterId} />
       </body>
     </html>
   );
