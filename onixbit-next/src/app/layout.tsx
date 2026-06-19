@@ -2,9 +2,16 @@ import type { Metadata } from "next";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { MobileDock } from "@/components/MobileDock";
+import { ScrollTopButton } from "@/components/ScrollTopButton";
 import { LeadPopupBridge } from "@/components/BitrixForms";
 import { JsonLd } from "@/components/JsonLd";
 import { YandexMetrika } from "@/components/YandexMetrika";
+import "@fontsource/montserrat/400.css";
+import "@fontsource/montserrat/500.css";
+import "@fontsource/montserrat/600.css";
+import "@fontsource/montserrat/700.css";
+import "@fontsource/montserrat/800.css";
+import "@fontsource/montserrat/900.css";
 import "./globals.css";
 
 const yandexMetrikaCounterId =
@@ -50,6 +57,7 @@ export default function RootLayout({
         <Header />
         <main>{children}</main>
         <Footer />
+        <ScrollTopButton />
         <MobileDock />
         <LeadPopupBridge />
         <YandexMetrika counterId={yandexMetrikaCounterId} />

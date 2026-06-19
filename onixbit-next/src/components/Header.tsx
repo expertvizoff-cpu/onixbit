@@ -7,6 +7,7 @@ import { ChevronDown, Menu, Phone, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { company, directions, mainNav } from "@/data/site";
 import { LeadButton } from "./Buttons";
+import { MessengerLinks } from "./Messengers";
 
 function isActivePath(pathname: string, href: string) {
   if (href === "/") return pathname === "/";
@@ -86,6 +87,7 @@ export function Header() {
             <Phone size={16} aria-hidden="true" />
             <span>{company.phone}</span>
           </a>
+          <MessengerLinks className="ob-header__messengers" />
           <LeadButton className="ob-header__cta">Обсудить проект</LeadButton>
           <button
             className="ob-header__burger"
@@ -128,7 +130,10 @@ export function Header() {
           </Link>
         ))}
         <div className="ob-header__mobile-footer">
-          <a href={company.phoneHref}>{company.phone}</a>
+          <a className="ob-header__mobile-phone" href={company.phoneHref}>
+            {company.phone}
+          </a>
+          <MessengerLinks className="ob-header__mobile-messengers" />
           <LeadButton>Обсудить проект</LeadButton>
         </div>
       </nav>

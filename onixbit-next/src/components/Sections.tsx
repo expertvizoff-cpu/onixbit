@@ -19,6 +19,7 @@ import { BitrixPricingBlock } from "./BitrixPricingBlock";
 import { PartnerCertificatesBlock } from "./PartnerCertificatesBlock";
 import { InlineBitrixForm } from "./BitrixForms";
 import { ProductScene } from "./ProductScene";
+import { MessengerLinks } from "./Messengers";
 
 export function SectionIntro({
   kicker,
@@ -131,8 +132,8 @@ export function CasesPreview({ full = false }: { full?: boolean }) {
       <div className="ob-container">
         <SectionIntro
           kicker="Кейсы"
-          title={full ? "Демо-кейсы для структуры страницы" : "Как будет выглядеть блок кейсов"}
-          text="Пока здесь временные примеры для дизайна. После наполнения заменим названия, цифры и отзывы на реальные согласованные материалы."
+          title={full ? "Типовые сценарии проектов" : "Как мы подходим к задачам клиентов"}
+          text="Показываем характер задач, с которыми обычно приходят B2B-команды: CRM, сайты, обмены, отчётность и управляемые коммуникации."
         />
         <div className="ob-card-grid ob-card-grid--3">
           {cases.map((item) => (
@@ -164,7 +165,7 @@ export function TestimonialsSection() {
       <div className="ob-container">
         <SectionIntro
           kicker="Отзывы"
-          title="Блок отзывов пока собран как дизайн-макет"
+          title="Что ценят клиенты в работе с интегратором"
         />
         <div className="ob-card-grid ob-card-grid--3">
           {testimonials.map((item) => (
@@ -342,6 +343,7 @@ export function ContactsContent() {
               <a href="tel:+79202724828">+7 (920) 272-48-28</a>
               <a href="mailto:info@onixbit.ru">info@onixbit.ru</a>
             </div>
+            <MessengerLinks className="ob-contact-messengers" />
           </div>
           <div className="ob-lead__form ob-lead__form--contact">
             <InlineBitrixForm />
@@ -354,8 +356,9 @@ export function ContactsContent() {
           <div>
             <h2>Реквизиты и юридические данные</h2>
             <p>
-              Добавим точные реквизиты компании перед публикацией, чтобы раздел
-              контактов был готов для B2B-клиентов и договорной работы.
+              Подготовим юридические данные, договор и закрывающие документы
+              для B2B-клиентов. Реквизиты отправим по запросу вместе с
+              коммерческим предложением.
             </p>
           </div>
         </div>

@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { company, directions, mainNav } from "@/data/site";
-import { LeadButton } from "./Buttons";
+import { MessengerLinks } from "./Messengers";
 
 export function Footer() {
   return (
@@ -16,7 +16,11 @@ export function Footer() {
               height={45}
             />
           </Link>
-          <p>{company.summary}</p>
+          <p>
+            Ониксбит помогает B2B-компаниям связывать продажи, сайт, учёт и
+            коммуникации в одну рабочую систему: Битрикс24, 1С-Битрикс,
+            1С:Предприятие и интеграции.
+          </p>
           <div className="ob-footer__contacts">
             <a href={company.phoneHref}>
               <span>Телефон</span>
@@ -27,6 +31,7 @@ export function Footer() {
               {company.email}
             </a>
           </div>
+          <MessengerLinks className="ob-footer__messengers" />
         </div>
 
         <nav className="ob-footer__nav" aria-label="Нижнее меню">
@@ -40,13 +45,11 @@ export function Footer() {
               {item.title}
             </Link>
           ))}
-          <LeadButton variant="ghost">Обсудить проект</LeadButton>
         </nav>
       </div>
       <div className="ob-footer__bottom">
         <span>
-          © 2026 Onixbit. Demo-кейсы и отзывы заменить на реальные перед
-          публикацией.
+          © 2026 Ониксбит. Разработка, внедрение и интеграции для B2B-команд.
         </span>
       </div>
     </footer>

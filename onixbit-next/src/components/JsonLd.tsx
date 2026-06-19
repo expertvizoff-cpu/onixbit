@@ -1,4 +1,4 @@
-import { company, directions } from "@/data/site";
+import { company, directions, messengers } from "@/data/site";
 
 const baseUrl = "https://onixbit.ru";
 
@@ -17,6 +17,7 @@ export function JsonLd() {
     email: company.email,
     telephone: company.phone,
     description: company.summary,
+    sameAs: messengers.map((item) => item.href),
     areaServed: "RU",
     address: {
       "@type": "PostalAddress",
