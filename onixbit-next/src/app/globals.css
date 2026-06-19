@@ -654,15 +654,15 @@ textarea:focus-visible {
 }
 
 .ob-hero {
-  --ob-hero-height: clamp(580px, calc(100svh - 280px), 690px);
+  --ob-hero-height: clamp(548px, calc(100svh - 318px), 652px);
   margin-top: calc(var(--ob-header-float) * -1);
-  padding-top: clamp(18px, 1.65vw, 36px);
-  padding-bottom: clamp(48px, 5vw, 84px);
+  padding-top: clamp(4px, 0.6vw, 18px);
+  padding-bottom: clamp(30px, 3.2vw, 66px);
 }
 
 @media (min-width: 1800px) {
   .ob-hero {
-    --ob-hero-height: clamp(620px, calc(100svh - 300px), 760px);
+    --ob-hero-height: clamp(584px, calc(100svh - 338px), 722px);
   }
 }
 
@@ -886,6 +886,7 @@ textarea:focus-visible {
 
 .ob-product-scene {
   --ob-product-accent: var(--ob-red);
+  --ob-product-scale: 0.923;
   --ob-product-x: 0px;
   --ob-product-y: 0px;
   position: relative;
@@ -912,22 +913,6 @@ textarea:focus-visible {
   transform: translate3d(var(--ob-product-x), var(--ob-product-y), 0);
   transition: transform 0.28s var(--ob-ease), filter 0.28s var(--ob-ease);
 }
-
-.ob-product-desk::before {
-  content: "";
-  position: absolute;
-  inset: 28px -12px -16px;
-  z-index: -1;
-  border: 1px solid rgba(255, 255, 255, 0.72);
-  border-radius: 30px;
-  background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.76), rgba(255, 255, 255, 0.42)),
-    radial-gradient(circle at 20% 22%, rgba(255, 212, 90, 0.2), transparent 34%),
-    radial-gradient(circle at 88% 14%, rgba(237, 28, 36, 0.14), transparent 36%);
-  box-shadow: 0 34px 92px rgba(8, 8, 8, 0.13);
-  backdrop-filter: blur(24px) saturate(155%);
-}
-
 .ob-product-scene:hover .ob-product-desk {
   filter: drop-shadow(0 34px 70px rgba(8, 8, 8, 0.14));
 }
@@ -987,6 +972,13 @@ textarea:focus-visible {
   overflow: hidden;
   background: rgba(255, 255, 255, 0.7);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.78);
+}
+
+.ob-product-frame > .obc-product-ui {
+  width: calc(100% / var(--ob-product-scale));
+  height: calc(100% / var(--ob-product-scale));
+  transform: scale(var(--ob-product-scale));
+  transform-origin: top left;
 }
 
 .ob-product-status {
@@ -2165,6 +2157,8 @@ textarea:focus-visible {
   position: relative;
   z-index: 1;
   display: flex;
+  flex-direction: column !important;
+  gap: clamp(12px, 1.4vw, 18px);
   min-width: 0;
   border: 1px solid rgba(255, 255, 255, 0.64);
   border-radius: 32px;
@@ -2188,11 +2182,36 @@ textarea:focus-visible {
   pointer-events: none;
 }
 
+.ob-lead-panel__top {
+  position: relative;
+  z-index: 1;
+  flex: 0 0 auto;
+  width: 100%;
+  padding: 4px 6px 0;
+}
+
+.ob-lead-panel__top h3 {
+  margin: 14px 0 0;
+  color: var(--ob-ink);
+  font-size: clamp(24px, 1.9vw, 34px);
+  line-height: 1.08;
+  font-weight: 900;
+}
+
+.ob-lead-panel__top p {
+  margin: 12px 0 0;
+  color: rgba(8, 8, 8, 0.74);
+  font-size: 14px;
+  line-height: 1.55;
+  font-weight: 650;
+}
+
 .ob-lead-panel__frame {
   position: relative;
   z-index: 1;
   flex: 1 1 auto;
-  min-height: 500px;
+  width: 100%;
+  min-height: 430px;
   border: 1px solid rgba(255, 255, 255, 0.68);
   border-radius: 26px;
   padding: clamp(14px, 1.4vw, 18px);
@@ -2210,7 +2229,7 @@ textarea:focus-visible {
   z-index: 1;
   display: block;
   width: 100%;
-  min-height: 470px;
+  min-height: 410px;
   color: var(--ob-ink);
   font-family: Montserrat, Arial, sans-serif;
 }
@@ -2225,7 +2244,7 @@ textarea:focus-visible {
 }
 
 .ob-form-slot iframe {
-  min-height: 500px;
+  min-height: 450px;
 }
 
 .ob-form-slot .b24-form,
@@ -2295,10 +2314,18 @@ textarea:focus-visible {
 
 .ob-form-slot .b24-form-field-agreement,
 .ob-form-slot .b24-form-control-desc {
-  color: rgba(8, 8, 8, 0.58) !important;
+  color: rgba(8, 8, 8, 0.78) !important;
   font-family: Montserrat, Arial, sans-serif !important;
-  font-size: 11px !important;
-  line-height: 1.45 !important;
+  font-size: 11.5px !important;
+  line-height: 1.5 !important;
+  font-weight: 700 !important;
+}
+
+.ob-form-slot .b24-form-field-agreement *,
+.ob-form-slot .b24-form-control-desc * {
+  color: rgba(8, 8, 8, 0.84) !important;
+  opacity: 1 !important;
+  font-weight: 750 !important;
 }
 
 .ob-form-slot .b24-form-field-agreement a,
