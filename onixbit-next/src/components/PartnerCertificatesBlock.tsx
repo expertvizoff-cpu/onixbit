@@ -14,8 +14,9 @@ type CertificateItem = {
   image: string;
 };
 
-const partnerImage =
-  "https://onixbit.su/upload/onixbitru/sertifikat/%D0%97%D0%BE%D0%BB%D0%BE%D1%82%D0%BE%D0%B9%20%D0%BF%D0%B0%D1%80%D1%82%D0%BD%D1%91%D1%80%20%D0%91%D0%B8%D1%82%D1%80%D0%B8%D0%BA%D1%8124.jpg";
+const certificateBase = "/media/certificates";
+const cert = (name: string) => encodeURI(`${certificateBase}/${name}.jpg`);
+const partnerImage = cert("Золотой партнёр Битрикс24");
 
 const certificates: CertificateItem[] = [
   {
@@ -23,64 +24,56 @@ const certificates: CertificateItem[] = [
     type: "Качество",
     title: "Качество внедрений",
     text: "Участие в программе мониторинга качества внедрений Битрикс24.",
-    image:
-      "https://onixbit.su/upload/onixbitru/sertifikat/%D0%A3%D1%87%D0%B0%D1%81%D1%82%D0%BD%D0%B8%D0%BA%20%D0%9F%D1%80%D0%BE%D0%B3%D1%80%D0%B0%D0%BC%D0%BC%D1%8B%20%D0%BC%D0%BE%D0%BD%D0%B8%D1%82%D0%BE%D1%80%D0%B8%D0%BD%D0%B3%D0%B0%20%D0%BA%D0%B0%D1%87%D0%B5%D1%81%D1%82%D0%B2%D0%B0%20%D0%B2%D0%BD%D0%B5%D0%B4%D1%80%D0%B5%D0%BD%D0%B8%D0%B9.jpg",
+    image: cert("Участник Программы мониторинга качества внедрений"),
   },
   {
     group: "crm",
     type: "CRM",
     title: "Компетенция CRM",
     text: "Подтверждение экспертизы в настройке CRM и управлении продажами.",
-    image:
-      "https://onixbit.su/upload/onixbitru/sertifikat/%D0%9A%D0%BE%D0%BC%D0%BF%D0%B5%D1%82%D0%B5%D0%BD%D1%86%D0%B8%D1%8F%20CRM.jpg",
+    image: cert("Компетенция CRM"),
   },
   {
     group: "process",
     type: "Процессы",
     title: "Бизнес-процессы",
     text: "Автоматизация регламентов, задач, согласований и контрольных сценариев.",
-    image:
-      "https://onixbit.su/upload/onixbitru/sertifikat/%D0%9A%D0%BE%D0%BC%D0%BF%D0%B5%D1%82%D0%B5%D0%BD%D1%86%D0%B8%D1%8F%20%D0%91%D0%B8%D0%B7%D0%BD%D0%B5%D1%81-%D0%BF%D1%80%D0%BE%D1%86%D0%B5%D1%81%D1%81%D1%8B.jpg",
+    image: cert("Компетенция Бизнес-процессы"),
   },
   {
     group: "integration",
     type: "1С",
     title: "Интеграция с 1С",
     text: "Связка Битрикс24 с учётными системами, счетами, документами и статусами.",
-    image:
-      "https://onixbit.su/upload/onixbitru/sertifikat/%D0%9A%D0%BE%D0%BC%D0%BF%D0%B5%D1%82%D0%B5%D0%BD%D1%86%D0%B8%D1%8F%20%D0%98%D0%BD%D1%82%D0%B5%D0%B3%D1%80%D0%B0%D1%86%D0%B8%D1%8F%20%D1%81%201%D0%A1.jpg",
+    image: cert("Компетенция Интеграция с 1С"),
   },
   {
     group: "process",
     type: "Внедрение",
     title: "Внедрение Битрикс24",
     text: "Сертификат по основным настройкам системы и базовой логике внедрения.",
-    image:
-      "https://onixbit.su/upload/onixbitru/sertifikat/%D0%A1%D0%B5%D1%80%D1%82%D0%B8%D1%84%D0%B8%D0%BA%D0%B0%D1%82%20%D0%92%D0%BD%D0%B5%D0%B4%D1%80%D0%B5%D0%BD%D0%B8%D0%B5%20%D0%91%D0%B8%D1%82%D1%80%D0%B8%D0%BA%D1%8124%20%D0%9E%D1%81%D0%BD%D0%BE%D0%B2%D0%BD%D1%8B%D0%B5%20%D0%BD%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B9%D0%BA%D0%B8%20%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D1%8B.jpg",
+    image: cert("Сертификат Внедрение Битрикс24 Основные настройки системы"),
   },
   {
     group: "integration",
     type: "Коробка",
     title: "Коробочная версия",
     text: "Компетенция для проектов с расширенной инфраструктурой и особыми требованиями.",
-    image:
-      "https://onixbit.su/upload/onixbitru/sertifikat/%D0%9A%D0%BE%D0%BC%D0%BF%D0%B5%D1%82%D0%B5%D0%BD%D1%86%D0%B8%D1%8F%20%D0%9A%D0%BE%D1%80%D0%BE%D0%B1%D0%BE%D1%87%D0%BD%D0%B0%D1%8F%20%D0%B2%D0%B5%D1%80%D1%81%D0%B8%D1%8F.jpg",
+    image: cert("Компетенция Коробочная версия"),
   },
   {
     group: "status",
     type: "Партнёр",
     title: "Бизнес-партнёр Битрикс24",
     text: "Дополнительное подтверждение партнёрского статуса и работы с платформой.",
-    image:
-      "https://onixbit.su/upload/onixbitru/sertifikat/%D0%91%D0%B8%D0%B7%D0%BD%D0%B5%D1%81-%D0%BF%D0%B0%D1%80%D1%82%D0%BD%D1%91%D1%80%20%D0%91%D0%B8%D1%82%D1%80%D0%B8%D0%BA%D1%8124.jpg",
+    image: cert("Бизнес-партнёр Битрикс24"),
   },
   {
     group: "status",
     type: "Право",
     title: "Авторизационное письмо",
     text: "Подтверждение права работать с продуктами и решениями 1С-Битрикс.",
-    image:
-      "https://onixbit.su/upload/onixbitru/sertifikat/%D0%90%D0%B2%D1%82%D0%BE%D1%80%D0%B8%D0%B7%D0%B0%D1%86%D0%B8%D0%BE%D0%BD%D0%BD%D0%BE%D0%B5%20%D0%BF%D0%B8%D1%81%D1%8C%D0%BC%D0%BE%201%D0%A1-%D0%91%D0%B8%D1%82%D1%80%D0%B8%D0%BA%D1%81.jpg",
+    image: cert("Авторизационное письмо 1С-Битрикс"),
   },
 ];
 
@@ -135,7 +128,12 @@ export function PartnerCertificatesBlock() {
               onClick={() => setModal({ image: partnerImage, title: "Золотой партнёр Битрикс24" })}
             >
               <span className="obx-certs__showcase-frame">
-                <img className="obx-certs__showcase-image" src={partnerImage} alt="Золотой партнёр Битрикс24" loading="lazy" />
+                <img
+                  className="obx-certs__showcase-image"
+                  src={partnerImage}
+                  alt="Золотой партнёр Битрикс24"
+                  loading="lazy"
+                />
               </span>
               <span className="obx-certs__showcase-zoom">Открыть крупнее</span>
             </button>
@@ -203,7 +201,13 @@ export function PartnerCertificatesBlock() {
       </div>
 
       <div className={`obx-certs__modal ${modal ? "is-open" : ""}`} aria-hidden={!modal} onMouseDown={() => setModal(null)}>
-        <div className="obx-certs__modal-dialog" role="dialog" aria-modal="true" aria-label="Просмотр сертификата" onMouseDown={(event) => event.stopPropagation()}>
+        <div
+          className="obx-certs__modal-dialog"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Просмотр сертификата"
+          onMouseDown={(event) => event.stopPropagation()}
+        >
           <button className="obx-certs__modal-close" type="button" aria-label="Закрыть" onClick={() => setModal(null)} />
           {modal && <img className="obx-certs__modal-image" src={modal.image} alt={modal.title} />}
           <div className="obx-certs__modal-title">{modal?.title}</div>
