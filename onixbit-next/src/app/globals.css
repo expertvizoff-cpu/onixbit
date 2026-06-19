@@ -684,7 +684,7 @@ textarea:focus-visible {
 
 .ob-hero__copy {
   min-height: var(--ob-hero-height);
-  padding: clamp(28px, 2vw, 38px) 0 0;
+  padding: clamp(47px, calc(2vw + 19px), 57px) 0 0;
 }
 
 .ob-hero__title,
