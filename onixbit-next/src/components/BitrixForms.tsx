@@ -1,5 +1,6 @@
 "use client";
 
+import { CheckCircle2 } from "lucide-react";
 import { useEffect, useRef } from "react";
 
 const popupLoader =
@@ -79,6 +80,12 @@ export function LeadFormPanel({ className = "" }: { className?: string }) {
           Заявка попадёт в CRM. Мы вернёмся с первым уточнением по проекту и
           предложим ближайший практичный шаг.
         </p>
+      </div>
+
+      <div className="ob-lead-panel__steps" aria-label="Что будет после отправки заявки">
+        <span><CheckCircle2 size={16} /> уточним контекст</span>
+        <span><CheckCircle2 size={16} /> предложим ближайший шаг</span>
+        <span><CheckCircle2 size={16} /> обозначим границы проекта</span>
       </div>
 
       <div className="ob-lead-panel__frame">

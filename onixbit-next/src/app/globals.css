@@ -887,6 +887,7 @@ textarea:focus-visible {
 .ob-product-scene {
   --ob-product-accent: var(--ob-red);
   --ob-product-scale: 0.923;
+  --ob-product-top-trim: clamp(36px, 2.2vw, 44px);
   --ob-product-x: 0px;
   --ob-product-y: 0px;
   position: relative;
@@ -894,7 +895,7 @@ textarea:focus-visible {
   flex-direction: column;
   gap: clamp(12px, 1.4vw, 18px);
   min-height: calc(var(--ob-hero-height) - 42px);
-  padding: 0;
+  padding: var(--ob-product-top-trim) 0 0;
   color: var(--ob-ink);
 }
 
@@ -966,7 +967,7 @@ textarea:focus-visible {
 }
 
 .ob-product-frame {
-  height: clamp(360px, calc(var(--ob-hero-height) - 150px), 500px);
+  height: clamp(320px, calc(var(--ob-hero-height) - 192px), 452px);
   border: 1px solid rgba(255, 255, 255, 0.72);
   border-radius: 18px;
   overflow: hidden;
@@ -2206,12 +2207,42 @@ textarea:focus-visible {
   font-weight: 650;
 }
 
+.ob-lead-panel__steps {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  width: 100%;
+}
+
+.ob-lead-panel__steps span {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 48px;
+  border: 1px solid rgba(8, 8, 8, 0.08);
+  border-radius: 16px;
+  padding: 10px;
+  color: rgba(8, 8, 8, 0.76);
+  background: rgba(255, 255, 255, 0.62);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.78);
+  font-size: 12px;
+  line-height: 1.25;
+  font-weight: 850;
+}
+
+.ob-lead-panel__steps svg {
+  flex: 0 0 auto;
+  color: var(--ob-red);
+}
+
 .ob-lead-panel__frame {
   position: relative;
   z-index: 1;
   flex: 1 1 auto;
   width: 100%;
-  min-height: 430px;
+  min-height: 392px;
   border: 1px solid rgba(255, 255, 255, 0.68);
   border-radius: 26px;
   padding: clamp(14px, 1.4vw, 18px);
@@ -2229,7 +2260,7 @@ textarea:focus-visible {
   z-index: 1;
   display: block;
   width: 100%;
-  min-height: 410px;
+  min-height: 372px;
   color: var(--ob-ink);
   font-family: Montserrat, Arial, sans-serif;
 }
@@ -2244,7 +2275,7 @@ textarea:focus-visible {
 }
 
 .ob-form-slot iframe {
-  min-height: 450px;
+  min-height: 410px;
 }
 
 .ob-form-slot .b24-form,
