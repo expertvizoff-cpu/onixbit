@@ -3,6 +3,8 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { MobileDock } from "@/components/MobileDock";
 import { LeadPopupBridge } from "@/components/BitrixForms";
+import { JsonLd } from "@/components/JsonLd";
+import { YandexMetrika } from "@/components/YandexMetrika";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -31,11 +33,13 @@ export default function RootLayout({
   return (
     <html lang="ru">
       <body>
+        <JsonLd />
         <Header />
         <main>{children}</main>
         <Footer />
         <MobileDock />
         <LeadPopupBridge />
+        <YandexMetrika counterId={process.env.NEXT_PUBLIC_YANDEX_METRIKA_ID} />
       </body>
     </html>
   );
