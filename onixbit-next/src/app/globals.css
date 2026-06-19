@@ -684,6 +684,8 @@ textarea:focus-visible {
 
 .ob-hero__copy {
   min-height: var(--ob-hero-height);
+  width: 100%;
+  min-width: 0;
   padding: clamp(47px, calc(2vw + 19px), 57px) 0 0;
 }
 
@@ -805,6 +807,8 @@ textarea:focus-visible {
 }
 
 .ob-hero__showcase {
+  width: 100%;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -889,6 +893,8 @@ textarea:focus-visible {
 }
 
 .ob-product-scene {
+  width: 100%;
+  min-width: 0;
   --ob-product-accent: var(--ob-red);
   --ob-product-scale: 0.923;
   --ob-product-top-trim: clamp(36px, 2.2vw, 44px);
@@ -912,6 +918,8 @@ textarea:focus-visible {
 }
 
 .ob-product-desk {
+  width: 100%;
+  min-width: 0;
   position: relative;
   z-index: 0;
   order: 2;
@@ -923,6 +931,8 @@ textarea:focus-visible {
 }
 
 .ob-product-chrome {
+  max-width: 100%;
+  min-width: 0;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -958,6 +968,8 @@ textarea:focus-visible {
 }
 
 .ob-product-canvas {
+  max-width: 100%;
+  min-width: 0;
   width: min(100%, 930px);
   margin-left: auto;
   padding: clamp(14px, 1.4vw, 20px);
@@ -971,6 +983,8 @@ textarea:focus-visible {
 }
 
 .ob-product-frame {
+  max-width: 100%;
+  min-width: 0;
   height: clamp(320px, calc(var(--ob-hero-height) - 192px), 452px);
   border: 1px solid rgba(255, 255, 255, 0.72);
   border-radius: 18px;
