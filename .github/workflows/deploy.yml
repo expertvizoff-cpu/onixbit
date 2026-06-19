@@ -89,7 +89,7 @@ jobs:
         run: |
           set -euo pipefail
           ssh -i ~/.ssh/onixbit_deploy_key -p "$SSH_PORT" "${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}" \
-            "APP_DIR='$APP_DIR' APP_NAME='$APP_NAME' RELEASE_SHA='$GITHUB_SHA' DOMAIN='${{ secrets.PRODUCTION_DOMAIN }}' ACME_EMAIL='${{ secrets.ACME_EMAIL || 'expert@onixbit.ru' }}' bash -s" <<'REMOTE_SCRIPT'
+            "APP_DIR='$APP_DIR' APP_NAME='$APP_NAME' RELEASE_SHA='$GITHUB_SHA' DOMAIN='${{ secrets.PRODUCTION_DOMAIN }}' ACME_EMAIL='${{ secrets.ACME_EMAIL || 'expert@onixbit.ru' }}' NEXT_PUBLIC_YANDEX_METRIKA_ID=${{ secrets.NEXT_PUBLIC_YANDEX_METRIKA_ID }} bash -s" <<'REMOTE_SCRIPT'
           set -euo pipefail
 
           RELEASE_DIR="$APP_DIR/releases/$RELEASE_SHA"
@@ -106,6 +106,7 @@ jobs:
           ACME_EMAIL=$ACME_EMAIL
           ONIXBIT_IMAGE_TAG=$RELEASE_SHA
           COMPOSE_PROJECT_NAME=$APP_NAME
+          NEXT_PUBLIC_YANDEX_METRIKA_ID=$NEXT_PUBLIC_YANDEX_METRIKA_ID
           ENV_FILE
 
           ln -sfn "$RELEASE_DIR" "$CURRENT_LINK"

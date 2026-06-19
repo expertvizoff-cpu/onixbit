@@ -3,6 +3,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_YANDEX_METRIKA_ID: ${NEXT_PUBLIC_YANDEX_METRIKA_ID:-}
     image: onixbit-site:${ONIXBIT_IMAGE_TAG:-local}
     restart: unless-stopped
     environment:
