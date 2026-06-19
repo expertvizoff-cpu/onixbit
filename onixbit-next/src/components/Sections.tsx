@@ -1,7 +1,6 @@
 import Link from "next/link";
 import {
   ArrowUpRight,
-  BadgeCheck,
   BookOpen,
   Boxes,
   CheckCircle2,
@@ -10,7 +9,6 @@ import {
 import {
   articles,
   cases,
-  certificates,
   directions,
   proofItems,
   testimonials,
@@ -18,6 +16,7 @@ import {
 } from "@/data/site";
 import { ButtonLink, LeadButton } from "./Buttons";
 import { BitrixPricingBlock } from "./BitrixPricingBlock";
+import { PartnerCertificatesBlock } from "./PartnerCertificatesBlock";
 import { InlineBitrixForm } from "./BitrixForms";
 import { ProductScene } from "./ProductScene";
 
@@ -209,29 +208,7 @@ export function ArticlesPreview({ full = false }: { full?: boolean }) {
 }
 
 export function CertificatesGrid() {
-  return (
-    <section className="ob-section ob-section--certificates">
-      <div className="ob-container">
-        <SectionIntro
-          kicker="Сертификаты"
-          title="Партнёрские статусы и компетенции"
-          text="Здесь собраны ключевые статусы, которые подтверждают профиль Ониксбит: CRM, сайты, коммуникации и партнёрская поддержка по 1С. Реальные сканы сертификатов добавим в эти карточки отдельным слоем."
-        />
-        <div className="ob-card-grid ob-card-grid--certs">
-          {certificates.map((item, index) => (
-            <article className="ob-cert-card" key={item.title}>
-              <div className="ob-cert-card__top">
-                <span>{String(index + 1).padStart(2, "0")}</span>
-                <BadgeCheck size={24} />
-              </div>
-              <h3>{item.title}</h3>
-              <p>{item.text}</p>
-            </article>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
+  return <PartnerCertificatesBlock />;
 }
 
 export function LicenseGrid() {
