@@ -5,11 +5,7 @@ import {
   BookOpen,
   Boxes,
   CheckCircle2,
-  Cloud,
-  FileText,
-  ServerCog,
   ShieldCheck,
-  Sparkles,
 } from "lucide-react";
 import {
   articles,
@@ -21,6 +17,7 @@ import {
   type Direction,
 } from "@/data/site";
 import { ButtonLink, LeadButton } from "./Buttons";
+import { BitrixPricingBlock } from "./BitrixPricingBlock";
 import { InlineBitrixForm } from "./BitrixForms";
 import { ProductScene } from "./ProductScene";
 
@@ -238,116 +235,7 @@ export function CertificatesGrid() {
 }
 
 export function LicenseGrid() {
-  const cloudPlans = [
-    { users: "5", title: "Базовый", text: "маленькая команда" },
-    { users: "50", title: "Стандартный", text: "продажи и задачи" },
-    { users: "100", title: "Профессиональный", text: "автоматизация" },
-    { users: "250+", title: "Энтерпрайз", text: "крупный контур" },
-  ];
-
-  const boxPlans = [
-    { users: "12", title: "Магазин + CRM", text: "старт коробки" },
-    { users: "50", title: "Корпоративный портал", text: "свой контур" },
-    { users: "1000+", title: "Энтерпрайз", text: "нагрузка и права" },
-  ];
-
-  return (
-    <section className="ob-section ob-section--licenses" id="tariffs">
-      <div className="ob-container">
-        <SectionIntro
-          kicker="Лицензии"
-          title="Подбор тарифа начинается не с цены, а со сценария"
-          text="Смотрим пользователей, отделы, права, автоматизацию, отчёты, интеграции и инфраструктуру. Так проще выбрать тариф без лишней переплаты и болезненной смены лицензии через месяц."
-        />
-
-        <div className="ob-license-spotlight">
-          <article className="ob-license-feature">
-            <div className="ob-license-feature__icon">
-              <Sparkles size={24} />
-            </div>
-            <span>Бесплатный старт</span>
-            <h3>Можно начать с бесплатного Битрикс24, но рабочую лицензию выбираем после разбора процессов</h3>
-            <p>
-              Бесплатный портал подходит для знакомства с CRM, задачами и интерфейсом. Для отделов, прав, роботов, отчётов и интеграций обычно нужен платный тариф или коробочная версия.
-            </p>
-            <LeadButton>Подобрать старт</LeadButton>
-          </article>
-
-          <article className="ob-license-picker">
-            <span>Подбор лицензии</span>
-            <h3>Сначала отмечаем возможности, потом считаем стоимость владения</h3>
-            <div className="ob-license-tags">
-              <em>CRM</em>
-              <em>Задачи</em>
-              <em>Права</em>
-              <em>AI</em>
-              <em>Отчёты</em>
-              <em>1С</em>
-              <em>Телефония</em>
-              <em>Коммуникации</em>
-            </div>
-            <p>
-              Количество пользователей важно, но не единственный критерий. Проверяем, какие отделы работают в портале, какие ограничения есть у тарифа и сколько будет стоить внедрение вместе с поддержкой.
-            </p>
-          </article>
-        </div>
-
-        <div className="ob-license-matrix">
-          <article className="ob-license-edition ob-license-edition--cloud">
-            <div className="ob-license-edition__head">
-              <Cloud size={24} />
-              <div>
-                <span>Облако</span>
-                <h3>Для быстрого запуска без своей инфраструктуры</h3>
-              </div>
-            </div>
-            <p>
-              Подходит, если важны скорость запуска, регулярные обновления, понятная подписка и минимум технической поддержки на стороне компании.
-            </p>
-            <div className="ob-license-plans">
-              {cloudPlans.map((plan, index) => (
-                <button className={index === 2 ? "is-active" : ""} key={plan.title} type="button">
-                  <strong>{plan.users}</strong>
-                  <span>{plan.title}</span>
-                  <em>{plan.text}</em>
-                </button>
-              ))}
-            </div>
-          </article>
-
-          <article className="ob-license-edition ob-license-edition--box">
-            <div className="ob-license-edition__head">
-              <ServerCog size={24} />
-              <div>
-                <span>Коробка</span>
-                <h3>Для собственного сервера, сложных прав и доработок</h3>
-              </div>
-            </div>
-            <p>
-              Нужна, когда важны контроль инфраструктуры, особые требования безопасности, глубокие доработки, нагрузка или интеграции внутри корпоративного контура.
-            </p>
-            <div className="ob-license-plans ob-license-plans--box">
-              {boxPlans.map((plan) => (
-                <button key={plan.title} type="button">
-                  <strong>{plan.users}</strong>
-                  <span>{plan.title}</span>
-                  <em>{plan.text}</em>
-                </button>
-              ))}
-            </div>
-          </article>
-        </div>
-
-        <div className="ob-license-note">
-          <FileText size={22} />
-          <p>
-            Точная стоимость и состав тарифов меняются. Перед покупкой сверяем актуальный прайс, ограничения тарифа и состав внедрения.
-          </p>
-          <LeadButton variant="secondary">Запросить расчёт</LeadButton>
-        </div>
-      </div>
-    </section>
-  );
+  return <BitrixPricingBlock />;
 }
 
 export function ServicePage({ direction }: { direction: Direction }) {

@@ -2959,3 +2959,537 @@ main {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
+
+
+/* Bitrix24 pricing block */
+.ob-bitrix-pricing {
+  position: relative;
+}
+
+.ob-bitrix-pricing__head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 24px;
+  align-items: end;
+  margin-bottom: 24px;
+}
+
+.ob-bitrix-pricing__head h2 {
+  max-width: 900px;
+  margin: 18px 0 0;
+  font-size: clamp(42px, 5.1vw, 86px);
+  font-weight: 950;
+  line-height: 0.96;
+}
+
+.ob-bitrix-pricing__head p {
+  max-width: 760px;
+  margin: 18px 0 0;
+  color: var(--ob-muted);
+  font-size: 17px;
+  line-height: 1.58;
+}
+
+.ob-bitrix-pricing__brand {
+  display: grid;
+  gap: 10px;
+  justify-items: end;
+  max-width: 310px;
+  padding: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.78);
+  border-radius: var(--ob-radius);
+  background: rgba(255, 255, 255, 0.76);
+  box-shadow: 0 16px 46px rgba(22, 22, 22, 0.07);
+  backdrop-filter: blur(16px);
+}
+
+.ob-bitrix-pricing__brand img {
+  width: min(178px, 100%);
+  height: auto;
+}
+
+.ob-bitrix-pricing__brand span {
+  color: var(--ob-muted);
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1.32;
+  text-align: right;
+}
+
+.ob-bitrix-pricing__controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 14px;
+  padding: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.78);
+  border-radius: var(--ob-radius);
+  background: rgba(255, 255, 255, 0.76);
+  box-shadow: 0 16px 46px rgba(22, 22, 22, 0.06);
+  backdrop-filter: blur(16px);
+}
+
+.ob-bitrix-pricing__switch,
+.ob-bitrix-pricing__period {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.ob-bitrix-pricing__switch button,
+.ob-bitrix-pricing__period button,
+.ob-bitrix-pricing__box-note {
+  position: relative;
+  isolation: isolate;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 42px;
+  padding: 10px 14px;
+  overflow: hidden;
+  border: 1px solid var(--ob-line);
+  border-radius: 999px;
+  color: var(--ob-ink);
+  background: rgba(255, 255, 255, 0.72);
+  font-size: 14px;
+  font-weight: 900;
+  line-height: 1;
+  transition: transform 180ms ease, border-color 180ms ease, background 180ms ease, color 180ms ease;
+}
+
+.ob-bitrix-pricing__switch button,
+.ob-bitrix-pricing__period button {
+  cursor: pointer;
+}
+
+.ob-bitrix-pricing__switch button::after,
+.ob-bitrix-pricing__period button::after {
+  position: absolute;
+  inset: -80% auto -80% -45%;
+  z-index: -1;
+  width: 38%;
+  content: "";
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.78), transparent);
+  transform: skewX(-18deg) translateX(-140%);
+  transition: transform 420ms ease;
+}
+
+.ob-bitrix-pricing__switch button:hover,
+.ob-bitrix-pricing__period button:hover {
+  transform: translateY(-1px) scale(1.025);
+}
+
+.ob-bitrix-pricing__switch button:hover::after,
+.ob-bitrix-pricing__period button:hover::after {
+  transform: skewX(-18deg) translateX(540%);
+}
+
+.ob-bitrix-pricing__switch button.is-active,
+.ob-bitrix-pricing__period button.is-active {
+  color: #fff;
+  border-color: transparent;
+  background: linear-gradient(135deg, var(--ob-red), var(--ob-red-dark));
+  box-shadow: 0 12px 30px rgba(215, 25, 32, 0.22);
+}
+
+.ob-bitrix-pricing__period span {
+  color: inherit;
+  opacity: 0.78;
+}
+
+.ob-bitrix-pricing__box-note {
+  color: var(--ob-red);
+  border-color: rgba(215, 25, 32, 0.16);
+  background: rgba(215, 25, 32, 0.06);
+}
+
+.ob-bitrix-pricing__grid {
+  display: grid;
+  gap: 14px;
+}
+
+.ob-bitrix-pricing__grid--cloud {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.ob-bitrix-pricing__grid--box {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.ob-bitrix-plan {
+  position: relative;
+  display: grid;
+  grid-template-rows: auto auto auto auto 1fr;
+  gap: 16px;
+  min-height: 610px;
+  padding: 22px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.78);
+  border-radius: var(--ob-radius);
+  background: rgba(255, 255, 255, 0.78);
+  box-shadow: 0 16px 54px rgba(22, 22, 22, 0.07);
+  backdrop-filter: blur(16px);
+  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease, background 180ms ease;
+}
+
+.ob-bitrix-plan::before {
+  position: absolute;
+  inset: 0;
+  content: "";
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.42), transparent 42%),
+    radial-gradient(circle at 80% 0%, rgba(215, 25, 32, 0.09), transparent 34%);
+  opacity: 0;
+  transition: opacity 180ms ease;
+  pointer-events: none;
+}
+
+.ob-bitrix-plan:hover,
+.ob-bitrix-plan.is-active {
+  border-color: rgba(215, 25, 32, 0.22);
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 24px 72px rgba(22, 22, 22, 0.1);
+  transform: translateY(-4px);
+}
+
+.ob-bitrix-plan:hover::before,
+.ob-bitrix-plan.is-active::before {
+  opacity: 1;
+}
+
+.ob-bitrix-plan.is-featured {
+  border-color: rgba(215, 25, 32, 0.28);
+}
+
+.ob-bitrix-plan__badge {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 2;
+  padding: 7px 10px;
+  border-radius: 999px;
+  color: #fff;
+  background: linear-gradient(135deg, var(--ob-red), var(--ob-red-dark));
+  font-size: 11px;
+  font-weight: 950;
+  line-height: 1;
+  box-shadow: 0 10px 26px rgba(215, 25, 32, 0.24);
+}
+
+.ob-bitrix-plan__top {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 10px;
+  padding-right: 74px;
+}
+
+.ob-bitrix-plan:not(.is-featured) .ob-bitrix-plan__top {
+  padding-right: 0;
+}
+
+.ob-bitrix-plan__top h3 {
+  margin: 0;
+  font-size: clamp(24px, 1.75vw, 32px);
+  font-weight: 950;
+  line-height: 1.02;
+}
+
+.ob-bitrix-plan__top p,
+.ob-bitrix-plan__price span {
+  margin: 0;
+  color: var(--ob-muted);
+  font-size: 14px;
+  line-height: 1.42;
+}
+
+.ob-bitrix-plan__meta {
+  position: relative;
+  z-index: 3;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: center;
+  min-height: 46px;
+}
+
+.ob-bitrix-plan__meta > strong,
+.ob-bitrix-plan__meta > span,
+.ob-bitrix-plan__select {
+  display: inline-flex;
+  align-items: center;
+  min-height: 42px;
+  padding: 10px 12px;
+  border: 1px solid rgba(22, 22, 22, 0.08);
+  border-radius: var(--ob-radius);
+  background: rgba(246, 247, 249, 0.82);
+  font-size: 13px;
+  font-weight: 900;
+  line-height: 1.1;
+}
+
+.ob-bitrix-plan__meta > span {
+  justify-content: center;
+  color: var(--ob-red);
+  white-space: nowrap;
+}
+
+.ob-bitrix-plan__select {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 2px 8px;
+  padding-right: 36px;
+}
+
+.ob-bitrix-plan__select span {
+  grid-column: 1 / -1;
+  color: var(--ob-muted);
+  font-size: 10px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.ob-bitrix-plan__select select {
+  min-width: 0;
+  width: 100%;
+  border: 0;
+  outline: 0;
+  color: var(--ob-ink);
+  background: transparent;
+  font: inherit;
+  appearance: none;
+  cursor: pointer;
+}
+
+.ob-bitrix-plan__select svg {
+  position: absolute;
+  right: 11px;
+  bottom: 11px;
+  color: var(--ob-red);
+  pointer-events: none;
+}
+
+.ob-bitrix-plan__price {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 5px;
+  align-content: end;
+  min-height: 94px;
+}
+
+.ob-bitrix-plan__price small {
+  width: fit-content;
+  color: var(--ob-muted);
+  font-size: 14px;
+  font-weight: 900;
+  line-height: 1;
+  text-decoration: line-through;
+  opacity: 0.74;
+}
+
+.ob-bitrix-plan__price strong {
+  display: block;
+  color: var(--ob-red);
+  font-size: clamp(34px, 2.6vw, 48px);
+  font-weight: 950;
+  line-height: 0.96;
+  white-space: nowrap;
+}
+
+.ob-bitrix-plan__button {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+}
+
+.ob-bitrix-plan__features {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  align-content: start;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ob-bitrix-plan__features li {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 9px;
+  align-items: start;
+  color: var(--ob-muted);
+  font-size: 14px;
+  font-weight: 750;
+  line-height: 1.35;
+}
+
+.ob-bitrix-plan__features svg {
+  margin-top: 2px;
+  color: var(--ob-red);
+}
+
+.ob-bitrix-pricing__summary,
+.ob-bitrix-free {
+  display: grid;
+  gap: 16px;
+  align-items: center;
+  margin-top: 14px;
+  padding: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.78);
+  border-radius: var(--ob-radius);
+  background: rgba(255, 255, 255, 0.78);
+  box-shadow: 0 16px 46px rgba(22, 22, 22, 0.06);
+  backdrop-filter: blur(16px);
+}
+
+.ob-bitrix-pricing__summary {
+  grid-template-columns: minmax(190px, 0.34fr) minmax(0, 1fr) auto;
+}
+
+.ob-bitrix-pricing__summary span,
+.ob-bitrix-free span {
+  display: block;
+  color: var(--ob-red);
+  font-size: 12px;
+  font-weight: 950;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.ob-bitrix-pricing__summary strong {
+  display: block;
+  margin-top: 5px;
+  font-size: clamp(24px, 2vw, 34px);
+  font-weight: 950;
+  line-height: 1;
+}
+
+.ob-bitrix-pricing__summary p,
+.ob-bitrix-free p {
+  margin: 0;
+  color: var(--ob-muted);
+  font-size: 15px;
+  line-height: 1.52;
+}
+
+.ob-bitrix-free {
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  margin-top: 18px;
+  background:
+    radial-gradient(circle at 0% 0%, rgba(215, 25, 32, 0.09), transparent 34%),
+    rgba(255, 255, 255, 0.8);
+}
+
+.ob-bitrix-free__icon {
+  display: grid;
+  place-items: center;
+  width: 54px;
+  height: 54px;
+  border-radius: 999px;
+  color: #fff;
+  background: linear-gradient(135deg, var(--ob-red), var(--ob-red-dark));
+  box-shadow: 0 14px 30px rgba(215, 25, 32, 0.22);
+}
+
+.ob-bitrix-free h3 {
+  margin: 6px 0 0;
+  font-size: clamp(24px, 2vw, 34px);
+  font-weight: 950;
+  line-height: 1.04;
+}
+
+.ob-bitrix-free__facts {
+  display: grid;
+  gap: 8px;
+  justify-items: end;
+  min-width: 220px;
+}
+
+.ob-bitrix-free__facts strong {
+  color: var(--ob-red);
+  font-size: clamp(34px, 3vw, 52px);
+  font-weight: 950;
+  line-height: 1;
+}
+
+.ob-bitrix-free__facts span {
+  width: fit-content;
+  padding: 7px 10px;
+  border-radius: 999px;
+  background: rgba(215, 25, 32, 0.07);
+}
+
+@media (max-width: 1280px) {
+  .ob-bitrix-pricing__grid--cloud,
+  .ob-bitrix-pricing__grid--box {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .ob-bitrix-plan {
+    min-height: 0;
+  }
+}
+
+@media (max-width: 980px) {
+  .ob-bitrix-pricing__head,
+  .ob-bitrix-pricing__summary,
+  .ob-bitrix-free {
+    grid-template-columns: 1fr;
+  }
+
+  .ob-bitrix-pricing__brand,
+  .ob-bitrix-free__facts {
+    justify-items: start;
+  }
+
+  .ob-bitrix-pricing__brand span {
+    text-align: left;
+  }
+
+  .ob-bitrix-pricing__controls {
+    align-items: stretch;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 680px) {
+  .ob-bitrix-pricing__head h2 {
+    font-size: clamp(36px, 10vw, 48px);
+  }
+
+  .ob-bitrix-pricing__grid--cloud,
+  .ob-bitrix-pricing__grid--box {
+    grid-template-columns: 1fr;
+  }
+
+  .ob-bitrix-plan,
+  .ob-bitrix-pricing__summary,
+  .ob-bitrix-free {
+    padding: 18px;
+  }
+
+  .ob-bitrix-plan__meta {
+    grid-template-columns: 1fr;
+  }
+
+  .ob-bitrix-plan__meta > span {
+    justify-content: flex-start;
+    white-space: normal;
+  }
+
+  .ob-bitrix-pricing__switch,
+  .ob-bitrix-pricing__period {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .ob-bitrix-plan__price strong,
+  .ob-bitrix-free__facts strong {
+    white-space: normal;
+  }
+}
