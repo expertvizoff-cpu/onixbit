@@ -684,7 +684,7 @@ textarea:focus-visible {
 
 .ob-hero__copy {
   min-height: var(--ob-hero-height);
-  padding: clamp(4px, 0.8vw, 12px) 0 0;
+  padding: clamp(28px, 2vw, 38px) 0 0;
 }
 
 .ob-hero__title,
@@ -721,8 +721,12 @@ textarea:focus-visible {
   font-weight: 500;
 }
 
+.ob-hero__lead {
+  margin-top: clamp(25px, 1.42vw, 27px);
+}
+
 .ob-hero__copy .ob-actions {
-  margin-top: clamp(22px, 2vw, 32px);
+  margin-top: clamp(30px, 2.4vw, 40px);
 }
 
 .ob-hero__facts,
