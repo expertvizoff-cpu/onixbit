@@ -1,12 +1,6 @@
 name: Deploy to FirstVDS
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - "onixbit-next/**"
-      - ".github/workflows/deploy.yml"
   workflow_dispatch:
 
 defaults:
