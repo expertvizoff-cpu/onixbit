@@ -29,7 +29,17 @@ export function Header() {
   return (
     <header className={`ob-header ${isScrolled ? "is-scrolled" : ""}`}>
       <div className="ob-header__inner">
-        <Link className="ob-header__brand" href="/" aria-label="Ониксбит">
+        <Link
+          className="ob-header__brand"
+          href="/"
+          aria-label="Ониксбит"
+          onClick={(event) => {
+            if (pathname === "/") {
+              event.preventDefault();
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }
+          }}
+        >
           <Image
             src="/brand/onixbit-logo-header.png"
             alt="Ониксбит"
