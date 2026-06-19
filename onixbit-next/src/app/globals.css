@@ -10,7 +10,7 @@
   --ob-glass: rgba(255, 255, 255, 0.78);
   --ob-shadow: 0 24px 80px rgba(22, 22, 22, 0.1);
   --ob-radius: 8px;
-  --ob-container: 1180px;
+  --ob-container: 1700px;
 }
 
 * {
@@ -1358,6 +1358,360 @@ main {
   pointer-events: none;
 }
 
+
+/* Restored Onixbit concept */
+.ob-header__nav {
+  gap: 6px;
+}
+
+.ob-header__mega {
+  left: 50%;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  width: min(760px, calc(100vw - 56px));
+  padding: 12px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.96);
+  transform: translate(-50%, 8px);
+}
+
+.ob-header__mega::before {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  content: "";
+  background:
+    radial-gradient(circle at 16% 0%, rgba(215, 25, 32, 0.1), transparent 30%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(247, 248, 250, 0.9));
+}
+
+.ob-header__nav-item:hover .ob-header__mega,
+.ob-header__nav-item:focus-within .ob-header__mega {
+  transform: translate(-50%, 0);
+}
+
+.ob-header__mega-card {
+  min-height: 150px;
+  border: 1px solid rgba(22, 22, 22, 0.08);
+  background: rgba(255, 255, 255, 0.76);
+}
+
+.ob-header__mega-card:hover {
+  background: #fff;
+  transform: translateY(-3px);
+}
+
+.ob-hero {
+  padding-top: 76px;
+}
+
+.ob-hero__grid {
+  grid-template-columns: minmax(520px, 0.88fr) minmax(680px, 1.12fr);
+  gap: 46px;
+  min-height: 680px;
+}
+
+.ob-hero__copy,
+.ob-hero__showcase {
+  min-height: 640px;
+}
+
+.ob-hero__copy {
+  justify-content: center;
+}
+
+.ob-hero__title span,
+.ob-hero__lead span {
+  display: block;
+}
+
+.ob-hero h1 {
+  max-width: 860px;
+  font-size: clamp(48px, 4.6vw, 82px);
+  line-height: 0.96;
+}
+
+.ob-hero__lead {
+  min-height: 118px;
+}
+
+.ob-hero .ob-actions {
+  margin-top: 28px;
+}
+
+.ob-hero__facts {
+  gap: 12px;
+  margin-top: 28px;
+}
+
+.ob-hero__facts span {
+  padding: 10px 12px;
+  background: rgba(255, 255, 255, 0.82);
+}
+
+.ob-main-tabs {
+  width: min(100%, 780px);
+  margin-left: auto;
+}
+
+.ob-main-tabs button {
+  padding-top: 10px;
+  transition: color 160ms ease;
+}
+
+.ob-main-tabs button:hover {
+  color: var(--ob-ink);
+}
+
+.ob-main-tabs span {
+  min-height: 36px;
+  white-space: normal;
+}
+
+.ob-hero__showcase.is-paused .ob-main-tabs .is-active i::before {
+  animation-play-state: paused;
+}
+
+.ob-scene {
+  min-height: 566px;
+  padding: 20px;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.82), rgba(255, 255, 255, 0.62)),
+    radial-gradient(circle at 80% 0%, rgba(215, 25, 32, 0.08), transparent 38%);
+}
+
+.ob-scene__logo {
+  box-shadow: 0 10px 26px rgba(22, 22, 22, 0.06);
+}
+
+.ob-crm {
+  gap: 12px;
+}
+
+.ob-crm__stage {
+  min-height: 270px;
+}
+
+.ob-crm__drawer,
+.ob-browser,
+.ob-onec-window {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.ob-section--licenses .ob-section-intro,
+.ob-section--certificates .ob-section-intro {
+  max-width: 920px;
+}
+
+.ob-license-spotlight,
+.ob-license-matrix {
+  display: grid;
+  grid-template-columns: minmax(0, 0.86fr) minmax(0, 1.14fr);
+  gap: 14px;
+}
+
+.ob-license-spotlight {
+  margin-bottom: 14px;
+}
+
+.ob-license-feature,
+.ob-license-picker,
+.ob-license-edition,
+.ob-license-note {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.76);
+  border-radius: var(--ob-radius);
+  background: var(--ob-glass);
+  box-shadow: 0 12px 46px rgba(22, 22, 22, 0.07);
+  backdrop-filter: blur(16px);
+}
+
+.ob-license-feature,
+.ob-license-picker,
+.ob-license-edition {
+  padding: 24px;
+}
+
+.ob-license-feature {
+  display: grid;
+  align-content: start;
+  gap: 14px;
+  background:
+    radial-gradient(circle at 15% 0%, rgba(215, 25, 32, 0.12), transparent 34%),
+    rgba(255, 255, 255, 0.78);
+}
+
+.ob-license-feature__icon {
+  display: inline-grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 999px;
+  color: #fff;
+  background: linear-gradient(135deg, var(--ob-red), var(--ob-red-dark));
+  box-shadow: 0 14px 30px rgba(215, 25, 32, 0.22);
+}
+
+.ob-license-feature > span,
+.ob-license-picker > span,
+.ob-license-edition__head span {
+  color: var(--ob-red);
+  font-size: 12px;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.ob-license-feature h3,
+.ob-license-picker h3,
+.ob-license-edition h3 {
+  margin: 0;
+  font-size: clamp(24px, 2.3vw, 36px);
+  font-weight: 950;
+  line-height: 1.04;
+}
+
+.ob-license-feature p,
+.ob-license-picker p,
+.ob-license-edition p,
+.ob-license-note p {
+  margin: 0;
+  color: var(--ob-muted);
+  font-size: 15px;
+  line-height: 1.58;
+}
+
+.ob-license-picker {
+  display: grid;
+  align-content: center;
+  gap: 16px;
+}
+
+.ob-license-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.ob-license-tags em {
+  padding: 8px 10px;
+  border: 1px solid rgba(215, 25, 32, 0.14);
+  border-radius: 999px;
+  color: var(--ob-red);
+  background: rgba(215, 25, 32, 0.06);
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 900;
+}
+
+.ob-license-edition__head {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  margin-bottom: 14px;
+}
+
+.ob-license-edition__head svg {
+  flex: 0 0 auto;
+  color: var(--ob-red);
+}
+
+.ob-license-edition__head h3 {
+  margin-top: 5px;
+  font-size: clamp(22px, 2vw, 30px);
+}
+
+.ob-license-plans {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.ob-license-plans--box {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.ob-license-plans button {
+  display: grid;
+  gap: 6px;
+  min-height: 128px;
+  padding: 14px;
+  border: 1px solid var(--ob-line);
+  border-radius: var(--ob-radius);
+  background: rgba(255, 255, 255, 0.75);
+  text-align: left;
+  cursor: default;
+  transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+}
+
+.ob-license-plans button:hover,
+.ob-license-plans button.is-active {
+  border-color: rgba(215, 25, 32, 0.28);
+  background: #fff;
+  transform: translateY(-3px);
+}
+
+.ob-license-plans strong {
+  color: var(--ob-red);
+  font-size: 30px;
+  line-height: 1;
+}
+
+.ob-license-plans span {
+  font-size: 14px;
+  font-weight: 950;
+  line-height: 1.16;
+}
+
+.ob-license-plans em {
+  color: var(--ob-muted);
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 800;
+}
+
+.ob-license-note {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 14px;
+  align-items: center;
+  margin-top: 14px;
+  padding: 18px;
+}
+
+.ob-license-note svg {
+  color: var(--ob-red);
+}
+
+.ob-card-grid--certs {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.ob-cert-card {
+  min-height: 224px;
+  display: grid;
+  align-content: start;
+}
+
+.ob-cert-card__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--ob-red);
+}
+
+.ob-cert-card__top span {
+  display: inline-grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 999px;
+  background: rgba(215, 25, 32, 0.08);
+  font-weight: 950;
+}
+
 @media (max-width: 1080px) {
   .ob-header__nav,
   .ob-header__phone,
@@ -1563,5 +1917,57 @@ main {
 
   .ob-mobile-dock {
     display: grid;
+  }
+}
+
+
+/* Restored Onixbit concept responsive */
+@media (max-width: 1080px) {
+  .ob-header__mega {
+    display: none;
+  }
+
+  .ob-hero__grid {
+    min-height: 0;
+  }
+
+  .ob-hero__copy,
+  .ob-hero__showcase {
+    min-height: 0;
+  }
+
+  .ob-license-spotlight,
+  .ob-license-matrix {
+    grid-template-columns: 1fr;
+  }
+
+  .ob-license-plans,
+  .ob-license-plans--box {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .ob-license-note {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 760px) {
+  .ob-hero h1 {
+    font-size: clamp(36px, 10vw, 48px);
+  }
+
+  .ob-hero__lead {
+    min-height: 0;
+  }
+
+  .ob-license-plans,
+  .ob-license-plans--box {
+    grid-template-columns: 1fr;
+  }
+
+  .ob-license-feature,
+  .ob-license-picker,
+  .ob-license-edition {
+    padding: 20px;
   }
 }

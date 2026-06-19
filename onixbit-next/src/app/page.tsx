@@ -2,8 +2,10 @@ import {
   ApproachSection,
   ArticlesPreview,
   CasesPreview,
+  CertificatesGrid,
   DirectionsSection,
   LeadSection,
+  LicenseGrid,
   ProofStrip,
   TestimonialsSection,
 } from "@/components/Sections";
@@ -15,6 +17,8 @@ export default function Home() {
       <HomeHero />
       <ProofStrip />
       <DirectionsSection />
+      <LicenseGrid />
+      <CertificatesGrid />
       <ApproachSection />
       <CasesPreview />
       <TestimonialsSection />

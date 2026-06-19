@@ -18,6 +18,11 @@ export const metadata: Metadata = {
   },
   description:
     "Ониксбит внедряет Битрикс24, разрабатывает сайты на 1С-Битрикс и помогает связать CRM, сайт и 1С:Предприятие.",
+  icons: {
+    icon: [{ url: "/media/icons/favicon.png", type: "image/png" }],
+    shortcut: "/media/icons/favicon.png",
+    apple: "/media/icons/favicon.png",
+  },
   openGraph: {
     title: "Ониксбит — разработка и интеграции для B2B",
     description:

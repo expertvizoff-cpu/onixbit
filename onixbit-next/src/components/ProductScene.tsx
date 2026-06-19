@@ -47,6 +47,8 @@ export function ProductScene({ type }: { type: DirectionId }) {
     };
   }, [type]);
 
+  const safeActive = Math.min(active, content.tabs.length - 1);
+
   return (
     <div className={`ob-scene ob-scene--${type}`}>
       <div className="ob-scene__top">
@@ -61,7 +63,7 @@ export function ProductScene({ type }: { type: DirectionId }) {
         <div className="ob-crm" aria-label="CRM-воронка Битрикс24">
           {crmStages.map((stage, index) => (
             <button
-              className={`ob-crm__stage ${index === active ? "is-active" : ""}`}
+              className={`ob-crm__stage ${index === safeActive ? "is-active" : ""}`}
               key={stage.title}
               onMouseEnter={() => setActive(index)}
               onFocus={() => setActive(index)}
@@ -75,7 +77,7 @@ export function ProductScene({ type }: { type: DirectionId }) {
           ))}
           <div className="ob-crm__drawer">
             <span>Автоматизация стадии</span>
-            <strong>{crmStages[active].title}</strong>
+            <strong>{crmStages[safeActive].title}</strong>
             <p>
               Роботы, задачи менеджеру, уведомления и контроль следующего
               действия.
@@ -106,9 +108,9 @@ export function ProductScene({ type }: { type: DirectionId }) {
                 <div className="ob-shop-card" />
                 <div className="ob-shop-card" />
               </main>
-              <section className={`ob-cart-preview state-${active}`}>
-                <strong>{siteStates[active].title}</strong>
-                <p>{siteStates[active].note}</p>
+              <section className={`ob-cart-preview state-${safeActive}`}>
+                <strong>{siteStates[safeActive].title}</strong>
+                <p>{siteStates[safeActive].note}</p>
                 <button type="button" onMouseEnter={() => setActive(2)}>
                   Оформить
                 </button>
@@ -136,7 +138,7 @@ export function ProductScene({ type }: { type: DirectionId }) {
               <main>
                 {onecStates.map((state, index) => (
                   <button
-                    className={index === active ? "is-active" : ""}
+                    className={index === safeActive ? "is-active" : ""}
                     key={state.title}
                     onMouseEnter={() => setActive(index)}
                     onFocus={() => setActive(index)}
@@ -161,7 +163,7 @@ export function ProductScene({ type }: { type: DirectionId }) {
       <div className="ob-scene__tabs" aria-label="Состояния интерактива">
         {content.tabs.map((tab, index) => (
           <button
-            className={active === index ? "is-active" : ""}
+            className={safeActive === index ? "is-active" : ""}
             key={tab}
             onClick={() => setActive(index)}
             type="button"
