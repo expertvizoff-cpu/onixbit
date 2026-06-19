@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { MobileDock } from "@/components/MobileDock";
@@ -17,6 +17,13 @@ import "./globals.css";
 
 const yandexMetrikaCounterId =
   process.env.NEXT_PUBLIC_YANDEX_METRIKA_ID || "88710867";
+
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://onixbit.ru"),

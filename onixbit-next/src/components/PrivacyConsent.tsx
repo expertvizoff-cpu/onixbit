@@ -45,9 +45,8 @@ export function PrivacyConsent() {
       <div className="ob-privacy-consent__content">
         <strong>Сайт использует формы, аналитику и cookies</strong>
         <p>
-          Мы обрабатываем данные из форм и технические данные сайта, чтобы отвечать
-          на обращения, улучшать интерфейс и понимать эффективность страниц.
-          Подробности — в <Link href="/privacy">политике конфиденциальности</Link>.
+          Это помогает отвечать на заявки и улучшать страницы. Подробнее — в{" "}
+          <Link href="/privacy">политике конфиденциальности</Link>.
         </p>
       </div>
       <div className="ob-privacy-consent__actions">

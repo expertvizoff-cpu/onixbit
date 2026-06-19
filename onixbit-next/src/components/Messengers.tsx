@@ -8,14 +8,10 @@ type BrandIcon = {
   path: string;
 };
 
-const brandIcons: Record<MessengerId, BrandIcon> = {
+const brandIcons: Record<Exclude<MessengerId, "max">, BrandIcon> = {
   telegram: {
     hex: "26A5E4",
     path: "M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z",
-  },
-  max: {
-    hex: "525252",
-    path: "M1.769 0A1.77 1.77 0 0 0 0 1.769V22.23A1.77 1.77 0 0 0 1.769 24H22.23A1.77 1.77 0 0 0 24 22.231V1.77A1.77 1.77 0 0 0 22.231 0zm12.485 3.28a4.301 4.301 0 0 1 4.3 4.302 4.301 4.301 0 0 1-1.993 3.63 6.085 6.085 0 0 1 1.054 3.422 6.085 6.085 0 0 1-6.085 6.085 6.085 6.085 0 0 1-6.085-6.085 6.085 6.085 0 0 1 4.66-5.916 4.301 4.301 0 0 1-.152-1.136 4.301 4.301 0 0 1 4.301-4.301zm0 1.849a2.453 2.453 0 0 0-2.453 2.453 2.453 2.453 0 0 0 2.453 2.453 2.453 2.453 0 0 0 2.453-2.453 2.453 2.453 0 0 0-2.453-2.453zm-2.724 5.268a4.237 4.237 0 0 0-4.237 4.237 4.237 4.237 0 0 0 4.237 4.237 4.237 4.237 0 0 0 4.237-4.237 4.237 4.237 0 0 0-4.237-4.237zm.032 2.54a1.781 1.781 0 1 1 0 3.562 1.781 1.781 0 0 1 0-3.562Z",
   },
   vk: {
     hex: "0077FF",
@@ -23,7 +19,32 @@ const brandIcons: Record<MessengerId, BrandIcon> = {
   },
 };
 
+function MaxIcon() {
+  return (
+    <svg viewBox="0 0 1000 1000" aria-hidden="true" focusable="false">
+      <defs>
+        <linearGradient id="obMaxGradientB">
+          <stop offset="0" stopColor="#00f" />
+          <stop offset="1" stopOpacity="0" />
+        </linearGradient>
+        <linearGradient id="obMaxGradientA">
+          <stop offset="0" stopColor="#4cf" />
+          <stop offset=".662" stopColor="#53e" />
+          <stop offset="1" stopColor="#93d" />
+        </linearGradient>
+        <linearGradient id="obMaxGradientC" x1="117.847" x2="1000" y1="760.536" y2="500" gradientUnits="userSpaceOnUse" href="#obMaxGradientA" />
+        <radialGradient id="obMaxGradientD" cx="-87.392" cy="1166.116" r="500" fx="-87.392" fy="1166.116" gradientTransform="rotate(51.356 1551.478 559.3) scale(2.42703433 1)" gradientUnits="userSpaceOnUse" href="#obMaxGradientB" />
+      </defs>
+      <rect width="1000" height="1000" fill="url(#obMaxGradientC)" ry="249.681" />
+      <rect width="1000" height="1000" fill="url(#obMaxGradientD)" ry="249.681" />
+      <path fill="#fff" fillRule="evenodd" clipRule="evenodd" d="M508.211 878.328c-75.007 0-109.864-10.95-170.453-54.75-38.325 49.275-159.686 87.783-164.979 21.9 0-49.456-10.95-91.248-23.36-136.873-14.782-56.21-31.572-118.807-31.572-209.508 0-216.626 177.754-379.597 388.357-379.597 210.785 0 375.947 171.001 375.947 381.604.707 207.346-166.595 376.118-373.94 377.224m3.103-571.585c-102.564-5.292-182.499 65.7-200.201 177.024-14.6 92.162 11.315 204.398 33.397 210.238 10.585 2.555 37.23-18.98 53.837-35.587a189.8 189.8 0 0 0 92.71 33.032c106.273 5.112 197.08-75.794 204.215-181.95 4.154-106.382-77.67-196.486-183.958-202.574Z" />
+    </svg>
+  );
+}
+
 function MessengerIcon({ id }: { id: MessengerId }) {
+  if (id === "max") return <MaxIcon />;
+
   const icon = brandIcons[id];
 
   return (
@@ -41,7 +62,7 @@ export function MessengerLinks({ className = "" }: { className?: string }) {
           className={`ob-messenger ob-messenger--${item.id}`}
           href={item.href}
           key={item.id}
-          style={{ "--messenger-color": `#${brandIcons[item.id].hex}` } as CSSProperties}
+          style={{ "--messenger-color": item.id === "max" ? "#4b67ff" : `#${brandIcons[item.id].hex}` } as CSSProperties}
           target="_blank"
           rel="nofollow noopener"
           aria-label={item.title}

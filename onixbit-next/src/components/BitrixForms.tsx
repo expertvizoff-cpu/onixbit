@@ -1,7 +1,6 @@
 "use client";
 
-import Link from "next/link";
-import { CheckCircle2, ShieldCheck } from "lucide-react";
+import { CheckCircle2 } from "lucide-react";
 import { useEffect, useRef } from "react";
 
 const popupLoader =
@@ -78,8 +77,8 @@ export function LeadFormPanel({ className = "" }: { className?: string }) {
         <span className="ob-lead-panel__label">Форма Битрикс24</span>
         <h3>Заявка на консультацию</h3>
         <p>
-          Опишите задачу коротко: направление, текущая система, что нужно
-          связать или улучшить. Этого достаточно для первого разбора.
+          Заявка попадёт в CRM. Мы вернёмся с первым уточнением по проекту и
+          предложим ближайший практичный шаг.
         </p>
       </div>
 
@@ -92,12 +91,6 @@ export function LeadFormPanel({ className = "" }: { className?: string }) {
       <div className="ob-lead-panel__frame">
         <InlineBitrixForm />
       </div>
-
-      <p className="ob-lead-panel__policy">
-        <ShieldCheck size={16} aria-hidden="true" />
-        Нажимая кнопку отправки в форме, вы соглашаетесь на обработку данных и
-        подтверждаете ознакомление с <Link href="/privacy">политикой конфиденциальности</Link>.
-      </p>
     </aside>
   );
 }

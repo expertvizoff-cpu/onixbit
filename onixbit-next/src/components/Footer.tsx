@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { company, directions, mainNav } from "@/data/site";
+import { directions, mainNav } from "@/data/site";
 import { MessengerLinks } from "./Messengers";
 
 export function Footer() {
@@ -21,16 +21,6 @@ export function Footer() {
             коммуникации в одну рабочую систему: Битрикс24, 1С-Битрикс,
             1С:Предприятие и интеграции.
           </p>
-          <div className="ob-footer__contacts">
-            <a href={company.phoneHref}>
-              <span>Телефон</span>
-              {company.phone}
-            </a>
-            <a href={company.emailHref}>
-              <span>E-mail</span>
-              {company.email}
-            </a>
-          </div>
           <MessengerLinks className="ob-footer__messengers" />
         </div>
 

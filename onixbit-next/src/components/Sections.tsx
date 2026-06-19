@@ -9,6 +9,7 @@ import {
 import {
   articles,
   cases,
+  company,
   directions,
   proofItems,
   testimonials,
@@ -323,6 +324,17 @@ export function LeadSection() {
             <span>честные границы ответственности</span>
             <span>рекомендация по маршруту проекта</span>
           </div>
+          <div className="ob-lead__contacts" aria-label="Контакты для связи">
+            <a href={company.phoneHref}>
+              <span>Телефон</span>
+              <strong>{company.phone}</strong>
+            </a>
+            <a href={company.emailHref}>
+              <span>E-mail</span>
+              <strong>{company.email}</strong>
+            </a>
+          </div>
+          <MessengerLinks className="ob-lead__messengers" />
         </div>
         <LeadFormPanel />
       </div>
