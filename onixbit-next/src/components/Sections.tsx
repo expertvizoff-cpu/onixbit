@@ -17,7 +17,7 @@ import {
 import { ButtonLink, LeadButton } from "./Buttons";
 import { BitrixPricingBlock } from "./BitrixPricingBlock";
 import { PartnerCertificatesBlock } from "./PartnerCertificatesBlock";
-import { InlineBitrixForm } from "./BitrixForms";
+import { LeadFormPanel } from "./BitrixForms";
 import { ProductScene } from "./ProductScene";
 import { MessengerLinks } from "./Messengers";
 
@@ -309,19 +309,22 @@ export function ServicePage({ direction }: { direction: Direction }) {
 export function LeadSection() {
   return (
     <section className="ob-section ob-section--lead" id="lead">
-      <div className="ob-container ob-lead">
-        <div>
-          <span className="ob-kicker">Старт проекта</span>
-          <h2>Расскажите, что нужно связать или улучшить</h2>
+      <div className="ob-container ob-lead ob-lead--premium">
+        <div className="ob-lead__content">
+          <span className="ob-kicker">Диагностика проекта</span>
+          <h2>Разберём задачу и покажем, где система теряет деньги, время или управляемость</h2>
           <p>
-            Можно начать с короткого описания задачи. Мы разберём контекст,
-            предложим ближайший шаг и честно скажем, где нужна дополнительная
-            экспертиза.
+            На первом контакте не продаём пакет работ. Смотрим контекст: CRM, сайт, 1С,
+            коммуникации, роли, отчёты и ограничения. После этого предлагаем понятный
+            следующий шаг.
           </p>
+          <div className="ob-lead__proofs" aria-label="Что входит в первый разбор">
+            <span>15-30 минут первичного разбора</span>
+            <span>честные границы ответственности</span>
+            <span>рекомендация по маршруту проекта</span>
+          </div>
         </div>
-        <div className="ob-lead__form">
-          <InlineBitrixForm />
-        </div>
+        <LeadFormPanel />
       </div>
     </section>
   );
@@ -345,9 +348,7 @@ export function ContactsContent() {
             </div>
             <MessengerLinks className="ob-contact-messengers" />
           </div>
-          <div className="ob-lead__form ob-lead__form--contact">
-            <InlineBitrixForm />
-          </div>
+          <LeadFormPanel className="ob-lead-panel--contact" />
         </div>
       </section>
       <section className="ob-section ob-section--tight">

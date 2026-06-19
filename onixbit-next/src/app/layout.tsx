@@ -3,6 +3,7 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { MobileDock } from "@/components/MobileDock";
 import { ScrollTopButton } from "@/components/ScrollTopButton";
+import { PrivacyConsent } from "@/components/PrivacyConsent";
 import { LeadPopupBridge } from "@/components/BitrixForms";
 import { JsonLd } from "@/components/JsonLd";
 import { YandexMetrika } from "@/components/YandexMetrika";
@@ -58,6 +59,7 @@ export default function RootLayout({
         <main>{children}</main>
         <Footer />
         <ScrollTopButton />
+        <PrivacyConsent />
         <MobileDock />
         <LeadPopupBridge />
         <YandexMetrika counterId={yandexMetrikaCounterId} />

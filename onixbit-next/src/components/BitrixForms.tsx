@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+import { CheckCircle2, ShieldCheck } from "lucide-react";
 import { useEffect, useRef } from "react";
 
 const popupLoader =
@@ -67,4 +69,35 @@ export function InlineBitrixForm({ className = "" }: { className?: string }) {
   }, []);
 
   return <div ref={formRef} className={`ob-form-slot ${className}`} />;
+}
+
+export function LeadFormPanel({ className = "" }: { className?: string }) {
+  return (
+    <aside className={`ob-lead-panel ${className}`} aria-label="Форма заявки Битрикс24">
+      <div className="ob-lead-panel__top">
+        <span className="ob-lead-panel__label">Форма Битрикс24</span>
+        <h3>Заявка на консультацию</h3>
+        <p>
+          Опишите задачу коротко: направление, текущая система, что нужно
+          связать или улучшить. Этого достаточно для первого разбора.
+        </p>
+      </div>
+
+      <div className="ob-lead-panel__steps" aria-label="Что будет после отправки заявки">
+        <span><CheckCircle2 size={16} /> уточним контекст</span>
+        <span><CheckCircle2 size={16} /> предложим ближайший шаг</span>
+        <span><CheckCircle2 size={16} /> обозначим границы проекта</span>
+      </div>
+
+      <div className="ob-lead-panel__frame">
+        <InlineBitrixForm />
+      </div>
+
+      <p className="ob-lead-panel__policy">
+        <ShieldCheck size={16} aria-hidden="true" />
+        Нажимая кнопку отправки в форме, вы соглашаетесь на обработку данных и
+        подтверждаете ознакомление с <Link href="/privacy">политикой конфиденциальности</Link>.
+      </p>
+    </aside>
+  );
 }

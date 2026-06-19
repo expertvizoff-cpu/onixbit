@@ -7,6 +7,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/",
     ...directions.map((item) => item.href),
     ...mainNav.map((item) => item.href),
+    "/privacy",
   ];
 
   return routes.map((route) => ({

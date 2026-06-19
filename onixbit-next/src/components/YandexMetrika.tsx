@@ -2,7 +2,8 @@
 
 import Script from "next/script";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import { readPrivacyConsent } from "./PrivacyConsent";
 
 declare global {
   interface Window {
@@ -14,9 +15,21 @@ export function YandexMetrika({ counterId }: { counterId?: string }) {
   const pathname = usePathname();
   const numericId = Number(counterId);
   const didSendInitialHit = useRef(false);
+  const [allowed, setAllowed] = useState(false);
 
   useEffect(() => {
-    if (!Number.isFinite(numericId) || !window.ym) return;
+    const syncConsent = () => setAllowed(readPrivacyConsent() === "accepted");
+    syncConsent();
+    window.addEventListener("onixbit:privacy-consent", syncConsent);
+    window.addEventListener("storage", syncConsent);
+    return () => {
+      window.removeEventListener("onixbit:privacy-consent", syncConsent);
+      window.removeEventListener("storage", syncConsent);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!allowed || !Number.isFinite(numericId) || !window.ym) return;
 
     if (!didSendInitialHit.current) {
       didSendInitialHit.current = true;
@@ -24,9 +37,9 @@ export function YandexMetrika({ counterId }: { counterId?: string }) {
     }
 
     window.ym(numericId, "hit", pathname);
-  }, [numericId, pathname]);
+  }, [allowed, numericId, pathname]);
 
-  if (!Number.isFinite(numericId) || numericId <= 0) return null;
+  if (!allowed || !Number.isFinite(numericId) || numericId <= 0) return null;
 
   return (
     <>

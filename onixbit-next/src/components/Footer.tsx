@@ -51,6 +51,7 @@ export function Footer() {
         <span>
           © 2026 Ониксбит. Разработка, внедрение и интеграции для B2B-команд.
         </span>
+        <Link href="/privacy">Политика конфиденциальности</Link>
       </div>
     </footer>
   );
