@@ -1,11 +1,28 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import {
+  BarChart3,
+  Clock3,
+  Database,
+  Gauge,
+  LayoutTemplate,
+  Link2,
+  RefreshCw,
+  ShieldCheck,
+  Workflow,
+} from "lucide-react";
 import { directions } from "@/data/site";
 import { ButtonLink, LeadButton } from "./Buttons";
 import { ProductScene } from "./ProductScene";
 
 const rotateMs = 7400;
+
+const heroFactIcons = [
+  [Clock3, Workflow, ShieldCheck],
+  [LayoutTemplate, Gauge, Link2],
+  [Database, RefreshCw, BarChart3],
+] as const;
 
 const heroSlides = [
   {
@@ -76,9 +93,15 @@ export function HomeHero() {
             </ButtonLink>
           </div>
           <div className="ob-hero__facts">
-            {slide.facts.map((fact) => (
-              <span key={fact}>{fact}</span>
-            ))}
+            {slide.facts.map((fact, index) => {
+              const Icon = heroFactIcons[active][index];
+              return (
+                <span key={fact}>
+                  <Icon size={22} strokeWidth={2.2} aria-hidden="true" />
+                  <b>{fact}</b>
+                </span>
+              );
+            })}
           </div>
         </div>
 
