@@ -25,3 +25,6 @@ onixbit-og-preview-1200x630-old-generated-logo.png
 # Superseded Tilda blocks kept locally only
 onixbit-tilda-hero.html
 onixbit-tilda-hero-v2.html
+
+# Local deploy keys
+.deploy_keys/

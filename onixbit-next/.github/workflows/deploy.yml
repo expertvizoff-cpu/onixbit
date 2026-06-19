@@ -1,0 +1,111 @@
+name: Deploy to FirstVDS
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: production-deploy
+  cancel-in-progress: false
+
+env:
+  APP_NAME: onixbit-site
+  APP_DIR: ${{ secrets.VPS_APP_DIR || '/opt/onixbit-site' }}
+  SSH_PORT: ${{ secrets.VPS_PORT || '22' }}
+
+jobs:
+  check:
+    name: Check before deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Production audit
+        run: npm audit --omit=dev
+
+      - name: Build
+        run: npm run build
+
+  deploy:
+    name: Upload and restart on VPS
+    runs-on: ubuntu-latest
+    needs: check
+    environment: production
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Prepare SSH
+        run: |
+          set -euo pipefail
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+          printf '%s\n' "${{ secrets.VPS_SSH_KEY }}" > ~/.ssh/onixbit_deploy_key
+          chmod 600 ~/.ssh/onixbit_deploy_key
+          ssh-keyscan -p "$SSH_PORT" "${{ secrets.VPS_HOST }}" >> ~/.ssh/known_hosts
+
+      - name: Pack release
+        run: |
+          set -euo pipefail
+          tar \
+            --exclude='.git' \
+            --exclude='.github' \
+            --exclude='.next' \
+            --exclude='node_modules' \
+            --exclude='*.log' \
+            -czf /tmp/onixbit-release-${GITHUB_SHA}.tar.gz .
+
+      - name: Upload release archive
+        run: |
+          set -euo pipefail
+          scp -i ~/.ssh/onixbit_deploy_key -P "$SSH_PORT" \
+            /tmp/onixbit-release-${GITHUB_SHA}.tar.gz \
+            "${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:/tmp/onixbit-release-${GITHUB_SHA}.tar.gz"
+
+      - name: Deploy release
+        run: |
+          set -euo pipefail
+          ssh -i ~/.ssh/onixbit_deploy_key -p "$SSH_PORT" "${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}" \
+            "APP_DIR='$APP_DIR' APP_NAME='$APP_NAME' RELEASE_SHA='$GITHUB_SHA' DOMAIN='${{ secrets.PRODUCTION_DOMAIN }}' ACME_EMAIL='${{ secrets.ACME_EMAIL || 'expert@onixbit.ru' }}' bash -s" <<'REMOTE_SCRIPT'
+          set -euo pipefail
+
+          RELEASE_DIR="$APP_DIR/releases/$RELEASE_SHA"
+          SHARED_DIR="$APP_DIR/shared"
+          CURRENT_LINK="$APP_DIR/current"
+          ARCHIVE="/tmp/onixbit-release-$RELEASE_SHA.tar.gz"
+
+          mkdir -p "$RELEASE_DIR" "$SHARED_DIR"
+          tar -xzf "$ARCHIVE" -C "$RELEASE_DIR"
+          rm -f "$ARCHIVE"
+
+          cat > "$RELEASE_DIR/.env" <<ENV_FILE
+          DOMAIN=$DOMAIN
+          ACME_EMAIL=$ACME_EMAIL
+          ONIXBIT_IMAGE_TAG=$RELEASE_SHA
+          COMPOSE_PROJECT_NAME=$APP_NAME
+          ENV_FILE
+
+          ln -sfn "$RELEASE_DIR" "$CURRENT_LINK"
+          cd "$CURRENT_LINK"
+
+          docker compose -p "$APP_NAME" --env-file .env up -d --build --remove-orphans
+          docker compose -p "$APP_NAME" --env-file .env up -d --force-recreate caddy
+          docker image prune -f
+
+          ls -dt "$APP_DIR"/releases/* | tail -n +6 | xargs -r rm -rf
+          REMOTE_SCRIPT
