@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { CSSProperties } from "react";
 import {
   ArrowRight,
@@ -22,7 +22,6 @@ import {
   SearchCheck,
   Settings2,
   ShieldCheck,
-  Sparkles,
   UserRoundCheck,
 } from "lucide-react";
 import { articles, company, directions } from "@/data/site";
@@ -35,6 +34,8 @@ const founderFacts = [
   { icon: Building2, value: "B2B", label: "фокус" },
   { icon: Award, value: "Gold", label: "статусы" },
 ];
+
+const workStepDuration = 5600;
 
 const ecosystemItems = [
   {
@@ -140,11 +141,11 @@ const publicFormats = [
 
 const legalItems = [
   { label: "Юридический статус", value: "ИП Тужилкин А.П." },
+  { label: "Документы", value: "договор, счёт-оферта, закрывающие документы" },
   { label: "ИНН", value: "711501986455" },
   { label: "ОГРНИП", value: "311715403800278" },
-  { label: "НДС", value: "работаем без НДС" },
-  { label: "Документы", value: "договор, счёт-оферта, закрывающие документы" },
-  { label: "ЭДО", value: "ID ЭДО предоставим по запросу" },
+  { label: "ЭДО СБИС", value: "2BEf4772b9db7964211b7013a56fb14b87f" },
+  { label: "ЭДО ТОЧКА", value: "2MH0d4cc0a6fe5a11ee8a420242ac110002" },
 ];
 
 const certificatePreview = [
@@ -164,6 +165,12 @@ const certificatePreview = [
 
 const materialShapes = ["ob-about-material--wide", "ob-about-material--round", "ob-about-material--tall"];
 
+const directionLogoSets = [
+  [ecosystemItems[0], ecosystemItems[2], ecosystemItems[3]],
+  [ecosystemItems[1], ecosystemItems[2], ecosystemItems[0]],
+  [ecosystemItems[2], ecosystemItems[0], ecosystemItems[1]],
+];
+
 function SystemLogo({ item, compact = false }: { item: (typeof ecosystemItems)[number]; compact?: boolean }) {
   return (
     <span className={["ob-system-logo", item.className, compact ? "ob-system-logo--compact" : ""].filter(Boolean).join(" ")}>
@@ -182,6 +189,14 @@ export function AboutPageContent() {
   const work = workSteps[activeStep] ?? workSteps[0];
   const WorkIcon = work.icon;
   const material = articles[activeMaterial] ?? articles[0];
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      setActiveStep((value) => (value + 1) % workSteps.length);
+    }, workStepDuration);
+
+    return () => window.clearTimeout(timer);
+  }, [activeStep]);
 
   return (
     <>
@@ -244,16 +259,11 @@ export function AboutPageContent() {
             </div>
             <div className="ob-about-hero__badge ob-about-hero__badge--top">
               <Award size={18} aria-hidden="true" />
-              <span>Партнёрские статусы и сертификаты</span>
+              <span>Статусы и сертификаты</span>
             </div>
             <div className="ob-about-hero__badge ob-about-hero__badge--bottom">
               <BriefcaseBusiness size={18} aria-hidden="true" />
               <span>Личный разбор B2B-задач</span>
-            </div>
-            <div className="ob-about-hero__signal" aria-hidden="true">
-              <span>связка систем</span>
-              <strong>CRM → сайт → 1С → BI</strong>
-              <i />
             </div>
           </div>
         </div>
@@ -284,7 +294,7 @@ export function AboutPageContent() {
         <div className="ob-container ob-about-work">
           <div className="ob-about-work__intro">
             <span className="ob-kicker">Как устроена работа</span>
-            <h2>Кликните по этапам: так проект превращается в понятную схему</h2>
+            <h2>От диагностики до развития: понятный маршрут проекта</h2>
             <p>
               Мы не начинаем с разработки вслепую. Сначала собираем контекст, затем
               проектируем связку систем и только после этого внедряем настройки, обмены и отчёты.
@@ -306,6 +316,7 @@ export function AboutPageContent() {
                   >
                     <Icon size={18} aria-hidden="true" />
                     <span>{step.title}</span>
+                    <i aria-hidden="true" />
                   </button>
                 );
               })}
@@ -342,16 +353,18 @@ export function AboutPageContent() {
           />
           <div className="ob-about-link-map" aria-label="Связка систем Ониксбит">
             <div className="ob-about-link-map__center">
-              <Sparkles size={26} aria-hidden="true" />
+              <Image src="/brand/onixbit-mark.png" alt="" width={86} height={86} />
               <strong>Ониксбит</strong>
-              <span>архитектура связки</span>
+              <span>единая архитектура</span>
             </div>
-            {ecosystemItems.map((item, index) => (
-              <div className={"ob-about-link-map__node ob-about-link-map__node--" + (index + 1)} key={item.title}>
-                <SystemLogo item={item} compact />
-                <span>{item.title}</span>
-              </div>
-            ))}
+            <div className="ob-about-link-map__nodes">
+              {ecosystemItems.map((item) => (
+                <div className="ob-about-link-map__node" key={item.title}>
+                  <SystemLogo item={item} compact />
+                  <span>{item.title}</span>
+                </div>
+              ))}
+            </div>
           </div>
           <div className="ob-card-grid ob-card-grid--3 ob-about-direction-grid">
             {directions.map((direction, index) => (
@@ -360,8 +373,9 @@ export function AboutPageContent() {
                 <strong>{direction.title}</strong>
                 <p>{direction.description}</p>
                 <div className="ob-about-direction-card__logos" aria-hidden="true">
-                  <SystemLogo item={ecosystemItems[index]} compact />
-                  <SystemLogo item={ecosystemItems[(index + 1) % ecosystemItems.length]} compact />
+                  {(directionLogoSets[index] ?? []).map((item) => (
+                    <SystemLogo item={item} compact key={item.title} />
+                  ))}
                 </div>
                 <em>
                   Подробнее <ArrowRight size={16} aria-hidden="true" />
@@ -401,7 +415,7 @@ export function AboutPageContent() {
         <div className="ob-container ob-about-cert-lite">
           <div className="ob-about-cert-lite__content">
             <span className="ob-kicker">Сертификаты</span>
-            <h2>Показываем главное здесь, подробности — на отдельной странице</h2>
+            <h2>Статусы и компетенции, которые подтверждают опыт</h2>
             <p>
               На странице сертификатов можно открыть документы крупнее и посмотреть,
               какую компетенцию подтверждает каждый статус.
@@ -411,13 +425,19 @@ export function AboutPageContent() {
               <ArrowRight size={18} aria-hidden="true" />
             </Link>
           </div>
-          <div className="ob-about-cert-lite__stack">
-            {certificatePreview.map((item, index) => (
-              <article key={item.title} style={{ "--cert-index": index } as CSSProperties}>
-                <Image src={item.image} alt={item.title} width={360} height={250} />
-                <span>{item.title}</span>
-              </article>
-            ))}
+          <div className="ob-about-cert-lite__visual">
+            <article className="ob-about-cert-lite__open">
+              <Image src="/media/certificates/Золотой партнёр Битрикс24.jpg" alt="Золотой партнёр Битрикс24" width={520} height={360} />
+              <span>Золотой партнёр Битрикс24</span>
+            </article>
+            <div className="ob-about-cert-lite__stack">
+              {certificatePreview.slice(1).map((item, index) => (
+                <article key={item.title} style={{ "--cert-index": index } as CSSProperties}>
+                  <Image src={item.image} alt={item.title} width={320} height={220} />
+                  <span>{item.title}</span>
+                </article>
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -426,7 +446,7 @@ export function AboutPageContent() {
         <div className="ob-container ob-about-materials">
           <SectionIntro
             kicker="Материалы"
-            title="Будущие публикации уже собраны как редакционный план"
+            title="Редакционный план экспертных материалов"
             text="Наведите или нажмите на карточку: темы будут превращаться в статьи, видео и практические чек-листы."
           />
           <div className="ob-about-materials__grid">
@@ -462,7 +482,7 @@ export function AboutPageContent() {
             <span className="ob-kicker">Реквизиты</span>
             <h2>Документы и контакты для закупки, договора или счёта</h2>
             <p>
-              Работаем официально: договор, счёт-оферта, закрывающие документы и ЭДО по запросу.
+              Работаем официально: договор, счёт-оферта, закрывающие документы и ЭДО.
               Для закупки можно скачать карточку компании или сохранить контакт.
             </p>
             <div className="ob-about-requisites__actions">
@@ -488,7 +508,7 @@ export function AboutPageContent() {
               <strong>{company.phone}</strong>
             </div>
             <div>
-              <span>E-mail</span>
+              <span>Email</span>
               <strong>{company.email}</strong>
             </div>
           </div>
