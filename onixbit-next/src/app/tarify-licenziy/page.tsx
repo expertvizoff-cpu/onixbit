@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Building2, Cloud, ServerCog, ShoppingCart, Workflow } from "lucide-react";
+import { ArrowRight, Building2, Cloud, DatabaseZap, ServerCog, ShoppingCart } from "lucide-react";
 import { LeadSection, LicenseGrid } from "@/components/Sections";
 
 export const metadata: Metadata = {
@@ -31,18 +31,23 @@ const licenseRoutes = [
 const bitrixSitePlans = [
   {
     title: "Корпоративный сайт",
-    text: "Для структуры компании, услуг, посадочных страниц, форм заявок и контента.",
-    fit: "когда нужен управляемый сайт",
+    text: "Для структуры компании, услуг, посадочных страниц, форм заявок, статей и SEO-контента.",
+    fit: "когда сайт должен управляться командой",
   },
   {
     title: "Каталог или магазин",
-    text: "Для товаров, фильтров, корзины, заказов, обменов с 1С и CRM-сценариев.",
+    text: "Для товаров, фильтров, корзины, заказов, обменов с 1С и передачи заявок в CRM.",
     fit: "когда сайт участвует в продажах",
   },
   {
+    title: "Личный кабинет",
+    text: "Для B2B-клиентов, статусов заказов, документов, персональных цен и закрытых разделов.",
+    fit: "когда клиентский сервис уходит в онлайн",
+  },
+  {
     title: "Энтерпрайз-контур",
-    text: "Для высокой нагрузки, сложной архитектуры, личных кабинетов и расширенной интеграции.",
-    fit: "когда важна масштабируемость",
+    text: "Для высокой нагрузки, сложной архитектуры, интеграций, разделения ролей и масштабирования.",
+    fit: "когда важен запас по развитию",
   },
 ];
 
@@ -50,8 +55,8 @@ export default function TariffsPage() {
   return (
     <>
       <section className="ob-page-hero ob-section ob-page-hero--tariffs">
-        <div className="ob-container ob-rich-hero">
-          <div>
+        <div className="ob-container ob-rich-hero ob-tariffs-hero">
+          <div className="ob-tariffs-hero__copy">
             <span className="ob-kicker">Лицензии</span>
             <h1>Подбираем тариф под задачу, а не под красивую таблицу</h1>
             <p>
@@ -59,9 +64,33 @@ export default function TariffsPage() {
               что выгоднее: облако, коробка или лицензия 1С-Битрикс под сайт.
             </p>
           </div>
-          <div className="ob-page-status-card ob-page-status-card--solid">
-            <strong>Перед покупкой сверяем прайс</strong>
-            <span>Цены и состав тарифов могут меняться. Финальный расчёт делаем по актуальным условиям в день покупки.</span>
+          <div className="ob-tariffs-hero__visual" aria-label="Интерактивная схема подбора лицензии">
+            <div className="ob-tariffs-hero__orb ob-tariffs-hero__orb--red" />
+            <div className="ob-tariffs-hero__orb ob-tariffs-hero__orb--yellow" />
+            <div className="ob-tariffs-hero__screen">
+              <div className="ob-tariffs-hero__topline">
+                <span />
+                <span />
+                <span />
+              </div>
+              <div className="ob-tariffs-hero__choice is-active">
+                <Cloud size={19} aria-hidden="true" />
+                <strong>Облако</strong>
+                <em>5-250+</em>
+              </div>
+              <div className="ob-tariffs-hero__choice">
+                <ServerCog size={19} aria-hidden="true" />
+                <strong>Коробка</strong>
+                <em>50-500</em>
+              </div>
+              <div className="ob-tariffs-hero__route">
+                <span>CRM</span>
+                <ArrowRight size={17} aria-hidden="true" />
+                <span>1С</span>
+                <ArrowRight size={17} aria-hidden="true" />
+                <span>BI</span>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -92,13 +121,37 @@ export default function TariffsPage() {
       </section>
 
       <section className="ob-section ob-section--tight">
-        <div className="ob-container ob-bitrix-site-license">
+        <div className="ob-container ob-tariff-method ob-tariff-method--bright">
+          <div className="ob-tariff-method__content">
+            <span className="ob-kicker">Методика</span>
+            <h2>Как мы подбираем тариф</h2>
+            <p>
+              Фиксируем сценарии: кто работает в системе, какие каналы подключаются, какие данные идут между сайтом,
+              CRM и 1С, какие отчёты нужны руководителю и что должно масштабироваться через год.
+            </p>
+          </div>
+          <div className="ob-tariff-method__visual" aria-label="Схема данных между CRM, сайтом, 1С и отчётами">
+            <DatabaseZap size={42} aria-hidden="true" />
+            <div className="ob-tariff-method__nodes">
+              <span>CRM</span>
+              <span>Сайт</span>
+              <span>1С</span>
+              <span>BI</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <LicenseGrid />
+
+      <section className="ob-section ob-section--tight">
+        <div className="ob-container ob-bitrix-site-license ob-bitrix-site-license--bottom">
           <div>
             <span className="ob-kicker">1С-Битрикс</span>
-            <h2>Для сайта считаем не только лицензию, но и будущую архитектуру</h2>
+            <h2>Лицензию для сайта выбираем после архитектуры</h2>
             <p>
-              Одна и та же платформа может быть корпоративным сайтом, каталогом, интернет-магазином или сложным личным кабинетом.
-              Поэтому тариф выбирается после понимания каталога, интеграций, ролей и нагрузки.
+              Для сайта важна не только редакция платформы. Сначала смотрим каталог, корзину, формы, роли, интеграции,
+              SEO-структуру, личные кабинеты и обмены с 1С или Битрикс24.
             </p>
           </div>
           <div className="ob-bitrix-site-license__cards">
@@ -114,20 +167,6 @@ export default function TariffsPage() {
         </div>
       </section>
 
-      <section className="ob-section ob-section--tight">
-        <div className="ob-container ob-tariff-method">
-          <Workflow size={30} aria-hidden="true" />
-          <div>
-            <h2>Как мы подбираем тариф</h2>
-            <p>
-              Фиксируем сценарии: кто работает в системе, какие каналы подключаются, какие данные идут между сайтом, CRM и 1С,
-              какие отчёты нужны руководителю и что должно масштабироваться через год.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <LicenseGrid />
       <LeadSection />
     </>
   );

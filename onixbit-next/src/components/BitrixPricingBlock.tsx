@@ -1,298 +1,251 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { CheckCircle2, Sparkles, UsersRound } from "lucide-react";
 
 type Mode = "cloud" | "box";
 type Period = "month" | "year";
-type NavigatorPlan =
-  | "basic"
-  | "standard"
-  | "professional"
-  | "enterprise"
-  | "box-store"
-  | "box-portal"
-  | "box-enterprise";
+type FeatureLevel = 0 | 1 | 2 | 3;
+type CloudPlanId = "basic" | "standard" | "professional" | "enterprise";
+type BoxPlanId = "box-50" | "box-100" | "box-250" | "box-500";
+type NavigatorPlan = CloudPlanId | BoxPlanId;
 
+type FeatureRow = { id: string; title: string };
 type CloudPlan = {
-  id: "basic" | "standard" | "professional" | "enterprise";
+  id: CloudPlanId;
   title: string;
   description: string;
   usersLabel: string;
   storage: string;
   monthly: number | Record<number, number>;
   yearly: number | Record<number, number>;
-  features: Array<{ title: string; level: 1 | 2 | 3 }>;
-  bottomFeatures: Array<{ title: string; level: 1 | 2 | 3 }>;
+  levels: Record<string, FeatureLevel>;
   popular?: boolean;
   featured?: boolean;
   enterprise?: boolean;
 };
-
 type BoxPlan = {
-  id: "store" | "cp" | "ent";
+  id: BoxPlanId;
   title: string;
   description: string;
   usersLabel: string;
-  meta: string;
-  price: number | Record<number, number>;
+  price: number;
+  accent: string;
   features: string[];
   featured?: boolean;
-  enterprise?: boolean;
 };
 
+const REGISTER_URL = "https://www.bitrix24.ru/create.php?p=10553488";
+
 const enterpriseUsers = [250, 500, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000];
-const portalUsers = [50, 100, 250, 500];
-const boxEnterpriseUsers = [1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000];
+const enterpriseStorage: Record<number, string> = {
+  250: "3 ТБ диск",
+  500: "5 ТБ диск",
+  1000: "10 ТБ диск",
+  2000: "20 ТБ диск",
+  3000: "30 ТБ диск",
+  4000: "40 ТБ диск",
+  5000: "50 ТБ диск",
+  6000: "60 ТБ диск",
+  7000: "70 ТБ диск",
+  8000: "80 ТБ диск",
+  9000: "90 ТБ диск",
+  10000: "100 ТБ диск",
+};
+
+const comparisonRows: FeatureRow[] = [
+  { id: "collab", title: "Совместная работа" },
+  { id: "messenger", title: "Мессенджер" },
+  { id: "collabs", title: "Коллабы" },
+  { id: "tasks", title: "Задачи и Проекты" },
+  { id: "crm", title: "CRM" },
+  { id: "gpt", title: "BitrixGPT" },
+  { id: "sign", title: "Онлайн-подпись" },
+  { id: "disk", title: "Диск" },
+  { id: "boards", title: "Доски" },
+  { id: "contact", title: "Контакт-центр" },
+  { id: "sites", title: "Сайты" },
+  { id: "store", title: "Интернет-магазин" },
+  { id: "booking", title: "Онлайн-запись" },
+  { id: "marketing", title: "Маркетинг" },
+  { id: "docs", title: "Документы Онлайн" },
+  { id: "hrsign", title: "КЭДО + Госключ" },
+  { id: "bi", title: "BI Конструктор" },
+  { id: "analytics", title: "Сквозная аналитика" },
+  { id: "automation", title: "Автоматизация" },
+  { id: "hr", title: "HR: Компания" },
+  { id: "support", title: "Поддержка" },
+  { id: "admin", title: "Администрирование" },
+];
 
 const cloudPlans: CloudPlan[] = [
   {
     id: "basic",
     title: "Базовый",
-    description: "CRM для небольших отделов продаж",
+    description: "CRM для небольшого отдела продаж: лиды, сделки, задачи, простая коммуникация и стартовая автоматизация.",
     usersLabel: "5 пользователей",
     storage: "24 ГБ диск",
     monthly: 2490,
     yearly: 1743,
-    features: [
-      { title: "Совместная работа", level: 2 },
-      { title: "Мессенджер", level: 2 },
-      { title: "Коллабы", level: 1 },
-      { title: "Задачи и Проекты", level: 1 },
-      { title: "CRM", level: 2 },
-      { title: "BitrixGPT", level: 3 },
-      { title: "Онлайн-подпись", level: 2 },
-      { title: "Диск", level: 1 },
-      { title: "Доски", level: 3 },
-      { title: "Контакт-центр", level: 2 },
-      { title: "Сайты", level: 2 },
-      { title: "Интернет-магазин", level: 2 },
-      { title: "Онлайн-запись", level: 1 },
-    ],
-    bottomFeatures: [{ title: "Поддержка", level: 1 }],
+    levels: {
+      collab: 2, messenger: 2, collabs: 1, tasks: 1, crm: 2, gpt: 3, sign: 2, disk: 1, boards: 3,
+      contact: 2, sites: 2, store: 2, booking: 1, marketing: 0, docs: 0, hrsign: 0, bi: 0, analytics: 0,
+      automation: 0, hr: 0, support: 1, admin: 0,
+    },
   },
   {
     id: "standard",
     title: "Стандартный",
-    description: "Для совместной работы всей компании или рабочих групп",
+    description: "Для отдела продаж и рабочих групп: больше пользователей, совместная работа, документы и базовая аналитика.",
     usersLabel: "50 пользователей",
     storage: "100 ГБ диск",
     monthly: 6990,
     yearly: 4893,
     featured: true,
-    features: [
-      { title: "Совместная работа", level: 2 },
-      { title: "Мессенджер", level: 3 },
-      { title: "Коллабы", level: 2 },
-      { title: "Задачи и Проекты", level: 2 },
-      { title: "CRM", level: 2 },
-      { title: "BitrixGPT", level: 3 },
-      { title: "Онлайн-подпись", level: 2 },
-      { title: "Диск", level: 2 },
-      { title: "Доски", level: 3 },
-      { title: "Контакт-центр", level: 2 },
-      { title: "Сайты", level: 2 },
-      { title: "Интернет-магазин", level: 2 },
-      { title: "Онлайн-запись", level: 2 },
-      { title: "Маркетинг", level: 2 },
-      { title: "Документы Онлайн", level: 2 },
-      { title: "КЭДО + Госключ", level: 2 },
-      { title: "BI Конструктор", level: 2 },
-    ],
-    bottomFeatures: [
-      { title: "Поддержка", level: 2 },
-      { title: "Администрирование", level: 2 },
-    ],
+    levels: {
+      collab: 2, messenger: 3, collabs: 2, tasks: 2, crm: 2, gpt: 3, sign: 2, disk: 2, boards: 3,
+      contact: 2, sites: 2, store: 2, booking: 2, marketing: 2, docs: 2, hrsign: 2, bi: 2, analytics: 0,
+      automation: 0, hr: 0, support: 2, admin: 2,
+    },
   },
   {
     id: "professional",
     title: "Профессиональный",
-    description: "Для максимальной автоматизации всех процессов в компании",
+    description: "Для компании, где CRM уже должна управлять процессами, отчётами, автоматизацией и несколькими отделами.",
     usersLabel: "100 пользователей",
     storage: "1 024 ГБ диск",
     monthly: 13990,
     yearly: 9793,
     popular: true,
-    features: [
-      { title: "Совместная работа", level: 2 },
-      { title: "Мессенджер", level: 3 },
-      { title: "Коллабы", level: 3 },
-      { title: "Задачи и Проекты", level: 3 },
-      { title: "CRM", level: 3 },
-      { title: "BitrixGPT", level: 3 },
-      { title: "Онлайн-подпись", level: 3 },
-      { title: "Диск", level: 3 },
-      { title: "Доски", level: 3 },
-      { title: "Контакт-центр", level: 3 },
-      { title: "Сайты", level: 3 },
-      { title: "Интернет-магазин", level: 3 },
-      { title: "Онлайн-запись", level: 3 },
-      { title: "Маркетинг", level: 3 },
-      { title: "Документы Онлайн", level: 3 },
-      { title: "КЭДО + Госключ", level: 2 },
-      { title: "BI Конструктор", level: 3 },
-      { title: "Сквозная аналитика", level: 2 },
-      { title: "Автоматизация", level: 3 },
-      { title: "HR: Компания", level: 3 },
-    ],
-    bottomFeatures: [
-      { title: "Поддержка", level: 2 },
-      { title: "Администрирование", level: 2 },
-    ],
+    levels: {
+      collab: 2, messenger: 3, collabs: 3, tasks: 3, crm: 3, gpt: 3, sign: 3, disk: 3, boards: 3,
+      contact: 3, sites: 3, store: 3, booking: 3, marketing: 3, docs: 3, hrsign: 2, bi: 3, analytics: 2,
+      automation: 3, hr: 3, support: 2, admin: 2,
+    },
   },
   {
     id: "enterprise",
     title: "Энтерпрайз",
-    description: "Комплексное решение для управления крупным предприятием: интранет, HRM, КЭДО, CRM, автоматизация",
+    description: "Для крупной компании: филиалы, повышенные лимиты, расширенное администрирование, HRM и масштабирование портала.",
     usersLabel: "250 пользователей",
-    storage: "от 3 ТБ диск",
+    storage: "3 ТБ диск",
     enterprise: true,
     monthly: {
-      250: 33990,
-      500: 59990,
-      1000: 99990,
-      2000: 199990,
-      3000: 299990,
-      4000: 399990,
-      5000: 499990,
-      6000: 599990,
-      7000: 699990,
-      8000: 799990,
-      9000: 899990,
-      10000: 999990,
+      250: 33990, 500: 59990, 1000: 99990, 2000: 199990, 3000: 299990, 4000: 399990,
+      5000: 499990, 6000: 599990, 7000: 699990, 8000: 799990, 9000: 899990, 10000: 999990,
     },
     yearly: {
-      250: 23793,
-      500: 41993,
-      1000: 69993,
-      2000: 139993,
-      3000: 209993,
-      4000: 279993,
-      5000: 349993,
-      6000: 419993,
-      7000: 489993,
-      8000: 559993,
-      9000: 629993,
-      10000: 699993,
+      250: 23793, 500: 41993, 1000: 69993, 2000: 139993, 3000: 209993, 4000: 279993,
+      5000: 349993, 6000: 419993, 7000: 489993, 8000: 559993, 9000: 629993, 10000: 699993,
     },
-    features: [
-      { title: "Совместная работа", level: 3 },
-      { title: "Мессенджер", level: 3 },
-      { title: "Коллабы", level: 3 },
-      { title: "Задачи и Проекты", level: 3 },
-      { title: "CRM", level: 3 },
-      { title: "BitrixGPT", level: 3 },
-      { title: "Онлайн-подпись", level: 3 },
-      { title: "Диск", level: 3 },
-      { title: "Доски", level: 3 },
-      { title: "Контакт-центр", level: 3 },
-      { title: "Сайты", level: 3 },
-      { title: "Интернет-магазин", level: 3 },
-      { title: "Онлайн-запись", level: 3 },
-      { title: "Маркетинг", level: 3 },
-      { title: "Документы Онлайн", level: 3 },
-      { title: "КЭДО + Госключ", level: 3 },
-      { title: "BI Конструктор", level: 3 },
-      { title: "Сквозная аналитика", level: 3 },
-      { title: "Автоматизация", level: 3 },
-      { title: "HR: Компания", level: 3 },
-      { title: "Филиалы", level: 3 },
-      { title: "Энтерпрайз-кластер", level: 3 },
-      { title: "Энтерпрайз-пакет", level: 3 },
-    ],
-    bottomFeatures: [
-      { title: "Поддержка", level: 3 },
-      { title: "Администрирование", level: 3 },
-    ],
+    levels: {
+      collab: 3, messenger: 3, collabs: 3, tasks: 3, crm: 3, gpt: 3, sign: 3, disk: 3, boards: 3,
+      contact: 3, sites: 3, store: 3, booking: 3, marketing: 3, docs: 3, hrsign: 3, bi: 3, analytics: 3,
+      automation: 3, hr: 3, support: 3, admin: 3,
+    },
   },
 ];
 
 const boxPlans: BoxPlan[] = [
   {
-    id: "store",
-    title: "Интернет-магазин + CRM",
-    description: "Коробочная связка CRM и eCommerce для собственной инфраструктуры и базового портального контура.",
-    usersLabel: "12 пользователей",
-    meta: "первый контур",
-    price: 109000,
-    features: ["CRM и eCommerce", "ИИ-ассистент BitrixGPT", "собственная инфраструктура"],
-  },
-  {
-    id: "cp",
-    title: "Корпоративный портал",
-    description:
-      "Собственный портал для структуры компании, внутренних коммуникаций, задач, бизнес-процессов и прав доступа.",
+    id: "box-50",
+    title: "Корпоративный портал 50",
     usersLabel: "50 пользователей",
-    meta: "корпоративный портал",
-    featured: true,
-    price: {
-      50: 159000,
-      100: 229000,
-      250: 349000,
-      500: 599000,
-    },
-    features: [
-      "корпоративный мессенджер и видеозвонки",
-      "задачи, проекты, документы и доски",
-      "бизнес-процессы, КЭДО и BI-аналитика",
-    ],
+    price: 159000,
+    accent: "для управляемого контура",
+    description: "Стартовая коробка для компании, где нужен собственный сервер, роли, задачи, документы и базовые процессы.",
+    features: ["собственная инфраструктура", "портал, задачи и документы", "основа для доработок"],
   },
   {
-    id: "ent",
-    title: "Энтерпрайз",
-    description: "Коробочная версия для холдингов, многодепартаментности, повышенной нагрузки и глубокой архитектуры.",
-    usersLabel: "1000 пользователей",
-    meta: "большая инфраструктура",
-    enterprise: true,
-    price: {
-      1000: 1299000,
-      2000: 2198000,
-      3000: 3097000,
-      4000: 3996000,
-      5000: 4895000,
-      6000: 5794000,
-      7000: 6693000,
-      8000: 7592000,
-      9000: 8491000,
-      10000: 9390000,
-    },
-    features: [
-      "холдинговая структура и департаменты",
-      "веб-кластер и VIP-поддержка 24/7",
-      "персональный менеджер и микросервисная архитектура",
-    ],
+    id: "box-100",
+    title: "Корпоративный портал 100",
+    usersLabel: "100 пользователей",
+    price: 229000,
+    accent: "для нескольких отделов",
+    description: "Когда в портале работает не один отдел, появляются права, регламенты, согласования и интеграции с учётом.",
+    features: ["больше пользователей", "права и бизнес-процессы", "интеграции с 1С и сайтом"],
+    featured: true,
+  },
+  {
+    id: "box-250",
+    title: "Корпоративный портал 250",
+    usersLabel: "250 пользователей",
+    price: 349000,
+    accent: "для крупной структуры",
+    description: "Подходит для B2B-компаний с несколькими подразделениями, регламентами, отчётами и нагрузкой на портал.",
+    features: ["много подразделений", "сложные сценарии прав", "масштабирование процессов"],
+  },
+  {
+    id: "box-500",
+    title: "Корпоративный портал 500",
+    usersLabel: "500 пользователей",
+    price: 599000,
+    accent: "для распределённой компании",
+    description: "Вариант для компаний с высокой вовлечённостью сотрудников, корпоративными сервисами и долгим горизонтом развития.",
+    features: ["распределённая команда", "внутренние сервисы", "запас по росту портала"],
   },
 ];
 
-const navigatorCopy: Record<NavigatorPlan, { title: string; text: string }> = {
+const navigatorItems: Array<{ id: NavigatorPlan; mode: Mode; users: string; title: string; caption: string }> = [
+  { id: "basic", mode: "cloud", users: "5", title: "Базовый", caption: "малый отдел" },
+  { id: "standard", mode: "cloud", users: "50", title: "Стандартный", caption: "команда продаж" },
+  { id: "professional", mode: "cloud", users: "100", title: "Профессиональный", caption: "автоматизация" },
+  { id: "enterprise", mode: "cloud", users: "250", title: "Энтерпрайз", caption: "крупная компания" },
+  { id: "box-50", mode: "box", users: "50", title: "Корпоративный портал", caption: "свой сервер" },
+  { id: "box-100", mode: "box", users: "100", title: "Корпоративный портал", caption: "несколько отделов" },
+  { id: "box-250", mode: "box", users: "250", title: "Корпоративный портал", caption: "крупный контур" },
+  { id: "box-500", mode: "box", users: "500", title: "Корпоративный портал", caption: "распределённая компания" },
+];
+
+const navigatorCopy: Record<NavigatorPlan, { title: string; text: string; check: string }> = {
   basic: {
     title: "Базовый",
-    text: "Подходит для маленькой команды, которой нужны CRM, задачи и простой старт без сложной автоматизации.",
+    text: "Для небольшой команды, которой нужно быстро начать вести лиды и сделки без сложной архитектуры.",
+    check: "Проверяем, хватит ли 5 пользователей, 24 ГБ диска и базовых прав доступа.",
   },
   standard: {
     title: "Стандартный",
-    text: "Подходит для отдела продаж и рабочей команды, когда нужны CRM, задачи, совместная работа и больше пространства.",
+    text: "Для отдела продаж и рабочих групп, где CRM уже связана с задачами, документами и коммуникациями.",
+    check: "Смотрим структуру отделов, телефонию, документы, права и будущие отчёты.",
   },
   professional: {
     title: "Профессиональный",
-    text: "Хватит ли прав доступа, автоматизации, отчётов и лимитов для ваших отделов.",
+    text: "Для компании, где важны автоматизация, отчёты, процессы, маркетинг и управляемая CRM-логика.",
+    check: "Сверяем сценарии роботов, права, отчёты, BI, интеграции и ограничения по отделам.",
   },
   enterprise: {
-    title: "Энтерпрайз",
-    text: "Проверяем количество пользователей, филиалы, права, отчёты, нагрузку и будущую архитектуру портала.",
+    title: "Энтерпрайз 250+",
+    text: "Для крупной компании с филиалами, повышенными лимитами, HRM, расширенным администрированием и ростом портала.",
+    check: "Оцениваем количество сотрудников, филиалы, нагрузку, требования безопасности и администрирование.",
   },
-  "box-store": {
-    title: "Интернет-магазин + CRM",
-    text: "Подходит для первого коробочного контура, когда нужен свой сервер и связка CRM с интернет-магазином.",
+  "box-50": {
+    title: "Коробка на 50 пользователей",
+    text: "Для компании, которой нужен собственный сервер и управляемый корпоративный контур без лишнего масштаба.",
+    check: "Считаем сервер, сопровождение, обновления, резервное копирование и набор доработок.",
   },
-  "box-portal": {
-    title: "Корпоративный портал",
-    text: "Подходит для внутреннего корпоративного портала, прав доступа, структуры компании и доработок.",
+  "box-100": {
+    title: "Коробка на 100 пользователей",
+    text: "Для нескольких отделов, где появляются права, регламенты, обмены с 1С и требования к владению данными.",
+    check: "Проверяем роли, согласования, обмены, нагрузку, администрирование и контур поддержки.",
   },
-  "box-enterprise": {
-    title: "Коробочный Энтерпрайз",
-    text: "Нужен для крупной инфраструктуры, высокой нагрузки, сложных интеграций и требований к владению данными.",
+  "box-250": {
+    title: "Коробка на 250 пользователей",
+    text: "Для крупной структуры, где портал становится частью внутренней операционной системы компании.",
+    check: "Закладываем масштабирование, интеграции, карту процессов и требования к инфраструктуре.",
+  },
+  "box-500": {
+    title: "Коробка на 500 пользователей",
+    text: "Для распределённой компании, где портал должен выдерживать рост, сервисы сотрудников и долгий жизненный цикл.",
+    check: "Отдельно считаем владение системой: серверы, сопровождение, обновления, безопасность и развитие.",
   },
 };
+
+const marketplacePlans = [
+  { title: "Базовый", price: "500 ₽/мес", text: "для стартового портала" },
+  { title: "Стандартный", price: "1 500 ₽/мес", text: "для команды и документов" },
+  { title: "Профессиональный", price: "3 000 ₽/мес", text: "для автоматизации и BI" },
+  { title: "Энтерпрайз", price: "от 8 500 ₽/мес", text: "для крупных порталов" },
+];
 
 function formatPrice(value: number) {
   return `${String(value).replace(/\B(?=(\d{3})+(?!\d))/g, " ")} ₽`;
@@ -308,6 +261,25 @@ function leadTitle(title: string) {
   return `Запросить счёт: ${title}`;
 }
 
+function FeatureIndicator({ level }: { level: FeatureLevel }) {
+  return (
+    <span className={`obx-feature-indicator obx-feature-indicator--${level}`} aria-hidden="true">
+      <i />
+      <i />
+      <i />
+    </span>
+  );
+}
+
+function UserCapacity({ value }: { value: string }) {
+  return (
+    <span className="obx-user-capacity" aria-label={`${value} пользователей`}>
+      <UsersRound size={15} aria-hidden="true" />
+      <b>{value}</b>
+    </span>
+  );
+}
+
 export function BitrixPricingBlock() {
   const [navigatorPlan, setNavigatorPlan] = useState<NavigatorPlan>("professional");
   const [navigatorEnterpriseOpen, setNavigatorEnterpriseOpen] = useState(false);
@@ -315,9 +287,7 @@ export function BitrixPricingBlock() {
   const [mode, setMode] = useState<Mode>("cloud");
   const [period, setPeriod] = useState<Period>("year");
   const [enterpriseUsersCount, setEnterpriseUsersCount] = useState(250);
-  const [portalUsersCount, setPortalUsersCount] = useState(50);
-  const [boxEnterpriseUsersCount, setBoxEnterpriseUsersCount] = useState(1000);
-  const [openPicker, setOpenPicker] = useState<"cloud-enterprise" | "box-cp" | "box-ent" | null>(null);
+  const [openPicker, setOpenPicker] = useState<"cloud-enterprise" | null>(null);
   const [hoveredFeature, setHoveredFeature] = useState<string | null>(null);
 
   const navigatorActive = navigatorCopy[navigatorPlan];
@@ -325,12 +295,12 @@ export function BitrixPricingBlock() {
     () =>
       mode === "box"
         ? {
-            label: "Условия коробки",
-            text: "Коробочные цены показываются за годовую лицензию; инфраструктура и сопровождение считаются отдельно.",
+            label: "Важно",
+            text: "Коробочная цена — это лицензия. Сервер, администрирование, обновления, безопасность и внедрение считаются отдельно.",
           }
         : {
-            label: "Условия облака",
-            text: "В облаке при оплате на 12 месяцев цена ниже и показывается за месяц использования.",
+            label: "Важно",
+            text: "В облаке цена ниже при оплате за 12 месяцев. Перед счётом сверяем актуальные условия и ограничения тарифа.",
           },
     [mode],
   );
@@ -342,41 +312,39 @@ export function BitrixPricingBlock() {
           <div className="obx-tariffs__head">
             <div>
               <div className="obx-tariffs__eyebrow">Цены Битрикс24</div>
-              <h2 className="obx-tariffs__title">Выбираем тариф по возможностям, которые будут реально использоваться</h2>
+              <h2 className="obx-tariffs__title">Сначала выбираем сценарий, потом тариф и формат лицензии</h2>
             </div>
-            <p className="obx-tariffs__lead">
-              Сначала отмечаем нужные возможности: CRM, задачи, AI, интеграции, права, отчёты. Потом выбираем облако
-              или коробку и считаем внедрение.
-            </p>
+            <div className="obx-tariffs__lead obx-tariffs__lead--important">
+              <strong>Важно</strong>
+              <p>
+                Не покупаем лицензию “на глаз”: считаем пользователей, права, отчёты, интеграции, объём диска и контур владения системой.
+              </p>
+            </div>
           </div>
 
           <div className="obx-tariffs__trial">
             <div className="obx-tariffs__trial-content">
               <span className="obx-tariffs__trial-label">Бесплатный старт</span>
-              <h3 className="obx-tariffs__trial-title">
-                Можно начать с бесплатного Битрикс24, но рабочую лицензию лучше выбирать после разбора процессов
-              </h3>
+              <h3 className="obx-tariffs__trial-title">Можно открыть бесплатный портал и спокойно проверить интерфейс</h3>
               <p className="obx-tariffs__trial-text">
-                Бесплатный портал подходит для знакомства с CRM, задачами и интерфейсом. Для внедрения с отделами,
-                правами, автоматизацией, отчётами и интеграциями обычно нужен платный тариф или коробочная версия.
+                Бесплатный Битрикс24 подходит для знакомства с CRM, задачами и мессенджером. Для рабочих отделов,
+                прав, отчётов, автоматизации и интеграций тариф лучше выбирать после короткого разбора.
               </p>
             </div>
             <div className="obx-tariffs__trial-actions">
-              <a className="obx-tariffs__trial-btn" href="#lead" data-obx-lead-open>
-                Подобрать старт
+              <a className="obx-tariffs__trial-btn" href={REGISTER_URL} target="_blank" rel="noreferrer">
+                Зарегистрировать портал
               </a>
-              <span>Подбор без ухода с сайта</span>
             </div>
           </div>
 
           <div className="obx-tariffs__chooser">
             <aside className="obx-tariffs__main">
-              <span className="obx-tariffs__label">Подбор лицензии</span>
-              <h3 className="obx-tariffs__main-title">Сначала сценарий, потом цена</h3>
+              <span className="obx-tariffs__label">Навигатор</span>
+              <h3 className="obx-tariffs__main-title">Лицензия должна совпасть с реальной моделью работы</h3>
               <p className="obx-tariffs__main-text">
-                Количество пользователей важно, но не единственный критерий. Смотрим, какие отделы работают в портале,
-                нужны ли права доступа, бизнес-процессы, телефония, 1С, отчёты, коробочная инфраструктура и
-                сопровождение.
+                Облако чаще выигрывает скоростью запуска. Коробка нужна, когда важны собственный сервер, контроль данных,
+                сложная архитектура, нестандартные права и глубокие доработки.
               </p>
               <a className="obx-tariffs__btn" href="#lead" data-obx-lead-open>
                 Подобрать цену
@@ -386,11 +354,11 @@ export function BitrixPricingBlock() {
             <div className="obx-tariffs__matrix">
               <div className="obx-tariffs__matrix-top">
                 <div>
-                  <span className="obx-tariffs__estimate-label">Навигатор</span>
-                  <h3 className="obx-tariffs__estimate-title">Облако, коробка или старт</h3>
+                  <span className="obx-tariffs__estimate-label">Навигатор тарифов</span>
+                  <h3 className="obx-tariffs__estimate-title">4 облачных и 4 коробочных варианта</h3>
                 </div>
                 <a className="obx-tariffs__official" href="#bitrix24-prices">
-                  Смотреть линейку
+                  К таблице цен
                 </a>
               </div>
 
@@ -398,117 +366,90 @@ export function BitrixPricingBlock() {
                 <article className="obx-tariffs__edition obx-tariffs__edition--cloud">
                   <div className="obx-tariffs__edition-head">
                     <span>Облако</span>
-                    <h4>Для быстрого запуска без своей инфраструктуры</h4>
-                    <p>
-                      Подходит, если важны скорость запуска, регулярные обновления, понятная подписка и минимум
-                      технической поддержки на стороне компании.
-                    </p>
+                    <h4>Быстрый запуск без своего сервера</h4>
+                    <p>Выбираем, когда важны скорость, обновления на стороне сервиса и понятная подписка.</p>
                   </div>
                   <div className="obx-tariffs__plans">
-                    {[
-                      ["basic", "5", "Базовый", "небольшая команда"],
-                      ["standard", "50", "Стандартный", "продажи и задачи"],
-                      ["professional", "100", "Профессиональный", "автоматизация и отчёты"],
-                    ].map(([id, users, title, caption]) => (
-                      <button
-                        className={navigatorPlan === id ? "is-active" : ""}
-                        type="button"
-                        key={id}
-                        onClick={() => {
-                          setNavigatorPlan(id as NavigatorPlan);
-                          setNavigatorEnterpriseOpen(false);
-                        }}
-                      >
-                        <span>{users}</span>
-                        <strong>{title}</strong>
-                        <em>{caption}</em>
-                      </button>
-                    ))}
-                    <div className={`obx-tariffs__enterprise-picker ${navigatorEnterpriseOpen ? "is-open" : ""}`}>
-                      <button
-                        className={navigatorPlan === "enterprise" ? "is-active" : ""}
-                        type="button"
-                        aria-expanded={navigatorEnterpriseOpen}
-                        onClick={() => {
-                          setNavigatorPlan("enterprise");
-                          setNavigatorEnterpriseOpen((value) => !value);
-                        }}
-                      >
-                        <span>{navigatorEnterpriseUsers}</span>
-                        <strong>Энтерпрайз</strong>
-                        <em>крупная компания</em>
-                      </button>
-                      <div className="obx-tariffs__enterprise-menu">
-                        {enterpriseUsers.map((users) => (
+                    {navigatorItems.filter((item) => item.mode === "cloud").map((item) => {
+                      const isEnterprise = item.id === "enterprise";
+                      return (
+                        <div className={`obx-tariffs__plan-shell ${isEnterprise && navigatorEnterpriseOpen ? "is-open" : ""}`} key={item.id}>
                           <button
-                            className={navigatorEnterpriseUsers === users ? "is-active" : ""}
+                            className={navigatorPlan === item.id ? "is-active" : ""}
                             type="button"
-                            key={users}
+                            aria-expanded={isEnterprise ? navigatorEnterpriseOpen : undefined}
                             onClick={() => {
-                              setNavigatorEnterpriseUsers(users);
-                              setNavigatorPlan("enterprise");
-                              setNavigatorEnterpriseOpen(false);
+                              setNavigatorPlan(item.id);
+                              setMode("cloud");
+                              if (isEnterprise) setNavigatorEnterpriseOpen((value) => !value);
+                              else setNavigatorEnterpriseOpen(false);
                             }}
                           >
-                            {users} пользователей
+                            <UserCapacity value={isEnterprise ? String(navigatorEnterpriseUsers) : item.users} />
+                            <strong>{item.title}</strong>
+                            <em>{isEnterprise ? "250+ пользователей" : item.caption}</em>
                           </button>
-                        ))}
-                      </div>
-                    </div>
+                          {isEnterprise && (
+                            <div className="obx-tariffs__enterprise-menu">
+                              {enterpriseUsers.map((users) => (
+                                <button
+                                  className={navigatorEnterpriseUsers === users ? "is-active" : ""}
+                                  type="button"
+                                  key={users}
+                                  onClick={() => {
+                                    setNavigatorEnterpriseUsers(users);
+                                    setNavigatorPlan("enterprise");
+                                    setMode("cloud");
+                                    setNavigatorEnterpriseOpen(false);
+                                  }}
+                                >
+                                  {users} пользователей
+                                </button>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })}
                   </div>
-                  <ul className="obx-tariffs__edition-list">
-                    <li>быстрый старт без сервера;</li>
-                    <li>подписка и обновления на стороне Битрикс24;</li>
-                    <li>подходит для большинства CRM-сценариев.</li>
-                  </ul>
                 </article>
 
                 <article className="obx-tariffs__edition obx-tariffs__edition--box">
                   <div className="obx-tariffs__edition-head">
                     <span>Коробка</span>
-                    <h4>Для собственного сервера, сложных прав и доработок</h4>
-                    <p>
-                      Нужна, когда важны контроль инфраструктуры, особые требования безопасности, глубокие доработки,
-                      нагрузка или интеграции внутри корпоративного контура.
-                    </p>
+                    <h4>Собственный сервер и контроль контура</h4>
+                    <p>Для компаний, где важны инфраструктура, безопасность, доработки и владение данными.</p>
                   </div>
                   <div className="obx-tariffs__plans obx-tariffs__plans--box">
-                    {[
-                      ["box-store", "12", "Интернет-магазин + CRM", "старт коробки"],
-                      ["box-portal", "50", "Корпоративный портал", "внутренний контур"],
-                      ["box-enterprise", "1000", "Энтерпрайз", "большая инфраструктура"],
-                    ].map(([id, users, title, caption]) => (
+                    {navigatorItems.filter((item) => item.mode === "box").map((item) => (
                       <button
-                        className={navigatorPlan === id ? "is-active" : ""}
+                        className={navigatorPlan === item.id ? "is-active" : ""}
                         type="button"
-                        key={id}
+                        key={item.id}
                         onClick={() => {
-                          setNavigatorPlan(id as NavigatorPlan);
+                          setNavigatorPlan(item.id);
+                          setMode("box");
                           setNavigatorEnterpriseOpen(false);
                         }}
                       >
-                        <span>{users}</span>
-                        <strong>{title}</strong>
-                        <em>{caption}</em>
+                        <UserCapacity value={item.users} />
+                        <strong>{item.title}</strong>
+                        <em>{item.caption}</em>
                       </button>
                     ))}
                   </div>
-                  <ul className="obx-tariffs__edition-list">
-                    <li>свой сервер и администрирование;</li>
-                    <li>глубокие доработки и контроль доступа;</li>
-                    <li>важно считать не только лицензию, но и владение.</li>
-                  </ul>
                 </article>
               </div>
 
               <div className="obx-tariffs__decision">
                 <div className="obx-tariffs__fit">
-                  <span>Подходит</span>
+                  <span>Кому подходит</span>
                   <strong>{navigatorActive.title}</strong>
+                  <p>{navigatorActive.text}</p>
                 </div>
                 <div className="obx-tariffs__risk">
                   <span>Проверить перед покупкой</span>
-                  <strong>{navigatorActive.text}</strong>
+                  <strong>{navigatorActive.check}</strong>
                 </div>
               </div>
             </div>
@@ -516,7 +457,7 @@ export function BitrixPricingBlock() {
 
           <div className="obx-tariffs__note">
             <p className="obx-tariffs__note-text">
-              Точная стоимость и состав тарифов могут меняться. <span>Перед покупкой сверяем актуальный прайс, ограничения тарифа и состав внедрения.</span>
+              Финальная стоимость зависит от актуального прайса, срока оплаты, состава внедрения, обменов, телефонии, BI и сопровождения.
             </p>
             <a className="obx-tariffs__note-link" href="#lead" data-obx-lead-open>
               Запросить расчёт
@@ -530,12 +471,14 @@ export function BitrixPricingBlock() {
           <div className="obx-price-line__head">
             <div>
               <div className="obx-price-line__eyebrow">Тарифы Битрикс24</div>
-              <h2 className="obx-price-line__title">Линейка тарифов: облако и коробка в одном сравнении</h2>
+              <h2 className="obx-price-line__title">Облако и коробка в одном сравнении</h2>
             </div>
-            <p className="obx-price-line__lead">
-              Цены и пользователи сверены с официальными страницами Битрикс24. Переключите тип лицензии, срок облака
-              или количество пользователей, чтобы увидеть нужный вариант.
-            </p>
+            <div className="obx-price-line__lead obx-price-line__lead--important">
+              <strong>Важно</strong>
+              <p>
+                Цены и лимиты сверяем перед выставлением счёта. В таблице показываем ориентиры по официальной линейке Битрикс24.
+              </p>
+            </div>
           </div>
 
           <div className="obx-price-line__control-bar">
@@ -573,24 +516,8 @@ export function BitrixPricingBlock() {
             <div className={`obx-price-line__control-group ${mode === "box" ? "is-disabled" : ""}`}>
               <span className="obx-price-line__control-label">Срок лицензии</span>
               <div className="obx-price-line__periods" role="tablist" aria-label="Срок лицензии Битрикс24">
-                <button
-                  className={period === "month" ? "is-active" : ""}
-                  type="button"
-                  role="tab"
-                  aria-selected={period === "month"}
-                  onClick={() => mode === "cloud" && setPeriod("month")}
-                >
-                  1 месяц
-                </button>
-                <button
-                  className={period === "year" ? "is-active" : ""}
-                  type="button"
-                  role="tab"
-                  aria-selected={period === "year"}
-                  onClick={() => mode === "cloud" && setPeriod("year")}
-                >
-                  12 месяцев <span>-30%</span>
-                </button>
+                <button className={period === "month" ? "is-active" : ""} type="button" role="tab" aria-selected={period === "month"} onClick={() => mode === "cloud" && setPeriod("month")}>1 месяц</button>
+                <button className={period === "year" ? "is-active" : ""} type="button" role="tab" aria-selected={period === "year"} onClick={() => mode === "cloud" && setPeriod("year")}>12 месяцев <span>-30%</span></button>
               </div>
             </div>
             <div className="obx-price-line__control-note">
@@ -605,49 +532,23 @@ export function BitrixPricingBlock() {
                 const users = plan.id === "enterprise" ? enterpriseUsersCount : undefined;
                 const oldPrice = resolvePrice(plan.monthly, users);
                 const currentPrice = resolvePrice(period === "year" ? plan.yearly : plan.monthly, users);
+                const storageLabel = plan.id === "enterprise" ? enterpriseStorage[enterpriseUsersCount] : plan.storage;
 
                 return (
-                  <article
-                    className={`obx-price-line__card ${plan.featured ? "is-featured" : ""} ${
-                      plan.enterprise ? "obx-price-line__card--enterprise" : ""
-                    }`}
-                    key={plan.id}
-                  >
+                  <article className={`obx-price-line__card ${plan.featured ? "is-featured" : ""} ${plan.enterprise ? "obx-price-line__card--enterprise" : ""}`} key={plan.id}>
                     {plan.popular && <span className="obx-price-line__popular">Популярный</span>}
                     <h4>{plan.title}</h4>
                     <p className="obx-price-line__description">{plan.description}</p>
                     <div className="obx-price-line__metric-line">
-                      <div
-                        className={`obx-price-line__user-line ${
-                          plan.enterprise ? "" : "obx-price-line__user-line--fixed"
-                        }`}
-                      >
+                      <div className={`obx-price-line__user-line ${plan.enterprise ? "" : "obx-price-line__user-line--fixed"}`}>
                         {plan.enterprise ? (
-                          <div
-                            className={`obx-price-line__user-picker ${
-                              openPicker === "cloud-enterprise" ? "is-open" : ""
-                            }`}
-                          >
-                            <button
-                              type="button"
-                              aria-expanded={openPicker === "cloud-enterprise"}
-                              onClick={() =>
-                                setOpenPicker(openPicker === "cloud-enterprise" ? null : "cloud-enterprise")
-                              }
-                            >
+                          <div className={`obx-price-line__user-picker ${openPicker === "cloud-enterprise" ? "is-open" : ""}`}>
+                            <button type="button" aria-expanded={openPicker === "cloud-enterprise"} onClick={() => setOpenPicker(openPicker === "cloud-enterprise" ? null : "cloud-enterprise")}>
                               <span>{enterpriseUsersCount} пользователей</span>
                             </button>
                             <div className="obx-price-line__user-menu">
                               {enterpriseUsers.map((option) => (
-                                <button
-                                  className={enterpriseUsersCount === option ? "is-active" : ""}
-                                  type="button"
-                                  key={option}
-                                  onClick={() => {
-                                    setEnterpriseUsersCount(option);
-                                    setOpenPicker(null);
-                                  }}
-                                >
+                                <button className={enterpriseUsersCount === option ? "is-active" : ""} type="button" key={option} onClick={() => { setEnterpriseUsersCount(option); setOpenPicker(null); }}>
                                   {option} пользователей
                                 </button>
                               ))}
@@ -657,7 +558,7 @@ export function BitrixPricingBlock() {
                           <span>{plan.usersLabel}</span>
                         )}
                       </div>
-                      <span className="obx-price-line__users">{plan.storage}</span>
+                      <span className="obx-price-line__users">{storageLabel}</span>
                     </div>
                     <div className="obx-price-line__price">
                       <div className="obx-price-line__price-old-row">
@@ -671,30 +572,15 @@ export function BitrixPricingBlock() {
                       Запросить счёт
                     </a>
                     <ul className="obx-price-line__features">
-                      {plan.features.map((feature) => (
-                        <li
-                          className={hoveredFeature === feature.title ? "is-row-hover" : ""}
-                          data-obx-feature={`icon-${feature.level}`}
-                          key={`${plan.id}-${feature.title}`}
-                          onMouseEnter={() => setHoveredFeature(feature.title)}
-                          onMouseLeave={() => setHoveredFeature(null)}
-                        >
-                          {feature.title}
-                        </li>
-                      ))}
-                    </ul>
-                    <ul className="obx-price-line__features obx-price-line__features--bottom">
-                      {plan.bottomFeatures.map((feature) => (
-                        <li
-                          className={hoveredFeature === feature.title ? "is-row-hover" : ""}
-                          data-obx-feature={`icon-${feature.level}`}
-                          key={`${plan.id}-${feature.title}`}
-                          onMouseEnter={() => setHoveredFeature(feature.title)}
-                          onMouseLeave={() => setHoveredFeature(null)}
-                        >
-                          {feature.title}
-                        </li>
-                      ))}
+                      {comparisonRows.map((row) => {
+                        const level = plan.levels[row.id] ?? 0;
+                        return (
+                          <li className={hoveredFeature === row.id ? "is-row-hover" : ""} key={`${plan.id}-${row.id}`} onMouseEnter={() => setHoveredFeature(row.id)} onMouseLeave={() => setHoveredFeature(null)}>
+                            <FeatureIndicator level={level} />
+                            <span>{row.title}</span>
+                          </li>
+                        );
+                      })}
                     </ul>
                   </article>
                 );
@@ -702,103 +588,72 @@ export function BitrixPricingBlock() {
             </div>
           ) : (
             <div className="obx-price-line__catalog" data-obx-panel="box">
-              {boxPlans.map((plan) => {
-                const users = plan.id === "cp" ? portalUsersCount : plan.id === "ent" ? boxEnterpriseUsersCount : undefined;
-                const currentPrice = resolvePrice(plan.price, users);
-                const picker =
-                  plan.id === "cp"
-                    ? { key: "box-cp" as const, value: portalUsersCount, options: portalUsers, set: setPortalUsersCount }
-                    : plan.id === "ent"
-                      ? {
-                          key: "box-ent" as const,
-                          value: boxEnterpriseUsersCount,
-                          options: boxEnterpriseUsers,
-                          set: setBoxEnterpriseUsersCount,
-                        }
-                      : null;
-
-                return (
-                  <article
-                    className={`obx-price-line__card ${plan.featured ? "is-featured" : ""} ${
-                      plan.enterprise ? "obx-price-line__card--enterprise" : ""
-                    }`}
-                    key={plan.id}
-                  >
-                    <h4>{plan.title}</h4>
-                    <div className="obx-price-line__metric-line">
-                      <div className={`obx-price-line__user-line ${picker ? "" : "obx-price-line__user-line--fixed"}`}>
-                        {picker ? (
-                          <div className={`obx-price-line__user-picker ${openPicker === picker.key ? "is-open" : ""}`}>
-                            <button
-                              type="button"
-                              aria-expanded={openPicker === picker.key}
-                              onClick={() => setOpenPicker(openPicker === picker.key ? null : picker.key)}
-                            >
-                              <span>{picker.value} пользователей</span>
-                            </button>
-                            <div className="obx-price-line__user-menu">
-                              {picker.options.map((option) => (
-                                <button
-                                  className={picker.value === option ? "is-active" : ""}
-                                  type="button"
-                                  key={option}
-                                  onClick={() => {
-                                    picker.set(option);
-                                    setOpenPicker(null);
-                                  }}
-                                >
-                                  {option} пользователей
-                                </button>
-                              ))}
-                            </div>
-                          </div>
-                        ) : (
-                          <span>{plan.usersLabel}</span>
-                        )}
-                      </div>
-                      <span className="obx-price-line__users">{plan.meta}</span>
-                    </div>
-                    <div className="obx-price-line__price">
-                      <strong>{formatPrice(currentPrice)}</strong>
-                      <span>лицензия на год</span>
-                    </div>
-                    <p className="obx-price-line__description">{plan.description}</p>
-                    <ul className="obx-price-line__features">
-                      {plan.features.map((feature) => (
-                        <li data-obx-feature="check" key={`${plan.id}-${feature}`}>
-                          {feature}
-                        </li>
-                      ))}
-                    </ul>
-                    <a className="obx-price-line__link" href="#lead" data-obx-lead-open data-obx-lead-title={leadTitle(plan.title)}>
-                      Запросить счёт
-                    </a>
-                  </article>
-                );
-              })}
+              {boxPlans.map((plan) => (
+                <article className={`obx-price-line__card ${plan.featured ? "is-featured" : ""}`} key={plan.id}>
+                  <h4>{plan.title}</h4>
+                  <p className="obx-price-line__description">{plan.description}</p>
+                  <div className="obx-price-line__metric-line">
+                    <div className="obx-price-line__user-line obx-price-line__user-line--fixed"><span>{plan.usersLabel}</span></div>
+                    <span className="obx-price-line__users">{plan.accent}</span>
+                  </div>
+                  <div className="obx-price-line__price">
+                    <strong>{formatPrice(plan.price)}</strong>
+                    <span>лицензия на год</span>
+                  </div>
+                  <a className="obx-price-line__link" href="#lead" data-obx-lead-open data-obx-lead-title={leadTitle(plan.title)}>
+                    Запросить счёт
+                  </a>
+                  <ul className="obx-price-line__features obx-price-line__features--box">
+                    {plan.features.map((feature) => (
+                      <li data-obx-feature="check" key={`${plan.id}-${feature}`}>
+                        <CheckCircle2 size={16} aria-hidden="true" />
+                        <span>{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </article>
+              ))}
             </div>
           )}
 
           <div className="obx-price-line__trial">
             <div className="obx-price-line__trial-content">
               <span className="obx-price-line__trial-label">Бесплатный старт</span>
-              <h3 className="obx-price-line__trial-title">
-                Можно стартовать бесплатно, а рабочий тариф выбрать после разбора сценариев
-              </h3>
+              <h3 className="obx-price-line__trial-title">Бесплатный портал можно открыть сразу</h3>
               <p className="obx-price-line__trial-text">
-                Бесплатный портал подходит для знакомства с CRM, задачами, мессенджером и интерфейсом. Для отделов,
-                прав доступа, автоматизации, отчётов и интеграций обычно нужен платный тариф или коробочная версия.
+                Это хороший способ посмотреть интерфейс и собрать первые вопросы перед внедрением. Для рабочего запуска затем выбираем тариф под реальные процессы.
               </p>
               <div className="obx-price-line__trial-points" aria-label="Параметры бесплатного тарифа">
                 <span>5 ГБ диск</span>
                 <span>неограниченно пользователей</span>
+                <span>все с правами администратора</span>
               </div>
             </div>
             <div className="obx-price-line__trial-actions">
-              <a className="obx-price-line__link" href="#lead" data-obx-lead-open>
-                Подобрать старт
+              <a className="obx-price-line__link" href={REGISTER_URL} target="_blank" rel="noreferrer">
+                Зарегистрировать портал
               </a>
-              <span>Подбор без ухода с сайта</span>
+            </div>
+          </div>
+
+          <div className="obx-marketplace-plus">
+            <div className="obx-marketplace-plus__main">
+              <span className="obx-price-line__trial-label">Дополнительно</span>
+              <h3>Подписка Маркетплейс + BitrixGPT</h3>
+              <p>
+                Для облачных порталов отдельно проверяем подписку на приложения Маркетплейса и возможности BitrixGPT.
+                Это важно, если в проекте есть телефония, виджеты, отраслевые модули, AI-сценарии или дополнительные интеграции.
+              </p>
+            </div>
+            <div className="obx-marketplace-plus__cards">
+              {marketplacePlans.map((plan) => (
+                <article key={plan.title}>
+                  <Sparkles size={17} aria-hidden="true" />
+                  <strong>{plan.title}</strong>
+                  <span>{plan.price}</span>
+                  <p>{plan.text}</p>
+                </article>
+              ))}
             </div>
           </div>
         </div>
