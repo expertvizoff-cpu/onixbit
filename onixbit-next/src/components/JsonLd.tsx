@@ -18,11 +18,23 @@ export function JsonLd() {
     telephone: company.phone,
     description: company.summary,
     sameAs: messengers.map((item) => item.href),
+    taxID: "711501986455",
     areaServed: "RU",
-    address: {
-      "@type": "PostalAddress",
-      addressCountry: "RU",
-    },
+    address: [
+      {
+        "@type": "PostalAddress",
+        addressCountry: "RU",
+        addressLocality: "Тула",
+        streetAddress: "Красноармейский проспект, 7",
+      },
+      {
+        "@type": "PostalAddress",
+        addressCountry: "RU",
+        addressRegion: "Тульская область",
+        addressLocality: "Кимовск",
+        streetAddress: "ул. Бессолова, д. 16, офис 425",
+      },
+    ],
     makesOffer: {
       "@type": "OfferCatalog",
       name: "Услуги Ониксбит",

@@ -1,10 +1,19 @@
 import Link from "next/link";
+import Image from "next/image";
 import {
   ArrowUpRight,
   BookOpen,
-  Boxes,
+  Building2,
+  CalendarClock,
   CheckCircle2,
+  Clock3,
+  FileCheck2,
+  Mail,
+  MapPin,
+  Phone,
+  ReceiptText,
   ShieldCheck,
+  UserRoundCheck,
 } from "lucide-react";
 import {
   articles,
@@ -342,37 +351,197 @@ export function LeadSection() {
   );
 }
 
+const contactScenarios = [
+  "внедрение или аудит Битрикс24",
+  "сайт, каталог или интернет-магазин на 1С-Битрикс",
+  "интеграция 1С, CRM и сайта",
+  "лицензии, продление и коробочные решения",
+];
+
+const contactOffices = [
+  {
+    city: "Тула",
+    label: "Основной офис",
+    address: "г. Тула, Красноармейский проспект, 7",
+    note: "Встречи по предварительной договоренности",
+    mapQuery: "Россия, Тула, Красноармейский проспект, 7",
+  },
+  {
+    city: "Кимовск",
+    label: "Рабочий офис",
+    address: "г. Кимовск, ул. Бессолова, д. 16, офис 425",
+    note: "Документы и рабочие встречи по записи",
+    mapQuery: "Россия, Тульская область, Кимовск, улица Бессолова, 16",
+  },
+];
+
+const legalItems = [
+  { label: "Юридический статус", value: "ИП Тужилкин А.П." },
+  { label: "ИНН", value: "711501986455" },
+  { label: "ОГРНИП", value: "311715403800278" },
+  { label: "НДС", value: "работаем без НДС" },
+  { label: "Документы", value: "договор, счёт-оферта, закрывающие документы" },
+  { label: "ЭДО", value: "ID ЭДО предоставим по запросу" },
+];
+
+const contactMapUrl = (query: string) =>
+  `https://yandex.ru/map-widget/v1/?text=${encodeURIComponent(query)}&z=16`;
+
+const yandexRouteUrl = (query: string) =>
+  `https://yandex.ru/maps/?text=${encodeURIComponent(query)}`;
+
 export function ContactsContent() {
   return (
     <>
-      <section className="ob-service-hero ob-section">
-        <div className="ob-container ob-contact-grid">
-          <div>
-            <span className="ob-kicker">Контакты</span>
-            <h1>Давайте обсудим проект без долгой анкеты</h1>
+      <section className="ob-contacts-hero ob-section">
+        <div className="ob-container ob-contacts-hero__grid">
+          <div className="ob-contacts-hero__content">
+            <span className="ob-kicker">Контакты Onixbit</span>
+            <h1>Обсудим проект, интеграцию или лицензии без лишней анкеты</h1>
             <p>
-              Опишите задачу в форме или напишите напрямую. Для сложных задач
-              лучше сразу приложить краткое описание текущей системы.
+              Напишите в форму, позвоните или выберите удобный мессенджер. Для сложной
+              задачи достаточно коротко описать текущую систему, цель и ограничения.
             </p>
-            <div className="ob-contact-cards">
-              <a href="tel:+79202724828">+7 (920) 272-48-28</a>
-              <a href="mailto:info@onixbit.ru">info@onixbit.ru</a>
+            <div className="ob-contacts-hero__scenarios" aria-label="С какими задачами обращаться">
+              {contactScenarios.map((item) => (
+                <span key={item}><CheckCircle2 size={16} /> {item}</span>
+              ))}
             </div>
-            <MessengerLinks className="ob-contact-messengers" />
           </div>
-          <LeadFormPanel className="ob-lead-panel--contact" />
+          <LeadFormPanel className="ob-lead-panel--contact ob-contacts-form" />
         </div>
       </section>
+
       <section className="ob-section ob-section--tight">
-        <div className="ob-container ob-requisites">
-          <Boxes size={28} />
-          <div>
-            <h2>Реквизиты и юридические данные</h2>
+        <div className="ob-container ob-contacts-direct">
+          <div className="ob-contacts-direct__intro">
+            <span className="ob-kicker">Быстрая связь</span>
+            <h2>Куда написать, если нужно быстро понять следующий шаг</h2>
             <p>
-              Подготовим юридические данные, договор и закрывающие документы
-              для B2B-клиентов. Реквизиты отправим по запросу вместе с
-              коммерческим предложением.
+              Основной канал для заявок — форма Битрикс24. Для текущих вопросов можно
+              написать напрямую: менеджер или специалист поддержки вернётся с ответом.
             </p>
+          </div>
+          <div className="ob-contacts-direct__cards">
+            <a href={company.phoneHref} className="ob-contact-card">
+              <Phone size={22} />
+              <span>Телефон</span>
+              <strong>{company.phone}</strong>
+              <em>будни с 10:00 до 18:00</em>
+            </a>
+            <a href={company.emailHref} className="ob-contact-card">
+              <Mail size={22} />
+              <span>E-mail</span>
+              <strong>{company.email}</strong>
+              <em>для заявок, документов и КП</em>
+            </a>
+            <div className="ob-contact-card ob-contact-card--messengers">
+              <UserRoundCheck size={22} />
+              <span>Мессенджеры</span>
+              <strong>Telegram, MAX, VK</strong>
+              <MessengerLinks className="ob-contact-messengers" />
+            </div>
+            <div className="ob-contact-card">
+              <Clock3 size={22} />
+              <span>Поддержка</span>
+              <strong>Гибкий график</strong>
+              <em>по согласованному регламенту проекта</em>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="ob-section ob-section--tight">
+        <div className="ob-container ob-offices">
+          <div className="ob-section-intro ob-offices__intro">
+            <span className="ob-kicker">Офисы</span>
+            <h2>Работаем с клиентами по всей России, офисы — в Тульской области</h2>
+            <p>
+              Большинство задач ведём удалённо: созвоны, Битрикс24, документы и ЭДО.
+              Очные встречи лучше согласовать заранее, чтобы подготовить нужного специалиста.
+            </p>
+          </div>
+          <div className="ob-offices__grid">
+            {contactOffices.map((office) => (
+              <article className="ob-office-card" key={office.city}>
+                <div className="ob-office-card__map">
+                  <iframe
+                    title={`Яндекс.Карта: ${office.address}`}
+                    src={contactMapUrl(office.mapQuery)}
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                  />
+                  <div className="ob-office-pin">
+                    <MapPin size={18} />
+                    <span>{office.city}</span>
+                  </div>
+                </div>
+                <div className="ob-office-card__body">
+                  <span>{office.label}</span>
+                  <h3>{office.city}</h3>
+                  <p>{office.address}</p>
+                  <em>{office.note}</em>
+                  <a href={yandexRouteUrl(office.mapQuery)} target="_blank" rel="noreferrer">
+                    Открыть в Яндекс.Картах <ArrowUpRight size={16} />
+                  </a>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="ob-section ob-section--tight">
+        <div className="ob-container ob-contact-docs">
+          <div className="ob-contact-docs__main">
+            <span className="ob-kicker">Реквизиты</span>
+            <h2>Документы, договоры и оплата для B2B-клиентов</h2>
+            <p>
+              Работаем официально: фиксируем состав работ, условия оплаты и закрывающие
+              документы. Для типовых лицензий возможен счёт-оферта, для проектов — договор.
+            </p>
+            <div className="ob-contact-docs__badges" aria-label="Условия работы">
+              <span><FileCheck2 size={16} /> работаем по договору</span>
+              <span><ReceiptText size={16} /> возможны счета-оферты</span>
+              <span><Building2 size={16} /> без НДС</span>
+              <span><CalendarClock size={16} /> ЭДО по запросу</span>
+            </div>
+          </div>
+          <div className="ob-contact-docs__grid">
+            {legalItems.map((item) => (
+              <div key={item.label}>
+                <span>{item.label}</span>
+                <strong>{item.value}</strong>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="ob-section ob-section--lead">
+        <div className="ob-container ob-contact-person">
+          <div className="ob-contact-person__photo">
+            <Image
+              src="/media/team/contact-coordinator-demo.webp"
+              alt="Демо-фото координатора проекта"
+              width={720}
+              height={720}
+              sizes="(max-width: 760px) 100vw, 360px"
+            />
+          </div>
+          <div className="ob-contact-person__content">
+            <span className="ob-kicker">Пример персонального контакта</span>
+            <h2>Нужен ли на странице отдельный человек?</h2>
+            <p>
+              Я бы оставил такой блок, если есть реальный руководитель внедрений,
+              аккаунт-менеджер или основатель, который готов принимать первичные обращения.
+              Для B2B это добавляет доверие. Если человека пока не закрепляем — блок лучше
+              убрать, чтобы не создавать ложное ожидание персонального канала.
+            </p>
+            <div className="ob-contact-person__role">
+              <strong>Рекомендуемая роль</strong>
+              <span>Ответственный за первичный разбор: понимает Битрикс24, сайты, 1С и может быстро маршрутизировать задачу.</span>
+            </div>
           </div>
         </div>
       </section>
