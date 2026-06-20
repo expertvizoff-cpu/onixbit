@@ -142,12 +142,12 @@ export function CasesPreview({ full = false }: { full?: boolean }) {
       <div className="ob-container">
         <SectionIntro
           kicker="Кейсы"
-          title={full ? "Типовые сценарии проектов" : "Как мы подходим к задачам клиентов"}
-          text="Показываем характер задач, с которыми обычно приходят B2B-команды: CRM, сайты, обмены, отчётность и управляемые коммуникации."
+          title={full ? "Кейсы готовятся к публикации" : "Скоро здесь будут реальные разборы проектов"}
+          text="Не выдаём выдуманные логотипы за опыт. Готовим публичные материалы с понятной задачей, решением, ограничениями и пользой для бизнеса."
         />
         <div className="ob-card-grid ob-card-grid--3">
           {cases.map((item) => (
-            <article className="ob-case-card" key={item.title}>
+            <article className="ob-case-card ob-case-card--soon" key={item.title}>
               <span>{item.sector}</span>
               <h3>{item.title}</h3>
               <p>{item.result}</p>
@@ -175,11 +175,12 @@ export function TestimonialsSection() {
       <div className="ob-container">
         <SectionIntro
           kicker="Отзывы"
-          title="Что ценят клиенты в работе с интегратором"
+          title="Отзывы появятся только после согласования с клиентами"
+          text="Для B2B важнее доверие, чем декоративные цитаты. Этот блок уже показывает будущий формат: подтверждённый отзыв, фото со встречи или короткий видеоразбор."
         />
         <div className="ob-card-grid ob-card-grid--3">
           {testimonials.map((item) => (
-            <article className="ob-testimonial" key={`${item.name}-${item.company}`}>
+            <article className="ob-testimonial ob-testimonial--soon" key={`${item.name}-${item.company}`}>
               <p>{item.text}</p>
               <strong>{item.name}</strong>
               <span>{item.company}</span>
@@ -197,12 +198,12 @@ export function ArticlesPreview({ full = false }: { full?: boolean }) {
       <div className="ob-container">
         <SectionIntro
           kicker="Статьи"
-          title={full ? "База знаний Onixbit" : "Статьи, которые помогают выбрать решение"}
-          text="Материалы будут работать как вход в экспертность: CRM, сайты, интеграции, обмены, лицензии и поддержка."
+          title={full ? "Готовим базу знаний Onixbit" : "Скоро: статьи от лица основателя"}
+          text="Собираем материалы без пустого копирайтинга: CRM, сайты, интеграции, обмены, лицензии и поддержка простым языком для руководителей."
         />
         <div className="ob-card-grid ob-card-grid--3">
           {articles.map((article) => (
-            <article className="ob-article-card" key={article.title}>
+            <article className="ob-article-card ob-article-card--soon" key={article.title}>
               <div>
                 <BookOpen size={18} />
                 <span>{article.category}</span>

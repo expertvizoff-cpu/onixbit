@@ -1822,6 +1822,35 @@ textarea:focus-visible {
   font-weight: 800;
 }
 
+.ob-case-card--soon,
+.ob-testimonial--soon,
+.ob-article-card--soon {
+  border-color: rgba(237, 28, 36, 0.16);
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.86), rgba(255, 255, 255, 0.6)),
+    radial-gradient(circle at 92% 10%, rgba(255, 212, 90, 0.24), transparent 34%);
+}
+
+.ob-case-card--soon::after,
+.ob-testimonial--soon::after,
+.ob-article-card--soon::after {
+  content: "готовим";
+  position: absolute;
+  right: 18px;
+  bottom: 18px;
+  z-index: 1;
+  padding: 7px 11px;
+  border: 1px solid rgba(237, 28, 36, 0.12);
+  border-radius: 999px;
+  color: var(--ob-red-deep);
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow: 0 12px 34px rgba(8, 8, 8, 0.08);
+  font-size: 11px;
+  line-height: 1;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
 .ob-section-tail {
   display: flex;
   justify-content: center;
@@ -2814,9 +2843,10 @@ textarea:focus-visible {
   flex-direction: column;
   align-items: flex-start;
   min-width: 0;
+  padding-top: 19px;
 }
 
-.ob-about-hero__content h1 {
+.ob-about-hero__title {
   max-width: 940px;
   margin: 18px 0 0;
   color: var(--ob-ink);
@@ -2824,6 +2854,15 @@ textarea:focus-visible {
   line-height: 0.98;
   font-weight: 900;
   letter-spacing: 0;
+}
+
+.ob-about-hero__title span {
+  display: block;
+  white-space: nowrap;
+}
+
+.ob-about-hero__title span:nth-child(2) {
+  color: var(--ob-red);
 }
 
 .ob-about-hero__content p {
@@ -2851,7 +2890,71 @@ textarea:focus-visible {
   margin-top: clamp(30px, 4vw, 58px);
 }
 
-.ob-about-hero__facts div,
+.ob-about-hero__signal {
+  position: absolute;
+  right: 1%;
+  bottom: 28%;
+  z-index: 3;
+  width: min(270px, 58%);
+  padding: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.76);
+  border-radius: 22px;
+  color: var(--ob-ink);
+  background: rgba(255, 255, 255, 0.84);
+  box-shadow: 0 20px 64px rgba(8, 8, 8, 0.14);
+  backdrop-filter: blur(16px);
+  transition: transform 0.34s var(--ob-ease), box-shadow 0.34s var(--ob-ease);
+}
+
+.ob-about-hero__signal span {
+  display: block;
+  color: var(--ob-red-deep);
+  font-size: 11px;
+  line-height: 1;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.ob-about-hero__signal strong {
+  display: block;
+  margin-top: 9px;
+  color: var(--ob-ink);
+  font-size: 18px;
+  line-height: 1.15;
+  font-weight: 950;
+}
+
+.ob-about-hero__signal i {
+  position: relative;
+  display: block;
+  height: 6px;
+  margin-top: 13px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: rgba(8, 8, 8, 0.08);
+}
+
+.ob-about-hero__signal i::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 38%;
+  bottom: 0;
+  left: 0;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--ob-red), var(--ob-yellow));
+  transition: right 0.45s var(--ob-ease);
+}
+
+.ob-about-hero__visual:hover .ob-about-hero__signal {
+  transform: translateY(-6px);
+  box-shadow: 0 28px 80px rgba(8, 8, 8, 0.18);
+}
+
+.ob-about-hero__visual:hover .ob-about-hero__signal i::before {
+  right: 8%;
+}
+
 .ob-about-card,
 .ob-about-role,
 .ob-about-public,
@@ -2864,9 +2967,22 @@ textarea:focus-visible {
 }
 
 .ob-about-hero__facts div {
+  position: relative;
   min-height: 104px;
   padding: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.72);
   border-radius: var(--ob-radius-md);
+  overflow: hidden;
+  background: var(--ob-glass);
+  box-shadow: 0 18px 56px rgba(8, 8, 8, 0.07);
+  backdrop-filter: blur(18px) saturate(145%);
+  transition: transform 0.24s var(--ob-ease), box-shadow 0.24s var(--ob-ease), border-color 0.24s var(--ob-ease);
+}
+
+.ob-about-hero__facts div:hover {
+  transform: translateY(-4px);
+  border-color: rgba(237, 28, 36, 0.18);
+  box-shadow: 0 24px 70px rgba(8, 8, 8, 0.11);
 }
 
 .ob-about-hero__facts strong {
@@ -2903,6 +3019,69 @@ textarea:focus-visible {
     rgba(255, 255, 255, 0.42);
   box-shadow: var(--ob-shadow);
   transform: rotate(3deg);
+}
+
+.ob-about-hero__orbit {
+  position: absolute;
+  z-index: 2;
+  inset: 8% 0 7% -7%;
+  border: 1px dashed rgba(237, 28, 36, 0.2);
+  border-radius: 48px;
+  pointer-events: none;
+  transform: rotate(-5deg);
+  transition: transform 0.5s var(--ob-ease), border-color 0.35s var(--ob-ease);
+}
+
+.ob-about-hero__orbit span {
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 58px;
+  min-height: 36px;
+  padding: 9px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.82);
+  border-radius: 999px;
+  color: var(--ob-ink);
+  background: rgba(255, 255, 255, 0.82);
+  box-shadow: 0 16px 44px rgba(8, 8, 8, 0.12);
+  backdrop-filter: blur(16px);
+  font-size: 12px;
+  line-height: 1;
+  font-weight: 900;
+  transform: rotate(5deg);
+  transition: transform 0.4s var(--ob-ease), background 0.24s var(--ob-ease), color 0.24s var(--ob-ease);
+}
+
+.ob-about-hero__orbit span:nth-child(1) {
+  left: 8%;
+  top: 13%;
+}
+
+.ob-about-hero__orbit span:nth-child(2) {
+  right: 5%;
+  top: 22%;
+}
+
+.ob-about-hero__orbit span:nth-child(3) {
+  left: 2%;
+  bottom: 18%;
+}
+
+.ob-about-hero__orbit span:nth-child(4) {
+  right: 12%;
+  bottom: 9%;
+}
+
+.ob-about-hero__visual:hover .ob-about-hero__orbit {
+  border-color: rgba(237, 28, 36, 0.34);
+  transform: rotate(-2deg) scale(1.015);
+}
+
+.ob-about-hero__visual:hover .ob-about-hero__orbit span {
+  color: #fff;
+  background: linear-gradient(135deg, var(--ob-red), var(--ob-red-deep));
+  transform: rotate(2deg) translateY(-3px);
 }
 
 .ob-about-hero__portrait {
@@ -2943,6 +3122,19 @@ textarea:focus-visible {
   font-size: 13px;
   line-height: 1.25;
   font-weight: 850;
+  transition: transform 0.34s var(--ob-ease), box-shadow 0.34s var(--ob-ease), background 0.34s var(--ob-ease);
+}
+
+.ob-about-hero__visual:hover .ob-about-hero__badge--top {
+  transform: translate(-8px, -6px) rotate(-1deg);
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 24px 70px rgba(8, 8, 8, 0.16);
+}
+
+.ob-about-hero__visual:hover .ob-about-hero__badge--bottom {
+  transform: translate(8px, 6px) rotate(1deg);
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 24px 70px rgba(8, 8, 8, 0.16);
 }
 
 .ob-about-hero__badge svg {
@@ -4212,8 +4404,12 @@ textarea:focus-visible {
     padding-top: 22px;
   }
 
-  .ob-about-hero__content h1 {
+  .ob-about-hero__title {
     font-size: clamp(36px, 11vw, 48px);
+  }
+
+  .ob-about-hero__title span {
+    white-space: normal;
   }
 
   .ob-about-hero__facts,
@@ -4228,7 +4424,8 @@ textarea:focus-visible {
     min-height: 0;
   }
 
-  .ob-about-hero__visual::before {
+  .ob-about-hero__visual::before,
+  .ob-about-hero__orbit {
     display: none;
   }
 
@@ -4239,10 +4436,12 @@ textarea:focus-visible {
     border-radius: 28px;
   }
 
-  .ob-about-hero__badge {
+  .ob-about-hero__badge,
+  .ob-about-hero__signal {
     position: relative;
     inset: auto;
     max-width: none;
+    width: 100%;
     margin-top: 12px;
   }
 

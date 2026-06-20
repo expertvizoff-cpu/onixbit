@@ -3,7 +3,7 @@ import { CasesPreview, LeadSection } from "@/components/Sections";
 
 export const metadata: Metadata = {
   title: "Кейсы",
-  description: "Кейсы Onixbit по CRM, сайтам, 1С-Битрикс и интеграциям.",
+  description: "Будущие кейсы Onixbit по CRM, сайтам, 1С-Битрикс и интеграциям: готовим публичные разборы реальных проектов.",
 };
 
 export default function CasesPage() {
@@ -12,9 +12,9 @@ export default function CasesPage() {
       <section className="ob-page-hero ob-section">
         <div className="ob-container">
           <span className="ob-kicker">Кейсы</span>
-          <h1>Типовые проекты: CRM, сайты и интеграции</h1>
+          <h1>Готовим реальные кейсы: CRM, сайты и интеграции</h1>
           <p>
-            Собрали сценарии задач, с которыми чаще всего приходят B2B-команды: продажи, сайт, обмены с 1С и управленческая прозрачность.
+            Здесь появятся публичные разборы проектов после согласования с клиентами. Пока показываем направления будущих кейсов и формат, в котором будем раскрывать задачи.
           </p>
         </div>
       </section>

@@ -25,6 +25,8 @@ const founderFacts = [
   { value: "Gold", label: "партнёрские статусы Битрикс24 и 1С-Битрикс" },
 ];
 
+const orbitItems = ["CRM", "Сайт", "1С", "API"];
+
 const responsibilityCards = [
   {
     icon: UserRoundCheck,
@@ -74,17 +76,17 @@ const publicFormats = [
   {
     icon: BookOpen,
     title: "Статьи от первого лица",
-    text: "Материалы про CRM, сайты, 1С-интеграции и типовые ошибки внедрения будут выходить от имени основателя.",
+    text: "Начинаем серию материалов про CRM, сайты, 1С-интеграции и типовые ошибки внедрения от лица основателя.",
   },
   {
     icon: FileText,
     title: "Кейсы и разборы",
-    text: "По мере появления подтверждённых проектов будем заменять демо-кейсы на реальные истории с цифрами и контекстом.",
+    text: "Готовим структуру кейсов так, чтобы каждый разбор показывал задачу, решение, ограничения и измеримый результат.",
   },
   {
     icon: Handshake,
     title: "Фото и отзывы клиентов",
-    text: "Настоящие фото со встреч, видео и отзывы лучше любой постановочной командной картинки.",
+    text: "Публикуем только те фото, видео и отзывы, которые можно согласовать с клиентом и подтвердить реальным проектом.",
   },
 ];
 
@@ -95,7 +97,11 @@ export function AboutPageContent() {
         <div className="ob-container ob-about-hero__grid">
           <div className="ob-about-hero__content">
             <span className="ob-kicker">О компании</span>
-            <h1>Onixbit — интегратор, где за сложный проект отвечает основатель</h1>
+            <h1 className="ob-about-hero__title">
+              <span>Onixbit — интегратор</span>
+              <span>для B2B-проектов,</span>
+              <span>где отвечает основатель</span>
+            </h1>
             <p>
               Меня зовут Александр Тужилкин. Я основатель Onixbit и эксперт по
               Битрикс24, сайтам на 1С-Битрикс и интеграциям с 1С. Помогаю B2B-компаниям
@@ -123,6 +129,11 @@ export function AboutPageContent() {
           </div>
 
           <div className="ob-about-hero__visual" aria-label="Александр Тужилкин">
+            <div className="ob-about-hero__orbit" aria-hidden="true">
+              {orbitItems.map((item) => (
+                <span key={item}>{item}</span>
+              ))}
+            </div>
             <div className="ob-about-hero__portrait">
               <Image
                 src="/media/team/founder-alexander-site.webp"
@@ -139,6 +150,11 @@ export function AboutPageContent() {
             <div className="ob-about-hero__badge ob-about-hero__badge--bottom">
               <BriefcaseBusiness size={18} aria-hidden="true" />
               <span>Личный разбор B2B-задач</span>
+            </div>
+            <div className="ob-about-hero__signal" aria-hidden="true">
+              <span>маршрут проекта</span>
+              <strong>CRM → сайт → 1С</strong>
+              <i />
             </div>
           </div>
         </div>
@@ -217,9 +233,9 @@ export function AboutPageContent() {
             <span className="ob-kicker">Публичная экспертность</span>
             <h2>Onixbit будет говорить человеческим лицом, а не только логотипом</h2>
             <p>
-              Статьи, видео, разборы и будущие материалы с клиентами будут развивать
-              доверие вокруг реального опыта. Сначала — личная позиция основателя, затем —
-              подтверждённые кейсы, отзывы и фото с заказчиками.
+              Статьи, видео и разборы будут развивать доверие вокруг реального опыта.
+              Сначала — личная позиция основателя, затем — подтверждённые кейсы,
+              отзывы и фото с заказчиками.
             </p>
           </div>
           <div className="ob-about-public__grid">
@@ -243,12 +259,12 @@ export function AboutPageContent() {
         <div className="ob-container">
           <SectionIntro
             kicker="Материалы"
-            title="Первые темы для экспертного контента"
-            text="Эти карточки станут основой будущих статей от лица основателя и будут постепенно заменяться настоящими публикациями."
+            title="Редакционный план будущих материалов"
+            text="Показываем темы, которые уже готовим. После публикации карточки станут полноценными статьями и разборами."
           />
           <div className="ob-card-grid ob-card-grid--3">
             {articles.map((article) => (
-              <article className="ob-article-card" key={article.title}>
+              <article className="ob-article-card ob-article-card--soon" key={article.title}>
                 <div>
                   <span>{article.category}</span>
                   <em>{article.minutes}</em>
@@ -265,11 +281,11 @@ export function AboutPageContent() {
         <div className="ob-container ob-about-note">
           <CheckCircle2 size={28} aria-hidden="true" />
           <div>
-            <h2>Командные фото появятся, когда будут настоящие материалы</h2>
+            <h2>Командный раздел соберём на реальных материалах</h2>
             <p>
-              До реальной фотосессии мы используем честную модель: основатель, роли,
-              партнёрства, сертификаты и процесс. Это выглядит надёжнее для B2B, чем
-              красивая, но неподтверждённая групповая фотография.
+              Пока показываем основателя, роли, партнёрства, сертификаты и процесс.
+              После фотосессии и согласованных публикаций здесь появятся живые люди,
+              а не постановочная картинка ради заполнения места.
             </p>
           </div>
         </div>

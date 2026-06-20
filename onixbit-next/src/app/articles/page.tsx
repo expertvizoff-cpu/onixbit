@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { ArticlesPreview, LeadSection } from "@/components/Sections";
 
 export const metadata: Metadata = {
-  title: "Статьи",
-  description: "Статьи Onixbit о Битрикс24, 1С-Битрикс, 1С и интеграциях.",
+  title: "Статьи Onixbit",
+  description: "Будущие статьи Onixbit о Битрикс24, 1С-Битрикс, 1С и интеграциях для B2B-руководителей.",
 };
 
 export default function ArticlesPage() {
@@ -12,9 +12,9 @@ export default function ArticlesPage() {
       <section className="ob-page-hero ob-section">
         <div className="ob-container">
           <span className="ob-kicker">Экспертность</span>
-          <h1>Статьи для тех, кто выбирает систему, а не подрядчика наугад</h1>
+          <h1>Готовим статьи для тех, кто выбирает систему, а не подрядчика наугад</h1>
           <p>
-            Материалы для директоров, руководителей продаж, маркетинга и IT: как выбирать платформу, внедрение, интеграции и подрядчика без лишнего риска.
+            Материалы будут выходить от лица основателя: для директоров, руководителей продаж, маркетинга и IT, которым важно принять решение без лишнего риска.
           </p>
         </div>
       </section>
