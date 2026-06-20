@@ -210,6 +210,7 @@ export const directions: Direction[] = [
 ];
 
 export const mainNav = [
+  { title: "О компании", href: "/o-kompanii" },
   { title: "Кейсы", href: "/cases" },
   { title: "Сертификаты", href: "/certificates" },
   { title: "Статьи", href: "/articles" },
