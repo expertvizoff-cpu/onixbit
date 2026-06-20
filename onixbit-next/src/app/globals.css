@@ -3800,6 +3800,12 @@ textarea:focus-visible {
   filter: drop-shadow(0 8px 12px rgba(8, 8, 8, 0.12));
 }
 
+.ob-about-direction-card__logos .ob-system-logo--onec img {
+  width: 118px;
+  max-width: 118px;
+  max-height: 42px;
+}
+
 .ob-about-direction-card__logos .ob-system-logo strong {
   padding: 7px 9px;
   border-radius: 12px;
@@ -3852,7 +3858,7 @@ textarea:focus-visible {
 }
 
 .ob-about-cert-lite__open,
-.ob-about-cert-lite__stack article {
+.ob-about-cert-lite__card {
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.82);
   background: rgba(255, 255, 255, 0.78);
@@ -3868,7 +3874,7 @@ textarea:focus-visible {
 }
 
 .ob-about-cert-lite__open:hover,
-.ob-about-cert-lite__stack article:hover {
+.ob-about-cert-lite__card:hover {
   transform: translateY(-8px);
   box-shadow: 0 30px 86px rgba(8, 8, 8, 0.16);
 }
@@ -3886,14 +3892,14 @@ textarea:focus-visible {
   gap: 14px;
 }
 
-.ob-about-cert-lite__stack article {
+.ob-about-cert-lite__card {
   display: flex;
   min-height: 170px;
   flex-direction: column;
   border-radius: 24px;
 }
 
-.ob-about-cert-lite__stack img {
+.ob-about-cert-lite__card img {
   width: 100%;
   flex: 1;
   min-height: 0;
@@ -3902,7 +3908,7 @@ textarea:focus-visible {
 }
 
 .ob-about-cert-lite__open span,
-.ob-about-cert-lite__stack span {
+.ob-about-cert-lite__card span {
   display: block;
   padding: 12px 14px 14px;
   color: var(--ob-ink);
@@ -4434,7 +4440,7 @@ a:hover .lucide-mail polyline {
   display: block;
 }
 
-.ob-about-cert-lite__stack article {
+.ob-about-cert-lite__card {
   position: absolute;
   left: calc(var(--cert-index) * 68px);
   top: calc(var(--cert-index) * 34px);
@@ -4448,52 +4454,17 @@ a:hover .lucide-mail polyline {
   transition: transform 0.26s var(--ob-ease), z-index 0.26s var(--ob-ease), box-shadow 0.26s var(--ob-ease);
 }
 
-.ob-about-cert-lite__stack article:hover {
+.ob-about-cert-lite__card:hover {
   z-index: 4;
   transform: translateY(-12px) rotate(0deg) scale(1.02);
   box-shadow: 0 30px 86px rgba(8, 8, 8, 0.16);
 }
 
-.ob-about-cert-lite__stack img {
+.ob-about-cert-lite__card img {
   width: 100%;
   height: 230px;
   object-fit: cover;
   object-position: top;
-}
-
-.ob-about-cert-lite__zoom {
-  display: grid;
-  align-content: stretch;
-  overflow: hidden;
-  min-height: 370px;
-  border: 1px solid rgba(255, 255, 255, 0.82);
-  border-radius: 28px;
-  padding: 0;
-  color: var(--ob-ink);
-  background: rgba(255, 255, 255, 0.78);
-  box-shadow: 0 22px 70px rgba(8, 8, 8, 0.12);
-  text-align: left;
-  transition: transform 0.26s var(--ob-ease), box-shadow 0.26s var(--ob-ease);
-}
-
-.ob-about-cert-lite__zoom:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 30px 86px rgba(8, 8, 8, 0.16);
-}
-
-.ob-about-cert-lite__zoom img {
-  width: 100%;
-  height: 300px;
-  object-fit: cover;
-  object-position: top;
-}
-
-.ob-about-cert-lite__zoom span {
-  display: block;
-  padding: 14px;
-  color: var(--ob-red-deep);
-  line-height: 1.2;
-  font-weight: 950;
 }
 
 .ob-about-cert-modal {
@@ -4732,36 +4703,58 @@ a:hover .lucide-mail polyline {
 }
 
 .ob-about-cert-lite__visual {
-  grid-template-columns: minmax(0, 1fr) 310px;
+  display: grid;
+  grid-template-columns: 1fr;
+  justify-items: end;
   align-items: center;
   overflow: visible;
 }
 
 .ob-about-cert-lite__stack {
+  position: relative;
+  width: min(700px, 100%);
   min-height: 430px;
+  margin-left: auto;
+  margin-right: -34px;
 }
 
-.ob-about-cert-lite__stack article {
-  left: calc(50% - 240px + var(--cert-index) * 72px);
-  top: calc(50% - 172px + var(--cert-index) * 34px);
-  width: min(410px, 78%);
+.ob-about-cert-lite__card {
+  position: absolute;
+  left: calc(70px + var(--cert-index) * 38px);
+  top: calc(36px + var(--cert-index) * 82px);
+  z-index: calc(5 - var(--cert-index));
+  display: grid;
+  width: min(560px, calc(100% - 84px));
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.86);
+  border-radius: 24px;
+  padding: 0;
+  color: var(--ob-ink);
+  background: rgba(255, 255, 255, 0.88);
+  box-shadow: 0 22px 70px rgba(8, 8, 8, 0.13);
+  text-align: left;
+  transform: rotate(calc((var(--cert-index) - 1) * 1.5deg));
+  transition: transform 0.26s var(--ob-ease), z-index 0.26s var(--ob-ease), box-shadow 0.26s var(--ob-ease);
 }
 
-.ob-about-cert-lite__stack img {
-  height: 260px;
+.ob-about-cert-lite__card:hover {
+  z-index: 8;
+  transform: translateY(-10px) rotate(0deg) scale(1.015);
+  box-shadow: 0 30px 86px rgba(8, 8, 8, 0.16);
 }
 
-.ob-about-cert-lite__zoom {
-  width: 330px;
-  min-height: 270px;
-  align-self: center;
-  margin-right: -92px;
-}
-
-.ob-about-cert-lite__zoom img {
-  height: 190px;
+.ob-about-cert-lite__card img {
+  width: 100%;
+  height: 224px;
   object-fit: cover;
-  object-position: top left;
+  object-position: top center;
+}
+
+.ob-about-cert-lite__card span {
+  display: block;
+  padding: 13px 16px 15px;
+  color: var(--ob-ink);
+  font-weight: 950;
 }
 
 .ob-about-materials__cards {
@@ -6530,12 +6523,12 @@ a:hover .lucide-mail polyline {
   }
 
   .ob-about-cert-lite__open,
-  .ob-about-cert-lite__stack article {
+  .ob-about-cert-lite__card {
     min-height: 0;
   }
 
   .ob-about-cert-lite__open img,
-  .ob-about-cert-lite__stack img {
+  .ob-about-cert-lite__card img {
     height: 220px;
     flex: none;
   }
@@ -6572,10 +6565,6 @@ a:hover .lucide-mail polyline {
   .ob-about-competency-tabs {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
-
-  .ob-about-cert-lite__zoom {
-    min-height: 0;
-  }
 }
 
 @media (max-width: 760px) {
@@ -6601,7 +6590,7 @@ a:hover .lucide-mail polyline {
     min-height: 0;
   }
 
-  .ob-about-cert-lite__stack article {
+  .ob-about-cert-lite__card {
     position: relative;
     left: auto;
     top: auto;
@@ -6609,19 +6598,9 @@ a:hover .lucide-mail polyline {
     transform: none;
   }
 
-  .ob-about-cert-lite__stack article:hover {
+  .ob-about-cert-lite__card:hover {
     transform: translateY(-5px);
   }
-
-  .ob-about-cert-lite__zoom,
-  .ob-about-cert-lite__zoom img {
-    min-height: 0;
-  }
-
-  .ob-about-cert-lite__zoom img {
-    height: 220px;
-  }
-
   .ob-about-material--square {
     grid-column: auto;
     border-radius: 24px;
@@ -6657,8 +6636,15 @@ a:hover .lucide-mail polyline {
     border-radius: 24px;
   }
 
-  .ob-about-cert-lite__zoom {
+  .ob-about-cert-lite__card {
+    position: relative;
+    left: auto;
+    top: auto;
     width: 100%;
-    margin-right: 0;
+    transform: none;
+  }
+
+  .ob-about-cert-lite__card img {
+    height: 220px;
   }
 }

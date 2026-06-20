@@ -246,11 +246,12 @@ export function AboutPageContent() {
   const [activeStep, setActiveStep] = useState(0);
   const [activeMaterial, setActiveMaterial] = useState(0);
   const [activeCompetency, setActiveCompetency] = useState(0);
-  const [isCertificateOpen, setIsCertificateOpen] = useState(false);
+  const [activeCertificate, setActiveCertificate] = useState<number | null>(null);
   const work = workSteps[activeStep] ?? workSteps[0];
   const WorkIcon = work.icon;
   const material = materialItems[activeMaterial] ?? materialItems[0];
   const competency = competencyRoutes[activeCompetency] ?? competencyRoutes[0];
+  const selectedCertificate = activeCertificate === null ? null : certificatePreview[activeCertificate] ?? certificatePreview[0];
 
   useEffect(() => {
     const timer = window.setTimeout(() => {
@@ -509,16 +510,18 @@ export function AboutPageContent() {
           <div className="ob-about-cert-lite__visual">
             <div className="ob-about-cert-lite__stack">
               {certificatePreview.map((item, index) => (
-                <article key={item.title} style={{ "--cert-index": index } as CSSProperties}>
-                  <Image src={item.image} alt={item.title} width={360} height={250} />
+                <button
+                  className="ob-about-cert-lite__card"
+                  type="button"
+                  key={item.title}
+                  style={{ "--cert-index": index } as CSSProperties}
+                  onClick={() => setActiveCertificate(index)}
+                >
+                  <Image src={item.image} alt={item.title} width={560} height={315} />
                   <span>{item.title}</span>
-                </article>
+                </button>
               ))}
             </div>
-            <button className="ob-about-cert-lite__zoom" type="button" onClick={() => setIsCertificateOpen(true)}>
-              <Image src="/media/certificates/Золотой партнёр Битрикс24.jpg" alt="Золотой партнёр Битрикс24" width={420} height={300} />
-              <span>Открыть золотой статус крупно</span>
-            </button>
           </div>
         </div>
       </section>
@@ -596,13 +599,13 @@ export function AboutPageContent() {
         </div>
       </section>
 
-      {isCertificateOpen ? (
-        <div className="ob-about-cert-modal" role="dialog" aria-modal="true" aria-label="Золотой партнёр Битрикс24">
-          <button className="ob-about-cert-modal__close" type="button" onClick={() => setIsCertificateOpen(false)} aria-label="Закрыть сертификат">
+      {selectedCertificate ? (
+        <div className="ob-about-cert-modal" role="dialog" aria-modal="true" aria-label={selectedCertificate.title}>
+          <button className="ob-about-cert-modal__close" type="button" onClick={() => setActiveCertificate(null)} aria-label="Закрыть сертификат">
             ×
           </button>
           <div className="ob-about-cert-modal__card">
-            <Image src="/media/certificates/Золотой партнёр Битрикс24.jpg" alt="Золотой партнёр Битрикс24" width={1100} height={760} />
+            <Image src={selectedCertificate.image} alt={selectedCertificate.title} width={1200} height={780} />
           </div>
         </div>
       ) : null}
