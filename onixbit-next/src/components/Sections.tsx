@@ -198,7 +198,7 @@ export function ArticlesPreview({ full = false }: { full?: boolean }) {
       <div className="ob-container">
         <SectionIntro
           kicker="Статьи"
-          title={full ? "Готовим базу знаний Onixbit" : "Скоро: статьи от лица основателя"}
+          title={full ? "Готовим базу знаний Ониксбит" : "Скоро: статьи от лица основателя"}
           text="Собираем материалы без пустого копирайтинга: CRM, сайты, интеграции, обмены, лицензии и поддержка простым языком для руководителей."
         />
         <div className="ob-card-grid ob-card-grid--3">
@@ -397,7 +397,7 @@ export function ContactsContent() {
       <section className="ob-contacts-hero ob-section">
         <div className="ob-container ob-contacts-hero__grid">
           <div className="ob-contacts-hero__content">
-            <span className="ob-kicker">Контакты Onixbit</span>
+            <span className="ob-kicker">Контакты Ониксбит</span>
             <h1>Обсудим проект, интеграцию или лицензии без лишней анкеты</h1>
             <p>
               Напишите в форму, позвоните или выберите удобный мессенджер. Для сложной
@@ -524,7 +524,7 @@ export function ContactsContent() {
           <div className="ob-contact-person__photo">
             <Image
               src="/media/team/founder-alexander-site.webp"
-              alt="Александр Тужилкин, основатель Onixbit"
+              alt="Александр Тужилкин, основатель Ониксбит"
               width={720}
               height={720}
               sizes="(max-width: 760px) 100vw, 360px"
@@ -534,7 +534,7 @@ export function ContactsContent() {
             <span className="ob-kicker">Личный контакт</span>
             <h2>Александр Тужилкин</h2>
             <p>
-              Основатель Onixbit и эксперт по Битрикс24/интеграциям с 1С. 14 лет
+              Основатель Ониксбит и эксперт по Битрикс24/интеграциям с 1С. 14 лет
               помогаю B2B-компаниям связывать CRM, сайт и учётные системы в управляемую
               инфраструктуру без лишнего шума и случайных решений.
             </p>
@@ -544,7 +544,7 @@ export function ContactsContent() {
             </div>
             <a
               className="ob-btn ob-btn--primary ob-contact-person__button"
-              href="mailto:expert@onixbit.ru?subject=%D0%9B%D0%B8%D1%87%D0%BD%D0%BE%D0%B5%20%D0%BE%D0%B1%D1%80%D0%B0%D1%89%D0%B5%D0%BD%D0%B8%D0%B5%20%D1%81%20%D1%81%D0%B0%D0%B9%D1%82%D0%B0%20Onixbit"
+              href="mailto:expert@onixbit.ru?subject=%D0%9B%D0%B8%D1%87%D0%BD%D0%BE%D0%B5%20%D0%BE%D0%B1%D1%80%D0%B0%D1%89%D0%B5%D0%BD%D0%B8%D0%B5%20%D1%81%20%D1%81%D0%B0%D0%B9%D1%82%D0%B0%20%D0%9E%D0%BD%D0%B8%D0%BA%D1%81%D0%B1%D0%B8%D1%82"
             >
               <span>Написать лично</span>
               <Mail size={18} aria-hidden="true" />

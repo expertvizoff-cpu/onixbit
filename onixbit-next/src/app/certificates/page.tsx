@@ -3,7 +3,7 @@ import { CertificatesGrid, LeadSection } from "@/components/Sections";
 
 export const metadata: Metadata = {
   title: "Сертификаты",
-  description: "Сертификаты и партнёрские статусы Onixbit.",
+  description: "Сертификаты и партнёрские статусы Ониксбит.",
 };
 
 export default function CertificatesPage() {

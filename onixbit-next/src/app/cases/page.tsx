@@ -3,7 +3,7 @@ import { CasesPreview, LeadSection } from "@/components/Sections";
 
 export const metadata: Metadata = {
   title: "Кейсы",
-  description: "Будущие кейсы Onixbit по CRM, сайтам, 1С-Битрикс и интеграциям: готовим публичные разборы реальных проектов.",
+  description: "Будущие кейсы Ониксбит по CRM, сайтам, 1С-Битрикс и интеграциям: готовим публичные разборы реальных проектов.",
 };
 
 export default function CasesPage() {

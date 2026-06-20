@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { ArticlesPreview, LeadSection } from "@/components/Sections";
 
 export const metadata: Metadata = {
-  title: "Статьи Onixbit",
-  description: "Будущие статьи Onixbit о Битрикс24, 1С-Битрикс, 1С и интеграциях для B2B-руководителей.",
+  title: "Статьи Ониксбит",
+  description: "Будущие статьи Ониксбит о Битрикс24, 1С-Битрикс, 1С и интеграциях для B2B-руководителей.",
 };
 
 export default function ArticlesPage() {

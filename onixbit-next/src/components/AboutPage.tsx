@@ -1,74 +1,122 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
+import type { CSSProperties } from "react";
 import {
   ArrowRight,
   Award,
+  BarChart3,
   BookOpen,
   BriefcaseBusiness,
-  CheckCircle2,
+  Building2,
+  ClipboardCheck,
+  ContactRound,
+  Download,
   FileText,
   Handshake,
   Mail,
   Network,
+  Route,
+  SearchCheck,
+  Settings2,
   ShieldCheck,
+  Sparkles,
   UserRoundCheck,
 } from "lucide-react";
-import { articles, directions } from "@/data/site";
+import { articles, company, directions } from "@/data/site";
 import { LeadButton } from "./Buttons";
 import { MessengerLinks } from "./Messengers";
-import { PartnerCertificatesBlock } from "./PartnerCertificatesBlock";
 import { LeadSection, SectionIntro } from "./Sections";
 
 const founderFacts = [
-  { value: "14 лет", label: "в разработке, внедрениях и интеграциях" },
-  { value: "B2B", label: "фокус на управляемые проекты, а не разовые настройки" },
-  { value: "Gold", label: "партнёрские статусы Битрикс24 и 1С-Битрикс" },
+  { icon: BriefcaseBusiness, value: "14 лет", label: "опыт" },
+  { icon: Building2, value: "B2B", label: "фокус" },
+  { icon: Award, value: "Gold", label: "статусы" },
 ];
 
-const orbitItems = ["CRM", "Сайт", "1С", "API"];
-
-const responsibilityCards = [
+const ecosystemItems = [
   {
-    icon: UserRoundCheck,
-    title: "Личная ответственность основателя",
-    text: "Сложные задачи не уходят в безымянную очередь. На старте проекта есть человек, который понимает бизнес-контекст и технические ограничения.",
+    title: "Битрикс24",
+    badge: "CRM",
+    image: "/media/logos/bitrix24-logo.svg",
+    className: "ob-system-logo--b24 ob-system-logo--cloud",
   },
   {
+    title: "1С-Битрикс",
+    badge: "сайт",
+    image: "/media/logos/1c-bitrix-logo.svg",
+    className: "ob-system-logo--bitrix",
+  },
+  {
+    title: "1С:Предприятие",
+    badge: "учёт",
+    image: "/media/logos/1c-logo-small.svg",
+    className: "ob-system-logo--onec",
+  },
+  {
+    title: "BI-конструктор",
+    badge: "аналитика",
+    image: null,
+    mark: "BI",
+    className: "ob-system-logo--bi",
+  },
+  {
+    title: "AI-помощник",
+    badge: "AI",
+    image: null,
+    mark: "AI",
+    className: "ob-system-logo--ai",
+  },
+];
+
+const positionTeasers = [
+  {
     icon: Network,
-    title: "Система вместо разрозненных настроек",
-    text: "CRM, сайт, 1С, коммуникации и отчёты рассматриваем как связанную инфраструктуру, а не набор отдельных инструментов.",
+    title: "Смотрим на систему целиком",
+    text: "CRM, сайт, 1С и отчёты должны работать как один маршрут заявки.",
   },
   {
     icon: ShieldCheck,
-    title: "Честные границы компетенций",
-    text: "Берём сильную интеграционную зону, а сложные 1С-задачи усиливаем партнёрской экспертизой, не обещая лишнего.",
+    title: "Фиксируем границы проекта",
+    text: "Честно отделяем интеграции от задач, где нужна отдельная 1С-экспертиза.",
+  },
+  {
+    icon: UserRoundCheck,
+    title: "Держим управляемость",
+    text: "Роли, сроки, ответственность и следующий шаг понятны до старта работ.",
   },
 ];
 
-const roleCards = [
+const workSteps = [
   {
-    title: "Основатель и архитектор решения",
-    text: "Разбирает задачу, фиксирует маршрут проекта и отвечает за техническую логику связки.",
+    icon: SearchCheck,
+    title: "Диагностика",
+    text: "Смотрим текущие заявки, CRM, сайт, 1С, коммуникации и ручные операции.",
+    result: "карта процессов и ограничений",
+    systems: ["Битрикс24", "сайт", "1С"],
   },
   {
-    title: "Аналитика CRM и процессов",
-    text: "Описывает роли, воронки, точки потерь, регламенты и требования к отчётности.",
+    icon: Route,
+    title: "Архитектура",
+    text: "Проектируем, где рождается заявка, кто её обрабатывает и какие данные уходят дальше.",
+    result: "схема связки систем",
+    systems: ["Битрикс24", "1С-Битрикс", "1С"],
   },
   {
-    title: "Разработка Битрикс24",
-    text: "Настраивает CRM, роботов, права, приложения, интеграции и нестандартные сценарии.",
+    icon: Settings2,
+    title: "Внедрение",
+    text: "Настраиваем CRM, сайт, обмены, права, роботов и контрольные точки для команды.",
+    result: "рабочая система вместо набора настроек",
+    systems: ["CRM", "API", "обмены"],
   },
   {
-    title: "Разработка на 1С-Битрикс",
-    text: "Собирает сайты, каталоги, интернет-магазины, формы, личные кабинеты и обмены.",
-  },
-  {
-    title: "Интеграции с 1С",
-    text: "Настраивает обмены заказов, остатков, цен и статусов между сайтом, CRM и учётом.",
-  },
-  {
-    title: "UX, контент и поддержка",
-    text: "Помогает сделать интерфейс понятным, а развитие системы — управляемым после запуска.",
+    icon: BarChart3,
+    title: "Развитие",
+    text: "Добавляем отчёты, BI, AI-сценарии и улучшаем маршрут после запуска.",
+    result: "управляемые улучшения по данным",
+    systems: ["BI", "AI", "отчёты"],
   },
 ];
 
@@ -76,21 +124,65 @@ const publicFormats = [
   {
     icon: BookOpen,
     title: "Статьи от первого лица",
-    text: "Начинаем серию материалов про CRM, сайты, 1С-интеграции и типовые ошибки внедрения от лица основателя.",
+    text: "Практические материалы про CRM, сайты, обмены и ошибки внедрения.",
   },
   {
     icon: FileText,
     title: "Кейсы и разборы",
-    text: "Готовим структуру кейсов так, чтобы каждый разбор показывал задачу, решение, ограничения и измеримый результат.",
+    text: "Задача, решение, ограничения и результат без выдуманных логотипов.",
   },
   {
     icon: Handshake,
-    title: "Фото и отзывы клиентов",
-    text: "Публикуем только те фото, видео и отзывы, которые можно согласовать с клиентом и подтвердить реальным проектом.",
+    title: "Отзывы и встречи",
+    text: "Публикуем только согласованные материалы с реальными клиентами.",
   },
 ];
 
+const legalItems = [
+  { label: "Юридический статус", value: "ИП Тужилкин А.П." },
+  { label: "ИНН", value: "711501986455" },
+  { label: "ОГРНИП", value: "311715403800278" },
+  { label: "НДС", value: "работаем без НДС" },
+  { label: "Документы", value: "договор, счёт-оферта, закрывающие документы" },
+  { label: "ЭДО", value: "ID ЭДО предоставим по запросу" },
+];
+
+const certificatePreview = [
+  {
+    title: "Золотой партнёр Битрикс24",
+    image: "/media/certificates/Золотой партнёр Битрикс24.jpg",
+  },
+  {
+    title: "Компетенция CRM",
+    image: "/media/certificates/Компетенция CRM.jpg",
+  },
+  {
+    title: "Интеграция с 1С",
+    image: "/media/certificates/Компетенция Интеграция с 1С.jpg",
+  },
+];
+
+const materialShapes = ["ob-about-material--wide", "ob-about-material--round", "ob-about-material--tall"];
+
+function SystemLogo({ item, compact = false }: { item: (typeof ecosystemItems)[number]; compact?: boolean }) {
+  return (
+    <span className={["ob-system-logo", item.className, compact ? "ob-system-logo--compact" : ""].filter(Boolean).join(" ")}>
+      {item.image ? (
+        <Image src={item.image} alt={item.title} width={compact ? 90 : 132} height={compact ? 34 : 46} />
+      ) : (
+        <strong>{item.mark}</strong>
+      )}
+    </span>
+  );
+}
+
 export function AboutPageContent() {
+  const [activeStep, setActiveStep] = useState(0);
+  const [activeMaterial, setActiveMaterial] = useState(0);
+  const work = workSteps[activeStep] ?? workSteps[0];
+  const WorkIcon = work.icon;
+  const material = articles[activeMaterial] ?? articles[0];
+
   return (
     <>
       <section className="ob-about-hero ob-section">
@@ -98,12 +190,12 @@ export function AboutPageContent() {
           <div className="ob-about-hero__content">
             <span className="ob-kicker">О компании</span>
             <h1 className="ob-about-hero__title">
-              <span>Onixbit — интегратор</span>
-              <span>для B2B-проектов,</span>
-              <span>где отвечает основатель</span>
+              <span>Ониксбит — интегратор</span>
+              <span>Битрикс24, сайтов</span>
+              <span>и 1С-интеграций</span>
             </h1>
             <p>
-              Меня зовут Александр Тужилкин. Я основатель Onixbit и эксперт по
+              Меня зовут Александр Тужилкин. Я основатель Ониксбит и эксперт по
               Битрикс24, сайтам на 1С-Битрикс и интеграциям с 1С. Помогаю B2B-компаниям
               связывать продажи, сайт, учёт и коммуникации в рабочую систему.
             </p>
@@ -111,33 +203,40 @@ export function AboutPageContent() {
               <LeadButton>Обсудить проект</LeadButton>
               <a
                 className="ob-btn ob-btn--secondary"
-                href="mailto:expert@onixbit.ru?subject=%D0%9B%D0%B8%D1%87%D0%BD%D0%BE%D0%B5%20%D0%BE%D0%B1%D1%80%D0%B0%D1%89%D0%B5%D0%BD%D0%B8%D0%B5%20%D1%81%20%D1%81%D0%B0%D0%B9%D1%82%D0%B0%20Onixbit"
+                href="mailto:expert@onixbit.ru?subject=%D0%9B%D0%B8%D1%87%D0%BD%D0%BE%D0%B5%20%D0%BE%D0%B1%D1%80%D0%B0%D1%89%D0%B5%D0%BD%D0%B8%D0%B5%20%D1%81%20%D1%81%D0%B0%D0%B9%D1%82%D0%B0%20%D0%9E%D0%BD%D0%B8%D0%BA%D1%81%D0%B1%D0%B8%D1%82"
               >
                 <span>Написать лично</span>
                 <Mail size={18} aria-hidden="true" />
               </a>
             </div>
             <MessengerLinks className="ob-about-hero__messengers" />
-            <div className="ob-about-hero__facts" aria-label="Факты об Onixbit">
-              {founderFacts.map((fact) => (
-                <div key={fact.label}>
-                  <strong>{fact.value}</strong>
-                  <span>{fact.label}</span>
-                </div>
-              ))}
+            <div className="ob-about-hero__facts" aria-label="Факты об Ониксбит">
+              {founderFacts.map((fact) => {
+                const Icon = fact.icon;
+                return (
+                  <div key={fact.label}>
+                    <Icon size={23} aria-hidden="true" />
+                    <strong>{fact.value}</strong>
+                    <span>{fact.label}</span>
+                  </div>
+                );
+              })}
             </div>
           </div>
 
-          <div className="ob-about-hero__visual" aria-label="Александр Тужилкин">
+          <div className="ob-about-hero__visual" aria-label="Александр Тужилкин и экосистема Ониксбит">
             <div className="ob-about-hero__orbit" aria-hidden="true">
-              {orbitItems.map((item) => (
-                <span key={item}>{item}</span>
+              {ecosystemItems.map((item) => (
+                <span key={item.title}>
+                  <SystemLogo item={item} compact />
+                  <em>{item.badge}</em>
+                </span>
               ))}
             </div>
             <div className="ob-about-hero__portrait">
               <Image
                 src="/media/team/founder-alexander-site.webp"
-                alt="Александр Тужилкин, основатель Onixbit"
+                alt="Александр Тужилкин, основатель Ониксбит"
                 width={900}
                 height={900}
                 priority
@@ -152,8 +251,8 @@ export function AboutPageContent() {
               <span>Личный разбор B2B-задач</span>
             </div>
             <div className="ob-about-hero__signal" aria-hidden="true">
-              <span>маршрут проекта</span>
-              <strong>CRM → сайт → 1С</strong>
+              <span>связка систем</span>
+              <strong>CRM → сайт → 1С → BI</strong>
               <i />
             </div>
           </div>
@@ -163,17 +262,16 @@ export function AboutPageContent() {
       <section className="ob-section ob-section--tight">
         <div className="ob-container">
           <SectionIntro
-            kicker="Позиция"
-            title="Мы не прячем ответственность за абстрактной командой"
-            text="Пока нет настоящей командной фотосессии, честнее показывать не выдуманных людей, а понятную систему работы: кто отвечает за архитектуру, какие роли подключаются и где усиливаемся партнёрами."
+            kicker="Принципы"
+            title="Не набор услуг, а управляемая система для продаж и учёта"
           />
-          <div className="ob-card-grid ob-card-grid--3">
-            {responsibilityCards.map((card) => {
+          <div className="ob-about-teasers">
+            {positionTeasers.map((card) => {
               const Icon = card.icon;
               return (
-                <article className="ob-about-card" key={card.title}>
-                  <Icon size={26} aria-hidden="true" />
-                  <h3>{card.title}</h3>
+                <article className="ob-about-teaser" key={card.title}>
+                  <Icon size={30} aria-hidden="true" />
+                  <strong>{card.title}</strong>
                   <p>{card.text}</p>
                 </article>
               );
@@ -183,41 +281,88 @@ export function AboutPageContent() {
       </section>
 
       <section className="ob-section">
-        <div className="ob-container ob-about-system">
-          <div>
+        <div className="ob-container ob-about-work">
+          <div className="ob-about-work__intro">
             <span className="ob-kicker">Как устроена работа</span>
-            <h2>Проектная команда собирается под задачу, а не ради красивой витрины</h2>
+            <h2>Кликните по этапам: так проект превращается в понятную схему</h2>
             <p>
-              В проект подключаются профильные специалисты: аналитика, разработка,
-              интеграции, дизайн, коммуникации и поддержка. Такой формат помогает не
-              раздувать смету и давать нужную экспертизу там, где она действительно нужна.
+              Мы не начинаем с разработки вслепую. Сначала собираем контекст, затем
+              проектируем связку систем и только после этого внедряем настройки, обмены и отчёты.
             </p>
           </div>
-          <div className="ob-about-role-grid">
-            {roleCards.map((role, index) => (
-              <article className="ob-about-role" key={role.title}>
-                <span>{String(index + 1).padStart(2, "0")}</span>
-                <h3>{role.title}</h3>
-                <p>{role.text}</p>
-              </article>
-            ))}
+          <div className="ob-about-work__panel">
+            <div className="ob-about-work__steps" role="tablist" aria-label="Этапы работы">
+              {workSteps.map((step, index) => {
+                const Icon = step.icon;
+                return (
+                  <button
+                    className={index === activeStep ? "is-active" : ""}
+                    type="button"
+                    role="tab"
+                    aria-selected={index === activeStep}
+                    key={step.title}
+                    onClick={() => setActiveStep(index)}
+                    onMouseEnter={() => setActiveStep(index)}
+                  >
+                    <Icon size={18} aria-hidden="true" />
+                    <span>{step.title}</span>
+                  </button>
+                );
+              })}
+            </div>
+            <div className="ob-about-work__screen" aria-live="polite">
+              <div className="ob-about-work__screen-head">
+                <WorkIcon size={28} aria-hidden="true" />
+                <div>
+                  <span>{String(activeStep + 1).padStart(2, "0")}</span>
+                  <strong>{work.title}</strong>
+                </div>
+              </div>
+              <p>{work.text}</p>
+              <div className="ob-about-work__systems">
+                {work.systems.map((system) => (
+                  <em key={system}>{system}</em>
+                ))}
+              </div>
+              <div className="ob-about-work__result">
+                <ClipboardCheck size={20} aria-hidden="true" />
+                <span>{work.result}</span>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
       <section className="ob-section ob-section--tight">
-        <div className="ob-container">
+        <div className="ob-container ob-about-competencies">
           <SectionIntro
             kicker="Компетенции"
-            title="Три направления, которые должны работать вместе"
-            text="Главная ценность Onixbit — не отдельная настройка CRM или сайта, а связка инструментов вокруг реального процесса компании."
+            title="Три направления связаны между собой, а не живут отдельно"
+            text="Клиент видит один маршрут: заявка приходит с сайта, обрабатывается в CRM, данные синхронизируются с 1С, а руководитель получает отчётность."
           />
-          <div className="ob-card-grid ob-card-grid--3">
-            {directions.map((direction) => (
+          <div className="ob-about-link-map" aria-label="Связка систем Ониксбит">
+            <div className="ob-about-link-map__center">
+              <Sparkles size={26} aria-hidden="true" />
+              <strong>Ониксбит</strong>
+              <span>архитектура связки</span>
+            </div>
+            {ecosystemItems.map((item, index) => (
+              <div className={"ob-about-link-map__node ob-about-link-map__node--" + (index + 1)} key={item.title}>
+                <SystemLogo item={item} compact />
+                <span>{item.title}</span>
+              </div>
+            ))}
+          </div>
+          <div className="ob-card-grid ob-card-grid--3 ob-about-direction-grid">
+            {directions.map((direction, index) => (
               <Link className="ob-direction-card" href={direction.href} key={direction.id}>
                 <span>{direction.badge}</span>
                 <strong>{direction.title}</strong>
                 <p>{direction.description}</p>
+                <div className="ob-about-direction-card__logos" aria-hidden="true">
+                  <SystemLogo item={ecosystemItems[index]} compact />
+                  <SystemLogo item={ecosystemItems[(index + 1) % ecosystemItems.length]} compact />
+                </div>
                 <em>
                   Подробнее <ArrowRight size={16} aria-hidden="true" />
                 </em>
@@ -231,11 +376,10 @@ export function AboutPageContent() {
         <div className="ob-container ob-about-public">
           <div>
             <span className="ob-kicker">Публичная экспертность</span>
-            <h2>Onixbit будет говорить человеческим лицом, а не только логотипом</h2>
+            <h2>Экспертность Ониксбит без случайной витрины</h2>
             <p>
-              Статьи, видео и разборы будут развивать доверие вокруг реального опыта.
-              Сначала — личная позиция основателя, затем — подтверждённые кейсы,
-              отзывы и фото с заказчиками.
+              Статьи, видео и разборы будут развивать доверие вокруг реального опыта:
+              сначала личная позиция, затем подтверждённые кейсы, отзывы и фото с заказчиками.
             </p>
           </div>
           <div className="ob-about-public__grid">
@@ -253,24 +397,25 @@ export function AboutPageContent() {
         </div>
       </section>
 
-      <PartnerCertificatesBlock />
-
       <section className="ob-section ob-section--tight">
-        <div className="ob-container">
-          <SectionIntro
-            kicker="Материалы"
-            title="Редакционный план будущих материалов"
-            text="Показываем темы, которые уже готовим. После публикации карточки станут полноценными статьями и разборами."
-          />
-          <div className="ob-card-grid ob-card-grid--3">
-            {articles.map((article) => (
-              <article className="ob-article-card ob-article-card--soon" key={article.title}>
-                <div>
-                  <span>{article.category}</span>
-                  <em>{article.minutes}</em>
-                </div>
-                <h3>{article.title}</h3>
-                <p>{article.text}</p>
+        <div className="ob-container ob-about-cert-lite">
+          <div className="ob-about-cert-lite__content">
+            <span className="ob-kicker">Сертификаты</span>
+            <h2>Показываем главное здесь, подробности — на отдельной странице</h2>
+            <p>
+              На странице сертификатов можно открыть документы крупнее и посмотреть,
+              какую компетенцию подтверждает каждый статус.
+            </p>
+            <Link className="ob-btn ob-btn--primary" href="/certificates">
+              <span>Смотреть сертификаты</span>
+              <ArrowRight size={18} aria-hidden="true" />
+            </Link>
+          </div>
+          <div className="ob-about-cert-lite__stack">
+            {certificatePreview.map((item, index) => (
+              <article key={item.title} style={{ "--cert-index": index } as CSSProperties}>
+                <Image src={item.image} alt={item.title} width={360} height={250} />
+                <span>{item.title}</span>
               </article>
             ))}
           </div>
@@ -278,15 +423,74 @@ export function AboutPageContent() {
       </section>
 
       <section className="ob-section ob-section--tight">
-        <div className="ob-container ob-about-note">
-          <CheckCircle2 size={28} aria-hidden="true" />
-          <div>
-            <h2>Командный раздел соберём на реальных материалах</h2>
+        <div className="ob-container ob-about-materials">
+          <SectionIntro
+            kicker="Материалы"
+            title="Будущие публикации уже собраны как редакционный план"
+            text="Наведите или нажмите на карточку: темы будут превращаться в статьи, видео и практические чек-листы."
+          />
+          <div className="ob-about-materials__grid">
+            <div className="ob-about-materials__cards">
+              {articles.map((article, index) => (
+                <button
+                  className={["ob-about-material", materialShapes[index % materialShapes.length], index === activeMaterial ? "is-active" : ""].join(" ")}
+                  type="button"
+                  key={article.title}
+                  onClick={() => setActiveMaterial(index)}
+                  onMouseEnter={() => setActiveMaterial(index)}
+                >
+                  <span>{article.category}</span>
+                  <strong>{article.title}</strong>
+                  <em>{article.minutes}</em>
+                </button>
+              ))}
+            </div>
+            <div className="ob-about-materials__preview" aria-live="polite">
+              <BookOpen size={28} aria-hidden="true" />
+              <span>{material.category}</span>
+              <h3>{material.title}</h3>
+              <p>{material.text}</p>
+              <i>готовим</i>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="ob-section ob-section--tight">
+        <div className="ob-container ob-about-requisites">
+          <div className="ob-about-requisites__content">
+            <span className="ob-kicker">Реквизиты</span>
+            <h2>Документы и контакты для закупки, договора или счёта</h2>
             <p>
-              Пока показываем основателя, роли, партнёрства, сертификаты и процесс.
-              После фотосессии и согласованных публикаций здесь появятся живые люди,
-              а не постановочная картинка ради заполнения места.
+              Работаем официально: договор, счёт-оферта, закрывающие документы и ЭДО по запросу.
+              Для закупки можно скачать карточку компании или сохранить контакт.
             </p>
+            <div className="ob-about-requisites__actions">
+              <a className="ob-btn ob-btn--primary" href="/docs/onixbit-company-card.pdf" download>
+                <span>Скачать карточку PDF</span>
+                <Download size={18} aria-hidden="true" />
+              </a>
+              <a className="ob-btn ob-btn--secondary" href="/docs/onixbit-contact.vcf" download>
+                <span>Сохранить контакт</span>
+                <ContactRound size={18} aria-hidden="true" />
+              </a>
+            </div>
+          </div>
+          <div className="ob-about-requisites__grid">
+            {legalItems.map((item) => (
+              <div key={item.label}>
+                <span>{item.label}</span>
+                <strong>{item.value}</strong>
+              </div>
+            ))}
+            <div>
+              <span>Телефон</span>
+              <strong>{company.phone}</strong>
+            </div>
+            <div>
+              <span>E-mail</span>
+              <strong>{company.email}</strong>
+            </div>
           </div>
         </div>
       </section>

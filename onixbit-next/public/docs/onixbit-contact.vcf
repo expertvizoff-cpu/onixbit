@@ -1,0 +1,12 @@
+BEGIN:VCARD
+VERSION:3.0
+FN:Александр Тужилкин
+N:Тужилкин;Александр;;;
+ORG:Ониксбит
+TITLE:Основатель и эксперт по Битрикс24/интеграциям с 1С
+TEL;TYPE=CELL,VOICE:+79202724828
+EMAIL;TYPE=WORK:expert@onixbit.ru
+URL:https://onixbit.ru
+ADR;TYPE=WORK:;;Красноармейский проспект, 7;Тула;;;Россия
+NOTE:Ониксбит — Битрикс24, сайты на 1С-Битрикс, интеграции с 1С
+END:VCARD
