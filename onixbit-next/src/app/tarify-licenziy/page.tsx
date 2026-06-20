@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { ArrowRight, Cloud, DatabaseZap, ServerCog, SlidersHorizontal, UsersRound } from "lucide-react";
+import { ArrowRight, Cloud, ServerCog } from "lucide-react";
 import { LeadSection, LicenseGrid } from "@/components/Sections";
 
 export const metadata: Metadata = {
@@ -44,26 +44,36 @@ export default function TariffsPage() {
                 <span />
                 <span />
               </div>
+              <div className="ob-tariffs-hero__license-tabs">
+                <span className="is-active">Облако</span>
+                <span>Коробка</span>
+              </div>
               <div className="ob-tariffs-hero__meter">
-                <span>Нагрузка портала</span>
-                <strong>50 → 250+</strong>
+                <span>Команда растёт</span>
+                <strong>5 → 250+</strong>
               </div>
-              <div className="ob-tariffs-hero__choice is-active">
-                <Cloud size={19} aria-hidden="true" />
-                <strong>Облако</strong>
-                <em>5-250+</em>
-              </div>
-              <div className="ob-tariffs-hero__choice">
-                <ServerCog size={19} aria-hidden="true" />
-                <strong>Коробка</strong>
-                <em>50-500</em>
+              <div className="ob-tariffs-hero__compare">
+                <article className="is-active">
+                  <Cloud size={19} aria-hidden="true" />
+                  <span>Быстрый старт</span>
+                  <strong>подписка</strong>
+                </article>
+                <article>
+                  <ServerCog size={19} aria-hidden="true" />
+                  <span>Свой контур</span>
+                  <strong>сервер</strong>
+                </article>
               </div>
               <div className="ob-tariffs-hero__route">
+                <span>Люди</span>
+                <ArrowRight size={17} aria-hidden="true" />
                 <span>Права</span>
                 <ArrowRight size={17} aria-hidden="true" />
-                <span>Диск</span>
-                <ArrowRight size={17} aria-hidden="true" />
-                <span>Отчёты</span>
+                <span>Лимиты</span>
+              </div>
+              <div className="ob-tariffs-hero__decision">
+                <span>Рекомендация</span>
+                <strong>подобрать тариф после короткого разбора</strong>
               </div>
               <div className="ob-tariffs-hero__mini-grid" aria-hidden="true">
                 <span />
@@ -97,31 +107,6 @@ export default function TariffsPage() {
                 </article>
               );
             })}
-          </div>
-        </div>
-      </section>
-
-      <section className="ob-section ob-section--tight">
-        <div className="ob-container ob-tariff-method ob-tariff-method--bright ob-tariff-method--selector">
-          <div className="ob-tariff-method__content">
-            <span className="ob-kicker">Методика</span>
-            <h2>Как мы подбираем тариф</h2>
-            <p>
-              Фиксируем сценарии: кто работает в системе, какие каналы подключаются, какие данные идут между сайтом,
-              CRM и 1С, какие отчёты нужны руководителю и что должно масштабироваться через год.
-            </p>
-          </div>
-          <div className="ob-tariff-method__visual" aria-label="Схема подбора тарифа по команде, правам, контуру и запасу роста">
-            <div className="ob-tariff-method__dial">
-              <DatabaseZap size={36} aria-hidden="true" />
-              <strong>Тариф</strong>
-            </div>
-            <div className="ob-tariff-method__flow">
-              <span><UsersRound size={17} aria-hidden="true" />Команда</span>
-              <span><SlidersHorizontal size={17} aria-hidden="true" />Права</span>
-              <span><Cloud size={17} aria-hidden="true" />Контур</span>
-              <span><ServerCog size={17} aria-hidden="true" />Запас роста</span>
-            </div>
           </div>
         </div>
       </section>
