@@ -4,7 +4,7 @@
 
 import { useEffect, useState } from "react";
 
-type CertGroup = "all" | "status" | "crm" | "process" | "integration";
+type CertGroup = "all" | "status" | "bitrix24" | "bitrix" | "integration";
 
 type CertificateItem = {
   group: Exclude<CertGroup, "all">;
@@ -17,8 +17,16 @@ type CertificateItem = {
 const certificateBase = "/media/certificates";
 const cert = (name: string) => encodeURI(`${certificateBase}/${name}.jpg`);
 const partnerImage = cert("Золотой партнёр Битрикс24");
+const bitrixGoldImage = cert("Золотой партнёр 1С-Битрикс");
 
 const certificates: CertificateItem[] = [
+  {
+    group: "status",
+    type: "Партнёр",
+    title: "Золотой партнёр 1С-Битрикс",
+    text: "Подтверждение партнёрского статуса по разработке сайтов и решений на 1С-Битрикс.",
+    image: bitrixGoldImage,
+  },
   {
     group: "status",
     type: "Качество",
@@ -27,14 +35,14 @@ const certificates: CertificateItem[] = [
     image: cert("Участник Программы мониторинга качества внедрений"),
   },
   {
-    group: "crm",
+    group: "bitrix24",
     type: "CRM",
     title: "Компетенция CRM",
     text: "Подтверждение экспертизы в настройке CRM и управлении продажами.",
     image: cert("Компетенция CRM"),
   },
   {
-    group: "process",
+    group: "bitrix24",
     type: "Процессы",
     title: "Бизнес-процессы",
     text: "Автоматизация регламентов, задач, согласований и контрольных сценариев.",
@@ -48,7 +56,7 @@ const certificates: CertificateItem[] = [
     image: cert("Компетенция Интеграция с 1С"),
   },
   {
-    group: "process",
+    group: "bitrix24",
     type: "Внедрение",
     title: "Внедрение Битрикс24",
     text: "Сертификат по основным настройкам системы и базовой логике внедрения.",
@@ -69,9 +77,9 @@ const certificates: CertificateItem[] = [
     image: cert("Бизнес-партнёр Битрикс24"),
   },
   {
-    group: "status",
+    group: "bitrix",
     type: "Право",
-    title: "Авторизационное письмо",
+    title: "Авторизационное письмо 1С-Битрикс",
     text: "Подтверждение права работать с продуктами и решениями 1С-Битрикс.",
     image: cert("Авторизационное письмо 1С-Битрикс"),
   },
@@ -79,9 +87,9 @@ const certificates: CertificateItem[] = [
 
 const filters: Array<{ id: CertGroup; title: string }> = [
   { id: "all", title: "Все" },
-  { id: "status", title: "Статус" },
-  { id: "crm", title: "CRM" },
-  { id: "process", title: "Процессы" },
+  { id: "status", title: "Статусы" },
+  { id: "bitrix24", title: "Битрикс24" },
+  { id: "bitrix", title: "1С-Битрикс" },
   { id: "integration", title: "Интеграции" },
 ];
 
@@ -111,11 +119,10 @@ export function PartnerCertificatesBlock() {
         <div className="obx-certs__head">
           <div>
             <div className="obx-certs__eyebrow">Статус партнёра</div>
-            <h2 className="obx-certs__title">Документы партнёра Битрикс24, которые можно открыть и проверить</h2>
+            <h2 className="obx-certs__title">Сертификаты Ониксбит, которые можно открыть и проверить</h2>
           </div>
           <p className="obx-certs__lead">
-            Для внедрения важен не только красивый сайт, но и подтверждённая компетенция: CRM, процессы, 1С, коробка,
-            качество внедрений и партнёрский статус.
+            Для B2B-клиента важна проверяемость: партнёрские статусы, компетенции Битрикс24, 1С-Битрикс, интеграции и качество внедрений собраны в одном месте.
           </p>
         </div>
 
@@ -139,8 +146,7 @@ export function PartnerCertificatesBlock() {
             </button>
             <h3 className="obx-certs__partner-title">Золотой партнёр Битрикс24</h3>
             <p className="obx-certs__partner-text">
-              Статус нужен не для украшения страницы. Он показывает, что подрядчик работает с платформой официально и
-              может вести проект внедрения как часть партнёрской экосистемы.
+              Главный статус показывает, что подрядчик работает с платформой официально, понимает партнёрскую экосистему и может сопровождать внедрение не как разовую настройку, а как управляемый проект.
             </p>
             <div className="obx-certs__partner-facts" aria-label="Что подтверждает главный документ">
               <div>

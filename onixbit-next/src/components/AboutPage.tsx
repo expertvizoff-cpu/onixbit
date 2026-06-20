@@ -169,7 +169,7 @@ const certificatePreview = [
   },
   {
     title: "Золотой партнёр 1С-Битрикс",
-    image: "/media/certificates/Авторизационное письмо 1С-Битрикс.jpg",
+    image: "/media/certificates/Золотой партнёр 1С-Битрикс.jpg",
   },
   {
     title: "Интеграция с 1С",
