@@ -1,0 +1,16 @@
+<svg width="180" height="72" viewBox="0 0 180 72" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Power BI">
+  <defs>
+    <linearGradient id="power-bi-a" x1="20" y1="58" x2="78" y2="12" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#F2C811"/>
+      <stop offset="1" stop-color="#F7D84B"/>
+    </linearGradient>
+    <linearGradient id="power-bi-b" x1="52" y1="58" x2="91" y2="18" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#D9A300"/>
+      <stop offset="1" stop-color="#F2C811"/>
+    </linearGradient>
+  </defs>
+  <rect x="20" y="31" width="18" height="29" rx="6" fill="url(#power-bi-a)"/>
+  <rect x="43" y="22" width="18" height="38" rx="6" fill="#F6D747"/>
+  <rect x="66" y="12" width="18" height="48" rx="6" fill="url(#power-bi-b)"/>
+  <text x="100" y="45" fill="#161616" font-family="Montserrat, Arial, sans-serif" font-size="28" font-weight="900" letter-spacing="0">BI</text>
+</svg>

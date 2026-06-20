@@ -4556,6 +4556,225 @@ a:hover .lucide-mail polyline {
 }
 
 
+/* About company refinements */
+.ob-system-logo,
+.ob-system-logo--cloud,
+.ob-system-logo--bitrix,
+.ob-system-logo--onec,
+.ob-system-logo--bi,
+.ob-system-logo--ai {
+  min-width: 88px;
+  min-height: 42px;
+  padding: 3px 5px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
+.ob-system-logo img {
+  max-width: 132px;
+  max-height: 42px;
+  filter: drop-shadow(0 9px 14px rgba(8, 8, 8, 0.14));
+}
+
+.ob-system-logo--compact {
+  min-width: 82px;
+  min-height: 38px;
+  padding: 2px 4px;
+}
+
+.ob-about-work__flow .ob-system-logo {
+  justify-self: start;
+  margin: 10px 0 0;
+}
+
+.ob-about-work__flow .ob-system-logo img {
+  max-width: 112px;
+  max-height: 36px;
+}
+
+.ob-about-competency-flow .ob-system-logo img {
+  max-width: 150px;
+  max-height: 46px;
+}
+
+.ob-about-direction-card__logos .ob-system-logo img {
+  max-width: 118px;
+  max-height: 36px;
+}
+
+.ob-about-hero__visual {
+  isolation: isolate;
+}
+
+.ob-about-hero__orbit--markers {
+  z-index: 0;
+  inset: 6% -5% 4% -10%;
+  border-color: rgba(237, 28, 36, 0.22);
+  pointer-events: none;
+}
+
+.ob-about-hero__orbit--markers span {
+  display: none;
+}
+
+.ob-about-hero__portrait {
+  position: relative;
+  z-index: 2;
+}
+
+.ob-about-hero__badge {
+  z-index: 3;
+}
+
+.ob-about-teasers {
+  border-color: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.52);
+}
+
+.ob-about-teaser,
+.ob-about-requisites__grid div {
+  border-color: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.78);
+  box-shadow: 0 16px 46px rgba(8, 8, 8, 0.075);
+}
+
+.ob-about-work__panel {
+  align-items: stretch;
+}
+
+.ob-about-work__steps {
+  grid-template-rows: repeat(4, 1fr);
+}
+
+.ob-about-work__steps button {
+  min-height: 78px;
+}
+
+.ob-about-work__screen {
+  min-height: 420px;
+  grid-template-rows: auto minmax(64px, auto) minmax(150px, 1fr) auto;
+}
+
+.ob-about-work__screen p {
+  min-height: 64px;
+}
+
+.ob-about-work__flow {
+  min-height: 154px;
+}
+
+.ob-about-work__flow div {
+  min-height: 154px;
+  align-content: start;
+}
+
+.ob-about-work__flow div strong {
+  display: flex;
+  min-height: 56px;
+  align-items: center;
+}
+
+.ob-about-work__result {
+  min-height: 48px;
+}
+
+.ob-about-competency-tabs button {
+  grid-template-rows: auto minmax(46px, 1fr);
+  min-height: 112px;
+}
+
+.ob-about-competency-tabs button > strong {
+  display: flex;
+  min-height: 46px;
+  align-items: flex-end;
+  white-space: pre-line;
+}
+
+.ob-about-competency-visual__head > span,
+.ob-about-competency-visual__head h3 {
+  white-space: pre-line;
+}
+
+.ob-about-competency-visual__head h3 {
+  min-height: 146px;
+}
+
+.ob-about-competency-visual__head p {
+  min-height: 58px;
+}
+
+.ob-about-direction-grid .ob-direction-card > strong {
+  display: flex;
+  min-height: 70px;
+  align-items: flex-start;
+  white-space: pre-line;
+}
+
+.ob-about-cert-lite {
+  overflow: visible;
+}
+
+.ob-about-cert-lite__visual {
+  grid-template-columns: minmax(0, 1fr) 310px;
+  align-items: center;
+  overflow: visible;
+}
+
+.ob-about-cert-lite__stack {
+  min-height: 430px;
+}
+
+.ob-about-cert-lite__stack article {
+  left: calc(50% - 240px + var(--cert-index) * 72px);
+  top: calc(50% - 172px + var(--cert-index) * 34px);
+  width: min(410px, 78%);
+}
+
+.ob-about-cert-lite__stack img {
+  height: 260px;
+}
+
+.ob-about-cert-lite__zoom {
+  width: 330px;
+  min-height: 270px;
+  align-self: center;
+  margin-right: -92px;
+}
+
+.ob-about-cert-lite__zoom img {
+  height: 190px;
+  object-fit: cover;
+  object-position: top left;
+}
+
+.ob-about-materials__cards {
+  grid-auto-rows: minmax(140px, 1fr);
+  min-height: 452px;
+}
+
+.ob-about-material--tall,
+.ob-about-material--square,
+.ob-about-material--small {
+  grid-column: span 2;
+  grid-row: span 1;
+}
+
+.ob-about-material--small {
+  border-radius: 54px 30px 30px 30px;
+}
+
+.ob-about-materials__preview {
+  min-height: 452px;
+}
+
+.ob-about-requisites__grid div:hover {
+  background: rgba(255, 255, 255, 0.96);
+}
+
+
 .ob-footer {
   position: relative;
   z-index: 1;
@@ -6401,5 +6620,31 @@ a:hover .lucide-mail polyline {
   .ob-about-cert-modal__close {
     right: 14px;
     top: 14px;
+  }
+}
+
+
+@media (max-width: 760px) {
+  .ob-about-work__screen,
+  .ob-about-competency-visual__head h3,
+  .ob-about-competency-visual__head p,
+  .ob-about-work__screen p,
+  .ob-about-materials__preview {
+    min-height: 0;
+  }
+
+  .ob-about-competency-tabs button > strong,
+  .ob-about-direction-grid .ob-direction-card > strong {
+    min-height: 0;
+  }
+
+  .ob-about-material--small {
+    grid-column: auto;
+    border-radius: 24px;
+  }
+
+  .ob-about-cert-lite__zoom {
+    width: 100%;
+    margin-right: 0;
   }
 }

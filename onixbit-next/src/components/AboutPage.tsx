@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import type { CSSProperties } from "react";
 import {
   ArrowRight,
@@ -41,33 +41,31 @@ const ecosystemItems = [
   {
     title: "Битрикс24",
     badge: "CRM",
-    image: "/media/logos/bitrix24-logo.svg",
+    image: "/media/logos/bitrix24-logo-rus.svg",
     className: "ob-system-logo--b24 ob-system-logo--cloud",
   },
   {
     title: "1С-Битрикс",
     badge: "сайт",
-    image: "/media/logos/1c-bitrix-logo.svg",
+    image: "/media/logos/1c-bitrix-logo-dark.svg",
     className: "ob-system-logo--bitrix",
   },
   {
     title: "1С:Предприятие",
     badge: "учёт",
-    image: "/media/logos/1c-logo-small.svg",
+    image: "/media/logos/1c-logo.svg",
     className: "ob-system-logo--onec",
   },
   {
     title: "BI-конструктор",
     badge: "аналитика",
-    image: null,
-    mark: "BI",
+    image: "/media/logos/power-bi-logo.svg",
     className: "ob-system-logo--bi",
   },
   {
     title: "AI-помощник",
     badge: "AI",
-    image: null,
-    mark: "AI",
+    image: "/media/logos/ai-logo.svg",
     className: "ob-system-logo--ai",
   },
 ];
@@ -96,28 +94,44 @@ const workSteps = [
     title: "Диагностика",
     text: "Смотрим текущие заявки, CRM, сайт, 1С, коммуникации и ручные операции.",
     result: "карта процессов и ограничений",
-    systems: ["Битрикс24", "сайт", "1С"],
+    flow: [
+      { label: "Проверяем", value: "заявки и CRM", system: ecosystemItems[0] },
+      { label: "Сверяем", value: "сайт, 1С и каналы" },
+      { label: "Фиксируем", value: "карту процессов и ограничений" },
+    ],
   },
   {
     icon: Route,
     title: "Архитектура",
     text: "Проектируем, где рождается заявка, кто её обрабатывает и какие данные уходят дальше.",
-    result: "схема связки систем",
-    systems: ["Битрикс24", "1С-Битрикс", "1С"],
+    result: "схема данных и ролей",
+    flow: [
+      { label: "Проектируем", value: "маршрут заявки" },
+      { label: "Соединяем", value: "CRM, сайт и 1С" },
+      { label: "Фиксируем", value: "схему данных и ролей" },
+    ],
   },
   {
     icon: Settings2,
     title: "Внедрение",
     text: "Настраиваем CRM, сайт, обмены, права, роботов и контрольные точки для команды.",
-    result: "рабочая система вместо набора настроек",
-    systems: ["CRM", "API", "обмены"],
+    result: "готовые сценарии команды",
+    flow: [
+      { label: "Настраиваем", value: "воронки и права", system: ecosystemItems[0] },
+      { label: "Подключаем", value: "формы, обмены, роботов" },
+      { label: "Фиксируем", value: "готовые сценарии команды" },
+    ],
   },
   {
     icon: BarChart3,
     title: "Развитие",
     text: "Добавляем отчёты, BI, AI-сценарии и улучшаем маршрут после запуска.",
-    result: "управляемые улучшения по данным",
-    systems: ["BI", "AI", "отчёты"],
+    result: "план улучшений по данным",
+    flow: [
+      { label: "Собираем", value: "BI-отчёты", system: ecosystemItems[3] },
+      { label: "Ускоряем", value: "AI-сценарии", system: ecosystemItems[4] },
+      { label: "Фиксируем", value: "план улучшений по данным" },
+    ],
   },
 ];
 
@@ -171,30 +185,44 @@ const materialItems = [
     text: "Короткие практические материалы о связке Битрикс24, сайта, 1С и отчётности: без воды, с примерами и ограничениями.",
     minutes: "скоро",
   },
+  {
+    category: "Видео",
+    title: "Как руководителю принять CRM без хаоса",
+    text: "Короткий формат о том, какие вопросы стоит задать до внедрения и как понять, что система действительно готова к работе.",
+    minutes: "скоро",
+  },
 ];
 
-const materialShapes = ["ob-about-material--wide", "ob-about-material--round", "ob-about-material--tall", "ob-about-material--square"];
+const materialShapes = [
+  "ob-about-material--wide",
+  "ob-about-material--round",
+  "ob-about-material--tall",
+  "ob-about-material--square",
+  "ob-about-material--small",
+];
 
 const competencyRoutes = [
   {
-    title: "Продажи и коммуникации",
-    text: "Заявки, звонки и переписки собираются в Битрикс24, а руководитель видит качество обработки в отчётах.",
-    result: "меньше потерянных обращений",
+    title: "Продажи\nи коммуникации",
+    text: "Битрикс24 собирает обращения, 1С хранит данные, BI показывает качество обработки.",
+    result: "Заявки\nне теряются\nмежду каналами",
     systems: [ecosystemItems[0], ecosystemItems[2], ecosystemItems[3]],
   },
   {
-    title: "Сайт как часть CRM",
-    text: "Формы, каталог, корзина и личные кабинеты не живут отдельно: данные уходят в CRM и дальше в учёт.",
-    result: "понятный путь заявки от сайта до сделки",
+    title: "Сайт\nкак часть CRM",
+    text: "Формы и корзина передают контекст в CRM, а учёт получает нужные данные.",
+    result: "Сайт\nпередаёт заявки\nв CRM",
     systems: [ecosystemItems[1], ecosystemItems[2], ecosystemItems[0]],
   },
   {
-    title: "Учёт и обмены",
-    text: "Интеграции с 1С помогают синхронизировать заказы, товары, клиентов и статусы без ручного переноса.",
-    result: "аккуратный обмен между продажами и учётом",
+    title: "Учёт\nи обмены",
+    text: "Заказы, товары, клиенты и статусы уходят между системами без ручной рутины.",
+    result: "Учёт\nсинхронизируется\nбез ручного переноса",
     systems: [ecosystemItems[2], ecosystemItems[0], ecosystemItems[1]],
   },
 ];
+
+const directionAboutTitles = ["Внедрение\nБитрикс24", "Сайты на\n1С-Битрикс", "Работы по\n1С:Предприятие"];
 
 const directionLogoSets = [
   [ecosystemItems[0], ecosystemItems[2], ecosystemItems[3]],
@@ -208,7 +236,7 @@ function SystemLogo({ item, compact = false }: { item: (typeof ecosystemItems)[n
       {item.image ? (
         <Image src={item.image} alt={item.title} width={compact ? 90 : 132} height={compact ? 34 : 46} />
       ) : (
-        <strong>{item.mark}</strong>
+        <strong>{item.badge}</strong>
       )}
     </span>
   );
@@ -274,11 +302,7 @@ export function AboutPageContent() {
           </div>
 
           <div className="ob-about-hero__visual" aria-label="Александр Тужилкин и экосистема Ониксбит">
-            <div className="ob-about-hero__orbit ob-about-hero__orbit--markers" aria-hidden="true">
-              {[0, 1, 2, 3].map((item) => (
-                <span key={item} />
-              ))}
-            </div>
+            <div className="ob-about-hero__orbit ob-about-hero__orbit--markers" aria-hidden="true" />
             <div className="ob-about-hero__portrait">
               <Image
                 src="/media/team/founder-alexander-site.webp"
@@ -363,20 +387,16 @@ export function AboutPageContent() {
               </div>
               <p>{work.text}</p>
               <div className="ob-about-work__flow">
-                <div>
-                  <span>Проверяем</span>
-                  <strong>{work.systems[0]}</strong>
-                </div>
-                <i aria-hidden="true" />
-                <div>
-                  <span>Настраиваем</span>
-                  <strong>{work.systems[1]}</strong>
-                </div>
-                <i aria-hidden="true" />
-                <div>
-                  <span>Фиксируем</span>
-                  <strong>{work.result}</strong>
-                </div>
+                {work.flow.map((card, index) => (
+                  <Fragment key={card.label}>
+                    <div>
+                      <span>{card.label}</span>
+                      {"system" in card && card.system ? <SystemLogo item={card.system} compact /> : null}
+                      <strong>{card.value}</strong>
+                    </div>
+                    {index < work.flow.length - 1 ? <i aria-hidden="true" /> : null}
+                  </Fragment>
+                ))}
               </div>
               <div className="ob-about-work__result">
                 <ClipboardCheck size={20} aria-hidden="true" />
@@ -432,7 +452,7 @@ export function AboutPageContent() {
             {directions.map((direction, index) => (
               <Link className="ob-direction-card" href={direction.href} key={direction.id}>
                 <span>{direction.badge}</span>
-                <strong>{direction.title}</strong>
+                <strong>{directionAboutTitles[index] ?? direction.title}</strong>
                 <p>{direction.description}</p>
                 <div className="ob-about-direction-card__logos" aria-hidden="true">
                   {(directionLogoSets[index] ?? []).map((item) => (

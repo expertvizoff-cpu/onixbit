@@ -1,0 +1,19 @@
+<svg width="180" height="72" viewBox="0 0 180 72" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="AI">
+  <defs>
+    <linearGradient id="ai-a" x1="32" y1="58" x2="78" y2="14" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#635BFF"/>
+      <stop offset="0.5" stop-color="#ED1C24"/>
+      <stop offset="1" stop-color="#FFD45A"/>
+    </linearGradient>
+    <linearGradient id="ai-b" x1="17" y1="17" x2="78" y2="58" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#2FD6FF"/>
+      <stop offset="0.54" stop-color="#8B5CF6"/>
+      <stop offset="1" stop-color="#ED1C24"/>
+    </linearGradient>
+  </defs>
+  <path d="M48 9C61.807 9 73 20.193 73 34C73 47.807 61.807 59 48 59C34.193 59 23 47.807 23 34C23 20.193 34.193 9 48 9Z" fill="url(#ai-b)"/>
+  <path d="M48 17C57.389 17 65 24.611 65 34C65 43.389 57.389 51 48 51C38.611 51 31 43.389 31 34C31 24.611 38.611 17 48 17Z" fill="white" fill-opacity="0.92"/>
+  <path d="M48 23C54.075 23 59 27.925 59 34C59 40.075 54.075 45 48 45C41.925 45 37 40.075 37 34C37 27.925 41.925 23 48 23Z" fill="url(#ai-a)"/>
+  <path d="M21 31H12M84 31H75M48 7V0M48 68V61M30 16L23 9M73 59L66 52M66 16L73 9M23 59L30 52" stroke="url(#ai-a)" stroke-width="4" stroke-linecap="round"/>
+  <text x="100" y="45" fill="#161616" font-family="Montserrat, Arial, sans-serif" font-size="28" font-weight="900" letter-spacing="0">AI</text>
+</svg>
