@@ -9,6 +9,7 @@ type FeatureLevel = 0 | 1 | 2 | 3;
 type CloudPlanId = "basic" | "standard" | "professional" | "enterprise";
 type BoxPlanId = "box-50" | "box-100" | "box-250" | "box-500";
 type NavigatorPlan = CloudPlanId | BoxPlanId;
+type OpenPicker = "cloud-enterprise" | "market-enterprise" | null;
 
 type FeatureRow = { id: string; title: string };
 type CloudPlan = {
@@ -33,6 +34,18 @@ type BoxPlan = {
   accent: string;
   features: string[];
   featured?: boolean;
+};
+type MarketplacePlan = {
+  id: CloudPlanId | BoxPlanId;
+  title: string;
+  usersLabel: string;
+  storage?: string;
+  price: number | Record<number, number> | string;
+  oldPrice?: number | Record<number, number>;
+  description: string;
+  features: string[];
+  enterprise?: boolean;
+  popular?: boolean;
 };
 
 const REGISTER_URL = "https://www.bitrix24.ru/create.php?p=10553488";
@@ -240,21 +253,109 @@ const navigatorCopy: Record<NavigatorPlan, { title: string; text: string; check:
   },
 };
 
-const marketplacePlans = [
-  { title: "Базовый", price: "500 ₽/мес", text: "для стартового портала" },
-  { title: "Стандартный", price: "1 500 ₽/мес", text: "для команды и документов" },
-  { title: "Профессиональный", price: "3 000 ₽/мес", text: "для автоматизации и BI" },
-  { title: "Энтерпрайз", price: "от 8 500 ₽/мес", text: "для крупных порталов" },
+const marketplaceCloudPlans: MarketplacePlan[] = [
+  {
+    id: "basic",
+    title: "Базовый",
+    usersLabel: "5 пользователей",
+    storage: "24 ГБ диск",
+    oldPrice: 1000,
+    price: 500,
+    description: "Стартовая подписка для небольшого облачного портала.",
+    features: ["приложения Маркетплейса", "BitrixGPT", "стоимость за всех пользователей"],
+  },
+  {
+    id: "standard",
+    title: "Стандартный",
+    usersLabel: "50 пользователей",
+    storage: "100 ГБ диск",
+    oldPrice: 3000,
+    price: 1500,
+    description: "Для команды, где уже появляются приложения, виджеты и документы.",
+    features: ["приложения Маркетплейса", "BitrixGPT", "стоимость за всех пользователей"],
+  },
+  {
+    id: "professional",
+    title: "Профессиональный",
+    usersLabel: "100 пользователей",
+    storage: "1 024 ГБ диск",
+    oldPrice: 6000,
+    price: 3000,
+    description: "Для портала с автоматизацией, BI, телефонией и несколькими отделами.",
+    features: ["приложения Маркетплейса", "BitrixGPT", "стоимость за всех пользователей"],
+    popular: true,
+  },
+  {
+    id: "enterprise",
+    title: "Энтерпрайз",
+    usersLabel: "250 пользователей",
+    storage: "3 ТБ диск",
+    oldPrice: {
+      250: 13600, 500: 24000, 1000: 40000, 2000: 80000, 3000: 120000, 4000: 160000,
+      5000: 200000, 6000: 240000, 7000: 280000, 8000: 320000, 9000: 360000, 10000: 400000,
+    },
+    price: {
+      250: 6800, 500: 12000, 1000: 20000, 2000: 40000, 3000: 60000, 4000: 80000,
+      5000: 100000, 6000: 120000, 7000: 140000, 8000: 160000, 9000: 180000, 10000: 200000,
+    },
+    description: "Для крупного облачного портала с расширенной командой и приложениями.",
+    features: ["приложения Маркетплейса", "BitrixGPT", "стоимость за всех пользователей"],
+    enterprise: true,
+  },
+];
+
+const marketplaceBoxPlans: MarketplacePlan[] = [
+  {
+    id: "box-50",
+    title: "Корпоративный портал 50",
+    usersLabel: "50 пользователей",
+    price: "по расчёту",
+    description: "Проверяем совместимость приложений и условия подписки для коробочного портала.",
+    features: ["аудит установленных модулей", "проверка версии коробки", "расчёт перед счётом"],
+  },
+  {
+    id: "box-100",
+    title: "Корпоративный портал 100",
+    usersLabel: "100 пользователей",
+    price: "по расчёту",
+    description: "Считаем подписку вместе с обновлениями, сервером и набором приложений.",
+    features: ["права и роли", "приложения портала", "расчёт перед счётом"],
+  },
+  {
+    id: "box-250",
+    title: "Корпоративный портал 250",
+    usersLabel: "250 пользователей",
+    price: "по расчёту",
+    description: "Для большого коробочного портала отдельно оцениваем нагрузку и зависимости.",
+    features: ["карта интеграций", "нагрузка портала", "расчёт перед счётом"],
+  },
+  {
+    id: "box-500",
+    title: "Корпоративный портал 500",
+    usersLabel: "500 пользователей",
+    price: "по расчёту",
+    description: "Сверяем условия для распределённой компании и долгого жизненного цикла портала.",
+    features: ["контур владения", "сопровождение", "расчёт перед счётом"],
+  },
 ];
 
 function formatPrice(value: number) {
   return `${String(value).replace(/\B(?=(\d{3})+(?!\d))/g, " ")} ₽`;
 }
 
+function formatMaybePrice(value: number | string) {
+  return typeof value === "number" ? formatPrice(value) : value;
+}
+
 function resolvePrice(value: number | Record<number, number>, users?: number) {
   if (typeof value === "number") return value;
   const first = Number(Object.keys(value)[0]);
   return value[users ?? first] ?? value[first];
+}
+
+function resolveMaybePrice(value: number | Record<number, number> | string, users?: number) {
+  if (typeof value === "string") return value;
+  return resolvePrice(value, users);
 }
 
 function leadTitle(title: string) {
@@ -287,23 +388,21 @@ export function BitrixPricingBlock() {
   const [mode, setMode] = useState<Mode>("cloud");
   const [period, setPeriod] = useState<Period>("year");
   const [enterpriseUsersCount, setEnterpriseUsersCount] = useState(250);
-  const [openPicker, setOpenPicker] = useState<"cloud-enterprise" | null>(null);
+  const [marketMode, setMarketMode] = useState<Mode>("cloud");
+  const [marketEnterpriseUsers, setMarketEnterpriseUsers] = useState(250);
+  const [openPicker, setOpenPicker] = useState<OpenPicker>(null);
   const [hoveredFeature, setHoveredFeature] = useState<string | null>(null);
 
   const navigatorActive = navigatorCopy[navigatorPlan];
   const note = useMemo(
     () =>
       mode === "box"
-        ? {
-            label: "Важно",
-            text: "Коробочная цена — это лицензия. Сервер, администрирование, обновления, безопасность и внедрение считаются отдельно.",
-          }
-        : {
-            label: "Важно",
-            text: "В облаке цена ниже при оплате за 12 месяцев. Перед счётом сверяем актуальные условия и ограничения тарифа.",
-          },
+        ? "Коробочная цена — это лицензия. Сервер, администрирование, обновления, безопасность и внедрение считаются отдельно."
+        : "В облаке цена ниже при оплате за 12 месяцев. Перед счётом сверяем актуальные условия и ограничения тарифа.",
     [mode],
   );
+
+  const marketplacePlans = marketMode === "cloud" ? marketplaceCloudPlans : marketplaceBoxPlans;
 
   return (
     <>
@@ -315,7 +414,6 @@ export function BitrixPricingBlock() {
               <h2 className="obx-tariffs__title">Сначала выбираем сценарий, потом тариф и формат лицензии</h2>
             </div>
             <div className="obx-tariffs__lead obx-tariffs__lead--important">
-              <strong>Важно</strong>
               <p>
                 Не покупаем лицензию “на глаз”: считаем пользователей, права, отчёты, интеграции, объём диска и контур владения системой.
               </p>
@@ -355,7 +453,7 @@ export function BitrixPricingBlock() {
               <div className="obx-tariffs__matrix-top">
                 <div>
                   <span className="obx-tariffs__estimate-label">Навигатор тарифов</span>
-                  <h3 className="obx-tariffs__estimate-title">4 облачных и 4 коробочных варианта</h3>
+                  <h3 className="obx-tariffs__estimate-title">Облачные и коробочные варианты</h3>
                 </div>
                 <a className="obx-tariffs__official" href="#bitrix24-prices">
                   К таблице цен
@@ -381,6 +479,7 @@ export function BitrixPricingBlock() {
                             onClick={() => {
                               setNavigatorPlan(item.id);
                               setMode("cloud");
+                              setOpenPicker(null);
                               if (isEnterprise) setNavigatorEnterpriseOpen((value) => !value);
                               else setNavigatorEnterpriseOpen(false);
                             }}
@@ -430,6 +529,7 @@ export function BitrixPricingBlock() {
                           setNavigatorPlan(item.id);
                           setMode("box");
                           setNavigatorEnterpriseOpen(false);
+                          setOpenPicker(null);
                         }}
                       >
                         <UserCapacity value={item.users} />
@@ -474,7 +574,6 @@ export function BitrixPricingBlock() {
               <h2 className="obx-price-line__title">Облако и коробка в одном сравнении</h2>
             </div>
             <div className="obx-price-line__lead obx-price-line__lead--important">
-              <strong>Важно</strong>
               <p>
                 Цены и лимиты сверяем перед выставлением счёта. В таблице показываем ориентиры по официальной линейке Битрикс24.
               </p>
@@ -521,29 +620,29 @@ export function BitrixPricingBlock() {
               </div>
             </div>
             <div className="obx-price-line__control-note">
-              <span>{note.label}</span>
-              <p>{note.text}</p>
+              <p>{note}</p>
             </div>
           </div>
 
           {mode === "cloud" ? (
-            <div className="obx-price-line__catalog" data-obx-panel="cloud">
+            <div className={`obx-price-line__catalog ${hoveredFeature ? "has-row-hover" : ""}`} data-obx-panel="cloud">
               {cloudPlans.map((plan) => {
                 const users = plan.id === "enterprise" ? enterpriseUsersCount : undefined;
                 const oldPrice = resolvePrice(plan.monthly, users);
                 const currentPrice = resolvePrice(period === "year" ? plan.yearly : plan.monthly, users);
                 const storageLabel = plan.id === "enterprise" ? enterpriseStorage[enterpriseUsersCount] : plan.storage;
+                const isPickerOpen = plan.id === "enterprise" && openPicker === "cloud-enterprise";
 
                 return (
-                  <article className={`obx-price-line__card ${plan.featured ? "is-featured" : ""} ${plan.enterprise ? "obx-price-line__card--enterprise" : ""}`} key={plan.id}>
+                  <article className={`obx-price-line__card ${plan.featured ? "is-featured" : ""} ${plan.enterprise ? "obx-price-line__card--enterprise" : ""} ${isPickerOpen ? "is-picker-open" : ""}`} key={plan.id}>
                     {plan.popular && <span className="obx-price-line__popular">Популярный</span>}
                     <h4>{plan.title}</h4>
                     <p className="obx-price-line__description">{plan.description}</p>
                     <div className="obx-price-line__metric-line">
-                      <div className={`obx-price-line__user-line ${plan.enterprise ? "" : "obx-price-line__user-line--fixed"}`}>
+                      <div className={`obx-price-line__user-line ${plan.enterprise ? "obx-price-line__user-line--picker" : "obx-price-line__user-line--fixed"}`}>
                         {plan.enterprise ? (
-                          <div className={`obx-price-line__user-picker ${openPicker === "cloud-enterprise" ? "is-open" : ""}`}>
-                            <button type="button" aria-expanded={openPicker === "cloud-enterprise"} onClick={() => setOpenPicker(openPicker === "cloud-enterprise" ? null : "cloud-enterprise")}>
+                          <div className={`obx-price-line__user-picker ${isPickerOpen ? "is-open" : ""}`}>
+                            <button type="button" aria-expanded={isPickerOpen} onClick={() => setOpenPicker(isPickerOpen ? null : "cloud-enterprise")}>
                               <span>{enterpriseUsersCount} пользователей</span>
                             </button>
                             <div className="obx-price-line__user-menu">
@@ -574,10 +673,16 @@ export function BitrixPricingBlock() {
                     <ul className="obx-price-line__features">
                       {comparisonRows.map((row) => {
                         const level = plan.levels[row.id] ?? 0;
+                        const isRowHover = hoveredFeature === row.id;
                         return (
-                          <li className={hoveredFeature === row.id ? "is-row-hover" : ""} key={`${plan.id}-${row.id}`} onMouseEnter={() => setHoveredFeature(row.id)} onMouseLeave={() => setHoveredFeature(null)}>
-                            <FeatureIndicator level={level} />
-                            <span>{row.title}</span>
+                          <li
+                            className={`${isRowHover ? "is-row-hover" : ""} ${level === 0 ? "is-empty" : ""}`}
+                            key={`${plan.id}-${row.id}`}
+                            onMouseEnter={() => setHoveredFeature(row.id)}
+                            onMouseLeave={() => setHoveredFeature(null)}
+                          >
+                            {level > 0 && <FeatureIndicator level={level} />}
+                            {level > 0 && <span>{row.title}</span>}
                           </li>
                         );
                       })}
@@ -636,24 +741,95 @@ export function BitrixPricingBlock() {
             </div>
           </div>
 
-          <div className="obx-marketplace-plus">
-            <div className="obx-marketplace-plus__main">
-              <span className="obx-price-line__trial-label">Дополнительно</span>
-              <h3>Подписка Маркетплейс + BitrixGPT</h3>
-              <p>
-                Для облачных порталов отдельно проверяем подписку на приложения Маркетплейса и возможности BitrixGPT.
-                Это важно, если в проекте есть телефония, виджеты, отраслевые модули, AI-сценарии или дополнительные интеграции.
-              </p>
+          <div className="obx-marketplace-plus obx-marketplace-plus--table">
+            <div className="obx-marketplace-plus__head">
+              <div className="obx-marketplace-plus__main">
+                <span className="obx-price-line__trial-label">Дополнительно</span>
+                <h3>Подписка Маркетплейс + BitrixGPT</h3>
+                <p>
+                  Отдельно проверяем подписку на приложения Маркетплейса и возможности BitrixGPT. Для облака показываем
+                  официальную логику по тарифам, для коробки фиксируем расчётный контур перед счётом.
+                </p>
+              </div>
+              <div className="obx-marketplace-plus__switch" role="tablist" aria-label="Тип подписки Маркетплейс и BitrixGPT">
+                <button
+                  className={marketMode === "cloud" ? "is-active" : ""}
+                  type="button"
+                  role="tab"
+                  aria-selected={marketMode === "cloud"}
+                  onClick={() => {
+                    setMarketMode("cloud");
+                    setOpenPicker(null);
+                  }}
+                >
+                  Облако
+                </button>
+                <button
+                  className={marketMode === "box" ? "is-active" : ""}
+                  type="button"
+                  role="tab"
+                  aria-selected={marketMode === "box"}
+                  onClick={() => {
+                    setMarketMode("box");
+                    setOpenPicker(null);
+                  }}
+                >
+                  Коробка
+                </button>
+              </div>
             </div>
-            <div className="obx-marketplace-plus__cards">
-              {marketplacePlans.map((plan) => (
-                <article key={plan.title}>
-                  <Sparkles size={17} aria-hidden="true" />
-                  <strong>{plan.title}</strong>
-                  <span>{plan.price}</span>
-                  <p>{plan.text}</p>
-                </article>
-              ))}
+
+            <div className="obx-marketplace-plus__catalog">
+              {marketplacePlans.map((plan) => {
+                const isEnterprise = marketMode === "cloud" && plan.enterprise;
+                const isPickerOpen = isEnterprise && openPicker === "market-enterprise";
+                const users = isEnterprise ? marketEnterpriseUsers : undefined;
+                const price = resolveMaybePrice(plan.price, users);
+                const oldPrice = plan.oldPrice ? resolveMaybePrice(plan.oldPrice, users) : null;
+                const storage = isEnterprise ? enterpriseStorage[marketEnterpriseUsers] : plan.storage;
+
+                return (
+                  <article className={`obx-marketplace-plus__card ${plan.popular ? "is-popular" : ""} ${isEnterprise ? "is-enterprise" : ""} ${isPickerOpen ? "is-picker-open" : ""}`} key={`${marketMode}-${plan.id}`}>
+                    {plan.popular && <span className="obx-marketplace-plus__popular">Популярный</span>}
+                    <Sparkles size={18} aria-hidden="true" />
+                    <h4>{plan.title}</h4>
+                    <p>{plan.description}</p>
+                    <div className="obx-marketplace-plus__metrics">
+                      {isEnterprise ? (
+                        <div className={`obx-price-line__user-picker obx-marketplace-plus__user-picker ${isPickerOpen ? "is-open" : ""}`}>
+                          <button type="button" aria-expanded={isPickerOpen} onClick={() => setOpenPicker(isPickerOpen ? null : "market-enterprise")}>
+                            <span>{marketEnterpriseUsers} пользователей</span>
+                          </button>
+                          <div className="obx-price-line__user-menu">
+                            {enterpriseUsers.map((option) => (
+                              <button className={marketEnterpriseUsers === option ? "is-active" : ""} type="button" key={option} onClick={() => { setMarketEnterpriseUsers(option); setOpenPicker(null); }}>
+                                {option} пользователей
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                      ) : (
+                        <span>{plan.usersLabel}</span>
+                      )}
+                      {storage && <span>{storage}</span>}
+                    </div>
+                    <div className="obx-marketplace-plus__price">
+                      {typeof oldPrice === "number" && <small>{formatPrice(oldPrice)}</small>}
+                      {typeof oldPrice === "number" && <em>-50%</em>}
+                      <strong>{formatMaybePrice(price)}</strong>
+                      <span>{typeof price === "number" ? "в месяц за всех пользователей" : "после проверки условий"}</span>
+                    </div>
+                    <ul>
+                      {plan.features.map((feature) => (
+                        <li key={`${plan.id}-${feature}`}>
+                          <CheckCircle2 size={15} aria-hidden="true" />
+                          <span>{feature}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </article>
+                );
+              })}
             </div>
           </div>
         </div>

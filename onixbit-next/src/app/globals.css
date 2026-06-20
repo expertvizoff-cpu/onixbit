@@ -7885,3 +7885,628 @@ a:hover .lucide-mail polyline {
     grid-template-columns: 1fr;
   }
 }
+
+/* Tariffs Bitrix24-only refinement */
+.ob-license-route-grid--2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.ob-page-hero--tariffs .ob-rich-hero.ob-tariffs-hero {
+  min-height: min(640px, calc(100vh - 150px));
+}
+
+.ob-tariffs-hero__screen {
+  overflow: hidden;
+}
+
+.ob-tariffs-hero__meter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  min-height: 58px;
+  padding: 13px 16px;
+  border: 1px solid rgba(237, 28, 36, 0.14);
+  border-radius: 18px;
+  background: linear-gradient(135deg, rgba(255, 212, 90, 0.34), rgba(255, 255, 255, 0.7));
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.58);
+}
+
+.ob-tariffs-hero__meter span {
+  color: var(--ob-muted);
+  font-size: 12px;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.ob-tariffs-hero__meter strong {
+  color: var(--ob-red-deep);
+  font-size: 24px;
+  font-weight: 950;
+}
+
+.ob-tariffs-hero__mini-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-top: 2px;
+}
+
+.ob-tariffs-hero__mini-grid span {
+  height: 7px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(237, 28, 36, 0.82), rgba(255, 212, 90, 0.72));
+  animation: obTariffMini 2.8s ease-in-out infinite;
+}
+
+.ob-tariffs-hero__mini-grid span:nth-child(2) { animation-delay: -0.5s; opacity: 0.82; }
+.ob-tariffs-hero__mini-grid span:nth-child(3) { animation-delay: -1s; opacity: 0.68; }
+.ob-tariffs-hero__mini-grid span:nth-child(4) { animation-delay: -1.5s; opacity: 0.55; }
+
+@keyframes obTariffMini {
+  0%, 100% { transform: scaleX(0.76); transform-origin: left; }
+  50% { transform: scaleX(1); transform-origin: left; }
+}
+
+.ob-tariff-method--selector .ob-tariff-method__visual {
+  min-height: 320px;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  overflow: visible;
+}
+
+.ob-tariff-method__dial {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 136px;
+  height: 136px;
+  border: 1px solid rgba(255, 255, 255, 0.76);
+  border-radius: 42px;
+  color: #fff;
+  background: radial-gradient(circle at 25% 18%, rgba(255, 212, 90, 0.36), transparent 34%), linear-gradient(145deg, var(--ob-red), var(--ob-red-deep));
+  box-shadow: 0 28px 74px rgba(237, 28, 36, 0.26);
+  transform: translate(-50%, -50%) rotate(-5deg);
+}
+
+.ob-tariff-method__dial strong {
+  margin-top: -18px;
+  font-size: 18px;
+  font-weight: 950;
+}
+
+.ob-tariff-method__flow {
+  position: absolute;
+  inset: 8px;
+}
+
+.ob-tariff-method__flow::before {
+  content: "";
+  position: absolute;
+  inset: 28px 40px;
+  border: 1px dashed rgba(237, 28, 36, 0.28);
+  border-radius: 42px;
+  animation: obTariffFlowLine 6s linear infinite;
+}
+
+.ob-tariff-method__flow span {
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 52px;
+  padding: 12px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.76);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.76);
+  color: var(--ob-ink);
+  font-weight: 950;
+  box-shadow: 0 16px 46px rgba(8, 8, 8, 0.1);
+  animation: obTariffNode 5.5s ease-in-out infinite;
+}
+
+.ob-tariff-method__flow span svg {
+  color: var(--ob-red);
+}
+
+.ob-tariff-method__flow span:nth-child(1) { left: 5%; top: 5%; }
+.ob-tariff-method__flow span:nth-child(2) { right: 1%; top: 18%; animation-delay: -1s; }
+.ob-tariff-method__flow span:nth-child(3) { left: 2%; bottom: 14%; animation-delay: -2s; }
+.ob-tariff-method__flow span:nth-child(4) { right: 4%; bottom: 4%; animation-delay: -3s; }
+
+@keyframes obTariffFlowLine {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.obx-tariffs__matrix,
+.obx-tariffs__columns,
+.obx-tariffs__edition,
+.obx-tariffs__plans,
+.obx-tariffs__plan-shell,
+.obx-price-line__inner,
+.obx-price-line__catalog,
+.obx-price-line__card,
+.obx-marketplace-plus,
+.obx-marketplace-plus__catalog,
+.obx-marketplace-plus__card {
+  overflow: visible;
+}
+
+.obx-user-capacity {
+  width: 62px;
+  min-width: 62px;
+  height: 62px;
+  min-height: 62px;
+  flex-direction: column;
+  gap: 1px;
+  border-radius: 50%;
+  line-height: 1;
+}
+
+.obx-user-capacity svg {
+  width: 16px;
+  height: 16px;
+}
+
+.obx-user-capacity b {
+  font-size: 15px;
+}
+
+.obx-tariffs__plans button,
+.obx-tariffs__enterprise-picker > button {
+  grid-template-columns: 72px minmax(0, 1fr);
+  min-height: 104px;
+}
+
+.obx-tariffs__plan-shell.is-open,
+.obx-price-line__card.is-picker-open,
+.obx-marketplace-plus__card.is-picker-open {
+  z-index: 90;
+}
+
+.obx-tariffs__enterprise-menu,
+.obx-price-line__user-menu {
+  top: calc(100% + 12px);
+  left: 0;
+  right: auto;
+  z-index: 500;
+  padding: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.78);
+  border-radius: 22px;
+  background:
+    radial-gradient(circle at 15% 0%, rgba(255, 212, 90, 0.3), transparent 34%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(255, 250, 230, 0.9));
+  box-shadow: 0 26px 78px rgba(8, 8, 8, 0.2), inset 0 0 0 1px rgba(255, 255, 255, 0.58);
+  backdrop-filter: blur(16px);
+}
+
+.obx-tariffs__enterprise-menu button,
+.obx-price-line__user-menu button {
+  min-height: 46px;
+  border-radius: 14px;
+  color: var(--ob-ink);
+  background: rgba(255, 255, 255, 0.72);
+  font-weight: 850;
+}
+
+.obx-tariffs__enterprise-menu button:hover,
+.obx-tariffs__enterprise-menu button.is-active,
+.obx-price-line__user-menu button:hover,
+.obx-price-line__user-menu button.is-active {
+  color: #fff;
+  background: linear-gradient(135deg, var(--ob-red), var(--ob-red-deep));
+}
+
+.obx-tariffs__decision {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  padding: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.obx-tariffs__fit,
+.obx-tariffs__risk {
+  min-height: 150px;
+  padding: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.76);
+  border-radius: 26px;
+  background: rgba(255, 255, 255, 0.68);
+  box-shadow: 0 18px 52px rgba(8, 8, 8, 0.08);
+}
+
+.obx-price-line__lead--important strong,
+.obx-price-line__control-note span {
+  display: none;
+}
+
+.obx-price-line__control-bar {
+  display: grid;
+  grid-template-columns: max-content max-content minmax(280px, 1fr);
+  align-items: end;
+}
+
+.obx-price-line__control-group {
+  min-width: 0;
+  width: max-content;
+}
+
+.obx-price-line__control-note {
+  align-self: stretch;
+  display: grid;
+  align-items: center;
+}
+
+.obx-price-line__popular,
+.obx-marketplace-plus__popular {
+  color: #fff;
+  background: linear-gradient(135deg, var(--ob-red), #ff6728 58%, var(--ob-yellow));
+  box-shadow: 0 16px 38px rgba(237, 28, 36, 0.22);
+}
+
+.obx-price-line__user-line--picker {
+  min-height: 48px;
+  padding: 0;
+  border: 1px solid rgba(8, 8, 8, 0.08);
+  background: rgba(255, 255, 255, 0.56);
+}
+
+.obx-price-line__card--enterprise .obx-price-line__user-line--picker {
+  border-color: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.obx-price-line__user-picker,
+.obx-marketplace-plus__user-picker {
+  width: 100%;
+}
+
+.obx-price-line__user-picker > button,
+.obx-marketplace-plus__user-picker > button {
+  width: 100%;
+  min-height: 46px;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.obx-price-line__user-picker.is-open > button,
+.obx-marketplace-plus__user-picker.is-open > button {
+  color: var(--ob-ink);
+  background: rgba(255, 212, 90, 0.5);
+}
+
+.obx-price-line__card--enterprise .obx-price-line__user-picker.is-open > button,
+.obx-price-line__card--enterprise .obx-price-line__user-picker > button {
+  color: #fff;
+}
+
+.obx-price-line__card--enterprise .obx-price-line__user-picker.is-open > button {
+  color: var(--ob-ink);
+}
+
+.obx-price-line__features li {
+  grid-template-columns: 42px minmax(0, 1fr);
+  border-radius: 0;
+  border-left-color: transparent;
+  border-right-color: transparent;
+}
+
+.obx-price-line__features li.is-empty {
+  pointer-events: auto;
+  opacity: 1;
+}
+
+.obx-price-line__features li.is-empty > * {
+  display: none;
+}
+
+.obx-feature-indicator {
+  display: inline-grid;
+  grid-template-columns: repeat(3, 1fr);
+  align-items: center;
+  gap: 3px;
+  width: 34px;
+  height: 17px;
+  padding: 3px;
+  border: 1px solid rgba(237, 28, 36, 0.18);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.75);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.42);
+}
+
+.obx-feature-indicator i,
+.obx-feature-indicator i:nth-child(2),
+.obx-feature-indicator i:nth-child(3) {
+  width: auto;
+  height: 9px;
+  border-radius: 4px;
+  background: rgba(8, 8, 8, 0.09);
+}
+
+.obx-feature-indicator--1 i:nth-child(1),
+.obx-feature-indicator--2 i:nth-child(1),
+.obx-feature-indicator--2 i:nth-child(2),
+.obx-feature-indicator--3 i {
+  background: linear-gradient(180deg, var(--ob-yellow), var(--ob-red));
+}
+
+.obx-price-line__card--enterprise .obx-feature-indicator {
+  border-color: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.obx-price-line__catalog.has-row-hover .obx-price-line__features li.is-row-hover {
+  border-top-color: rgba(237, 28, 36, 0.38);
+  border-bottom-color: rgba(237, 28, 36, 0.38);
+  border-radius: 0;
+  background: rgba(255, 212, 90, 0.16);
+  color: var(--ob-ink);
+}
+
+.obx-price-line__catalog.has-row-hover .obx-price-line__card:first-child .obx-price-line__features li.is-row-hover {
+  border-left-color: rgba(237, 28, 36, 0.38);
+  border-radius: 14px 0 0 14px;
+}
+
+.obx-price-line__catalog.has-row-hover .obx-price-line__card:last-child .obx-price-line__features li.is-row-hover {
+  border-right-color: rgba(237, 28, 36, 0.38);
+  border-radius: 0 14px 14px 0;
+}
+
+.obx-price-line__card--enterprise .obx-price-line__features li.is-row-hover {
+  color: #fff;
+  background: rgba(255, 212, 90, 0.14);
+}
+
+.obx-marketplace-plus--table {
+  display: block;
+}
+
+.obx-marketplace-plus__head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 22px;
+  align-items: start;
+}
+
+.obx-marketplace-plus__switch {
+  display: inline-flex;
+  gap: 6px;
+  padding: 6px;
+  border: 1px solid rgba(8, 8, 8, 0.08);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.68);
+}
+
+.obx-marketplace-plus__switch button {
+  min-height: 42px;
+  border: 0;
+  border-radius: 999px;
+  padding: 0 18px;
+  color: var(--ob-ink);
+  background: transparent;
+  font-weight: 950;
+  cursor: pointer;
+}
+
+.obx-marketplace-plus__switch button.is-active,
+.obx-marketplace-plus__switch button:hover {
+  color: #fff;
+  background: linear-gradient(135deg, var(--ob-red), var(--ob-red-deep));
+}
+
+.obx-marketplace-plus__catalog {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 22px;
+}
+
+.obx-marketplace-plus__card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 450px;
+  padding: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.66);
+  box-shadow: 0 18px 58px rgba(8, 8, 8, 0.07);
+  transition: border-color 0.22s var(--ob-ease), box-shadow 0.22s var(--ob-ease), background 0.22s var(--ob-ease);
+}
+
+.obx-marketplace-plus__card:hover {
+  border-color: rgba(237, 28, 36, 0.28);
+  background: rgba(255, 255, 255, 0.76);
+  box-shadow: 0 0 0 1px rgba(237, 28, 36, 0.12), 0 0 34px rgba(237, 28, 36, 0.17), 0 24px 76px rgba(8, 8, 8, 0.1);
+}
+
+.obx-marketplace-plus__card.is-enterprise {
+  color: #fff;
+  background: radial-gradient(circle at 82% 16%, rgba(255, 212, 90, 0.2), transparent 32%), linear-gradient(150deg, rgba(8, 8, 8, 0.88), rgba(42, 42, 42, 0.8));
+}
+
+.obx-marketplace-plus__card > svg {
+  color: var(--ob-red);
+}
+
+.obx-marketplace-plus__card.is-enterprise > svg {
+  color: var(--ob-yellow);
+}
+
+.obx-marketplace-plus__card h4 {
+  margin: 18px 0 0;
+  font-size: clamp(23px, 1.55vw, 30px);
+  line-height: 1.12;
+  font-weight: 950;
+}
+
+.obx-marketplace-plus__card p {
+  min-height: 76px;
+  margin: 12px 0 0;
+  color: var(--ob-muted);
+  line-height: 1.5;
+  font-weight: 560;
+}
+
+.obx-marketplace-plus__card.is-enterprise p,
+.obx-marketplace-plus__card.is-enterprise li,
+.obx-marketplace-plus__card.is-enterprise .obx-marketplace-plus__metrics > span,
+.obx-marketplace-plus__card.is-enterprise .obx-marketplace-plus__price span {
+  color: rgba(255, 255, 255, 0.74);
+}
+
+.obx-marketplace-plus__metrics {
+  display: grid;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.obx-marketplace-plus__metrics > span,
+.obx-marketplace-plus__user-picker {
+  display: flex;
+  align-items: center;
+  min-height: 48px;
+  border: 1px solid rgba(8, 8, 8, 0.08);
+  border-radius: 16px;
+  padding: 0 13px;
+  background: rgba(255, 255, 255, 0.56);
+  font-weight: 900;
+}
+
+.obx-marketplace-plus__card.is-enterprise .obx-marketplace-plus__metrics > span,
+.obx-marketplace-plus__card.is-enterprise .obx-marketplace-plus__user-picker {
+  border-color: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.obx-marketplace-plus__price {
+  margin-top: 16px;
+  padding: 16px;
+  border: 1px solid rgba(8, 8, 8, 0.08);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.56);
+}
+
+.obx-marketplace-plus__card.is-enterprise .obx-marketplace-plus__price {
+  border-color: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.obx-marketplace-plus__price small {
+  color: var(--ob-muted);
+  font-weight: 800;
+  text-decoration: line-through;
+}
+
+.obx-marketplace-plus__price em {
+  margin-left: 8px;
+  color: var(--ob-red);
+  font-style: normal;
+  font-weight: 950;
+}
+
+.obx-marketplace-plus__price strong {
+  display: block;
+  margin-top: 6px;
+  font-size: clamp(30px, 2.7vw, 46px);
+  line-height: 1;
+  font-weight: 950;
+}
+
+.obx-marketplace-plus__price span {
+  display: block;
+  margin-top: 6px;
+  color: var(--ob-muted);
+  font-size: 12px;
+  font-weight: 820;
+}
+
+.obx-marketplace-plus__card ul {
+  display: grid;
+  gap: 8px;
+  margin: auto 0 0;
+  padding: 16px 0 0;
+  list-style: none;
+}
+
+.obx-marketplace-plus__card li {
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr);
+  align-items: center;
+  gap: 8px;
+  color: var(--ob-muted);
+  font-size: 14px;
+  font-weight: 680;
+}
+
+.obx-marketplace-plus__card li svg {
+  color: var(--ob-red);
+}
+
+.obx-marketplace-plus__popular {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 999px;
+  padding: 7px 14px;
+  font-size: 12px;
+  font-weight: 950;
+}
+
+@media (max-width: 1280px) {
+  .obx-marketplace-plus__catalog {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 980px) {
+  .ob-license-route-grid--2,
+  .obx-tariffs__decision,
+  .obx-price-line__control-bar,
+  .obx-marketplace-plus__head {
+    grid-template-columns: 1fr;
+  }
+
+  .obx-price-line__control-group {
+    width: 100%;
+  }
+
+  .obx-marketplace-plus__switch {
+    justify-self: start;
+  }
+}
+
+@media (max-width: 760px) {
+  .ob-tariff-method__flow span {
+    position: relative;
+    left: auto !important;
+    right: auto !important;
+    top: auto !important;
+    bottom: auto !important;
+  }
+
+  .ob-tariff-method__flow {
+    position: relative;
+    inset: auto;
+    display: grid;
+    gap: 10px;
+    padding-top: 170px;
+  }
+
+  .ob-tariff-method__flow::before {
+    display: none;
+  }
+
+  .obx-marketplace-plus__catalog {
+    grid-template-columns: 1fr;
+  }
+}
