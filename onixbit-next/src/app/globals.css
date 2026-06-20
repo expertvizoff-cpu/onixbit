@@ -4579,6 +4579,20 @@ a:hover .lucide-mail polyline {
   filter: drop-shadow(0 9px 14px rgba(8, 8, 8, 0.14));
 }
 
+.ob-system-logo--b24 img,
+.ob-system-logo--bitrix img {
+  width: 132px;
+  max-width: 132px;
+  max-height: 42px;
+}
+
+.ob-system-logo--compact.ob-system-logo--b24 img,
+.ob-system-logo--compact.ob-system-logo--bitrix img {
+  width: 118px;
+  max-width: 118px;
+  max-height: 36px;
+}
+
 .ob-system-logo--compact {
   min-width: 82px;
   min-height: 38px;

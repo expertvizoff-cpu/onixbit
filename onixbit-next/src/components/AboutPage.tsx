@@ -95,7 +95,7 @@ const workSteps = [
     text: "Смотрим текущие заявки, CRM, сайт, 1С, коммуникации и ручные операции.",
     result: "карта процессов и ограничений",
     flow: [
-      { label: "Проверяем", value: "заявки и CRM", system: ecosystemItems[0] },
+      { label: "Проверяем", value: "заявки и CRM" },
       { label: "Сверяем", value: "сайт, 1С и каналы" },
       { label: "Фиксируем", value: "карту процессов и ограничений" },
     ],
@@ -117,7 +117,7 @@ const workSteps = [
     text: "Настраиваем CRM, сайт, обмены, права, роботов и контрольные точки для команды.",
     result: "готовые сценарии команды",
     flow: [
-      { label: "Настраиваем", value: "воронки и права", system: ecosystemItems[0] },
+      { label: "Настраиваем", value: "воронки и права" },
       { label: "Подключаем", value: "формы, обмены, роботов" },
       { label: "Фиксируем", value: "готовые сценарии команды" },
     ],
@@ -128,8 +128,8 @@ const workSteps = [
     text: "Добавляем отчёты, BI, AI-сценарии и улучшаем маршрут после запуска.",
     result: "план улучшений по данным",
     flow: [
-      { label: "Собираем", value: "BI-отчёты", system: ecosystemItems[3] },
-      { label: "Ускоряем", value: "AI-сценарии", system: ecosystemItems[4] },
+      { label: "Собираем", value: "BI-отчёты" },
+      { label: "Ускоряем", value: "AI-сценарии" },
       { label: "Фиксируем", value: "план улучшений по данным" },
     ],
   },
@@ -225,9 +225,9 @@ const competencyRoutes = [
 const directionAboutTitles = ["Внедрение\nБитрикс24", "Сайты на\n1С-Битрикс", "Работы по\n1С:Предприятие"];
 
 const directionLogoSets = [
-  [ecosystemItems[0], ecosystemItems[2], ecosystemItems[3]],
-  [ecosystemItems[1], ecosystemItems[2], ecosystemItems[0]],
-  [ecosystemItems[2], ecosystemItems[0], ecosystemItems[1]],
+  [ecosystemItems[0]],
+  [ecosystemItems[1]],
+  [ecosystemItems[2]],
 ];
 
 function SystemLogo({ item, compact = false }: { item: (typeof ecosystemItems)[number]; compact?: boolean }) {
@@ -391,7 +391,6 @@ export function AboutPageContent() {
                   <Fragment key={card.label}>
                     <div>
                       <span>{card.label}</span>
-                      {"system" in card && card.system ? <SystemLogo item={card.system} compact /> : null}
                       <strong>{card.value}</strong>
                     </div>
                     {index < work.flow.length - 1 ? <i aria-hidden="true" /> : null}
