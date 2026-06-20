@@ -163,7 +163,38 @@ const certificatePreview = [
   },
 ];
 
-const materialShapes = ["ob-about-material--wide", "ob-about-material--round", "ob-about-material--tall"];
+const materialItems = [
+  ...articles,
+  {
+    category: "Разборы",
+    title: "Ответы на частые вопросы по интеграциям",
+    text: "Короткие практические материалы о связке Битрикс24, сайта, 1С и отчётности: без воды, с примерами и ограничениями.",
+    minutes: "скоро",
+  },
+];
+
+const materialShapes = ["ob-about-material--wide", "ob-about-material--round", "ob-about-material--tall", "ob-about-material--square"];
+
+const competencyRoutes = [
+  {
+    title: "Продажи и коммуникации",
+    text: "Заявки, звонки и переписки собираются в Битрикс24, а руководитель видит качество обработки в отчётах.",
+    result: "меньше потерянных обращений",
+    systems: [ecosystemItems[0], ecosystemItems[2], ecosystemItems[3]],
+  },
+  {
+    title: "Сайт как часть CRM",
+    text: "Формы, каталог, корзина и личные кабинеты не живут отдельно: данные уходят в CRM и дальше в учёт.",
+    result: "понятный путь заявки от сайта до сделки",
+    systems: [ecosystemItems[1], ecosystemItems[2], ecosystemItems[0]],
+  },
+  {
+    title: "Учёт и обмены",
+    text: "Интеграции с 1С помогают синхронизировать заказы, товары, клиентов и статусы без ручного переноса.",
+    result: "аккуратный обмен между продажами и учётом",
+    systems: [ecosystemItems[2], ecosystemItems[0], ecosystemItems[1]],
+  },
+];
 
 const directionLogoSets = [
   [ecosystemItems[0], ecosystemItems[2], ecosystemItems[3]],
@@ -186,9 +217,12 @@ function SystemLogo({ item, compact = false }: { item: (typeof ecosystemItems)[n
 export function AboutPageContent() {
   const [activeStep, setActiveStep] = useState(0);
   const [activeMaterial, setActiveMaterial] = useState(0);
+  const [activeCompetency, setActiveCompetency] = useState(0);
+  const [isCertificateOpen, setIsCertificateOpen] = useState(false);
   const work = workSteps[activeStep] ?? workSteps[0];
   const WorkIcon = work.icon;
-  const material = articles[activeMaterial] ?? articles[0];
+  const material = materialItems[activeMaterial] ?? materialItems[0];
+  const competency = competencyRoutes[activeCompetency] ?? competencyRoutes[0];
 
   useEffect(() => {
     const timer = window.setTimeout(() => {
@@ -240,12 +274,9 @@ export function AboutPageContent() {
           </div>
 
           <div className="ob-about-hero__visual" aria-label="Александр Тужилкин и экосистема Ониксбит">
-            <div className="ob-about-hero__orbit" aria-hidden="true">
-              {ecosystemItems.map((item) => (
-                <span key={item.title}>
-                  <SystemLogo item={item} compact />
-                  <em>{item.badge}</em>
-                </span>
+            <div className="ob-about-hero__orbit ob-about-hero__orbit--markers" aria-hidden="true">
+              {[0, 1, 2, 3].map((item) => (
+                <span key={item} />
               ))}
             </div>
             <div className="ob-about-hero__portrait">
@@ -272,8 +303,9 @@ export function AboutPageContent() {
       <section className="ob-section ob-section--tight">
         <div className="ob-container">
           <SectionIntro
-            kicker="Принципы"
-            title="Не набор услуг, а управляемая система для продаж и учёта"
+            kicker="Подход"
+            title="Как мы снижаем риск внедрения для клиента"
+            text="Этот блок про то, почему проект не превращается в хаос: сначала границы, потом архитектура, затем внедрение и понятная ответственность."
           />
           <div className="ob-about-teasers">
             {positionTeasers.map((card) => {
@@ -294,10 +326,10 @@ export function AboutPageContent() {
         <div className="ob-container ob-about-work">
           <div className="ob-about-work__intro">
             <span className="ob-kicker">Как устроена работа</span>
-            <h2>От диагностики до развития: понятный маршрут проекта</h2>
+            <h2>Что будет происходить после заявки</h2>
             <p>
-              Мы не начинаем с разработки вслепую. Сначала собираем контекст, затем
-              проектируем связку систем и только после этого внедряем настройки, обмены и отчёты.
+              Клиент заранее видит маршрут проекта: что проверяем, что проектируем,
+              где внедряем и по каким признакам понятно, что этап завершён.
             </p>
           </div>
           <div className="ob-about-work__panel">
@@ -325,15 +357,26 @@ export function AboutPageContent() {
               <div className="ob-about-work__screen-head">
                 <WorkIcon size={28} aria-hidden="true" />
                 <div>
-                  <span>{String(activeStep + 1).padStart(2, "0")}</span>
+                  <span>Этап {String(activeStep + 1).padStart(2, "0")}</span>
                   <strong>{work.title}</strong>
                 </div>
               </div>
               <p>{work.text}</p>
-              <div className="ob-about-work__systems">
-                {work.systems.map((system) => (
-                  <em key={system}>{system}</em>
-                ))}
+              <div className="ob-about-work__flow">
+                <div>
+                  <span>Проверяем</span>
+                  <strong>{work.systems[0]}</strong>
+                </div>
+                <i aria-hidden="true" />
+                <div>
+                  <span>Настраиваем</span>
+                  <strong>{work.systems[1]}</strong>
+                </div>
+                <i aria-hidden="true" />
+                <div>
+                  <span>Фиксируем</span>
+                  <strong>{work.result}</strong>
+                </div>
               </div>
               <div className="ob-about-work__result">
                 <ClipboardCheck size={20} aria-hidden="true" />
@@ -348,22 +391,41 @@ export function AboutPageContent() {
         <div className="ob-container ob-about-competencies">
           <SectionIntro
             kicker="Компетенции"
-            title="Три направления связаны между собой, а не живут отдельно"
-            text="Клиент видит один маршрут: заявка приходит с сайта, обрабатывается в CRM, данные синхронизируются с 1С, а руководитель получает отчётность."
+            title="Где Ониксбит полезен B2B-команде"
+            text="Мы сильнее всего там, где нужно связать продажи, сайт, учёт и аналитику в один понятный маршрут данных."
           />
-          <div className="ob-about-link-map" aria-label="Связка систем Ониксбит">
-            <div className="ob-about-link-map__center">
-              <Image src="/brand/onixbit-mark.png" alt="" width={86} height={86} />
-              <strong>Ониксбит</strong>
-              <span>единая архитектура</span>
-            </div>
-            <div className="ob-about-link-map__nodes">
-              {ecosystemItems.map((item) => (
-                <div className="ob-about-link-map__node" key={item.title}>
-                  <SystemLogo item={item} compact />
-                  <span>{item.title}</span>
-                </div>
+          <div className="ob-about-competency-stage" aria-label="Практические зоны компетенций Ониксбит">
+            <div className="ob-about-competency-tabs" role="tablist" aria-label="Зоны компетенций">
+              {competencyRoutes.map((route, index) => (
+                <button
+                  className={index === activeCompetency ? "is-active" : ""}
+                  type="button"
+                  role="tab"
+                  aria-selected={index === activeCompetency}
+                  key={route.title}
+                  onClick={() => setActiveCompetency(index)}
+                  onMouseEnter={() => setActiveCompetency(index)}
+                >
+                  <span>{String(index + 1).padStart(2, "0")}</span>
+                  <strong>{route.title}</strong>
+                </button>
               ))}
+            </div>
+            <div className="ob-about-competency-visual" aria-live="polite">
+              <div className="ob-about-competency-visual__head">
+                <span>{competency.title}</span>
+                <h3>{competency.result}</h3>
+                <p>{competency.text}</p>
+              </div>
+              <div className="ob-about-competency-flow">
+                {competency.systems.map((item, index) => (
+                  <div key={item.title}>
+                    <SystemLogo item={item} compact />
+                    <span>{item.title}</span>
+                    {index < competency.systems.length - 1 ? <i aria-hidden="true" /> : null}
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
           <div className="ob-card-grid ob-card-grid--3 ob-about-direction-grid">
@@ -426,18 +488,18 @@ export function AboutPageContent() {
             </Link>
           </div>
           <div className="ob-about-cert-lite__visual">
-            <article className="ob-about-cert-lite__open">
-              <Image src="/media/certificates/Золотой партнёр Битрикс24.jpg" alt="Золотой партнёр Битрикс24" width={520} height={360} />
-              <span>Золотой партнёр Битрикс24</span>
-            </article>
             <div className="ob-about-cert-lite__stack">
-              {certificatePreview.slice(1).map((item, index) => (
+              {certificatePreview.map((item, index) => (
                 <article key={item.title} style={{ "--cert-index": index } as CSSProperties}>
-                  <Image src={item.image} alt={item.title} width={320} height={220} />
+                  <Image src={item.image} alt={item.title} width={360} height={250} />
                   <span>{item.title}</span>
                 </article>
               ))}
             </div>
+            <button className="ob-about-cert-lite__zoom" type="button" onClick={() => setIsCertificateOpen(true)}>
+              <Image src="/media/certificates/Золотой партнёр Битрикс24.jpg" alt="Золотой партнёр Битрикс24" width={420} height={300} />
+              <span>Открыть золотой статус крупно</span>
+            </button>
           </div>
         </div>
       </section>
@@ -446,12 +508,12 @@ export function AboutPageContent() {
         <div className="ob-container ob-about-materials">
           <SectionIntro
             kicker="Материалы"
-            title="Редакционный план экспертных материалов"
-            text="Наведите или нажмите на карточку: темы будут превращаться в статьи, видео и практические чек-листы."
+            title="Материалы, которые покажут экспертизу на практике"
+            text="Здесь будут статьи, видео и короткие разборы: как выбирать CRM-логику, где ломаются обмены, что проверять в сайтах и как готовиться к внедрению."
           />
           <div className="ob-about-materials__grid">
             <div className="ob-about-materials__cards">
-              {articles.map((article, index) => (
+              {materialItems.map((article, index) => (
                 <button
                   className={["ob-about-material", materialShapes[index % materialShapes.length], index === activeMaterial ? "is-active" : ""].join(" ")}
                   type="button"
@@ -514,6 +576,17 @@ export function AboutPageContent() {
           </div>
         </div>
       </section>
+
+      {isCertificateOpen ? (
+        <div className="ob-about-cert-modal" role="dialog" aria-modal="true" aria-label="Золотой партнёр Битрикс24">
+          <button className="ob-about-cert-modal__close" type="button" onClick={() => setIsCertificateOpen(false)} aria-label="Закрыть сертификат">
+            ×
+          </button>
+          <div className="ob-about-cert-modal__card">
+            <Image src="/media/certificates/Золотой партнёр Битрикс24.jpg" alt="Золотой партнёр Битрикс24" width={1100} height={760} />
+          </div>
+        </div>
+      ) : null}
 
       <LeadSection />
     </>
