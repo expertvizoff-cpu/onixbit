@@ -522,26 +522,32 @@ export function ContactsContent() {
         <div className="ob-container ob-contact-person">
           <div className="ob-contact-person__photo">
             <Image
-              src="/media/team/contact-coordinator-demo.webp"
-              alt="Демо-фото координатора проекта"
+              src="/media/team/founder-alexander-site.webp"
+              alt="Александр Тужилкин, основатель Onixbit"
               width={720}
               height={720}
               sizes="(max-width: 760px) 100vw, 360px"
             />
           </div>
           <div className="ob-contact-person__content">
-            <span className="ob-kicker">Пример персонального контакта</span>
-            <h2>Нужен ли на странице отдельный человек?</h2>
+            <span className="ob-kicker">Личный контакт</span>
+            <h2>Александр Тужилкин</h2>
             <p>
-              Я бы оставил такой блок, если есть реальный руководитель внедрений,
-              аккаунт-менеджер или основатель, который готов принимать первичные обращения.
-              Для B2B это добавляет доверие. Если человека пока не закрепляем — блок лучше
-              убрать, чтобы не создавать ложное ожидание персонального канала.
+              Основатель Onixbit и эксперт по Битрикс24/интеграциям с 1С. 14 лет
+              помогаю B2B-компаниям связывать CRM, сайт и учётные системы в управляемую
+              инфраструктуру без лишнего шума и случайных решений.
             </p>
             <div className="ob-contact-person__role">
-              <strong>Рекомендуемая роль</strong>
-              <span>Ответственный за первичный разбор: понимает Битрикс24, сайты, 1С и может быстро маршрутизировать задачу.</span>
+              <strong>Когда писать лично</strong>
+              <span>Если задача сложная, нужна интеграция Битрикс24 с 1С или сайтом, либо важно быстро понять реалистичный маршрут проекта.</span>
             </div>
+            <a
+              className="ob-btn ob-btn--primary ob-contact-person__button"
+              href="mailto:expert@onixbit.ru?subject=%D0%9B%D0%B8%D1%87%D0%BD%D0%BE%D0%B5%20%D0%BE%D0%B1%D1%80%D0%B0%D1%89%D0%B5%D0%BD%D0%B8%D0%B5%20%D1%81%20%D1%81%D0%B0%D0%B9%D1%82%D0%B0%20Onixbit"
+            >
+              <span>Написать лично</span>
+              <Mail size={18} aria-hidden="true" />
+            </a>
           </div>
         </div>
       </section>

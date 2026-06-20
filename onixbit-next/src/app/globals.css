@@ -2793,6 +2793,10 @@ textarea:focus-visible {
   font-weight: 650;
 }
 
+.ob-contact-person__button {
+  margin-top: 22px;
+}
+
 .ob-footer {
   position: relative;
   z-index: 1;
