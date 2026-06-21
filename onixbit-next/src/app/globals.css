@@ -9463,6 +9463,68 @@ a:hover .lucide-mail polyline {
   max-width: 790px;
 }
 
+.ob-crm-modal {
+  place-items: start center;
+  padding: clamp(126px, 12svh, 150px) 24px 34px;
+}
+
+.ob-crm-modal__panel {
+  width: min(920px, 100%);
+  max-height: calc(100svh - clamp(180px, 19svh, 220px));
+  padding: clamp(22px, 2.4vw, 32px);
+}
+
+.ob-crm-modal__header h2 {
+  margin-top: 14px;
+  font-size: clamp(32px, 3.25vw, 50px);
+}
+
+.ob-crm-modal__header p {
+  margin-top: 14px;
+  font-size: clamp(15px, 0.95vw, 17px);
+  line-height: 1.42;
+}
+
+.ob-crm-modal__summary {
+  margin-top: 18px;
+}
+
+.ob-crm-modal__summary article {
+  min-height: 92px;
+  padding: 15px;
+}
+
+.ob-crm-modal__grid {
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.ob-crm-modal__grid article {
+  min-height: 176px;
+  padding: 18px;
+}
+
+.ob-crm-modal__actions {
+  margin-top: 18px;
+}
+
+.ob-crm-modal__source {
+  margin-top: 12px;
+}
+
+@media (max-width: 760px) {
+  .ob-crm-modal {
+    place-items: center;
+    padding: 14px;
+  }
+
+  .ob-crm-modal__panel {
+    width: 100%;
+    max-height: calc(100svh - 28px);
+    padding: clamp(20px, 6vw, 26px);
+  }
+}
+
 @media (min-width: 981px) {
   .obx-marketplace-plus__catalog[data-obx-market-mode="box"] .obx-marketplace-plus__card {
     min-height: 530px;
