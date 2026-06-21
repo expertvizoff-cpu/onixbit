@@ -2,6 +2,7 @@
 
 import { type CSSProperties, type MouseEvent as ReactMouseEvent, useMemo, useRef, useState } from "react";
 import { CheckCircle2, Sparkles, UsersRound } from "lucide-react";
+import { BitrixCrmProof } from "./BitrixCrmProof";
 
 type Mode = "cloud" | "box";
 type Period = "month" | "year";
@@ -600,15 +601,6 @@ export function BitrixPricingBlock() {
               </div>
             </div>
           </div>
-
-          <div className="obx-tariffs__note">
-            <p className="obx-tariffs__note-text">
-              Финальная стоимость зависит от актуального прайса, срока оплаты, состава внедрения, обменов, телефонии, BI и сопровождения.
-            </p>
-            <a className="obx-tariffs__note-link" href="#lead" data-obx-lead-open>
-              Запросить расчёт
-            </a>
-          </div>
         </div>
       </section>
 
@@ -623,6 +615,7 @@ export function BitrixPricingBlock() {
               <p>
                 Цены и лимиты сверяем перед выставлением счёта. В таблице показываем ориентиры по официальной линейке Битрикс24.
               </p>
+              <BitrixCrmProof variant="compact" className="ob-crm-proof--tariffs" />
             </div>
           </div>
 
@@ -804,7 +797,6 @@ export function BitrixPricingBlock() {
                     aria-selected={marketMode === "cloud"}
                     onClick={() => {
                       setMarketMode("cloud");
-                      setMode("cloud");
                       setOpenPicker(null);
                     }}
                   >
@@ -817,23 +809,20 @@ export function BitrixPricingBlock() {
                     aria-selected={marketMode === "box"}
                     onClick={() => {
                       setMarketMode("box");
-                      setMode("box");
                       setOpenPicker(null);
                     }}
                   >
                     Коробка
                   </button>
                 </div>
-                {marketMode === "cloud" && (
-                  <div className="obx-marketplace-plus__periods" role="tablist" aria-label="Срок подписки Маркетплейс и BitrixGPT">
-                    <button className={marketPeriod === "month" ? "is-active" : ""} type="button" role="tab" aria-selected={marketPeriod === "month"} onClick={() => setMarketPeriod("month")}>1 месяц</button>
-                    <button className={marketPeriod === "year" ? "is-active" : ""} type="button" role="tab" aria-selected={marketPeriod === "year"} onClick={() => setMarketPeriod("year")}>12 месяцев</button>
-                  </div>
-                )}
+                <div className={`obx-marketplace-plus__periods ${marketMode === "cloud" ? "" : "is-placeholder"}`} role="tablist" aria-label="Срок подписки Маркетплейс и BitrixGPT" aria-hidden={marketMode !== "cloud"}>
+                  <button className={marketPeriod === "month" ? "is-active" : ""} type="button" role="tab" aria-selected={marketPeriod === "month"} tabIndex={marketMode === "cloud" ? 0 : -1} onClick={() => marketMode === "cloud" && setMarketPeriod("month")}>1 месяц</button>
+                  <button className={marketPeriod === "year" ? "is-active" : ""} type="button" role="tab" aria-selected={marketPeriod === "year"} tabIndex={marketMode === "cloud" ? 0 : -1} onClick={() => marketMode === "cloud" && setMarketPeriod("year")}>12 месяцев</button>
+                </div>
               </div>
             </div>
 
-            <div className="obx-marketplace-plus__catalog">
+            <div className="obx-marketplace-plus__catalog" data-obx-market-mode={marketMode}>
               {marketplacePlans.map((plan) => {
                 const isEnterprise = marketMode === "cloud" && plan.enterprise;
                 const isPickerOpen = isEnterprise && openPicker === "market-enterprise";

@@ -36,7 +36,7 @@ export function BitrixCrmProof({ variant = "hero", className = "" }: BitrixCrmPr
         </span>
         <span className="ob-crm-proof__text">
           <strong>Битрикс24 CRM №1</strong>
-          <em>{variant === "hero" ? "официальное исследование 2026" : "почему это важно"}</em>
+          <em>{variant === "hero" ? "исследование J’son & Partners 2026" : "официальное исследование"}</em>
         </span>
         <ArrowRight size={18} aria-hidden="true" />
       </button>
@@ -61,29 +61,28 @@ export function BitrixCrmProof({ variant = "hero", className = "" }: BitrixCrmPr
             </button>
 
             <div className="ob-crm-modal__header">
-              <span className="ob-kicker">Официально о продукте</span>
+              <span className="ob-kicker">Проверяемый рыночный факт</span>
               <h2 id="ob-crm-modal-title">Битрикс24 — CRM №1 в России</h2>
               <p>
-                По результатам исследования J&apos;Son & Partners среди российских компаний
-                в 2026 году Битрикс24 указан как лидер по количеству реальных внедрений.
+                На официальной странице Битрикс24 ссылается на исследование рынка CRM России, опубликованное J’son & Partners Consulting в 2026 году: Битрикс24 указан как самая популярная CRM среди российских компаний.
               </p>
             </div>
 
             <div className="ob-crm-modal__grid">
               <article>
                 <ShieldCheck size={22} aria-hidden="true" />
-                <strong>Что даёт сама CRM</strong>
+                <strong>Почему это важно для тарифа</strong>
                 <span>
-                  Официальная страница Битрикс24 описывает CRM как рабочее окно для лидов,
-                  сделок, задач, чатов, воронок, автоматизации и аналитики.
+                  Вы выбираете не одиночный модуль, а платформу с CRM, задачами, чатами,
+                  воронками, автоматизацией, BI и экосистемой приложений.
                 </span>
               </article>
               <article>
                 <ShieldCheck size={22} aria-hidden="true" />
                 <strong>Что добавляет Ониксбит</strong>
                 <span>
-                  Мы превращаем коробку инструментов в управляемую систему: роли, воронки,
-                  регламенты, интеграции с сайтом, 1С, телефонией и отчётностью.
+                  Подбираем тариф под реальные отделы, права, нагрузку, диски,
+                  интеграции с 1С, сайтами на 1С-Битрикс, телефонией и отчётностью.
                 </span>
               </article>
             </div>
@@ -95,11 +94,11 @@ export function BitrixCrmProof({ variant = "hero", className = "" }: BitrixCrmPr
               </a>
               <a
                 className="ob-btn ob-btn--secondary"
-                href="https://www.bitrix24.ru/features/crm/"
+                href="https://crm1.bitrix24.ru/research-2026/"
                 rel="noreferrer"
                 target="_blank"
               >
-                <span>Источник Битрикс24</span>
+                <span>Открыть исследование</span>
                 <ExternalLink size={18} aria-hidden="true" />
               </a>
             </div>
