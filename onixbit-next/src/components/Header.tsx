@@ -14,23 +14,53 @@ function isActivePath(pathname: string, href: string) {
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 
-function scrollToDocumentTop(behavior: ScrollBehavior = "smooth", withFollowUp = false) {
+function scrollToDocumentTop(behavior: ScrollBehavior = "smooth") {
   const run = (scrollBehavior: ScrollBehavior) => {
     const scrollingElement = document.scrollingElement || document.documentElement;
-    window.scrollTo({ top: 0, left: 0, behavior: scrollBehavior });
+
+    if (scrollBehavior === "smooth") {
+      window.scrollTo({ top: 0, left: 0, behavior: scrollBehavior });
+      return;
+    }
+
+    const html = document.documentElement;
+    const previousScrollBehavior = html.style.scrollBehavior;
+    html.style.scrollBehavior = "auto";
+    window.scrollTo(0, 0);
     scrollingElement.scrollTop = 0;
-    document.documentElement.scrollTop = 0;
+    html.scrollTop = 0;
     document.body.scrollTop = 0;
+
+    window.requestAnimationFrame(() => {
+      html.style.scrollBehavior = previousScrollBehavior;
+    });
   };
 
   run(behavior);
+}
 
-  if (!withFollowUp) return;
+function scheduleTopCorrection(delay = 80) {
+  let cancelled = false;
 
-  window.requestAnimationFrame(() => run("auto"));
-  [80, 180, 360, 720].forEach((delay) => {
-    window.setTimeout(() => run("auto"), delay);
-  });
+  const cleanup = () => {
+    window.removeEventListener("wheel", cancel);
+    window.removeEventListener("touchstart", cancel);
+    window.removeEventListener("keydown", cancel);
+  };
+
+  const cancel = () => {
+    cancelled = true;
+    cleanup();
+  };
+
+  window.addEventListener("wheel", cancel, { passive: true, once: true });
+  window.addEventListener("touchstart", cancel, { passive: true, once: true });
+  window.addEventListener("keydown", cancel, { once: true });
+
+  window.setTimeout(() => {
+    cleanup();
+    if (!cancelled) scrollToDocumentTop("auto");
+  }, delay);
 }
 
 export function Header() {
@@ -51,13 +81,13 @@ export function Header() {
 
     if (pathname === href) {
       event.preventDefault();
-      scrollToDocumentTop();
+      scrollToDocumentTop("auto");
       return;
     }
 
     event.preventDefault();
     router.push(href, { scroll: true });
-    window.setTimeout(() => scrollToDocumentTop("auto", true), 80);
+    scheduleTopCorrection();
   };
 
   return (

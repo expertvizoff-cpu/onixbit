@@ -361,6 +361,11 @@ function resolveMaybePrice(value: number | Record<number, number> | string, user
   return resolvePrice(value, users);
 }
 
+function getCloudStorageLabel(planId: CloudPlanId, users: number) {
+  if (planId === "enterprise") return enterpriseStorage[users];
+  return cloudPlans.find((plan) => plan.id === planId)?.storage ?? "";
+}
+
 function leadTitle(title: string) {
   return `Запросить счёт: ${title}`;
 }
@@ -520,6 +525,7 @@ export function BitrixPricingBlock() {
                   <div className="obx-tariffs__plans">
                     {navigatorItems.filter((item) => item.mode === "cloud").map((item) => {
                       const isEnterprise = item.id === "enterprise";
+                      const storageLabel = getCloudStorageLabel(item.id as CloudPlanId, navigatorEnterpriseUsers);
                       return (
                         <div className={`obx-tariffs__plan-shell ${isEnterprise && navigatorEnterpriseOpen ? "is-open" : ""}`} key={item.id}>
                           <button
@@ -537,6 +543,7 @@ export function BitrixPricingBlock() {
                           >
                             <UserCapacity value={isEnterprise ? String(navigatorEnterpriseUsers) : item.users} />
                             <strong>{item.title}</strong>
+                            <span className="obx-tariffs__plan-storage">{storageLabel}</span>
                             <em>{isEnterprise ? "250+ пользователей" : item.caption}</em>
                           </button>
                           {isEnterprise && (
@@ -680,7 +687,6 @@ export function BitrixPricingBlock() {
                   <article className={`obx-price-line__card ${plan.featured ? "is-featured" : ""} ${plan.enterprise ? "obx-price-line__card--enterprise" : ""} ${isPickerOpen ? "is-picker-open" : ""}`} key={plan.id}>
                     {plan.popular && <span className="obx-price-line__popular">Популярный</span>}
                     <h4>{plan.title}</h4>
-                    <span className="obx-price-line__storage-badge">{storageLabel}</span>
                     <p className="obx-price-line__description">{plan.description}</p>
                     <div className="obx-price-line__metric-line">
                       <div className={`obx-price-line__user-line ${plan.enterprise ? "obx-price-line__user-line--picker" : "obx-price-line__user-line--fixed"}`}>
@@ -701,6 +707,7 @@ export function BitrixPricingBlock() {
                           <span>{plan.usersLabel}</span>
                         )}
                       </div>
+                      <span className="obx-price-line__storage-badge obx-price-line__storage-badge--metric">{storageLabel}</span>
                     </div>
                     <div className="obx-price-line__price">
                       <div className="obx-price-line__price-old-row">
@@ -863,8 +870,12 @@ export function BitrixPricingBlock() {
                       {storage && <span>{storage}</span>}
                     </div>
                     <div className="obx-marketplace-plus__price">
-                      {typeof oldPrice === "number" && <small>{formatPrice(oldPrice)}</small>}
-                      {discount !== null && <em>-{discount}%</em>}
+                      {(typeof oldPrice === "number" || discount !== null) && (
+                        <div className="obx-marketplace-plus__old-row">
+                          {typeof oldPrice === "number" && <small>{formatPrice(oldPrice)}</small>}
+                          {discount !== null && <em>-{discount}%</em>}
+                        </div>
+                      )}
                       <strong>{formatMaybePrice(price)}</strong>
                       <span>{typeof price === "number" ? (marketMode === "cloud" ? (marketPeriod === "year" ? "в месяц при покупке на год" : "в месяц за всех пользователей") : "стоимость подписки") : "после проверки условий"}</span>
                     </div>

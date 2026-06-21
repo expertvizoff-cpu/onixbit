@@ -9585,3 +9585,93 @@ a:hover .lucide-mail polyline {
   align-self: flex-start;
   white-space: nowrap;
 }
+
+
+/* Tariffs refinements 2026-06-21 */
+.ob-license-route p {
+  white-space: pre-line;
+}
+
+.obx-tariffs__plans,
+.obx-tariffs__plans--box {
+  grid-template-rows: repeat(4, minmax(118px, 1fr));
+}
+
+.obx-tariffs__plans button,
+.obx-tariffs__enterprise-picker > button {
+  min-height: 118px;
+}
+
+.obx-tariffs__plans button .obx-user-capacity {
+  grid-row: span 3;
+}
+
+.obx-tariffs__plan-storage {
+  grid-column: 2;
+  display: inline-flex !important;
+  width: fit-content;
+  min-height: 28px;
+  align-items: center;
+  margin: 7px 0 0 !important;
+  border: 1px solid rgba(255, 212, 90, 0.46);
+  border-radius: 999px;
+  padding: 0 10px;
+  color: var(--ob-red-deep) !important;
+  background: rgba(255, 247, 216, 0.78);
+  box-shadow: 0 10px 26px rgba(237, 28, 36, 0.08);
+  font-size: 12px !important;
+  font-weight: 950;
+  line-height: 1;
+  text-transform: none;
+}
+
+.obx-tariffs__plans button em {
+  margin-top: 2px;
+}
+
+.obx-tariffs__fit,
+.obx-tariffs__risk {
+  min-height: 174px !important;
+}
+
+.obx-tariffs__fit p,
+.obx-tariffs__risk p {
+  line-height: 1.48;
+}
+
+.obx-price-line__catalog[data-obx-panel="cloud"] .obx-price-line__metric-line {
+  min-height: 113px;
+}
+
+.obx-price-line__metric-line .obx-price-line__storage-badge {
+  width: 100%;
+  min-height: 52px;
+  justify-content: flex-start;
+  margin-top: 0;
+  border-radius: 16px;
+}
+
+.obx-marketplace-plus__old-row {
+  display: flex;
+  min-height: 28px;
+  align-items: center;
+  gap: 9px;
+}
+
+.obx-marketplace-plus__old-row small,
+.obx-marketplace-plus__old-row em {
+  flex: 0 0 auto;
+  align-self: center;
+}
+
+@media (max-width: 760px) {
+  .obx-tariffs__plans,
+  .obx-tariffs__plans--box {
+    grid-template-rows: none;
+  }
+
+  .obx-tariffs__fit,
+  .obx-tariffs__risk {
+    min-height: 0 !important;
+  }
+}
