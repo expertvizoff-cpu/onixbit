@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { type CSSProperties, type MouseEvent as ReactMouseEvent, useMemo, useRef, useState } from "react";
 import { CheckCircle2, Sparkles, UsersRound } from "lucide-react";
 
 type Mode = "cloud" | "box";
@@ -10,6 +10,7 @@ type CloudPlanId = "basic" | "standard" | "professional" | "enterprise";
 type BoxPlanId = "box-50" | "box-100" | "box-250" | "box-500";
 type NavigatorPlan = CloudPlanId | BoxPlanId;
 type OpenPicker = "cloud-enterprise" | "market-enterprise" | null;
+type FeatureHighlight = { top: number; height: number };
 
 type FeatureRow = { id: string; title: string };
 type CloudPlan = {
@@ -383,6 +384,7 @@ function UserCapacity({ value }: { value: string }) {
 }
 
 export function BitrixPricingBlock() {
+  const cloudCatalogRef = useRef<HTMLDivElement | null>(null);
   const [navigatorPlan, setNavigatorPlan] = useState<NavigatorPlan>("professional");
   const [navigatorEnterpriseOpen, setNavigatorEnterpriseOpen] = useState(false);
   const [navigatorEnterpriseUsers, setNavigatorEnterpriseUsers] = useState(250);
@@ -394,6 +396,7 @@ export function BitrixPricingBlock() {
   const [marketEnterpriseUsers, setMarketEnterpriseUsers] = useState(250);
   const [openPicker, setOpenPicker] = useState<OpenPicker>(null);
   const [hoveredFeature, setHoveredFeature] = useState<string | null>(null);
+  const [featureHighlight, setFeatureHighlight] = useState<FeatureHighlight | null>(null);
 
   const navigatorActive = navigatorCopy[navigatorPlan];
   const note = useMemo(
@@ -411,7 +414,34 @@ export function BitrixPricingBlock() {
     setMarketMode(nextMode);
     setOpenPicker(null);
     setHoveredFeature(null);
+    setFeatureHighlight(null);
   };
+
+  const clearFeatureHover = () => {
+    setHoveredFeature(null);
+    setFeatureHighlight(null);
+  };
+
+  const handleFeatureEnter = (rowId: string, event: ReactMouseEvent<HTMLLIElement>) => {
+    const catalogRect = cloudCatalogRef.current?.getBoundingClientRect();
+    const rowRect = event.currentTarget.getBoundingClientRect();
+
+    setHoveredFeature(rowId);
+
+    if (catalogRect) {
+      setFeatureHighlight({
+        top: rowRect.top - catalogRect.top,
+        height: rowRect.height,
+      });
+    }
+  };
+
+  const featureHoverStyle = featureHighlight
+    ? ({
+        "--obx-feature-hover-top": `${featureHighlight.top}px`,
+        "--obx-feature-hover-height": `${featureHighlight.height}px`,
+      } as CSSProperties)
+    : undefined;
 
   return (
     <>
@@ -633,7 +663,14 @@ export function BitrixPricingBlock() {
           </div>
 
           {mode === "cloud" ? (
-            <div className={`obx-price-line__catalog ${hoveredFeature ? "has-row-hover" : ""}`} data-obx-panel="cloud">
+            <div
+              ref={cloudCatalogRef}
+              className={`obx-price-line__catalog ${hoveredFeature && featureHighlight ? "has-row-hover" : ""}`}
+              data-obx-panel="cloud"
+              style={featureHoverStyle}
+              onMouseLeave={clearFeatureHover}
+            >
+              {hoveredFeature && featureHighlight && <div className="obx-price-line__row-highlight" aria-hidden="true" />}
               {cloudPlans.map((plan) => {
                 const users = plan.id === "enterprise" ? enterpriseUsersCount : undefined;
                 const oldPrice = resolvePrice(plan.monthly, users);
@@ -686,8 +723,7 @@ export function BitrixPricingBlock() {
                           <li
                             className={`${isRowHover ? "is-row-hover" : ""} ${level === 0 ? "is-empty" : ""}`}
                             key={`${plan.id}-${row.id}`}
-                            onMouseEnter={() => setHoveredFeature(row.id)}
-                            onMouseLeave={() => setHoveredFeature(null)}
+                            onMouseEnter={(event) => handleFeatureEnter(row.id, event)}
                           >
                             {level > 0 && <FeatureIndicator level={level} />}
                             {level > 0 && <span>{row.title}</span>}

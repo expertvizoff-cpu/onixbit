@@ -9155,3 +9155,167 @@ a:hover .lucide-mail polyline {
     width: 100%;
   }
 }
+
+/* Cloud tariff comparison polish */
+.obx-price-line__catalog[data-obx-panel="cloud"] {
+  position: relative;
+  isolation: isolate;
+  overflow: visible;
+}
+
+.obx-price-line__row-highlight {
+  position: absolute;
+  top: var(--obx-feature-hover-top, 0);
+  left: 0;
+  right: 0;
+  height: var(--obx-feature-hover-height, 0);
+  border: 2px solid rgba(237, 28, 36, 0.48);
+  border-radius: 18px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.18), rgba(255, 212, 90, 0.13));
+  box-shadow: 0 0 0 1px rgba(255, 212, 90, 0.18), 0 14px 38px rgba(237, 28, 36, 0.12);
+  pointer-events: none;
+  z-index: 35;
+  transition: top 0.14s ease, height 0.14s ease;
+}
+
+.obx-price-line__catalog[data-obx-panel="cloud"] .obx-price-line__features {
+  position: relative;
+  z-index: 40;
+}
+
+.obx-price-line__catalog[data-obx-panel="cloud"] .obx-price-line__features li {
+  position: relative;
+  z-index: 40;
+  min-height: 38px;
+  border: 1px solid transparent;
+}
+
+.obx-price-line__catalog.has-row-hover .obx-price-line__features li.is-row-hover,
+.obx-price-line__catalog.has-row-hover .obx-price-line__card:first-child .obx-price-line__features li.is-row-hover,
+.obx-price-line__catalog.has-row-hover .obx-price-line__card:last-child .obx-price-line__features li.is-row-hover,
+.obx-price-line__card--enterprise .obx-price-line__features li.is-row-hover {
+  margin-inline: 0;
+  border-color: transparent;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.obx-price-line__catalog[data-obx-panel="cloud"] .obx-price-line__price {
+  gap: 8px;
+  padding: 18px;
+  border: 1px solid rgba(8, 8, 8, 0.08);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.54);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.56);
+}
+
+.obx-price-line__card--enterprise .obx-price-line__price {
+  border-color: rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.obx-price-line__price-old-row {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 26px;
+  text-decoration: none;
+}
+
+.obx-price-line__price-old-row small {
+  color: var(--ob-muted);
+  font-size: 18px;
+  line-height: 1;
+  font-weight: 900;
+  text-decoration: line-through;
+}
+
+.obx-price-line__discount {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  margin-left: 0;
+  border-radius: 999px;
+  padding: 0 9px;
+  color: #fff;
+  background: linear-gradient(135deg, var(--ob-red), var(--ob-red-deep));
+  font-size: 13px;
+  line-height: 1;
+  font-weight: 950;
+  text-decoration: none;
+}
+
+.obx-price-line__price strong {
+  font-size: clamp(36px, 3.2vw, 58px);
+  line-height: 0.92;
+  letter-spacing: 0;
+}
+
+.obx-price-line__price span:not(.obx-price-line__discount) {
+  margin-top: 0;
+  font-size: 13px;
+}
+
+.obx-price-line__card--enterprise .obx-price-line__price-old-row small {
+  color: rgba(255, 255, 255, 0.62);
+}
+
+.obx-feature-indicator {
+  width: 36px;
+  height: 18px;
+  padding: 3px;
+  border-color: rgba(237, 28, 36, 0.22);
+  background: rgba(255, 255, 255, 0.92);
+}
+
+.obx-feature-indicator i,
+.obx-feature-indicator i:nth-child(2),
+.obx-feature-indicator i:nth-child(3) {
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(8, 8, 8, 0.05);
+  box-shadow: inset 0 0 0 1px rgba(8, 8, 8, 0.08);
+}
+
+.obx-feature-indicator--1 i:nth-child(1),
+.obx-feature-indicator--2 i:nth-child(1),
+.obx-feature-indicator--2 i:nth-child(2),
+.obx-feature-indicator--3 i {
+  background: linear-gradient(180deg, #ffe589, var(--ob-red));
+  box-shadow: none;
+}
+
+.obx-price-line__card--enterprise .obx-feature-indicator {
+  border-color: rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.obx-price-line__card--enterprise .obx-feature-indicator i,
+.obx-price-line__card--enterprise .obx-feature-indicator i:nth-child(2),
+.obx-price-line__card--enterprise .obx-feature-indicator i:nth-child(3) {
+  background: rgba(255, 255, 255, 0.16);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12);
+}
+
+.obx-price-line__card--enterprise .obx-feature-indicator--1 i:nth-child(1),
+.obx-price-line__card--enterprise .obx-feature-indicator--2 i:nth-child(1),
+.obx-price-line__card--enterprise .obx-feature-indicator--2 i:nth-child(2),
+.obx-price-line__card--enterprise .obx-feature-indicator--3 i {
+  background: linear-gradient(180deg, #ffe589, var(--ob-red));
+  box-shadow: none;
+}
+
+.obx-feature-indicator.obx-feature-indicator--3 i:nth-child(1),
+.obx-feature-indicator.obx-feature-indicator--3 i:nth-child(2),
+.obx-feature-indicator.obx-feature-indicator--3 i:nth-child(3) {
+  background: linear-gradient(180deg, #ffe589, var(--ob-red));
+  box-shadow: none;
+}
+
+.obx-price-line__card--enterprise .obx-feature-indicator.obx-feature-indicator--3 i:nth-child(1),
+.obx-price-line__card--enterprise .obx-feature-indicator.obx-feature-indicator--3 i:nth-child(2),
+.obx-price-line__card--enterprise .obx-feature-indicator.obx-feature-indicator--3 i:nth-child(3) {
+  background: linear-gradient(180deg, #ffe589, var(--ob-red));
+  box-shadow: none;
+}
