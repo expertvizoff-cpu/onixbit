@@ -627,7 +627,7 @@ export function BitrixPricingBlock() {
               <p>
                 Цены и лимиты сверяем перед выставлением счёта. В таблице показываем ориентиры по официальной линейке Битрикс24.
               </p>
-              <BitrixCrmProof variant="compact" className="ob-crm-proof--tariffs" />
+              <BitrixCrmProof variant="hero" className="ob-crm-proof--tariffs" />
             </div>
           </div>
 

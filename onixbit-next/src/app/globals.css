@@ -9465,51 +9465,51 @@ a:hover .lucide-mail polyline {
 
 .ob-crm-modal {
   place-items: start center;
-  padding: clamp(126px, 12svh, 150px) 24px 34px;
+  padding: clamp(106px, 10svh, 126px) 24px 30px;
 }
 
 .ob-crm-modal__panel {
-  width: min(920px, 100%);
-  max-height: calc(100svh - clamp(180px, 19svh, 220px));
-  padding: clamp(22px, 2.4vw, 32px);
+  width: min(980px, 100%);
+  max-height: calc(100svh - clamp(138px, 14svh, 166px));
+  padding: clamp(20px, 2.1vw, 28px);
 }
 
 .ob-crm-modal__header h2 {
   margin-top: 14px;
-  font-size: clamp(32px, 3.25vw, 50px);
+  font-size: clamp(30px, 2.85vw, 46px);
 }
 
 .ob-crm-modal__header p {
   margin-top: 14px;
-  font-size: clamp(15px, 0.95vw, 17px);
+  font-size: clamp(14px, 0.86vw, 16px);
   line-height: 1.42;
 }
 
 .ob-crm-modal__summary {
-  margin-top: 18px;
+  margin-top: 14px;
 }
 
 .ob-crm-modal__summary article {
-  min-height: 92px;
-  padding: 15px;
+  min-height: 76px;
+  padding: 13px;
 }
 
 .ob-crm-modal__grid {
-  gap: 12px;
-  margin-top: 16px;
+  gap: 10px;
+  margin-top: 12px;
 }
 
 .ob-crm-modal__grid article {
-  min-height: 176px;
-  padding: 18px;
+  min-height: 132px;
+  padding: 15px;
 }
 
 .ob-crm-modal__actions {
-  margin-top: 18px;
+  margin-top: 14px;
 }
 
 .ob-crm-modal__source {
-  margin-top: 12px;
+  margin-top: 10px;
 }
 
 @media (max-width: 760px) {
