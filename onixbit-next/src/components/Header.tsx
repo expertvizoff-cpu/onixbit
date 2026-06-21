@@ -14,7 +14,7 @@ function isActivePath(pathname: string, href: string) {
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 
-function scrollToDocumentTop(behavior: ScrollBehavior = "smooth") {
+function scrollToDocumentTop(behavior: ScrollBehavior = "smooth", withFollowUp = false) {
   const run = (scrollBehavior: ScrollBehavior) => {
     const scrollingElement = document.scrollingElement || document.documentElement;
     window.scrollTo({ top: 0, left: 0, behavior: scrollBehavior });
@@ -24,8 +24,11 @@ function scrollToDocumentTop(behavior: ScrollBehavior = "smooth") {
   };
 
   run(behavior);
+
+  if (!withFollowUp) return;
+
   window.requestAnimationFrame(() => run("auto"));
-  [80, 180, 360, 720, 1200, 1800].forEach((delay) => {
+  [80, 180, 360, 720].forEach((delay) => {
     window.setTimeout(() => run("auto"), delay);
   });
 }
@@ -43,10 +46,6 @@ export function Header() {
     return () => window.removeEventListener("scroll", sync);
   }, []);
 
-  useEffect(() => {
-    scrollToDocumentTop("auto");
-  }, [pathname]);
-
   const handleHeaderLinkClick = (event: MouseEvent<HTMLAnchorElement>, href: string) => {
     setIsOpen(false);
 
@@ -58,8 +57,7 @@ export function Header() {
 
     event.preventDefault();
     router.push(href, { scroll: true });
-    window.setTimeout(() => scrollToDocumentTop("auto"), 120);
-    window.setTimeout(() => scrollToDocumentTop("auto"), 520);
+    window.setTimeout(() => scrollToDocumentTop("auto", true), 80);
   };
 
   return (

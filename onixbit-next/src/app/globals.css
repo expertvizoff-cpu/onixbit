@@ -9535,3 +9535,53 @@ a:hover .lucide-mail polyline {
     padding: 0;
   }
 }
+
+
+/* Tariffs content refinements 2026-06-21 */
+.obx-price-line__storage-badge {
+  display: inline-flex;
+  width: fit-content;
+  min-height: 34px;
+  align-items: center;
+  margin-top: 12px;
+  border: 1px solid rgba(255, 212, 90, 0.46);
+  border-radius: 999px;
+  padding: 0 13px;
+  color: var(--ob-red-deep);
+  background: rgba(255, 247, 216, 0.82);
+  font-size: 13px;
+  font-weight: 950;
+  box-shadow: 0 10px 28px rgba(237, 28, 36, 0.08);
+}
+
+.obx-price-line__card--enterprise .obx-price-line__storage-badge {
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.obx-price-line__catalog[data-obx-panel="cloud"] .obx-price-line__metric-line {
+  min-height: 62px;
+  align-content: start;
+}
+
+.obx-tariffs__fit p,
+.obx-tariffs__risk p {
+  max-width: 660px;
+  margin: 8px 0 0;
+  color: var(--ob-muted);
+  font-size: 16px;
+  line-height: 1.55;
+  font-weight: 580;
+}
+
+.obx-tariffs__risk p {
+  font-weight: 580;
+}
+
+.obx-marketplace-plus__price em,
+.obx-price-line__discount {
+  width: fit-content;
+  align-self: flex-start;
+  white-space: nowrap;
+}

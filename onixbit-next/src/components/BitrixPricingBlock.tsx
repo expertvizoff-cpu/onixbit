@@ -164,7 +164,7 @@ const cloudPlans: CloudPlan[] = [
 const boxPlans: BoxPlan[] = [
   {
     id: "box-50",
-    title: "Корпоративный портал 50",
+    title: "Корпоративный портал - 50",
     usersLabel: "50 пользователей",
     price: 159000,
     accent: "для управляемого контура",
@@ -173,7 +173,7 @@ const boxPlans: BoxPlan[] = [
   },
   {
     id: "box-100",
-    title: "Корпоративный портал 100",
+    title: "Корпоративный портал - 100",
     usersLabel: "100 пользователей",
     price: 229000,
     accent: "для нескольких отделов",
@@ -183,7 +183,7 @@ const boxPlans: BoxPlan[] = [
   },
   {
     id: "box-250",
-    title: "Корпоративный портал 250",
+    title: "Корпоративный портал - 250",
     usersLabel: "250 пользователей",
     price: 349000,
     accent: "для крупной структуры",
@@ -192,7 +192,7 @@ const boxPlans: BoxPlan[] = [
   },
   {
     id: "box-500",
-    title: "Корпоративный портал 500",
+    title: "Корпоративный портал - 500",
     usersLabel: "500 пользователей",
     price: 599000,
     accent: "для распределённой компании",
@@ -206,10 +206,10 @@ const navigatorItems: Array<{ id: NavigatorPlan; mode: Mode; users: string; titl
   { id: "standard", mode: "cloud", users: "50", title: "Стандартный", caption: "команда продаж" },
   { id: "professional", mode: "cloud", users: "100", title: "Профессиональный", caption: "автоматизация" },
   { id: "enterprise", mode: "cloud", users: "250", title: "Энтерпрайз", caption: "крупная компания" },
-  { id: "box-50", mode: "box", users: "50", title: "Корпоративный портал", caption: "свой сервер" },
-  { id: "box-100", mode: "box", users: "100", title: "Корпоративный портал", caption: "несколько отделов" },
-  { id: "box-250", mode: "box", users: "250", title: "Корпоративный портал", caption: "крупный контур" },
-  { id: "box-500", mode: "box", users: "500", title: "Корпоративный портал", caption: "распределённая компания" },
+  { id: "box-50", mode: "box", users: "50", title: "Корпоративный портал - 50", caption: "свой сервер" },
+  { id: "box-100", mode: "box", users: "100", title: "Корпоративный портал - 100", caption: "несколько отделов" },
+  { id: "box-250", mode: "box", users: "250", title: "Корпоративный портал - 250", caption: "крупный контур" },
+  { id: "box-500", mode: "box", users: "500", title: "Корпоративный портал - 500", caption: "распределённая компания" },
 ];
 
 const navigatorCopy: Record<NavigatorPlan, { title: string; text: string; check: string }> = {
@@ -309,7 +309,7 @@ const marketplaceCloudPlans: MarketplacePlan[] = [
 const marketplaceBoxPlans: MarketplacePlan[] = [
   {
     id: "box-50",
-    title: "Корпоративный портал 50",
+    title: "Корпоративный портал - 50",
     usersLabel: "50 пользователей",
     price: 73200,
     description: "Подписка для коробочного портала на 50 пользователей: приложения Маркетплейса и BitrixGPT для собственного контура.",
@@ -317,7 +317,7 @@ const marketplaceBoxPlans: MarketplacePlan[] = [
   },
   {
     id: "box-100",
-    title: "Корпоративный портал 100",
+    title: "Корпоративный портал - 100",
     usersLabel: "100 пользователей",
     price: 97600,
     description: "Для портала с несколькими отделами, ролями, регламентами и набором рабочих приложений.",
@@ -325,7 +325,7 @@ const marketplaceBoxPlans: MarketplacePlan[] = [
   },
   {
     id: "box-250",
-    title: "Корпоративный портал 250",
+    title: "Корпоративный портал - 250",
     usersLabel: "250 пользователей",
     price: 146400,
     description: "Для крупного коробочного контура, где приложения и AI-сценарии подключаются к рабочим процессам.",
@@ -333,7 +333,7 @@ const marketplaceBoxPlans: MarketplacePlan[] = [
   },
   {
     id: "box-500",
-    title: "Корпоративный портал 500",
+    title: "Корпоративный портал - 500",
     usersLabel: "500 пользователей",
     oldPrice: 256200,
     price: 128100,
@@ -398,6 +398,12 @@ export function BitrixPricingBlock() {
   const [openPicker, setOpenPicker] = useState<OpenPicker>(null);
   const [hoveredFeature, setHoveredFeature] = useState<string | null>(null);
   const [featureHighlight, setFeatureHighlight] = useState<FeatureHighlight | null>(null);
+
+  const syncEnterpriseUsers = (users: number) => {
+    setEnterpriseUsersCount(users);
+    setMarketEnterpriseUsers(users);
+    setNavigatorEnterpriseUsers(users);
+  };
 
   const navigatorActive = navigatorCopy[navigatorPlan];
   const note = useMemo(
@@ -541,7 +547,7 @@ export function BitrixPricingBlock() {
                                   type="button"
                                   key={users}
                                   onClick={() => {
-                                    setNavigatorEnterpriseUsers(users);
+                                    syncEnterpriseUsers(users);
                                     setNavigatorPlan("enterprise");
                                     setMode("cloud");
                                     setMarketMode("cloud");
@@ -591,12 +597,11 @@ export function BitrixPricingBlock() {
               <div className="obx-tariffs__decision">
                 <div className="obx-tariffs__fit">
                   <span>Кому подходит</span>
-                  <strong>{navigatorActive.title}</strong>
                   <p>{navigatorActive.text}</p>
                 </div>
                 <div className="obx-tariffs__risk">
                   <span>Проверить перед покупкой</span>
-                  <strong>{navigatorActive.check}</strong>
+                  <p>{navigatorActive.check}</p>
                 </div>
               </div>
             </div>
@@ -675,6 +680,7 @@ export function BitrixPricingBlock() {
                   <article className={`obx-price-line__card ${plan.featured ? "is-featured" : ""} ${plan.enterprise ? "obx-price-line__card--enterprise" : ""} ${isPickerOpen ? "is-picker-open" : ""}`} key={plan.id}>
                     {plan.popular && <span className="obx-price-line__popular">Популярный</span>}
                     <h4>{plan.title}</h4>
+                    <span className="obx-price-line__storage-badge">{storageLabel}</span>
                     <p className="obx-price-line__description">{plan.description}</p>
                     <div className="obx-price-line__metric-line">
                       <div className={`obx-price-line__user-line ${plan.enterprise ? "obx-price-line__user-line--picker" : "obx-price-line__user-line--fixed"}`}>
@@ -685,7 +691,7 @@ export function BitrixPricingBlock() {
                             </button>
                             <div className="obx-price-line__user-menu">
                               {enterpriseUsers.map((option) => (
-                                <button className={enterpriseUsersCount === option ? "is-active" : ""} type="button" key={option} onClick={() => { setEnterpriseUsersCount(option); setOpenPicker(null); }}>
+                                <button className={enterpriseUsersCount === option ? "is-active" : ""} type="button" key={option} onClick={() => { syncEnterpriseUsers(option); setOpenPicker(null); }}>
                                   {option} пользователей
                                 </button>
                               ))}
@@ -695,7 +701,6 @@ export function BitrixPricingBlock() {
                           <span>{plan.usersLabel}</span>
                         )}
                       </div>
-                      <span className="obx-price-line__users">{storageLabel}</span>
                     </div>
                     <div className="obx-price-line__price">
                       <div className="obx-price-line__price-old-row">
@@ -846,7 +851,7 @@ export function BitrixPricingBlock() {
                           </button>
                           <div className="obx-price-line__user-menu">
                             {enterpriseUsers.map((option) => (
-                              <button className={marketEnterpriseUsers === option ? "is-active" : ""} type="button" key={option} onClick={() => { setMarketEnterpriseUsers(option); setOpenPicker(null); }}>
+                              <button className={marketEnterpriseUsers === option ? "is-active" : ""} type="button" key={option} onClick={() => { syncEnterpriseUsers(option); setOpenPicker(null); }}>
                                 {option} пользователей
                               </button>
                             ))}
