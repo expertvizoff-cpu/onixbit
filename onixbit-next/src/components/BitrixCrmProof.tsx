@@ -1,12 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { ArrowRight, Award, ExternalLink, ShieldCheck, X } from "lucide-react";
+import { ArrowRight, Award, BarChart3, CheckCircle2, ExternalLink, ShieldCheck, X } from "lucide-react";
 
 type BitrixCrmProofProps = {
   variant?: "hero" | "compact";
   className?: string;
 };
+
+const CRM_RESEARCH_URL = "https://crm1.bitrix24.ru/research-2026/?p=10553488";
 
 export function BitrixCrmProof({ variant = "hero", className = "" }: BitrixCrmProofProps) {
   const [open, setOpen] = useState(false);
@@ -64,8 +66,23 @@ export function BitrixCrmProof({ variant = "hero", className = "" }: BitrixCrmPr
               <span className="ob-kicker">Проверяемый рыночный факт</span>
               <h2 id="ob-crm-modal-title">Битрикс24 — CRM №1 в России</h2>
               <p>
-                На официальной странице Битрикс24 ссылается на исследование рынка CRM России, опубликованное J’son & Partners Consulting в 2026 году: Битрикс24 указан как самая популярная CRM среди российских компаний.
+                На официальной странице Битрикс24 опубликованы данные исследования рынка CRM России от J’son & Partners Consulting за 2026 год. Для клиента это не просто красивый бейдж, а понятный сигнал: систему выбирают массово, развивают активно и под неё проще найти специалистов, интеграции и готовые сценарии.
               </p>
+            </div>
+
+            <div className="ob-crm-modal__summary" aria-label="Ключевые выводы исследования">
+              <article>
+                <strong>CRM №1</strong>
+                <span>рыночное подтверждение популярности Битрикс24</span>
+              </article>
+              <article>
+                <strong>2026</strong>
+                <span>актуальная волна исследования CRM-рынка России</span>
+              </article>
+              <article>
+                <strong>B2B</strong>
+                <span>важно для продаж, сервиса, коммуникаций и контроля</span>
+              </article>
             </div>
 
             <div className="ob-crm-modal__grid">
@@ -78,7 +95,15 @@ export function BitrixCrmProof({ variant = "hero", className = "" }: BitrixCrmPr
                 </span>
               </article>
               <article>
-                <ShieldCheck size={22} aria-hidden="true" />
+                <BarChart3 size={22} aria-hidden="true" />
+                <strong>Где обычно теряются деньги</strong>
+                <span>
+                  Ошибка не только в цене тарифа. Чаще переплачивают из-за лишних пользователей,
+                  слабых прав, хаотичных воронок, ручных обменов и неподготовленной структуры CRM.
+                </span>
+              </article>
+              <article>
+                <CheckCircle2 size={22} aria-hidden="true" />
                 <strong>Что добавляет Ониксбит</strong>
                 <span>
                   Подбираем тариф под реальные отделы, права, нагрузку, диски,
@@ -92,14 +117,13 @@ export function BitrixCrmProof({ variant = "hero", className = "" }: BitrixCrmPr
                 <span>Обсудить внедрение</span>
                 <ArrowRight size={18} aria-hidden="true" />
               </a>
-              <a
-                className="ob-btn ob-btn--secondary"
-                href="https://crm1.bitrix24.ru/research-2026/"
-                rel="noreferrer"
-                target="_blank"
-              >
-                <span>Открыть исследование</span>
-                <ExternalLink size={18} aria-hidden="true" />
+            </div>
+
+            <div className="ob-crm-modal__source">
+              <span>Источник: официальное исследование Битрикс24 CRM №1, 2026.</span>
+              <a href={CRM_RESEARCH_URL} rel="noreferrer" target="_blank">
+                Открыть источник
+                <ExternalLink size={14} aria-hidden="true" />
               </a>
             </div>
           </div>

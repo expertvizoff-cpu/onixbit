@@ -9156,6 +9156,89 @@ a:hover .lucide-mail polyline {
   }
 }
 
+.ob-crm-modal__summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.ob-crm-modal__summary article {
+  display: grid;
+  gap: 7px;
+  min-height: 106px;
+  padding: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.78);
+  border-radius: 22px;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.78), rgba(255, 246, 212, 0.62)),
+    radial-gradient(circle at 0 0, rgba(237, 28, 36, 0.12), transparent 58%);
+  box-shadow: 0 16px 42px rgba(8, 8, 8, 0.06);
+}
+
+.ob-crm-modal__summary strong {
+  color: var(--ob-red);
+  font-size: clamp(22px, 2vw, 34px);
+  font-weight: 950;
+  line-height: 0.98;
+}
+
+.ob-crm-modal__summary span {
+  color: var(--ob-muted);
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1.32;
+}
+
+.ob-crm-modal__grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.ob-crm-modal__grid article {
+  min-height: 222px;
+}
+
+.ob-crm-modal__actions {
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.ob-crm-modal__source {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  margin-top: 16px;
+  color: rgba(37, 37, 37, 0.62);
+  font-size: 12px;
+  font-weight: 750;
+  line-height: 1.35;
+}
+
+.ob-crm-modal__source a {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--ob-red);
+  text-decoration: none;
+}
+
+.ob-crm-modal__source a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 980px) {
+  .ob-crm-modal__summary,
+  .ob-crm-modal__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ob-crm-modal__summary article,
+  .ob-crm-modal__grid article {
+    min-height: 0;
+  }
+}
+
 /* Cloud tariff comparison polish */
 .obx-price-line__catalog[data-obx-panel="cloud"] {
   position: relative;
