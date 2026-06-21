@@ -26,6 +26,7 @@ import {
 } from "@/data/site";
 import { ButtonLink, LeadButton } from "./Buttons";
 import { BitrixPricingBlock } from "./BitrixPricingBlock";
+import { BitrixCrmProof } from "./BitrixCrmProof";
 import { PartnerCertificatesBlock } from "./PartnerCertificatesBlock";
 import { LeadFormPanel } from "./BitrixForms";
 import { ProductScene } from "./ProductScene";
@@ -242,6 +243,7 @@ export function ServicePage({ direction }: { direction: Direction }) {
                 <span>{direction.secondaryCta}</span>
               </a>
             </div>
+            {direction.id === "bitrix24" && <BitrixCrmProof variant="hero" />}
             <div className="ob-stat-row">
               {direction.stats.map((stat) => (
                 <div key={stat.label}>

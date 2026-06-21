@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { directions } from "@/data/site";
 import { ButtonLink, LeadButton } from "./Buttons";
+import { BitrixCrmProof } from "./BitrixCrmProof";
 import { ProductScene } from "./ProductScene";
 
 const rotateMs = 7400;
@@ -92,6 +93,7 @@ export function HomeHero() {
               {direction.secondaryCta}
             </ButtonLink>
           </div>
+          <BitrixCrmProof variant="compact" className={direction.id === "bitrix24" ? "" : "is-hidden"} />
           <div className="ob-hero__facts">
             {slide.facts.map((fact, index) => {
               const Icon = heroFactIcons[active][index];
