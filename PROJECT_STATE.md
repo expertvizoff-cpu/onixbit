@@ -48,6 +48,7 @@ npm run dev
 npm run check
 npm run lint
 npm run build
+npm run browser:deps
 npm run test:e2e
 npm run test:e2e:built
 npm run test:e2e:ui
@@ -150,9 +151,9 @@ npm run check
 - `onixbit-next` no longer exists.
 - Old Tilda/preview/VK/archive materials were removed.
 - `motion` is installed and ready.
-- Playwright and axe are configured in `tests/` for smoke, overflow, health, and accessibility checks. `npm run test:e2e` builds first; `npm run test:e2e:built` expects an existing build.
+- Playwright and axe are configured in `tests/` for smoke, overflow, health, and accessibility checks. `npm run browser:deps` prepares local Chromium libraries without sudo. `npm run test:e2e` builds first; `npm run test:e2e:built` expects an existing build.
 - GitHub Actions CI and FirstVDS deploy checks build first, then run E2E tests against the built app.
-- Lighthouse CI is configured in `lighthouserc.cjs` and runs manually with `npm run lhci`.
+- Lighthouse CI is configured in `lighthouserc.cjs` and runs manually with `npm run lhci`; it uses the same no-sudo local browser dependency wrapper.
 - Sentry-ready files and `/api/health` exist; monitoring stays disabled until `NEXT_PUBLIC_SENTRY_DSN` is configured.
 - GitHub CLI `gh` is installed but not authenticated yet.
 - No current unfinished implementation task is recorded here.

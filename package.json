@@ -11,12 +11,13 @@
     "docker:build": "docker compose build",
     "docker:up": "docker compose up -d --build",
     "docker:down": "docker compose down",
-    "test:e2e": "npm run build && playwright test",
-    "test:e2e:ui": "npm run build && playwright test --ui",
-    "test:visual": "npm run build && VISUAL=1 playwright test --grep @visual",
-    "test:visual:update": "npm run build && VISUAL=1 playwright test --grep @visual --update-snapshots",
-    "lhci": "npm run build && node scripts/run-lhci.mjs",
-    "test:e2e:built": "playwright test"
+    "test:e2e": "npm run build && node scripts/run-with-local-browser-deps.mjs playwright test",
+    "test:e2e:ui": "npm run build && node scripts/run-with-local-browser-deps.mjs playwright test --ui",
+    "test:visual": "npm run build && VISUAL=1 node scripts/run-with-local-browser-deps.mjs playwright test --grep @visual",
+    "test:visual:update": "npm run build && VISUAL=1 node scripts/run-with-local-browser-deps.mjs playwright test --grep @visual --update-snapshots",
+    "lhci": "npm run build && node scripts/run-with-local-browser-deps.mjs node scripts/run-lhci.mjs",
+    "test:e2e:built": "node scripts/run-with-local-browser-deps.mjs playwright test",
+    "browser:deps": "node scripts/prepare-browser-deps.mjs"
   },
   "dependencies": {
     "@fontsource/montserrat": "^5.2.8",
