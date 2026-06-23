@@ -10,10 +10,17 @@
     "check": "npm run lint && npm audit --omit=dev && npm run build",
     "docker:build": "docker compose build",
     "docker:up": "docker compose up -d --build",
-    "docker:down": "docker compose down"
+    "docker:down": "docker compose down",
+    "test:e2e": "npm run build && playwright test",
+    "test:e2e:ui": "npm run build && playwright test --ui",
+    "test:visual": "npm run build && VISUAL=1 playwright test --grep @visual",
+    "test:visual:update": "npm run build && VISUAL=1 playwright test --grep @visual --update-snapshots",
+    "lhci": "npm run build && node scripts/run-lhci.mjs",
+    "test:e2e:built": "playwright test"
   },
   "dependencies": {
     "@fontsource/montserrat": "^5.2.8",
+    "@sentry/nextjs": "^10.60.0",
     "lucide-react": "^1.21.0",
     "motion": "^12.41.0",
     "next": "16.2.9",
@@ -21,6 +28,9 @@
     "react-dom": "19.2.4"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.12.1",
+    "@lhci/cli": "^0.15.1",
+    "@playwright/test": "^1.61.1",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
@@ -31,6 +41,9 @@
     "typescript": "^5"
   },
   "overrides": {
-    "postcss": "8.5.15"
+    "postcss": "8.5.15",
+    "tmp": "0.2.7",
+    "uuid": "11.1.1",
+    "js-yaml": "5.1.0"
   }
 }

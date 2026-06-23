@@ -153,7 +153,7 @@ export function Header() {
         </nav>
 
         <div className="ob-header__right">
-          <a className="ob-header__phone" href={company.phoneHref}>
+          <a className="ob-header__phone" href={company.phoneHref} aria-label={`Позвонить ${company.phone}`}>
             <Phone size={16} aria-hidden="true" />
             <span>{company.phone}</span>
           </a>

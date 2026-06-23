@@ -274,7 +274,7 @@ function BitrixWorkspace({ active, setActive }: { active: number; setActive: (in
           <button className={setButtonState(0, active, "")} onClick={() => setActive(0)} onMouseEnter={() => setActive(0)} type="button">Сайты</button>
           <span>Пользователи</span><span>Поиск</span><span>Проактивная защита</span><span>Настройка HTTPS</span><span>Локализация</span>
         </aside>
-        <main className="obc-cms-main">
+        <div className="obc-cms-main">
           <div className="obc-cms-crumbs">Рабочий стол › Настройки › Настройки продукта › Сайты</div>
           <div className="obc-cms-title"><strong>Список сайтов</strong><i aria-hidden="true" /></div>
           <button className={setButtonState(1, active, "obc-cms-add")} onClick={() => setActive(1)} onMouseEnter={() => setActive(1)} type="button">+ Добавить сайт</button>
@@ -284,7 +284,7 @@ function BitrixWorkspace({ active, setActive }: { active: number; setActive: (in
             <button className="obc-cms-row" type="button"><span aria-hidden="true" /><strong>aq</strong><em>Да</em><b>100</b><i>Каталог</i></button>
           </div>
           <button className={setButtonState(3, active, "obc-cms-menu")} onClick={() => setActive(3)} onMouseEnter={() => setActive(3)} type="button"><span>Изменить</span><span>Копировать</span><strong>Удалить</strong></button>
-        </main>
+        </div>
       </div>
     </div>
   );
@@ -306,7 +306,7 @@ function OneCWorkspace({ active, setActive }: { active: number; setActive: (inde
       </div>
       <div className="obc-onec-workspace">
         <aside className="obc-onec-left"><strong>Документы</strong><span>Входящие документы</span><span>Исходящие документы</span><em>Внутренние документы</em><span>Файлы</span><span>Мои задачи</span><span>Списки рассылки</span></aside>
-        <main className="obc-onec-main"><div className="obc-onec-tabs"><span>Внутренние документы</span><span>Регистрация</span><span>Резолюции</span><span>Связи</span></div><div className="obc-onec-tools"><button>Создать</button><button>Найти</button><button>Печать</button></div><div className="obc-onec-content"><div className="obc-onec-tree"><strong>Папки</strong><span>Бухгалтерия</span><span>Информационно-справочные</span><em>Секретариат</em><span>Производство</span></div><div className="obc-onec-list"><strong>Наименование</strong><span>Порядок регистрации телефонных звонков</span><span>Договор поставки материалов</span><span>Акт оказания услуг</span></div></div></main>
+        <div className="obc-onec-main"><div className="obc-onec-tabs"><span>Внутренние документы</span><span>Регистрация</span><span>Резолюции</span><span>Связи</span></div><div className="obc-onec-tools"><button>Создать</button><button>Найти</button><button>Печать</button></div><div className="obc-onec-content"><div className="obc-onec-tree"><strong>Папки</strong><span>Бухгалтерия</span><span>Информационно-справочные</span><em>Секретариат</em><span>Производство</span></div><div className="obc-onec-list"><strong>Наименование</strong><span>Порядок регистрации телефонных звонков</span><span>Договор поставки материалов</span><span>Акт оказания услуг</span></div></div></div>
       </div>
     </div>
   );

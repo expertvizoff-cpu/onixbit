@@ -13,7 +13,7 @@ Recommended first message in a new chat:
 Папка: /home/aleksander/projects/onixbit.
 Прочитай PROJECT_STATE.md, затем сам проверь pwd и git status.
 Работаем в React/Next из корня репозитория.
-Используй ui-ux-pro-max, 21st.dev и motion, когда это уместно.
+Используй onixbit-brand, ui-ux-pro-max, 21st.dev и motion, когда это уместно.
 Общайся со мной на русском.
 ```
 
@@ -35,6 +35,9 @@ Do not use `onixbit-next`; the Next.js app was moved to the repository root.
 - Tailwind CSS 4 / PostCSS
 - lucide-react for icons
 - motion for React animations
+- Playwright + axe for E2E and accessibility checks
+- Lighthouse CI for local performance/SEO/accessibility audits
+- Sentry-ready monitoring, disabled until `NEXT_PUBLIC_SENTRY_DSN` is configured
 - Docker Compose + Caddy for production
 - GitHub Actions for CI/deploy to FirstVDS
 
@@ -45,7 +48,13 @@ npm run dev
 npm run check
 npm run lint
 npm run build
+npm run test:e2e
+npm run test:e2e:built
+npm run test:e2e:ui
+npm run test:visual:update
+npm run lhci
 git status -sb
+gh auth status -h github.com
 ```
 
 `npm run check` runs lint, production audit, and build.
@@ -82,8 +91,10 @@ DEPLOY_FIRSTVDS.md
 These are local Codex environment notes, not project dependencies:
 
 - `ui-ux-pro-max` installed at `/home/aleksander/.codex/skills/ui-ux-pro-max`.
+- `onixbit-brand` installed at `/home/aleksander/.codex/skills/onixbit-brand`.
 - 21st.dev Magic MCP is configured locally in Codex config as `21st_magic`.
 - VS Code Russian language pack was installed in the remote VS Code server.
+- GitHub CLI `gh` installed at `/home/aleksander/.local/bin/gh`; run `gh auth login` when GitHub API/Actions access is needed.
 
 Do not commit local API keys or Codex config files into this repository.
 
@@ -92,11 +103,14 @@ Do not commit local API keys or Codex config files into this repository.
 - Communicate with the user in Russian unless the user explicitly asks for another language.
 - For website/UI work, use the root React/Next project.
 - Prefer existing local patterns before adding new abstractions.
+- Use `onixbit-brand` for Onixbit-specific brand, copy, SEO, deployment, and handoff decisions.
 - Use `ui-ux-pro-max` for UI/UX design, review, animation, layout, typography, color, accessibility, and responsive decisions.
 - Use 21st.dev for UI inspiration/components/logos when helpful.
 - Use `motion` sparingly for professional B2B motion: subtle reveals, state transitions, hover/tap feedback, and reduced-motion-friendly animations.
 - Keep Onixbit business-focused: restrained, clear, credible, and conversion-oriented.
 - Before finishing substantial work, run `npm run check` unless the change is docs-only or clearly does not affect code.
+- Run `npm run test:e2e` after user-visible route, layout, form, or navigation changes.
+- Run `npm run lhci` for performance, SEO, accessibility, or production-readiness audits.
 - Commit and push only when the user wants the work finalized or deployment should be triggered.
 
 ## Restart/Handoff Routine
@@ -136,4 +150,9 @@ npm run check
 - `onixbit-next` no longer exists.
 - Old Tilda/preview/VK/archive materials were removed.
 - `motion` is installed and ready.
+- Playwright and axe are configured in `tests/` for smoke, overflow, health, and accessibility checks. `npm run test:e2e` builds first; `npm run test:e2e:built` expects an existing build.
+- GitHub Actions CI and FirstVDS deploy checks build first, then run E2E tests against the built app.
+- Lighthouse CI is configured in `lighthouserc.cjs` and runs manually with `npm run lhci`.
+- Sentry-ready files and `/api/health` exist; monitoring stays disabled until `NEXT_PUBLIC_SENTRY_DSN` is configured.
+- GitHub CLI `gh` is installed but not authenticated yet.
 - No current unfinished implementation task is recorded here.

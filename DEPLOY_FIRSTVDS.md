@@ -38,6 +38,7 @@ sudo DEPLOY_USER=deploy APP_DIR=/opt/onixbit-site bash deploy/bootstrap-firstvds
 - `VPS_SSH_KEY` — приватный SSH-ключ для подключения GitHub Actions к серверу.
 - `VPS_APP_DIR` — папка приложения, обычно `/opt/onixbit-site`.
 - `PRODUCTION_DOMAIN` — домен, например `new.onixbit.ru`.
+- `NEXT_PUBLIC_SENTRY_DSN` — необязательно, DSN для включения Sentry-мониторинга.
 
 ## DNS
 
@@ -57,7 +58,7 @@ www.onixbit.ru -> CNAME -> onixbit.ru
 ## Как работает деплой
 
 1. Push в `main`.
-2. GitHub Actions запускает `npm ci`, `npm run lint`, `npm audit --omit=dev`, `npm run build`.
+2. GitHub Actions запускает `npm ci`, `npm run lint`, `npm audit --omit=dev`, `npm run build`, `npm run test:e2e:built`.
 3. Код упаковывается в архив.
 4. Архив отправляется на VPS по SSH.
 5. На сервере создаётся релиз `/opt/onixbit-site/releases/<commit_sha>`.
