@@ -2,6 +2,8 @@
 
 :root {
   --ob-container: 1700px;
+  --ob-font-sans: Manrope, Arial, sans-serif;
+  --ob-font-display: Montserrat, Manrope, Arial, sans-serif;
   --ob-red: #ed1c24;
   --ob-red-deep: #b80f17;
   --ob-red-soft: rgba(237, 28, 36, 0.1);
@@ -45,7 +47,7 @@ body {
   min-height: 100vh;
   margin: 0;
   color: var(--ob-ink);
-  font-family: Montserrat, Arial, sans-serif;
+  font-family: var(--ob-font-sans);
   background:
     radial-gradient(circle at 8% 6%, rgba(237, 28, 36, 0.11), transparent 32vw),
     radial-gradient(circle at 86% 12%, rgba(255, 212, 90, 0.24), transparent 28vw),
@@ -82,6 +84,27 @@ body::after {
 main {
   position: relative;
   z-index: 1;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.ob-btn,
+.ob-kicker,
+.obx-tariffs__eyebrow,
+.obx-price-line__eyebrow,
+.obx-certs__eyebrow,
+.ob-lead-panel__label,
+.obx-tariffs__trial-label,
+.obx-tariffs__label,
+.obx-tariffs__estimate-label,
+.obx-price-line__trial-label,
+.obx-price-line__control-label,
+.obx-certs__badge {
+  font-family: var(--ob-font-display);
 }
 
 img,
@@ -2309,7 +2332,7 @@ textarea:focus-visible {
   width: 100%;
   min-height: 372px;
   color: var(--ob-ink);
-  font-family: Montserrat, Arial, sans-serif;
+  font-family: var(--ob-font-display);
 }
 
 .ob-form-slot > *,
@@ -2333,7 +2356,7 @@ textarea:focus-visible {
   border: 0 !important;
   background: transparent !important;
   box-shadow: none !important;
-  font-family: Montserrat, Arial, sans-serif !important;
+  font-family: var(--ob-font-display) !important;
 }
 
 .ob-form-slot .b24-form-header,
@@ -2365,7 +2388,7 @@ textarea:focus-visible {
   background: rgba(255, 255, 255, 0.76) !important;
   color: var(--ob-ink) !important;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.86) !important;
-  font-family: Montserrat, Arial, sans-serif !important;
+  font-family: var(--ob-font-display) !important;
   font-weight: 650 !important;
 }
 
@@ -2385,7 +2408,7 @@ textarea:focus-visible {
 .ob-form-slot .b24-form-control-label,
 .ob-form-slot .b24-form-field-title {
   color: rgba(8, 8, 8, 0.68) !important;
-  font-family: Montserrat, Arial, sans-serif !important;
+  font-family: var(--ob-font-display) !important;
   font-size: 12px !important;
   font-weight: 900 !important;
 }
@@ -2393,7 +2416,7 @@ textarea:focus-visible {
 .ob-form-slot .b24-form-field-agreement,
 .ob-form-slot .b24-form-control-desc {
   color: rgba(8, 8, 8, 0.78) !important;
-  font-family: Montserrat, Arial, sans-serif !important;
+  font-family: var(--ob-font-display) !important;
   font-size: 11.5px !important;
   line-height: 1.5 !important;
   font-weight: 700 !important;
@@ -2435,7 +2458,7 @@ textarea:focus-visible {
   color: #fff !important;
   background: linear-gradient(135deg, var(--ob-red), var(--ob-red-deep)) !important;
   box-shadow: 0 18px 38px rgba(237, 28, 36, 0.24) !important;
-  font-family: Montserrat, Arial, sans-serif !important;
+  font-family: var(--ob-font-display) !important;
   font-size: 14px !important;
   font-weight: 900 !important;
   transition: transform 0.24s var(--ob-ease), box-shadow 0.24s var(--ob-ease) !important;

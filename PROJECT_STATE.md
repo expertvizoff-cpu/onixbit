@@ -33,6 +33,7 @@ Do not use `onixbit-next`; the Next.js app was moved to the repository root.
 - React 19.2.4
 - TypeScript
 - Tailwind CSS 4 / PostCSS
+- @fontsource Manrope + Montserrat for self-hosted open-source typography
 - lucide-react for icons
 - motion for React animations
 - Playwright + axe for E2E and accessibility checks
@@ -109,6 +110,7 @@ Do not commit local API keys or Codex config files into this repository.
 - Use 21st.dev for UI inspiration/components/logos when helpful.
 - Use `motion` sparingly for professional B2B motion: subtle reveals, state transitions, hover/tap feedback, and reduced-motion-friendly animations.
 - Keep Onixbit business-focused: restrained, clear, credible, and conversion-oriented.
+- When starting articles or case descriptions, remind Aleksander to create or provide `CONTENT_GUIDE.md`, `CASE_TEMPLATE.md`, and `TYPOGRAPHY_GUIDE.md`/examples so copy has a durable human editorial voice and factual case structure.
 - Before finishing substantial work, run `npm run check` unless the change is docs-only or clearly does not affect code.
 - Run `npm run test:e2e` after user-visible route, layout, form, or navigation changes.
 - Run `npm run lhci` for performance, SEO, accessibility, or production-readiness audits.
@@ -155,5 +157,6 @@ npm run check
 - GitHub Actions CI and FirstVDS deploy checks build first, then run E2E tests against the built app.
 - Lighthouse CI is configured in `lighthouserc.cjs` and runs manually with `npm run lhci`; it uses the same no-sudo local browser dependency wrapper.
 - Sentry-ready files and `/api/health` exist; monitoring stays disabled until `NEXT_PUBLIC_SENTRY_DSN` is configured.
+- Typography now uses self-hosted open-source Manrope for body text and Montserrat for headings, buttons, and accent UI.
 - GitHub CLI `gh` is installed but not authenticated yet.
 - No current unfinished implementation task is recorded here.

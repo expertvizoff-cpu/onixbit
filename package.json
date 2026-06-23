@@ -20,6 +20,7 @@
     "browser:deps": "node scripts/prepare-browser-deps.mjs"
   },
   "dependencies": {
+    "@fontsource/manrope": "^5.2.8",
     "@fontsource/montserrat": "^5.2.8",
     "@sentry/nextjs": "^10.60.0",
     "lucide-react": "^1.21.0",
