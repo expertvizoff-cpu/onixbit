@@ -9,11 +9,12 @@ This file is the durable handoff for Codex chats. If a chat is lost, compacted, 
 Recommended first message in a new chat:
 
 ```text
-Project Onixbit.
-Folder: /home/aleksander/projects/onixbit.
-Read PROJECT_STATE.md, then check pwd and git status.
-Work in the React/Next project from the repository root.
-Use ui-ux-pro-max, 21st.dev, and motion when relevant.
+Проект Onixbit.
+Папка: /home/aleksander/projects/onixbit.
+Прочитай PROJECT_STATE.md, затем сам проверь pwd и git status.
+Работаем в React/Next из корня репозитория.
+Используй ui-ux-pro-max, 21st.dev и motion, когда это уместно.
+Общайся со мной на русском.
 ```
 
 ## Current Working Folder
@@ -88,6 +89,7 @@ Do not commit local API keys or Codex config files into this repository.
 
 ## Working Rules
 
+- Communicate with the user in Russian unless the user explicitly asks for another language.
 - For website/UI work, use the root React/Next project.
 - Prefer existing local patterns before adding new abstractions.
 - Use `ui-ux-pro-max` for UI/UX design, review, animation, layout, typography, color, accessibility, and responsive decisions.
@@ -98,6 +100,14 @@ Do not commit local API keys or Codex config files into this repository.
 - Commit and push only when the user wants the work finalized or deployment should be triggered.
 
 ## Restart/Handoff Routine
+
+If a session is interrupted without `/wrap`, the next Codex chat should restore context automatically:
+
+1. Read `PROJECT_STATE.md`.
+2. Run `pwd`.
+3. Run `git status -sb`.
+4. Continue from the newest user request without asking the user to repeat these commands.
+5. Speak Russian by default.
 
 Before ending a substantial task, update this file if any of these changed:
 
