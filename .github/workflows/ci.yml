@@ -4,17 +4,7 @@ on:
   push:
     branches:
       - main
-    paths:
-      - "onixbit-next/**"
-      - ".github/workflows/ci.yml"
-  pull_request:
-    paths:
-      - "onixbit-next/**"
-      - ".github/workflows/ci.yml"
-
-defaults:
-  run:
-    working-directory: onixbit-next
+  pull_request: {}
 
 jobs:
   check:
@@ -29,7 +19,7 @@ jobs:
         with:
           node-version: 22
           cache: npm
-          cache-dependency-path: onixbit-next/package-lock.json
+          cache-dependency-path: package-lock.json
 
       - name: Install dependencies
         run: npm ci

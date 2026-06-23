@@ -1,30 +1,47 @@
-# Dependencies
-node_modules/
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-# Test and browser output
-test-results/
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# testing
+/coverage
+/test-results/
 playwright-report/
 blob-report/
-*.log
 
-# OS/editor noise
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# misc
 .DS_Store
-*.tmp
-
-# Large temporary source captures and screenshots
-b24-*.html
-b24-table-*.html
-2026-*.jpg
-onixbit-*-before.png
-onixbit-live-*.png
-onixbit-motion-*.png
-onixbit-brand-preview-*.png
-onixbit-brand-style-preview*.png
-onixbit-header-live.png
-onixbit-og-preview-1200x630-old-generated-logo.png
-# Superseded Tilda blocks kept locally only
-onixbit-tilda-hero.html
-onixbit-tilda-hero-v2.html
-
-# Local deploy keys
+*.pem
 .deploy_keys/
+source-materials/
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# env files (can opt-in for committing if needed)
+.env*
+!.env.example
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
