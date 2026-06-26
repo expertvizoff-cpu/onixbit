@@ -2490,6 +2490,9 @@ textarea:focus-visible {
   min-height: 640px;
 }
 
+#contact-form {
+  scroll-margin-top: 126px;
+}
 
 .ob-contacts-hero {
   padding-top: clamp(76px, 7vw, 116px);
@@ -4411,31 +4414,23 @@ textarea:focus-visible {
 }
 
 [href^="mailto"] .lucide-mail,
-a:hover .lucide-mail {
+a .lucide-mail {
   overflow: visible;
   transform-box: fill-box;
   transform-origin: center;
+  transition: color 0.22s var(--ob-ease), opacity 0.22s var(--ob-ease);
 }
 
 [href^="mailto"]:hover .lucide-mail,
 a:hover .lucide-mail {
-  animation: obMailWiggle 0.55s var(--ob-ease) both;
+  transform: none;
 }
 
 [href^="mailto"]:hover .lucide-mail path:last-child,
 a:hover .lucide-mail path:last-child,
 [href^="mailto"]:hover .lucide-mail polyline,
 a:hover .lucide-mail polyline {
-  transform: translateY(-2px) scaleY(0.9);
-  transform-box: fill-box;
-  transform-origin: center top;
-}
-
-@keyframes obMailWiggle {
-  0% { transform: rotate(0deg) scale(1); }
-  35% { transform: rotate(-8deg) scale(1.08); }
-  70% { transform: rotate(6deg) scale(1.05); }
-  100% { transform: rotate(0deg) scale(1.05); }
+  transform: none;
 }
 
 /* About company page polish */
@@ -10820,6 +10815,154 @@ a:hover .lucide-mail polyline {
   box-shadow: 0 18px 48px rgba(8, 8, 8, 0.07);
 }
 
+
+
+.ob-contact-final {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(320px, 0.58fr);
+  gap: clamp(24px, 4vw, 58px);
+  align-items: stretch;
+  overflow: hidden;
+  padding: clamp(26px, 3.8vw, 48px);
+  border-radius: var(--ob-radius-xl);
+  color: #fff;
+  background:
+    linear-gradient(135deg, rgba(8, 8, 8, 0.96), rgba(34, 20, 22, 0.94) 56%, rgba(237, 28, 36, 0.92)),
+    linear-gradient(90deg, rgba(255, 212, 90, 0.18), transparent 42%);
+  box-shadow: 0 30px 88px rgba(8, 8, 8, 0.18);
+}
+
+.ob-contact-final::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 0 62%, rgba(255, 255, 255, 0.08) 62% 63%, transparent 63% 100%);
+  pointer-events: none;
+}
+
+.ob-contact-final__content,
+.ob-contact-final__channels {
+  position: relative;
+  z-index: 1;
+}
+
+.ob-contact-final .ob-kicker {
+  color: rgba(255, 255, 255, 0.72);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.ob-contact-final h2 {
+  max-width: 820px;
+  margin: 18px 0 0;
+  color: #fff;
+  font-size: clamp(34px, 3vw, 56px);
+  line-height: 1.04;
+  font-weight: 940;
+  letter-spacing: 0;
+}
+
+.ob-contact-final p {
+  max-width: 780px;
+  margin: 18px 0 0;
+  color: rgba(255, 255, 255, 0.74);
+  font-size: clamp(16px, 1vw, 18px);
+  line-height: 1.62;
+  font-weight: 600;
+}
+
+.ob-contact-final__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 28px;
+}
+
+.ob-contact-final__primary,
+.ob-contact-final__secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  min-height: 52px;
+  padding: 14px 18px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 920;
+  transition: transform 0.2s var(--ob-ease), background 0.2s var(--ob-ease), border-color 0.2s var(--ob-ease), color 0.2s var(--ob-ease);
+}
+
+.ob-contact-final__primary {
+  color: var(--ob-red-deep);
+  background: #fff;
+  box-shadow: 0 18px 42px rgba(255, 255, 255, 0.18);
+}
+
+.ob-contact-final__secondary {
+  border: 1px solid rgba(255, 255, 255, 0.26);
+  color: #fff;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.ob-contact-final__primary:hover,
+.ob-contact-final__secondary:hover {
+  transform: translateY(-2px);
+}
+
+.ob-contact-final__primary:hover {
+  color: #fff;
+  background: var(--ob-red);
+}
+
+.ob-contact-final__secondary:hover {
+  border-color: rgba(255, 255, 255, 0.48);
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.ob-contact-final__channels {
+  display: flex;
+  min-height: 100%;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: clamp(20px, 3vw, 38px);
+  border-left: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.ob-contact-final__channels > span {
+  color: rgba(255, 255, 255, 0.58);
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.ob-contact-final__channels strong {
+  margin-top: 8px;
+  color: #fff;
+  font-size: clamp(22px, 1.8vw, 31px);
+  line-height: 1.1;
+  font-weight: 920;
+}
+
+.ob-contact-final__messengers {
+  margin-top: 20px;
+}
+
+.ob-contact-final__messengers .ob-messenger {
+  border-color: rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: none;
+}
+
+.ob-contact-final__messengers .ob-messenger span {
+  color: #fff;
+}
+
+.ob-contact-final__messengers .ob-messenger:hover {
+  border-color: rgba(255, 255, 255, 0.34);
+  background: rgba(255, 255, 255, 0.16);
+}
+
 @media (max-width: 1180px) {
   .ob-contact-map-shell,
   .ob-contact-route-flow,
@@ -10917,5 +11060,42 @@ a:hover .lucide-mail polyline {
 
   .ob-contact-faq__items details p {
     padding-left: 18px;
+  }
+}
+
+@media (max-width: 1180px) {
+  .ob-contact-final {
+    grid-template-columns: 1fr;
+  }
+
+  .ob-contact-final__channels {
+    padding-top: 24px;
+    padding-left: 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.18);
+    border-left: 0;
+  }
+}
+
+@media (max-width: 760px) {
+  #contact-form {
+    scroll-margin-top: 92px;
+  }
+
+  .ob-contact-final {
+    padding: 22px;
+    border-radius: 24px;
+  }
+
+  .ob-contact-final h2 {
+    font-size: clamp(30px, 9vw, 42px);
+  }
+
+  .ob-contact-final__primary,
+  .ob-contact-final__secondary {
+    width: 100%;
+  }
+
+  .ob-contact-final__messengers .ob-messenger {
+    flex: 1 1 auto;
   }
 }

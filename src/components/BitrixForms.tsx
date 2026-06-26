@@ -70,9 +70,9 @@ export function InlineBitrixForm({ className = "" }: { className?: string }) {
   return <div ref={formRef} className={`ob-form-slot ${className}`} />;
 }
 
-export function LeadFormPanel({ className = "" }: { className?: string }) {
+export function LeadFormPanel({ className = "", id }: { className?: string; id?: string }) {
   return (
-    <aside className={`ob-lead-panel ${className}`} aria-label="Форма заявки Битрикс24">
+    <aside id={id} className={`ob-lead-panel ${className}`} aria-label="Форма заявки Битрикс24">
       <div className="ob-lead-panel__top">
         <span className="ob-lead-panel__label">Форма Битрикс24</span>
         <h3>Заявка на консультацию</h3>

@@ -453,7 +453,7 @@ export function ContactsContent() {
               ))}
             </div>
           </div>
-          <LeadFormPanel className="ob-lead-panel--contact ob-contacts-form" />
+          <LeadFormPanel id="contact-form" className="ob-lead-panel--contact ob-contacts-form" />
         </div>
       </section>
 
@@ -569,7 +569,7 @@ export function ContactsContent() {
         </div>
       </section>
 
-      <section className="ob-section ob-section--lead">
+      <section className="ob-section ob-section--tight">
         <div className="ob-container ob-contact-faq">
           <div className="ob-contact-faq__intro">
             <span className="ob-kicker">Частые вопросы</span>
@@ -588,6 +588,34 @@ export function ContactsContent() {
                 <p>{item.answer}</p>
               </details>
             ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="ob-section ob-section--lead">
+        <div className="ob-container ob-contact-final">
+          <div className="ob-contact-final__content">
+            <span className="ob-kicker">Следующий шаг</span>
+            <h2>Опишите задачу — подскажем, с чего начать</h2>
+            <p>
+              Если после адресов, реквизитов и вопросов стало понятно, что нужно обсудить,
+              вернитесь к форме. Достаточно кратко описать систему, цель и ограничение по срокам.
+            </p>
+            <div className="ob-contact-final__actions" aria-label="Действия в конце страницы контактов">
+              <a className="ob-contact-final__primary" href="#contact-form">
+                <ClipboardCheck size={18} aria-hidden="true" /> Оставить заявку
+              </a>
+              <a className="ob-contact-final__secondary" href={company.phoneHref}>
+                <Phone size={18} aria-hidden="true" /> Позвонить
+              </a>
+            </div>
+          </div>
+
+          <div className="ob-contact-final__channels">
+            <span>Короткий вопрос?</span>
+            <strong>Напишите в удобный канал</strong>
+            <p>Для быстрых уточнений подойдут мессенджеры, а документы лучше отправлять на email.</p>
+            <MessengerLinks className="ob-contact-final__messengers ob-contact-messengers" />
           </div>
         </div>
       </section>
