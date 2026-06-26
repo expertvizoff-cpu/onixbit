@@ -16,7 +16,7 @@ type ContactMapSwitcherProps = {
 };
 
 const mapPoint = (office: ContactOffice) =>
-  `https://yandex.ru/map-widget/v1/?ll=${office.coords.lon},${office.coords.lat}&z=16&pt=${office.coords.lon},${office.coords.lat},pm2rdm`;
+  `https://yandex.ru/map-widget/v1/?ll=${office.coords.lon},${office.coords.lat}&z=16`;
 
 const mapRoute = (offices: ContactOffice[]) => {
   const route = offices.map((office) => `${office.coords.lat},${office.coords.lon}`).join("~");
@@ -51,9 +51,9 @@ export function ContactMapSwitcher({ offices }: ContactMapSwitcherProps) {
       {
         id: "route",
         label: "Маршрут",
-        title: "Два адреса на одной карте",
+        title: "Маршрут между адресами",
         subtitle: "Тула — основной офис, Кимовск — почтовый адрес",
-        note: "Откройте маршрут в Яндекс.Картах, если нужно построить путь между адресами.",
+        note: "Откройте маршрут в Яндекс.Картах, если нужно быстро построить путь между офисом и почтовым адресом.",
         src: mapRoute(offices),
         href: yandexRoute(offices),
         isRoute: true,
@@ -67,7 +67,7 @@ export function ContactMapSwitcher({ offices }: ContactMapSwitcherProps) {
   return (
     <div className="ob-contact-map" aria-label="Адреса Ониксбит на карте">
       <div className="ob-contact-map__tabs" aria-label="Выбор адреса на карте">
-        <span className="ob-contact-map__tabs-label">Выберите на карте</span>
+        <span className="ob-contact-map__tabs-label">Адрес на карте</span>
         {views.map((view) => {
           const Icon = view.isRoute ? Route : MapPin;
           return (
@@ -94,9 +94,11 @@ export function ContactMapSwitcher({ offices }: ContactMapSwitcherProps) {
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
           />
-          <div className="ob-contact-map__marker" aria-hidden="true">
-            <ActiveIcon size={18} />
-            <span>
+          <div className="ob-contact-map__pin" aria-hidden="true">
+            <span className="ob-contact-map__pin-dot">
+              <ActiveIcon size={17} />
+            </span>
+            <span className="ob-contact-map__pin-card">
               <strong>{active.isRoute ? "Маршрут" : active.title}</strong>
               <em>{active.subtitle}</em>
             </span>
@@ -111,7 +113,7 @@ export function ContactMapSwitcher({ offices }: ContactMapSwitcherProps) {
             <p>{active.note}</p>
           </div>
 
-          <div className="ob-contact-map__addresses" aria-label="Выберите адрес в правой колонке">
+          <div className="ob-contact-map__addresses" aria-label="Выберите адрес или маршрут">
             {offices.map((office) => (
               <button
                 className={active.id === office.city ? "is-active" : ""}
@@ -137,7 +139,7 @@ export function ContactMapSwitcher({ offices }: ContactMapSwitcherProps) {
               <Route size={17} aria-hidden="true" />
               <span>
                 <strong>Маршрут</strong>
-                <em>Связать оба адреса</em>
+                <em>Показать оба адреса</em>
                 <small>Тула — Кимовск</small>
               </span>
             </button>
