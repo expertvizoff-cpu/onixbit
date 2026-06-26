@@ -167,23 +167,30 @@ const companyAddresses = [
   },
 ];
 
+const mainOffice = companyAddresses[0];
+const postalAddress = companyAddresses[1];
+
 const legalItems = [
   { label: "Юридический статус", value: "ИП Тужилкин А.П." },
   { label: "Документы", value: "договор, счёт-оферта, закрывающие документы" },
   { label: "ИНН", value: "711501986455" },
   { label: "ОГРНИП", value: "311715403800278" },
-  ...companyAddresses,
   { label: "ЭДО СБИС", value: "2BEf4772b9db7964211b7013a56fb14b87f" },
   { label: "ЭДО ТОЧКА", value: "2MH0d4cc0a6fe5a11ee8a420242ac110002" },
 ];
 
-const mainOffice = companyAddresses[0];
-
-const aboutMapUrl = (query: string) =>
-  `https://yandex.ru/map-widget/v1/?text=${encodeURIComponent(query)}&z=16`;
+const aboutRouteMapUrl = (addresses: typeof companyAddresses) =>
+  `https://yandex.ru/map-widget/v1/?mode=routes&rtext=${encodeURIComponent(
+    addresses.map((address) => address.mapQuery).join("~"),
+  )}&rtt=auto`;
 
 const yandexMapUrl = (query: string) =>
   `https://yandex.ru/maps/?text=${encodeURIComponent(query)}`;
+
+const yandexRouteUrl = (addresses: typeof companyAddresses) =>
+  `https://yandex.ru/maps/?mode=routes&rtext=${encodeURIComponent(
+    addresses.map((address) => address.mapQuery).join("~"),
+  )}&rtt=auto`;
 
 const certificatePreview = [
   {
@@ -619,24 +626,57 @@ export function AboutPageContent() {
                 <span>Email</span>
                 <strong>{company.email}</strong>
               </div>
-            </div>
-            <div className="ob-about-address-map">
-              <iframe
-                title={`Яндекс.Карта: ${mainOffice.value}`}
-                src={aboutMapUrl(mainOffice.mapQuery)}
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-              />
-              <div className="ob-about-address-map__badge">
-                <MapPin size={18} aria-hidden="true" />
-                <span>Основной офис</span>
-                <strong>Тула</strong>
+              <div className="ob-about-requisites__item--wide">
+                <span>{mainOffice.label}</span>
+                <strong>{mainOffice.value}</strong>
               </div>
-              <a href={yandexMapUrl(mainOffice.mapQuery)} target="_blank" rel="noreferrer">
-                <span>Открыть карту</span>
-                <ArrowRight size={16} aria-hidden="true" />
-              </a>
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="ob-section ob-section--tight">
+        <div className="ob-container ob-about-map-block">
+          <div className="ob-about-map-block__content">
+            <span className="ob-kicker">Адреса на карте</span>
+            <h2>Основной офис и почтовый адрес в Тульской области</h2>
+            <p>
+              Для встреч используем основной адрес в Туле. Почтовые отправления и
+              документы можно направлять на адрес в Кимовске.
+            </p>
+            <div className="ob-about-map-block__addresses">
+              {companyAddresses.map((address) => (
+                <a href={yandexMapUrl(address.mapQuery)} target="_blank" rel="noreferrer" key={address.label}>
+                  <span>{address.label}</span>
+                  <strong>{address.value}</strong>
+                  <em>{address === mainOffice ? "офис для встреч по записи" : "адрес для почты и документов"}</em>
+                </a>
+              ))}
+            </div>
+          </div>
+          <div className="ob-about-map-block__map">
+            <iframe
+              title="Яндекс.Карта: основной офис и почтовый адрес Ониксбит"
+              src={aboutRouteMapUrl(companyAddresses)}
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            />
+            <div className="ob-about-map-markers" aria-hidden="true">
+              <span className="ob-about-map-marker ob-about-map-marker--main">
+                <MapPin size={18} />
+                <strong>Тула</strong>
+                <em>{mainOffice.label}</em>
+              </span>
+              <span className="ob-about-map-marker ob-about-map-marker--postal">
+                <MapPin size={18} />
+                <strong>Кимовск</strong>
+                <em>{postalAddress.label}</em>
+              </span>
+            </div>
+            <a className="ob-about-map-block__route" href={yandexRouteUrl(companyAddresses)} target="_blank" rel="noreferrer">
+              <span>Открыть маршрут</span>
+              <ArrowRight size={16} aria-hidden="true" />
+            </a>
           </div>
         </div>
       </section>
