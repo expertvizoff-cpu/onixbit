@@ -23,8 +23,10 @@ export type Direction = {
 
 export const company = {
   name: "Ониксбит",
-  phone: "+7 (920) 272-48-28",
-  phoneHref: "tel:+79202724828",
+  phone: "8 800 100-53-03",
+  phoneHref: "tel:+78001005303",
+  directPhone: "+7 (920) 272-48-28",
+  directPhoneHref: "tel:+79202724828",
   email: "info@onixbit.ru",
   emailHref: "mailto:info@onixbit.ru",
   years: "14 лет",

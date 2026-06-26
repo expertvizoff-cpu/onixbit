@@ -5,7 +5,6 @@ import {
   Building2,
   CalendarClock,
   CheckCircle2,
-  Clock3,
   ClipboardCheck,
   FileCheck2,
   HelpCircle,
@@ -477,9 +476,15 @@ export function ContactsContent() {
           <div className="ob-contacts-direct__cards">
             <a href={company.phoneHref} className="ob-contact-card">
               <Phone size={22} />
-              <span>Телефон</span>
+              <span>Основной телефон</span>
               <strong>{company.phone}</strong>
               <em>будни с 10:00 до 18:00</em>
+            </a>
+            <a href={company.directPhoneHref} className="ob-contact-card">
+              <Phone size={22} />
+              <span>Прямой номер</span>
+              <strong>{company.directPhone}</strong>
+              <em>для текущих вопросов и мессенджеров</em>
             </a>
             <a href={company.emailHref} className="ob-contact-card">
               <Mail size={22} />
@@ -492,12 +497,6 @@ export function ContactsContent() {
               <span>Мессенджеры</span>
               <strong>Telegram, MAX, VK</strong>
               <MessengerLinks className="ob-contact-messengers" />
-            </div>
-            <div className="ob-contact-card">
-              <Clock3 size={22} />
-              <span>Поддержка</span>
-              <strong>Гибкий график</strong>
-              <em>по согласованному регламенту проекта</em>
             </div>
           </div>
         </div>

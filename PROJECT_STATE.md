@@ -110,6 +110,7 @@ Do not commit local API keys or Codex config files into this repository.
 - Use 21st.dev for UI inspiration/components/logos when helpful.
 - Use `motion` sparingly for professional B2B motion: subtle reveals, state transitions, hover/tap feedback, and reduced-motion-friendly animations.
 - Keep Onixbit business-focused: restrained, clear, credible, and conversion-oriented.
+- Public contacts: use `8 800 100-53-03` (`tel:+78001005303`) as the primary website/header phone. Keep `+7 (920) 272-48-28` as the direct/mobile channel in contacts and messengers, not as the main header phone.
 - For pricing, licenses, tariffs, certificates, and similar comparison blocks, preserve the desktop composition on common laptop widths (`1181-1440px`) with compact spacing instead of collapsing columns too early. Collapse to 2 columns only below the laptop range and to 1 column on mobile.
 - When starting articles or case descriptions, remind Aleksander to create or provide `CONTENT_GUIDE.md`, `CASE_TEMPLATE.md`, and `TYPOGRAPHY_GUIDE.md`/examples so copy has a durable human editorial voice and factual case structure.
 - Before finishing substantial work, run `npm run check` unless the change is docs-only or clearly does not affect code.

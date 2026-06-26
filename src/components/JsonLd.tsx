@@ -16,6 +16,22 @@ export function JsonLd() {
     image: `${baseUrl}/brand/onixbit-og.png`,
     email: company.email,
     telephone: company.phone,
+    contactPoint: [
+      {
+        "@type": "ContactPoint",
+        telephone: company.phone,
+        contactType: "sales",
+        areaServed: "RU",
+        availableLanguage: "ru",
+      },
+      {
+        "@type": "ContactPoint",
+        telephone: company.directPhone,
+        contactType: "customer support",
+        areaServed: "RU",
+        availableLanguage: "ru",
+      },
+    ],
     description: company.summary,
     sameAs: messengers.map((item) => item.href),
     taxID: "711501986455",

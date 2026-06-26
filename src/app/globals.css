@@ -6760,10 +6760,6 @@ a:hover .lucide-mail polyline {
 }
 
 @media (max-width: 1440px) {
-  .ob-header__phone span {
-    display: none;
-  }
-
   .ob-header__nav-link {
     padding-inline: 10px;
     font-size: 13px;
