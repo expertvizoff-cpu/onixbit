@@ -9,7 +9,6 @@ import {
   FileCheck2,
   HelpCircle,
   Mail,
-  MapPin,
   MessageSquareText,
   Phone,
   ReceiptText,
@@ -33,6 +32,7 @@ import { PartnerCertificatesBlock } from "./PartnerCertificatesBlock";
 import { LeadFormPanel } from "./BitrixForms";
 import { ProductScene } from "./ProductScene";
 import { MessengerLinks } from "./Messengers";
+import { ContactMapSwitcher } from "./ContactMapSwitcher";
 
 export function SectionIntro({
   kicker,
@@ -369,14 +369,14 @@ const contactOffices = [
     label: "Основной офис",
     address: "г. Тула, Красноармейский проспект, 7",
     note: "Встречи по предварительной договоренности",
-    mapQuery: "Россия, Тула, Красноармейский проспект, 7",
+    coords: { lat: 54.1959222, lon: 37.6044318 },
   },
   {
     city: "Кимовск",
     label: "Почтовый адрес",
     address: "г. Кимовск, ул. Бессолова, д. 16, офис 425",
     note: "Почтовые отправления и документы",
-    mapQuery: "Россия, Тульская область, Кимовск, улица Бессолова, 16",
+    coords: { lat: 53.9691867, lon: 38.528019 },
   },
 ];
 
@@ -407,12 +407,6 @@ const legalItems = [
   { label: "ЭДО", value: "ID ЭДО предоставим по запросу" },
 ];
 
-const contactMapUrl = (query: string) =>
-  `https://yandex.ru/map-widget/v1/?text=${encodeURIComponent(query)}&z=16`;
-
-const yandexRouteUrl = (query: string) =>
-  `https://yandex.ru/maps/?text=${encodeURIComponent(query)}`;
-
 const contactFaq = [
   {
     question: "Как быстрее всего связаться с Ониксбит?",
@@ -438,17 +432,12 @@ export function ContactsContent() {
         <div className="ob-container ob-contacts-hero__grid">
           <div className="ob-contacts-hero__content">
             <span className="ob-kicker">Контакты Ониксбит</span>
-            <h1>Обсудим проект, интеграцию или лицензии без лишней анкеты</h1>
+            <h1>Связь без очереди между формой, телефоном и мессенджерами</h1>
             <p>
-              Напишите в форму, позвоните или выберите удобный мессенджер. Для сложной
-              задачи достаточно коротко описать текущую систему, цель и ограничения.
+              Для новой задачи удобнее начать с формы: так мы сразу видим контекст. Если вопрос короткий,
+              используйте телефон, email или мессенджер — все каналы ведём как рабочие обращения по проектам.
             </p>
-            <div className="ob-contacts-hero__scenarios" aria-label="С какими задачами обращаться">
-              {contactScenarios.map((item) => (
-                <span key={item}><CheckCircle2 size={16} /> {item}</span>
-              ))}
-            </div>
-            <div className="ob-contacts-hero__quick" aria-label="Прямые контакты">
+            <div className="ob-contacts-hero__quick" aria-label="Основные контакты">
               <a href={company.phoneHref}>
                 <Phone size={18} aria-hidden="true" />
                 <span>{company.phone}</span>
@@ -458,131 +447,98 @@ export function ContactsContent() {
                 <span>{company.email}</span>
               </a>
             </div>
+            <div className="ob-contacts-hero__scenarios" aria-label="С какими задачами обращаться">
+              {contactScenarios.map((item) => (
+                <span key={item}><CheckCircle2 size={16} /> {item}</span>
+              ))}
+            </div>
           </div>
           <LeadFormPanel className="ob-lead-panel--contact ob-contacts-form" />
         </div>
       </section>
 
       <section className="ob-section ob-section--tight">
-        <div className="ob-container ob-contacts-direct">
-          <div className="ob-contacts-direct__intro">
-            <span className="ob-kicker">Быстрая связь</span>
-            <h2>Куда написать, если нужно быстро понять следующий шаг</h2>
-            <p>
-              Основной канал для заявок — форма Битрикс24. Для текущих вопросов можно
-              написать напрямую: менеджер или специалист поддержки вернётся с ответом.
-            </p>
-          </div>
-          <div className="ob-contacts-direct__cards">
-            <a href={company.phoneHref} className="ob-contact-card">
-              <Phone size={22} />
-              <span>Основной телефон</span>
-              <strong>{company.phone}</strong>
-              <em>будни с 10:00 до 18:00</em>
-            </a>
-            <a href={company.directPhoneHref} className="ob-contact-card">
-              <Phone size={22} />
-              <span>Прямой номер</span>
-              <strong>{company.directPhone}</strong>
-              <em>для текущих вопросов и мессенджеров</em>
-            </a>
-            <a href={company.emailHref} className="ob-contact-card">
-              <Mail size={22} />
+        <div className="ob-container ob-contact-command">
+          <a className="ob-contact-command__phone" href={company.phoneHref}>
+            <span>Основной телефон</span>
+            <strong>{company.phone}</strong>
+            <em>будни с 10:00 до 18:00</em>
+            <Phone size={28} aria-hidden="true" />
+          </a>
+
+          <div className="ob-contact-command__stack" aria-label="Дополнительные каналы связи">
+            <a className="ob-contact-mini ob-contact-mini--mail" href={company.emailHref}>
+              <Mail size={20} aria-hidden="true" />
               <span>E-mail</span>
               <strong>{company.email}</strong>
-              <em>для заявок, документов и КП</em>
+              <em>заявки, документы и КП</em>
             </a>
-            <div className="ob-contact-card ob-contact-card--messengers">
-              <MessageSquareText size={22} />
+            <a className="ob-contact-mini ob-contact-mini--direct" href={company.directPhoneHref}>
+              <Phone size={20} aria-hidden="true" />
+              <span>Прямой номер</span>
+              <strong>{company.directPhone}</strong>
+              <em>текущие вопросы и связь с основателем</em>
+            </a>
+          </div>
+
+          <div className="ob-contact-command__messengers">
+            <div>
               <span>Мессенджеры</span>
               <strong>Telegram, MAX, VK</strong>
-              <MessengerLinks className="ob-contact-messengers" />
+              <p>Для коротких вопросов, согласований и быстрых уточнений по проекту.</p>
             </div>
+            <MessengerLinks className="ob-contact-messengers" />
           </div>
         </div>
       </section>
 
       <section className="ob-section ob-section--tight">
-        <div className="ob-container ob-contact-routes">
-          <div className="ob-contact-routes__head">
-            <span className="ob-kicker">Маршрут обращения</span>
-            <h2>Выберите понятный канал под вашу задачу</h2>
+        <div className="ob-container ob-contact-map-shell">
+          <div className="ob-contact-map-shell__intro">
+            <span className="ob-kicker">Адреса</span>
+            <h2>Офис для встреч и отдельный почтовый адрес на одной карте</h2>
             <p>
-              Чтобы не терять время, выберите ближайший сценарий: новая задача,
-              лицензии, встреча или документы.
+              Основной адрес используем для встреч в Туле. Почтовые отправления и документы направляйте
+              в Кимовск. Оба адреса отмечены метками и доступны через Яндекс.Карты.
             </p>
           </div>
-          <div className="ob-contact-routes__grid">
-            {contactRoutes.map((item) => {
+          <ContactMapSwitcher offices={contactOffices} />
+        </div>
+      </section>
+
+      <section className="ob-section ob-section--tight">
+        <div className="ob-container ob-contact-route-flow">
+          <div className="ob-contact-route-flow__head">
+            <span className="ob-kicker">Маршрут обращения</span>
+            <h2>Куда идти с разными задачами</h2>
+            <p>
+              Страница контактов должна быстро направлять обращение: новая задача, лицензии, встреча,
+              документы или действующий проект.
+            </p>
+          </div>
+          <ol className="ob-contact-route-flow__list">
+            {contactRoutes.map((item, index) => {
               const Icon = item.icon;
               return (
-                <article className="ob-contact-route-card" key={item.title}>
+                <li key={item.title}>
+                  <span>{String(index + 1).padStart(2, "0")}</span>
                   <Icon size={22} aria-hidden="true" />
-                  <h3>{item.title}</h3>
-                  <p>{item.text}</p>
-                </article>
+                  <div>
+                    <h3>{item.title}</h3>
+                    <p>{item.text}</p>
+                  </div>
+                </li>
               );
             })}
-          </div>
+          </ol>
         </div>
       </section>
 
       <section className="ob-section ob-section--tight">
-        <div className="ob-container ob-offices">
-          <div className="ob-section-intro ob-offices__intro">
-            <span className="ob-kicker">Офисы</span>
-            <h2>Работаем с клиентами по всей России, офисы — в Тульской области</h2>
-            <p>
-              Большинство задач ведём удалённо: созвоны, Битрикс24, документы и ЭДО.
-              Очные встречи лучше согласовать заранее, чтобы подготовить нужного специалиста.
-            </p>
-          </div>
-          <div className="ob-offices__grid">
-            {contactOffices.map((office) => (
-              <article className="ob-office-card" key={office.city}>
-                <div className="ob-office-card__map">
-                  <iframe
-                    title={`Яндекс.Карта: ${office.address}`}
-                    src={contactMapUrl(office.mapQuery)}
-                    loading="lazy"
-                    referrerPolicy="no-referrer-when-downgrade"
-                  />
-                  <div className="ob-office-pin">
-                    <MapPin size={18} />
-                    <span>{office.city}</span>
-                  </div>
-                </div>
-                <div className="ob-office-card__body">
-                  <span>{office.label}</span>
-                  <h3>{office.city}</h3>
-                  <p>{office.address}</p>
-                  <em>{office.note}</em>
-                  <a href={yandexRouteUrl(office.mapQuery)} target="_blank" rel="noreferrer">
-                    Открыть в Яндекс.Картах <ArrowUpRight size={16} />
-                  </a>
-                </div>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="ob-section ob-section--tight">
-        <div className="ob-container ob-contact-seo">
-          <div className="ob-contact-seo__content">
-            <span className="ob-kicker">Что можно обсудить</span>
-            <h2>Контакты интегратора Битрикс24, 1С-Битрикс и 1С для B2B-команд</h2>
-            <p>
-              Ониксбит помогает компаниям связать CRM, сайт, учёт и коммуникации:
-              внедрение Битрикс24, разработка сайтов на 1С-Битрикс, интеграции с 1С,
-              лицензии, поддержка и развитие существующих решений.
-            </p>
-          </div>
-          <div className="ob-contact-seo__list">
-            <span><Sparkles size={16} /> первичная диагностика проекта</span>
-            <span><ShieldCheck size={16} /> официальный договор и закрывающие документы</span>
-            <span><CalendarClock size={16} /> созвон или встреча по предварительной записи</span>
-          </div>
+        <div className="ob-container ob-contact-proof-band">
+          <span><Sparkles size={16} /> первичная диагностика проекта</span>
+          <span><ShieldCheck size={16} /> договор и закрывающие документы</span>
+          <span><CalendarClock size={16} /> созвон или встреча по записи</span>
         </div>
       </section>
 
@@ -592,8 +548,8 @@ export function ContactsContent() {
             <span className="ob-kicker">Реквизиты</span>
             <h2>Документы, договоры и оплата для B2B-клиентов</h2>
             <p>
-              Работаем официально: фиксируем состав работ, условия оплаты и закрывающие
-              документы. Для типовых лицензий возможен счёт-оферта, для проектов — договор.
+              Работаем официально: фиксируем состав работ, условия оплаты и закрывающие документы.
+              Для типовых лицензий возможен счёт-оферта, для проектов — договор.
             </p>
             <div className="ob-contact-docs__badges" aria-label="Условия работы">
               <span><FileCheck2 size={16} /> работаем по договору</span>
@@ -619,17 +575,18 @@ export function ContactsContent() {
             <span className="ob-kicker">Частые вопросы</span>
             <h2>Перед обращением</h2>
             <p>
-              Короткие ответы помогают сориентироваться до заявки и заранее
-              подготовить нужные данные.
+              Короткие ответы помогают сориентироваться до заявки и заранее подготовить нужные данные.
             </p>
           </div>
           <div className="ob-contact-faq__items">
-            {contactFaq.map((item) => (
-              <article key={item.question}>
-                <HelpCircle size={20} aria-hidden="true" />
-                <h3>{item.question}</h3>
+            {contactFaq.map((item, index) => (
+              <details key={item.question} open={index === 0}>
+                <summary>
+                  <HelpCircle size={20} aria-hidden="true" />
+                  <span>{item.question}</span>
+                </summary>
                 <p>{item.answer}</p>
-              </article>
+              </details>
             ))}
           </div>
         </div>
