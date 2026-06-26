@@ -64,7 +64,15 @@ jobs:
           chmod 700 ~/.ssh
           printf '%s\n' "${{ secrets.VPS_SSH_KEY }}" > ~/.ssh/onixbit_deploy_key
           chmod 600 ~/.ssh/onixbit_deploy_key
-          ssh-keyscan -p "$SSH_PORT" "${{ secrets.VPS_HOST }}" >> ~/.ssh/known_hosts
+          for attempt in 1 2 3; do
+            if ssh-keyscan -p "$SSH_PORT" "${{ secrets.VPS_HOST }}" >> ~/.ssh/known_hosts; then
+              break
+            fi
+            if [ "$attempt" = "3" ]; then
+              exit 1
+            fi
+            sleep $((attempt * 5))
+          done
 
       - name: Pack release
         run: |
@@ -80,9 +88,17 @@ jobs:
       - name: Upload release archive
         run: |
           set -euo pipefail
-          scp -i ~/.ssh/onixbit_deploy_key -P "$SSH_PORT" \
-            /tmp/onixbit-release-${GITHUB_SHA}.tar.gz \
-            "${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:/tmp/onixbit-release-${GITHUB_SHA}.tar.gz"
+          for attempt in 1 2 3; do
+            if scp -i ~/.ssh/onixbit_deploy_key -P "$SSH_PORT" \
+              /tmp/onixbit-release-${GITHUB_SHA}.tar.gz \
+              "${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:/tmp/onixbit-release-${GITHUB_SHA}.tar.gz"; then
+              exit 0
+            fi
+            if [ "$attempt" = "3" ]; then
+              exit 1
+            fi
+            sleep $((attempt * 10))
+          done
 
       - name: Deploy release
         run: |
