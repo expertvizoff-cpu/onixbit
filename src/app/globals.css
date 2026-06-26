@@ -10192,3 +10192,96 @@ a:hover .lucide-mail polyline {
     min-height: 0 !important;
   }
 }
+
+/* Keep commercial comparison cards in one desktop row on common laptop widths. */
+@media (min-width: 1181px) and (max-width: 1440px) {
+  .obx-price-line__catalog,
+  .obx-price-line__catalog[data-obx-panel="cloud"],
+  .obx-price-line__catalog[data-obx-panel="box"] {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: clamp(10px, 1vw, 14px);
+  }
+
+  .obx-price-line__card {
+    padding: clamp(16px, 1.35vw, 20px);
+    border-radius: 22px;
+  }
+
+  .obx-price-line__card h4 {
+    font-size: clamp(20px, 1.55vw, 24px);
+    line-height: 1.12;
+  }
+
+  .obx-price-line__description {
+    min-height: 86px;
+    font-size: 13px;
+    line-height: 1.42;
+  }
+
+  .obx-price-line__catalog[data-obx-panel="cloud"] .obx-price-line__description {
+    min-height: 100px;
+  }
+
+  .obx-price-line__metric-line {
+    gap: 8px;
+    margin-top: 14px;
+  }
+
+  .obx-price-line__catalog[data-obx-panel="cloud"] .obx-price-line__metric-line {
+    min-height: 102px;
+  }
+
+  .obx-price-line__user-line,
+  .obx-price-line__users,
+  .obx-price-line__user-picker > button {
+    min-height: 40px;
+    padding: 9px 10px;
+    font-size: 12px;
+  }
+
+  .obx-price-line__metric-line .obx-price-line__storage-badge {
+    min-height: 46px;
+    border-radius: 14px;
+    padding: 8px 10px;
+    font-size: 12px;
+    line-height: 1.2;
+  }
+
+  .obx-price-line__catalog[data-obx-panel="cloud"] .obx-price-line__price {
+    min-height: 130px;
+    padding: 14px;
+  }
+
+  .obx-price-line__price strong {
+    font-size: clamp(28px, 2.45vw, 36px);
+    line-height: 0.98;
+  }
+
+  .obx-price-line__price-old-row small {
+    font-size: 15px;
+  }
+
+  .obx-price-line__discount {
+    min-height: 22px;
+    padding: 0 8px;
+    font-size: 12px;
+  }
+
+  .obx-price-line__catalog[data-obx-panel="cloud"] .obx-price-line__link,
+  .obx-price-line__link {
+    min-height: 50px;
+    margin-top: 16px;
+    margin-bottom: 12px;
+    font-size: 13px;
+  }
+
+  .obx-price-line__features li {
+    min-height: 34px;
+    padding: 6px;
+    font-size: 12px;
+  }
+
+  .obx-price-line__features--box li {
+    min-height: 40px;
+  }
+}
