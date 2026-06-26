@@ -1,6 +1,6 @@
 # Onixbit Project State
 
-Last updated: 2026-06-23
+Last updated: 2026-06-26
 
 ## Purpose
 
@@ -115,6 +115,7 @@ Do not commit local API keys or Codex config files into this repository.
 - Run `npm run test:e2e` after user-visible route, layout, form, or navigation changes.
 - Run `npm run lhci` for performance, SEO, accessibility, or production-readiness audits.
 - Commit and push only when the user wants the work finalized or deployment should be triggered.
+- When Aleksander asks to see changes on the live site, run checks, commit, and push to `main` so the GitHub Actions / FirstVDS deployment can start.
 
 ## Restart/Handoff Routine
 

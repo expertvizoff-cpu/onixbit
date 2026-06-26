@@ -17,6 +17,7 @@ import {
   FileText,
   Handshake,
   Mail,
+  MapPin,
   Network,
   Route,
   SearchCheck,
@@ -153,14 +154,36 @@ const publicFormats = [
   },
 ];
 
+const companyAddresses = [
+  {
+    label: "Основной адрес",
+    value: "г. Тула, Красноармейский проспект, 7",
+    mapQuery: "Россия, Тула, Красноармейский проспект, 7",
+  },
+  {
+    label: "Почтовый адрес",
+    value: "г. Кимовск, ул. Бессолова, д. 16, офис 425",
+    mapQuery: "Россия, Тульская область, Кимовск, улица Бессолова, 16",
+  },
+];
+
 const legalItems = [
   { label: "Юридический статус", value: "ИП Тужилкин А.П." },
   { label: "Документы", value: "договор, счёт-оферта, закрывающие документы" },
   { label: "ИНН", value: "711501986455" },
   { label: "ОГРНИП", value: "311715403800278" },
+  ...companyAddresses,
   { label: "ЭДО СБИС", value: "2BEf4772b9db7964211b7013a56fb14b87f" },
   { label: "ЭДО ТОЧКА", value: "2MH0d4cc0a6fe5a11ee8a420242ac110002" },
 ];
+
+const mainOffice = companyAddresses[0];
+
+const aboutMapUrl = (query: string) =>
+  `https://yandex.ru/map-widget/v1/?text=${encodeURIComponent(query)}&z=16`;
+
+const yandexMapUrl = (query: string) =>
+  `https://yandex.ru/maps/?text=${encodeURIComponent(query)}`;
 
 const certificatePreview = [
   {
@@ -580,20 +603,39 @@ export function AboutPageContent() {
               </a>
             </div>
           </div>
-          <div className="ob-about-requisites__grid">
-            {legalItems.map((item) => (
-              <div key={item.label}>
-                <span>{item.label}</span>
-                <strong>{item.value}</strong>
+          <div className="ob-about-requisites__details">
+            <div className="ob-about-requisites__grid">
+              {legalItems.map((item) => (
+                <div key={item.label}>
+                  <span>{item.label}</span>
+                  <strong>{item.value}</strong>
+                </div>
+              ))}
+              <div>
+                <span>Телефон</span>
+                <strong>{company.phone}</strong>
               </div>
-            ))}
-            <div>
-              <span>Телефон</span>
-              <strong>{company.phone}</strong>
+              <div>
+                <span>Email</span>
+                <strong>{company.email}</strong>
+              </div>
             </div>
-            <div>
-              <span>Email</span>
-              <strong>{company.email}</strong>
+            <div className="ob-about-address-map">
+              <iframe
+                title={`Яндекс.Карта: ${mainOffice.value}`}
+                src={aboutMapUrl(mainOffice.mapQuery)}
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              />
+              <div className="ob-about-address-map__badge">
+                <MapPin size={18} aria-hidden="true" />
+                <span>Основной офис</span>
+                <strong>Тула</strong>
+              </div>
+              <a href={yandexMapUrl(mainOffice.mapQuery)} target="_blank" rel="noreferrer">
+                <span>Открыть карту</span>
+                <ArrowRight size={16} aria-hidden="true" />
+              </a>
             </div>
           </div>
         </div>
