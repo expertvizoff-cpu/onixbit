@@ -356,15 +356,16 @@ textarea:focus-visible {
 
 .ob-header::after {
   content: "";
-  position: fixed;
+  position: absolute;
   z-index: -1;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: calc(88px + var(--ob-header-float));
+  top: calc(-1px - var(--ob-header-float));
+  left: -1px;
+  right: -1px;
+  height: calc(var(--ob-header-float) + 2px);
+  border-radius: 24px 24px 0 0;
   pointer-events: none;
-  background: linear-gradient(180deg, rgba(247, 247, 244, 0.94), rgba(247, 247, 244, 0.76) 72%, rgba(247, 247, 244, 0));
-  backdrop-filter: blur(22px) saturate(145%);
+  background: linear-gradient(180deg, rgba(247, 247, 244, 0.94), rgba(255, 255, 255, 0.78));
+  backdrop-filter: blur(18px) saturate(145%);
 }
 
 .ob-header.is-scrolled {
@@ -6942,7 +6943,7 @@ a:hover .lucide-mail polyline {
   }
 
   .ob-header::after {
-    height: 86px;
+    border-radius: 18px 18px 0 0;
   }
 
   .ob-header__inner {
