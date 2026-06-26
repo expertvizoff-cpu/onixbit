@@ -11113,90 +11113,14 @@ a:hover .lucide-mail polyline {
 
 .ob-contact-map__layout {
   grid-template-columns: minmax(0, 1fr) minmax(340px, 0.42fr);
-  height: 620px;
-  min-height: 620px;
+  height: 540px;
+  min-height: 540px;
 }
 
 .ob-contact-map__frame,
 .ob-contact-map__frame iframe {
-  height: 620px;
-  min-height: 620px;
-}
-
-.ob-contact-map__pin {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  z-index: 2;
-  display: inline-flex;
-  max-width: min(380px, calc(100% - 32px));
-  align-items: flex-start;
-  gap: 10px;
-  pointer-events: none;
-  transform: translate(-50%, -88%);
-}
-
-.ob-contact-map__pin-dot {
-  display: inline-flex;
-  width: 42px;
-  height: 42px;
-  flex: 0 0 42px;
-  align-items: center;
-  justify-content: center;
-  border: 2px solid rgba(255, 255, 255, 0.94);
-  border-radius: 50%;
-  color: #fff;
-  background: linear-gradient(135deg, var(--ob-red), var(--ob-red-deep));
-  box-shadow: 0 18px 40px rgba(237, 28, 36, 0.32);
-}
-
-.ob-contact-map__pin-card {
-  position: relative;
-  display: grid;
-  min-width: 0;
-  gap: 4px;
-  padding: 12px 14px;
-  border: 1px solid rgba(255, 255, 255, 0.82);
-  border-radius: 18px;
-  color: #fff;
-  background: linear-gradient(135deg, rgba(8, 8, 8, 0.94), rgba(124, 14, 20, 0.92));
-  box-shadow: 0 20px 48px rgba(8, 8, 8, 0.18);
-  backdrop-filter: blur(14px) saturate(150%);
-}
-
-.ob-contact-map__pin-card::after {
-  content: "";
-  position: absolute;
-  left: 24px;
-  bottom: -8px;
-  width: 16px;
-  height: 16px;
-  border-radius: 0 0 4px;
-  background: rgba(124, 14, 20, 0.92);
-  transform: rotate(45deg);
-}
-
-.ob-contact-map__pin-card strong,
-.ob-contact-map__pin-card em {
-  display: block;
-  min-width: 0;
-  position: relative;
-  z-index: 1;
-}
-
-.ob-contact-map__pin-card strong {
-  font-size: 13px;
-  line-height: 1.2;
-  font-weight: 920;
-}
-
-.ob-contact-map__pin-card em {
-  color: rgba(255, 255, 255, 0.78);
-  font-size: 12px;
-  line-height: 1.35;
-  font-style: normal;
-  font-weight: 650;
-  overflow-wrap: anywhere;
+  height: 540px;
+  min-height: 540px;
 }
 
 .ob-contact-map__panel {
@@ -11354,7 +11278,7 @@ a:hover .lucide-mail polyline {
   }
 
   .ob-contact-map__active {
-    min-height: 176px;
+    min-height: 155px;
   }
 }
 
@@ -11376,18 +11300,6 @@ a:hover .lucide-mail polyline {
   .ob-contact-map__frame iframe {
     height: 330px;
     min-height: 330px;
-  }
-
-  .ob-contact-map__pin {
-    left: 16px;
-    top: auto;
-    bottom: 18px;
-    max-width: calc(100% - 32px);
-    transform: none;
-  }
-
-  .ob-contact-map__pin-card {
-    padding: 11px 12px;
   }
 
   .ob-contact-map__active h3 {
