@@ -608,6 +608,10 @@ export function AboutPageContent() {
                 <span>Сохранить контакт</span>
                 <ContactRound size={18} aria-hidden="true" />
               </a>
+              <Link className="ob-btn ob-btn--ghost" href="/contacts">
+                <span>Все контакты</span>
+                <ArrowRight size={18} aria-hidden="true" />
+              </Link>
             </div>
           </div>
           <div className="ob-about-requisites__details">

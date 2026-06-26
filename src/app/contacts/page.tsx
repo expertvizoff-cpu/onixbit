@@ -2,9 +2,19 @@ import type { Metadata } from "next";
 import { ContactsContent } from "@/components/Sections";
 
 export const metadata: Metadata = {
-  title: "Контакты Ониксбит: телефон, офисы, реквизиты и форма заявки",
+  title: "Контакты Ониксбит: телефон, email, адреса и реквизиты",
   description:
-    "Связаться с Ониксбит: телефон, email, мессенджеры, офисы в Туле и Кимовске, реквизиты ИП Тужилкин А.П. и форма заявки Битрикс24.",
+    "Контакты Ониксбит для заявок по Битрикс24, 1С-Битрикс, 1С и интеграциям: телефон, email, мессенджеры, адрес в Туле, почтовый адрес в Кимовске, реквизиты и форма заявки.",
+  alternates: {
+    canonical: "/contacts",
+  },
+  openGraph: {
+    title: "Контакты Ониксбит",
+    description:
+      "Телефон, email, мессенджеры, адреса, реквизиты и форма заявки для проектов Битрикс24, 1С-Битрикс, 1С и интеграций.",
+    url: "/contacts",
+    type: "website",
+  },
 };
 
 export default function ContactsPage() {

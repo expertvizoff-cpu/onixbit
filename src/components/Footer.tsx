@@ -35,6 +35,7 @@ export function Footer() {
               {item.title}
             </Link>
           ))}
+          <Link href="/contacts">Контакты</Link>
         </nav>
       </div>
       <div className="ob-footer__bottom">

@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import {
   ArrowUpRight,
   BookOpen,
@@ -7,13 +6,17 @@ import {
   CalendarClock,
   CheckCircle2,
   Clock3,
+  ClipboardCheck,
   FileCheck2,
+  HelpCircle,
   Mail,
   MapPin,
+  MessageSquareText,
   Phone,
   ReceiptText,
+  Route,
   ShieldCheck,
-  UserRoundCheck,
+  Sparkles,
 } from "lucide-react";
 import {
   articles,
@@ -371,10 +374,28 @@ const contactOffices = [
   },
   {
     city: "Кимовск",
-    label: "Рабочий офис",
+    label: "Почтовый адрес",
     address: "г. Кимовск, ул. Бессолова, д. 16, офис 425",
-    note: "Документы и рабочие встречи по записи",
+    note: "Почтовые отправления и документы",
     mapQuery: "Россия, Тульская область, Кимовск, улица Бессолова, 16",
+  },
+];
+
+const contactRoutes = [
+  {
+    icon: ClipboardCheck,
+    title: "Новая задача или аудит",
+    text: "Опишите систему, цель и ограничения. Ответим, какой формат первого разбора подойдёт.",
+  },
+  {
+    icon: MessageSquareText,
+    title: "Вопрос по лицензиям",
+    text: "Поможем с продлением, выбором тарифа Битрикс24 и документами для оплаты.",
+  },
+  {
+    icon: Route,
+    title: "Встреча или документы",
+    text: "Основной адрес — Тула. Почтовые отправления и документы — на адрес в Кимовске.",
   },
 ];
 
@@ -393,6 +414,24 @@ const contactMapUrl = (query: string) =>
 const yandexRouteUrl = (query: string) =>
   `https://yandex.ru/maps/?text=${encodeURIComponent(query)}`;
 
+const contactFaq = [
+  {
+    question: "Как быстрее всего связаться с Ониксбит?",
+    answer:
+      "Для новой задачи лучше оставить заявку в форме на странице контактов. Если вопрос короткий, можно позвонить, написать на email или выбрать мессенджер.",
+  },
+  {
+    question: "Можно ли обсудить проект удалённо?",
+    answer:
+      "Да. Большинство проектов по Битрикс24, 1С-Битрикс, 1С и интеграциям ведём удалённо: созвоны, постановка задач, документы и ЭДО.",
+  },
+  {
+    question: "Куда отправлять документы?",
+    answer:
+      "Основной адрес компании находится в Туле. Почтовые отправления и документы можно направлять на адрес в Кимовске.",
+  },
+];
+
 export function ContactsContent() {
   return (
     <>
@@ -409,6 +448,16 @@ export function ContactsContent() {
               {contactScenarios.map((item) => (
                 <span key={item}><CheckCircle2 size={16} /> {item}</span>
               ))}
+            </div>
+            <div className="ob-contacts-hero__quick" aria-label="Прямые контакты">
+              <a href={company.phoneHref}>
+                <Phone size={18} aria-hidden="true" />
+                <span>{company.phone}</span>
+              </a>
+              <a href={company.emailHref}>
+                <Mail size={18} aria-hidden="true" />
+                <span>{company.email}</span>
+              </a>
             </div>
           </div>
           <LeadFormPanel className="ob-lead-panel--contact ob-contacts-form" />
@@ -439,7 +488,7 @@ export function ContactsContent() {
               <em>для заявок, документов и КП</em>
             </a>
             <div className="ob-contact-card ob-contact-card--messengers">
-              <UserRoundCheck size={22} />
+              <MessageSquareText size={22} />
               <span>Мессенджеры</span>
               <strong>Telegram, MAX, VK</strong>
               <MessengerLinks className="ob-contact-messengers" />
@@ -450,6 +499,31 @@ export function ContactsContent() {
               <strong>Гибкий график</strong>
               <em>по согласованному регламенту проекта</em>
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="ob-section ob-section--tight">
+        <div className="ob-container ob-contact-routes">
+          <div className="ob-contact-routes__head">
+            <span className="ob-kicker">Маршрут обращения</span>
+            <h2>Выберите понятный канал под вашу задачу</h2>
+            <p>
+              Чтобы не терять время, выберите ближайший сценарий: новая задача,
+              лицензии, встреча или документы.
+            </p>
+          </div>
+          <div className="ob-contact-routes__grid">
+            {contactRoutes.map((item) => {
+              const Icon = item.icon;
+              return (
+                <article className="ob-contact-route-card" key={item.title}>
+                  <Icon size={22} aria-hidden="true" />
+                  <h3>{item.title}</h3>
+                  <p>{item.text}</p>
+                </article>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -495,6 +569,25 @@ export function ContactsContent() {
       </section>
 
       <section className="ob-section ob-section--tight">
+        <div className="ob-container ob-contact-seo">
+          <div className="ob-contact-seo__content">
+            <span className="ob-kicker">Что можно обсудить</span>
+            <h2>Контакты интегратора Битрикс24, 1С-Битрикс и 1С для B2B-команд</h2>
+            <p>
+              Ониксбит помогает компаниям связать CRM, сайт, учёт и коммуникации:
+              внедрение Битрикс24, разработка сайтов на 1С-Битрикс, интеграции с 1С,
+              лицензии, поддержка и развитие существующих решений.
+            </p>
+          </div>
+          <div className="ob-contact-seo__list">
+            <span><Sparkles size={16} /> первичная диагностика проекта</span>
+            <span><ShieldCheck size={16} /> официальный договор и закрывающие документы</span>
+            <span><CalendarClock size={16} /> созвон или встреча по предварительной записи</span>
+          </div>
+        </div>
+      </section>
+
+      <section className="ob-section ob-section--tight">
         <div className="ob-container ob-contact-docs">
           <div className="ob-contact-docs__main">
             <span className="ob-kicker">Реквизиты</span>
@@ -522,35 +615,23 @@ export function ContactsContent() {
       </section>
 
       <section className="ob-section ob-section--lead">
-        <div className="ob-container ob-contact-person">
-          <div className="ob-contact-person__photo">
-            <Image
-              src="/media/team/founder-alexander-site.webp"
-              alt="Александр Тужилкин, основатель Ониксбит"
-              width={720}
-              height={720}
-              sizes="(max-width: 760px) 100vw, 360px"
-            />
-          </div>
-          <div className="ob-contact-person__content">
-            <span className="ob-kicker">Личный контакт</span>
-            <h2>Александр Тужилкин</h2>
+        <div className="ob-container ob-contact-faq">
+          <div className="ob-contact-faq__intro">
+            <span className="ob-kicker">Частые вопросы</span>
+            <h2>Перед обращением</h2>
             <p>
-              Основатель Ониксбит и эксперт по Битрикс24/интеграциям с 1С. 14 лет
-              помогаю B2B-компаниям связывать CRM, сайт и учётные системы в управляемую
-              инфраструктуру без лишнего шума и случайных решений.
+              Короткие ответы помогают сориентироваться до заявки и заранее
+              подготовить нужные данные.
             </p>
-            <div className="ob-contact-person__role">
-              <strong>Когда писать лично</strong>
-              <span>Если задача сложная, нужна интеграция Битрикс24 с 1С или сайтом, либо важно быстро понять реалистичный маршрут проекта.</span>
-            </div>
-            <a
-              className="ob-btn ob-btn--primary ob-contact-person__button"
-              href="mailto:expert@onixbit.ru?subject=%D0%9B%D0%B8%D1%87%D0%BD%D0%BE%D0%B5%20%D0%BE%D0%B1%D1%80%D0%B0%D1%89%D0%B5%D0%BD%D0%B8%D0%B5%20%D1%81%20%D1%81%D0%B0%D0%B9%D1%82%D0%B0%20%D0%9E%D0%BD%D0%B8%D0%BA%D1%81%D0%B1%D0%B8%D1%82"
-            >
-              <span>Написать лично</span>
-              <Mail size={18} aria-hidden="true" />
-            </a>
+          </div>
+          <div className="ob-contact-faq__items">
+            {contactFaq.map((item) => (
+              <article key={item.question}>
+                <HelpCircle size={20} aria-hidden="true" />
+                <h3>{item.question}</h3>
+                <p>{item.answer}</p>
+              </article>
+            ))}
           </div>
         </div>
       </section>
