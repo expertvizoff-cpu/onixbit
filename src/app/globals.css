@@ -29,6 +29,7 @@
   --ob-radius-sm: 12px;
   --ob-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
   --ob-header-float: clamp(8px, 1vw, 14px);
+  --ob-header-glass-depth: 38px;
 }
 
 * {
@@ -356,16 +357,16 @@ textarea:focus-visible {
 
 .ob-header::after {
   content: "";
-  position: absolute;
+  position: fixed;
   z-index: -1;
-  top: calc(-1px - var(--ob-header-float));
-  left: -1px;
-  right: -1px;
-  height: calc(var(--ob-header-float) + 2px);
-  border-radius: 24px 24px 0 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: calc(var(--ob-header-float) + var(--ob-header-glass-depth));
   pointer-events: none;
-  background: linear-gradient(180deg, rgba(247, 247, 244, 0.94), rgba(255, 255, 255, 0.78));
-  backdrop-filter: blur(18px) saturate(145%);
+  background: linear-gradient(180deg, rgba(247, 247, 244, 0.96), rgba(255, 255, 255, 0.82) 58%, rgba(255, 255, 255, 0));
+  backdrop-filter: blur(20px) saturate(150%);
+  mask-image: linear-gradient(180deg, #000 0 72%, transparent 100%);
 }
 
 .ob-header.is-scrolled {
@@ -6936,14 +6937,11 @@ a:hover .lucide-mail polyline {
 
   .ob-header {
     --ob-header-float: 8px;
+    --ob-header-glass-depth: 32px;
     top: 0;
     width: calc(100% - 18px);
     margin-top: 0;
     border-radius: 18px;
-  }
-
-  .ob-header::after {
-    border-radius: 18px 18px 0 0;
   }
 
   .ob-header__inner {
