@@ -671,9 +671,19 @@ export function HomePricingSection() {
                 <span key={item}><CheckCircle2 size={16} aria-hidden="true" /> {item}</span>
               ))}
             </div>
-            <div className="ob-actions">
-              <ButtonLink href="/tarify-licenziy">Открыть тарифы</ButtonLink>
-              <LeadButton variant="secondary">Получить расчёт</LeadButton>
+            <div className="ob-actions ob-home-pricing__cta-grid">
+              <div className="ob-home-pricing__cta-item">
+                <ButtonLink href="/tarify-licenziy" className="ob-home-pricing__cta ob-home-pricing__cta--tariffs">
+                  Открыть тарифы
+                </ButtonLink>
+                <p>Переход в раздел лицензий: можно сравнить тарифы Битрикс24 и понять базу бюджета.</p>
+              </div>
+              <div className="ob-home-pricing__cta-item">
+                <LeadButton variant="secondary" className="ob-home-pricing__cta ob-home-pricing__cta--estimate">
+                  Получить расчёт
+                </LeadButton>
+                <p>Откроется форма заявки: опишите задачу, а мы подготовим оценку и КП.</p>
+              </div>
             </div>
           </div>
         </div>
