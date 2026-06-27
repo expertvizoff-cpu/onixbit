@@ -1,6 +1,6 @@
 # Onixbit Project State
 
-Last updated: 2026-06-26
+Last updated: 2026-06-27
 
 ## Purpose
 
@@ -104,6 +104,7 @@ Do not commit local API keys or Codex config files into this repository.
 
 - Communicate with the user in Russian unless the user explicitly asks for another language.
 - For website/UI work, use the root React/Next project.
+- When Aleksander asks for website changes or visual/content edits, apply the changes directly to the site code in the same turn whenever feasible; do not stop at advice, a plan, or a description unless he explicitly asks for discussion only.
 - Prefer existing local patterns before adding new abstractions.
 - Use `onixbit-brand` for Onixbit-specific brand, copy, SEO, deployment, and handoff decisions.
 - Use `ui-ux-pro-max` for UI/UX design, review, animation, layout, typography, color, accessibility, and responsive decisions.
