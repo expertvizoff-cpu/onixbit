@@ -315,8 +315,7 @@ export function SystemSolutionSection() {
             <p>Выберите станцию: слева подсвечивается участок, справа меняется объяснение.</p>
           </div>
           <div className="ob-system-route__track" aria-label="Станции решения">
-            <span className="ob-system-route__beam" aria-hidden="true" />
-            <span className="ob-system-route__pulse" aria-hidden="true" />
+            <span className="ob-system-route__rail" aria-hidden="true"><i /></span>
             {solutionNodes.map((node, index) => {
               const Icon = node.icon;
               const isActive = activeNode === index;
@@ -324,15 +323,18 @@ export function SystemSolutionSection() {
                 <button
                   aria-label={node.title + ": " + node.result}
                   aria-pressed={isActive}
-                  className={"ob-system-route__station" + (isActive ? " is-active" : "")}
+                  className={"ob-system-route__station is-station-" + index + (isActive ? " is-active" : "")}
                   key={node.title}
                   onClick={() => setActiveNode(index)}
                   onFocus={() => setActiveNode(index)}
                   onMouseEnter={() => setActiveNode(index)}
                   type="button"
                 >
-                  <span className="ob-system-route__icon" aria-hidden="true"><Icon size={22} /></span>
-                  <span>
+                  <span className="ob-system-route__node" aria-hidden="true">
+                    <i />
+                    <Icon size={21} />
+                  </span>
+                  <span className="ob-system-route__copy">
                     <strong>{node.title}</strong>
                     <small>{node.text}</small>
                   </span>
@@ -344,6 +346,11 @@ export function SystemSolutionSection() {
             <span>активная станция</span>
             <strong>{activeSolution.title}</strong>
             <p>{activeSolution.problem}</p>
+            <div className="ob-system-route__mini" aria-hidden="true">
+              <b>вход</b>
+              <b>данные</b>
+              <b>контроль</b>
+            </div>
           </div>
         </div>
         <div className="ob-home-system__content">
@@ -431,6 +438,13 @@ export function BenefitsSection() {
         <div className="ob-home-benefits__layout">
           <div className="ob-home-benefits__accent">
             <span>главный фокус</span>
+            <div className="ob-home-benefits__graphic" aria-hidden="true">
+              <i />
+              <b>CRM</b>
+              <b>1С</b>
+              <b>Сайт</b>
+              <b>BI</b>
+            </div>
             <h3>Один маршрут заявки вместо набора разрозненных настроек</h3>
             <p>
               Мы не продаём отдельную кнопку в CRM или красивый блок на сайте. Сначала собираем путь клиента,
@@ -443,6 +457,7 @@ export function BenefitsSection() {
             </div>
           </div>
           <div className="ob-home-benefits__proofs">
+            <span className="ob-home-benefits__wave" aria-hidden="true"><i /></span>
             {benefits.map((item) => {
               const Icon = item.icon;
               return (
@@ -472,20 +487,25 @@ export function HomePricingSection() {
           text="Разделяем стоимость на понятные части: лицензии, внедрение, интеграции и поддержку. Так проще сравнить объём работ и не потерять важные стыки."
         />
         <div className="ob-home-pricing__matrix">
+          <div className="ob-home-pricing__formula" aria-label="Формула расчёта">
+            <span>формула бюджета</span>
+            <strong>Лицензии + внедрение + интеграции + поддержка</strong>
+            <p>На консультации быстро отделяем обязательный контур от того, что можно запускать вторым этапом.</p>
+          </div>
           <div className="ob-home-pricing__cards" aria-label="Основные части бюджета">
-            <article>
+            <article className="is-license">
               <CircleDollarSign size={25} aria-hidden="true" />
               <span>01 / подбор</span>
               <h3>Лицензии</h3>
               <p>Подбираем тариф Битрикс24, 1С-Битрикс или сервисов коммуникаций под сценарий, а не по названию пакета.</p>
             </article>
-            <article>
+            <article className="is-project">
               <ReceiptText size={25} aria-hidden="true" />
               <span>02 / проект</span>
               <h3>Внедрение</h3>
               <p>Стоимость зависит от процессов, прав, роботов, интеграций, данных и обучения команды.</p>
             </article>
-            <article>
+            <article className="is-support">
               <FileCheck2 size={25} aria-hidden="true" />
               <span>03 / развитие</span>
               <h3>Поддержка</h3>
@@ -521,35 +541,37 @@ export function HomeTrustSection() {
   return (
     <section className="ob-section ob-section--tight ob-home-trust">
       <div className="ob-container">
-        <div className="ob-home-trust__head">
+        <div className="ob-home-trust__board">
           <div>
             <span className="ob-kicker">Доказательства</span>
             <h2>Статусы привязаны к работам, а не висят отдельной витриной</h2>
+            <p>
+              Показываем подтверждения как контрольную панель: что проверено, где применяется и какой раздел можно открыть до старта.
+            </p>
           </div>
-          <p>
-            Партнёрства Битрикс24, 1С-Битрикс и смежные компетенции показываем рядом с тем,
-            где они действительно помогают: CRM, сайты, обмены и коммуникации.
-          </p>
-        </div>
-        <div className="ob-home-trust__shelf">
-          <div className="ob-home-trust__proof">
-            <strong>Проверяем перед стартом</strong>
+          <div className="ob-home-trust__stamp" aria-hidden="true">
+            <span>verified</span>
+            <strong>Onixbit</strong>
+            <i />
+          </div>
+          <div className="ob-home-trust__shelf">
+            <div className="ob-home-trust__badges" aria-label="Подтверждения компетенций">
+              <span><BadgeCheck size={18} /> партнёр Битрикс24</span>
+              <span><BadgeCheck size={18} /> партнёр 1С-Битрикс</span>
+              <span><ShieldCheck size={18} /> компетенции CRM и интеграций</span>
+              <span><FileCheck2 size={18} /> документы можно открыть</span>
+            </div>
             <div className="ob-home-trust__signals">
+              <strong>Что проверяем</strong>
               {trustSignals.map((item) => (
                 <span key={item}><CheckCircle2 size={16} aria-hidden="true" /> {item}</span>
               ))}
             </div>
+            <Link className="ob-home-trust__link" href="/certificates">
+              <span>Смотреть сертификаты</span>
+              <ArrowUpRight size={18} aria-hidden="true" />
+            </Link>
           </div>
-          <div className="ob-home-trust__badges" aria-label="Подтверждения компетенций">
-            <span><BadgeCheck size={18} /> партнёр Битрикс24</span>
-            <span><BadgeCheck size={18} /> партнёр 1С-Битрикс</span>
-            <span><ShieldCheck size={18} /> компетенции CRM и интеграций</span>
-            <span><FileCheck2 size={18} /> документы можно открыть</span>
-          </div>
-          <Link className="ob-home-trust__link" href="/certificates">
-            <span>Смотреть сертификаты</span>
-            <ArrowUpRight size={18} aria-hidden="true" />
-          </Link>
         </div>
       </div>
     </section>
@@ -566,21 +588,26 @@ export function HomeFaqSection() {
             title="Ответы перед стартом без лишней переписки"
             text={"Если вопрос срочный, можно сразу позвонить " + company.phone + " или оставить заявку. Ниже - ответы, которые помогают понять формат работы."}
           />
-          <div className="ob-actions">
-            <LeadButton>Задать вопрос</LeadButton>
-          </div>
         </div>
         <div className="ob-home-faq__grid">
-          <div className="ob-home-faq__route" aria-label="Быстрый маршрут консультации">
-            <span>быстрый маршрут</span>
-            <strong>Аудит → план → расчёт → запуск</strong>
-            <p>Если вопрос не помещается в FAQ, лучше сразу разобрать вашу связку CRM, сайта и 1С.</p>
+          <div className="ob-home-faq__guide" aria-label="Как быстро получить ответ">
+            <span>как отвечаем</span>
+            <strong>Определяем тип вопроса и сразу ведём к следующему шагу</strong>
             <div>
-              <b>01</b>
-              <b>02</b>
-              <b>03</b>
-              <b>04</b>
+              <article>
+                <b>01</b>
+                <p>Что выбрать: CRM, сайт, 1С или связку?</p>
+              </article>
+              <article>
+                <b>02</b>
+                <p>Какие ограничения и риски есть в текущей системе?</p>
+              </article>
+              <article>
+                <b>03</b>
+                <p>Какой ближайший шаг даст понятный результат?</p>
+              </article>
             </div>
+            <LeadButton>Задать вопрос</LeadButton>
           </div>
           <div className="ob-home-faq__items">
             {faqItems.map((item, index) => (

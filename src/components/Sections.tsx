@@ -183,9 +183,17 @@ export function CasesPreview({ full = false }: { full?: boolean }) {
         <div className="ob-home-cases__layout">
           {cases.map((item, index) => (
             <article className={"ob-case-card ob-home-case-card" + (index === 0 ? " is-featured" : "")} key={item.title}>
-              <span>{item.sector}</span>
+              <div className="ob-home-case-card__top">
+                <span>{item.sector}</span>
+                <b>{String(index + 1).padStart(2, "0")}</b>
+              </div>
               <h3>{item.title}</h3>
               <p>{item.result}</p>
+              <div className="ob-home-case-card__route" aria-label="Формат кейса">
+                <i>задача</i>
+                <i>решение</i>
+                <i>контроль</i>
+              </div>
               <div>
                 {item.tags.map((tag) => (
                   <em key={tag}>{tag}</em>
@@ -239,13 +247,14 @@ export function ArticlesPreview({ full = false }: { full?: boolean }) {
         <div className="ob-home-articles__layout">
           {articles.map((article, index) => (
             <article className={"ob-article-card ob-home-article-card" + (index === 0 ? " is-featured" : "")} key={article.title}>
-              <div>
+              <div className="ob-home-article-card__meta">
                 <BookOpen size={18} aria-hidden="true" />
                 <span>{article.category}</span>
                 <em>{article.minutes}</em>
               </div>
               <h3>{article.title}</h3>
               <p>{article.text}</p>
+              <span className="ob-home-article-card__line" aria-hidden="true" />
             </article>
           ))}
         </div>

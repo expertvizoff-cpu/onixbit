@@ -142,6 +142,7 @@ export function HomeHero() {
                 type="button"
               >
                 <span>{item.shortTitle}</span>
+                <small>{String(index + 1).padStart(2, "0")}</small>
                 <i />
               </button>
             ))}
