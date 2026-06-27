@@ -69,7 +69,7 @@ const articleCovers = [
 
 const directionLogos: Record<Direction["id"], { src: string; width: number; height: number; className: string }> = {
   bitrix24: { src: "/media/logos/bitrix24-logo-rus.svg", width: 168, height: 44, className: "is-bitrix24" },
-  sites: { src: "/media/logos/1c-bitrix-logo.svg", width: 176, height: 44, className: "is-bitrix" },
+  sites: { src: "/media/logos/1c-bitrix-logo-dark.svg", width: 176, height: 44, className: "is-bitrix" },
   onec: { src: "/media/logos/1c-logo.svg", width: 88, height: 48, className: "is-onec" },
 };
 

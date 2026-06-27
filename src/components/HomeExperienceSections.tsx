@@ -137,15 +137,80 @@ const solutionNodes = [
 ];
 
 function SolutionActionIcon({ type }: { type: string }) {
+  if (type === "crm") {
+    return (
+      <span className="ob-system-action-icon is-crm" aria-hidden="true">
+        <svg className="ob-solution-mark" viewBox="0 0 48 48" focusable="false">
+          <path className="ob-solution-mark__stroke ob-solution-mark__funnel" d="M12 10h24l-9 11v11l-6 4V21z" />
+          <rect className="ob-solution-mark__card is-one" x="8" y="28" width="14" height="8" rx="3" />
+          <rect className="ob-solution-mark__card is-two" x="26" y="24" width="14" height="8" rx="3" />
+          <circle className="ob-solution-mark__spark" cx="35" cy="36" r="3.5" />
+        </svg>
+      </span>
+    );
+  }
+
+  if (type === "site") {
+    return (
+      <span className="ob-system-action-icon is-site" aria-hidden="true">
+        <svg className="ob-solution-mark" viewBox="0 0 48 48" focusable="false">
+          <rect className="ob-solution-mark__diamond is-one" x="19" y="7" width="10" height="10" rx="2" />
+          <rect className="ob-solution-mark__diamond is-two" x="10" y="22" width="10" height="10" rx="2" />
+          <rect className="ob-solution-mark__diamond is-three" x="28" y="22" width="10" height="10" rx="2" />
+          <path className="ob-solution-mark__stroke ob-solution-mark__browser" d="M9 38h30M13 14h22" />
+        </svg>
+      </span>
+    );
+  }
+
+  if (type === "onec") {
+    return (
+      <span className="ob-system-action-icon is-onec" aria-hidden="true">
+        <svg className="ob-solution-mark" viewBox="0 0 48 48" focusable="false">
+          <rect className="ob-solution-mark__box is-left" x="7" y="13" width="14" height="18" rx="4" />
+          <rect className="ob-solution-mark__box is-right" x="27" y="13" width="14" height="18" rx="4" />
+          <path className="ob-solution-mark__stroke ob-solution-mark__exchange is-top" d="M20 17h9l-3-3" />
+          <path className="ob-solution-mark__stroke ob-solution-mark__exchange is-bottom" d="M28 28h-9l3 3" />
+          <text className="ob-solution-mark__text" x="24" y="42">1С</text>
+        </svg>
+      </span>
+    );
+  }
+
+  if (type === "analytics") {
+    return (
+      <span className="ob-system-action-icon is-analytics" aria-hidden="true">
+        <svg className="ob-solution-mark" viewBox="0 0 48 48" focusable="false">
+          <path className="ob-solution-mark__stroke ob-solution-mark__axis" d="M10 38h30M10 38V12" />
+          <rect className="ob-solution-mark__bar is-one" x="14" y="27" width="5" height="11" rx="2" />
+          <rect className="ob-solution-mark__bar is-two" x="22" y="19" width="5" height="19" rx="2" />
+          <rect className="ob-solution-mark__bar is-three" x="30" y="24" width="5" height="14" rx="2" />
+          <path className="ob-solution-mark__stroke ob-solution-mark__trend" d="M13 23l8-7 8 5 8-11" />
+        </svg>
+      </span>
+    );
+  }
+
+  if (type === "api") {
+    return (
+      <span className="ob-system-action-icon is-api" aria-hidden="true">
+        <svg className="ob-solution-mark" viewBox="0 0 48 48" focusable="false">
+          <rect className="ob-solution-mark__port is-left" x="7" y="15" width="13" height="18" rx="4" />
+          <rect className="ob-solution-mark__port is-right" x="28" y="15" width="13" height="18" rx="4" />
+          <path className="ob-solution-mark__stroke ob-solution-mark__cable" d="M20 24h8" />
+          <circle className="ob-solution-mark__spark" cx="24" cy="24" r="3.5" />
+          <path className="ob-solution-mark__stroke ob-solution-mark__plug is-left" d="M12 12v5M16 12v5" />
+          <path className="ob-solution-mark__stroke ob-solution-mark__plug is-right" d="M32 31v5M36 31v5" />
+        </svg>
+      </span>
+    );
+  }
+
   return (
     <span className={"ob-system-action-icon is-" + type}>
-      <i />
-      <i />
-      <i />
-      <b />
-      <b />
-      <b />
-      <em />
+      <svg className="ob-solution-mark" viewBox="0 0 48 48" focusable="false">
+        <circle className="ob-solution-mark__spark" cx="24" cy="24" r="6" />
+      </svg>
     </span>
   );
 }
@@ -514,7 +579,11 @@ export function BenefitsSection() {
             </div>
           </div>
           <div className="ob-home-benefits__proofs">
-            <div className="ob-home-benefits__pulse-dot-track" aria-hidden="true">
+            <div className="ob-home-benefits__pulse-dot-track ob-benefit-zap" aria-hidden="true">
+              <svg viewBox="0 0 1200 92" focusable="false">
+                <path className="ob-benefit-zap__base" d="M28 48 H238 L282 20 L330 48 H520 L570 72 L636 48 H872 L914 24 L968 48 H1172" />
+                <path className="ob-benefit-zap__glow" d="M28 48 H238 L282 20 L330 48 H520 L570 72 L636 48 H872 L914 24 L968 48 H1172" />
+              </svg>
               <i />
               <span>единый маршрут по всем преимуществам</span>
             </div>
@@ -551,22 +620,24 @@ export function HomePricingSection() {
             <span>формула бюджета</span>
             <strong>Смета собирается из понятных слоёв, а не из одной туманной суммы</strong>
             <p>На консультации быстро отделяем обязательный контур от того, что можно запускать вторым этапом.</p>
-            <div className="ob-home-pricing__formula-visual ob-pricing-flow" aria-hidden="true">
-              <div className="ob-pricing-flow__steps">
+            <div className="ob-home-pricing__formula-visual ob-pricing-flow ob-pricing-estimate" aria-hidden="true">
+              <div className="ob-pricing-flow__steps ob-pricing-estimate__steps">
                 <span className="is-license">лицензии</span>
                 <span className="is-project">внедрение</span>
                 <span className="is-integration">интеграции</span>
                 <span className="is-support">поддержка</span>
               </div>
-              <div className="ob-pricing-flow__core">
+              <div className="ob-pricing-flow__core ob-pricing-estimate__calc">
                 <span>расчёт</span>
                 <b>КП</b>
+                <em>коммерческое предложение</em>
               </div>
-              <div className="ob-pricing-flow__mail">
+              <div className="ob-pricing-flow__mail ob-pricing-estimate__mail">
                 <b>КП</b>
                 <i />
               </div>
-              <i className="ob-pricing-flow__dot" />
+              <span className="ob-pricing-estimate__client">клиент</span>
+              <i className="ob-pricing-flow__dot ob-pricing-estimate__dot" />
             </div>
             <div className="ob-home-pricing__formula-note">
               <small>принцип расчёта</small>
@@ -684,10 +755,10 @@ export function HomeTrustSection() {
           </div>
           <div className="ob-home-trust__shelf">
             <div className="ob-home-trust__badges" aria-label="Подтверждения компетенций">
-              <span><BadgeCheck size={18} /> партнёр Битрикс24</span>
-              <span><BadgeCheck size={18} /> партнёр 1С-Битрикс</span>
-              <span><ShieldCheck size={18} /> компетенция интеграции с 1С</span>
-              <span><FileCheck2 size={18} /> документы можно открыть</span>
+              <span className="is-bitrix24"><BadgeCheck size={18} /> партнёр Битрикс24</span>
+              <span className="is-bitrix"><BadgeCheck size={18} /> партнёр 1С-Битрикс</span>
+              <span className="is-integration"><ShieldCheck size={18} /> компетенция интеграции с 1С</span>
+              <span className="is-quality"><FileCheck2 size={18} /> документы можно открыть</span>
             </div>
             <div className="ob-home-trust__signals">
               <strong>Что проверяем</strong>
