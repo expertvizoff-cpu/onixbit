@@ -35,7 +35,7 @@ const painItems = [
     signal: "Нет единой очереди заявок",
     loss: "Ответственный назначается поздно, история общения расползается, руководитель видит проблему только после ручной сверки.",
     fix: "Нужен единый вход обращения и понятный маршрут до сделки, задачи и отчёта.",
-    diagnostic: ["чат", "телефония", "форма", "ручная сводка"],
+    diagnostic: ["канал", "очередь", "ответственный", "ручной контроль"],
   },
   {
     icon: GitBranch,
@@ -44,7 +44,7 @@ const painItems = [
     signal: "Автоматизация не совпадает с работой отдела",
     loss: "CRM выглядит настроенной, но команда продолжает держать важные действия в личных заметках, чатах и таблицах.",
     fix: "Нужно пересобрать этапы, роли, права и роботов вокруг фактического процесса продаж.",
-    diagnostic: ["этапы", "права", "роботы", "обход CRM"],
+    diagnostic: ["процесс", "CRM-этап", "робот", "обход системы"],
   },
   {
     icon: DatabaseZap,
@@ -53,7 +53,7 @@ const painItems = [
     signal: "Данные расходятся между системами",
     loss: "Сотрудники уточняют остатки, цены, статусы и документы вручную, а ошибка в одном месте быстро размножается дальше.",
     fix: "Нужна карта обменов: какие данные главные, куда они уходят и кто отвечает за ошибку.",
-    diagnostic: ["сайт", "CRM", "1С", "дубли"],
+    diagnostic: ["сайт", "CRM", "1С", "расхождение"],
   },
   {
     icon: AlertTriangle,
@@ -62,7 +62,7 @@ const painItems = [
     signal: "Никто не отвечает за связку целиком",
     loss: "Каждый подрядчик прав внутри своей зоны, но на стыках появляются разрывы, спорные задачи и бесконечные согласования.",
     fix: "Нужен один владелец архитектуры, который видит весь путь заявки и границы ответственности.",
-    diagnostic: ["сайт", "CRM", "учёт", "разрыв"],
+    diagnostic: ["сайт", "CRM", "учёт", "нет владельца"],
   },
 ];
 
@@ -166,6 +166,12 @@ const benefits = [
   },
 ];
 
+const benefitSignals = [
+  "сначала разбираем процесс, потом включаем инструменты",
+  "держим ответственность за стыки между CRM, сайтом, 1С и коммуникациями",
+  "оставляем после запуска регламент, обучение и понятную карту развития",
+];
+
 const pricingFactors = [
   "количество пользователей и отделов",
   "число воронок, прав и роботов",
@@ -219,7 +225,21 @@ export function PainSection() {
           <div className="ob-home-pain__diagnostic" aria-live="polite">
             <div className="ob-pain-console__head">
               <span><AlertTriangle size={17} aria-hidden="true" /> Диагностика разрыва</span>
-              <strong>{String(activePain + 1).padStart(2, "0")}</strong>
+              <em>выберите сигнал</em>
+            </div>
+            <div className="ob-pain-console__switches" aria-label="Сигналы проблем">
+              {painItems.map((item, index) => (
+                <button
+                  aria-pressed={activePain === index}
+                  className={activePain === index ? "is-active" : ""}
+                  key={item.signal}
+                  onClick={() => setActivePain(index)}
+                  onFocus={() => setActivePain(index)}
+                  type="button"
+                >
+                  <span>{item.signal}</span>
+                </button>
+              ))}
             </div>
             <div className="ob-pain-console__flow" aria-label="Как проблема проходит через системы">
               {selectedPain.diagnostic.map((item, index) => (
@@ -243,7 +263,6 @@ export function PainSection() {
         </div>
         <div className="ob-home-pain__cards" aria-label="Выберите тип проблемы">
           {painItems.map((item, index) => {
-            const Icon = item.icon;
             const isActive = activePain === index;
             return (
               <button
@@ -255,8 +274,7 @@ export function PainSection() {
                 onMouseEnter={() => setActivePain(index)}
                 type="button"
               >
-                <span>{String(index + 1).padStart(2, "0")}</span>
-                <Icon size={24} aria-hidden="true" />
+                <span className="ob-home-pain-card__status">сигнал процесса</span>
                 <h3>{item.title}</h3>
                 <p>{item.text}</p>
                 <em>Что чинить: {item.fix}</em>
@@ -317,8 +335,27 @@ export function SystemSolutionSection() {
           <SectionIntro
             kicker="Решение"
             title="Ниже тот же маршрут, но уже собранный в управляемую систему"
-            text="Выберите узел на схеме: покажем, какую проблему он закрывает и каким становится путь заявки после внедрения."
+            text="Выберите узел на схеме или во вкладках: покажем, какую проблему он закрывает и каким становится путь заявки после внедрения."
           />
+          <div className="ob-home-system__tabs" aria-label="Выберите узел решения">
+            {solutionNodes.map((node, index) => {
+              const Icon = node.icon;
+              const isActive = activeNode === index;
+              return (
+                <button
+                  aria-pressed={isActive}
+                  className={isActive ? "is-active" : ""}
+                  key={node.title}
+                  onClick={() => setActiveNode(index)}
+                  onFocus={() => setActiveNode(index)}
+                  type="button"
+                >
+                  <Icon size={17} aria-hidden="true" />
+                  <span>{node.title}</span>
+                </button>
+              );
+            })}
+          </div>
           <div className="ob-home-system__transform" aria-label="Как проблема превращается в решение">
             <div className="is-before">
               <span>Было</span>
@@ -376,17 +413,34 @@ export function BenefitsSection() {
           title="Чем Ониксбит отличается от подрядчика на одну настройку"
           text="Сильная сторона - связка компетенций. Мы смотрим на CRM, сайт, 1С и лицензии как на одну операционную систему, где важна ответственность за результат."
         />
-        <div className="ob-home-benefits__grid">
-          {benefits.map((item) => {
-            const Icon = item.icon;
-            return (
-              <article className="ob-home-benefit" key={item.title}>
-                <Icon size={25} aria-hidden="true" />
-                <h3>{item.title}</h3>
-                <p>{item.text}</p>
-              </article>
-            );
-          })}
+        <div className="ob-home-benefits__layout">
+          <div className="ob-home-benefits__accent">
+            <span>главный фокус</span>
+            <h3>Один маршрут заявки вместо набора разрозненных настроек</h3>
+            <p>
+              Мы не продаём отдельную кнопку в CRM или красивый блок на сайте. Сначала собираем путь клиента,
+              данные, роли и контроль, а потом уже выбираем инструменты, которые действительно выдержат процесс.
+            </p>
+            <div className="ob-home-benefits__signals" aria-label="Что получает бизнес">
+              {benefitSignals.map((item) => (
+                <span key={item}><CheckCircle2 size={16} aria-hidden="true" /> {item}</span>
+              ))}
+            </div>
+          </div>
+          <div className="ob-home-benefits__proofs">
+            {benefits.map((item) => {
+              const Icon = item.icon;
+              return (
+                <article className="ob-home-benefit-proof" key={item.title}>
+                  <span aria-hidden="true"><Icon size={21} /></span>
+                  <div>
+                    <h3>{item.title}</h3>
+                    <p>{item.text}</p>
+                  </div>
+                </article>
+              );
+            })}
+          </div>
         </div>
       </div>
     </section>
@@ -416,19 +470,19 @@ export function HomePricingSection() {
         <div className="ob-home-pricing__cards">
           <article>
             <CircleDollarSign size={25} aria-hidden="true" />
-            <span>01</span>
+            <span>подбор</span>
             <h3>Лицензии</h3>
             <p>Подбираем тариф Битрикс24, 1С-Битрикс или сервисов коммуникаций под сценарий, а не по названию пакета.</p>
           </article>
           <article>
             <ReceiptText size={25} aria-hidden="true" />
-            <span>02</span>
+            <span>проект</span>
             <h3>Внедрение</h3>
             <p>Стоимость зависит от процессов, прав, роботов, интеграций, данных и обучения команды.</p>
           </article>
           <article>
             <FileCheck2 size={25} aria-hidden="true" />
-            <span>03</span>
+            <span>после запуска</span>
             <h3>Поддержка</h3>
             <p>После запуска можно вести развитие по задачам, регламенту или отдельному плану улучшений.</p>
           </article>
