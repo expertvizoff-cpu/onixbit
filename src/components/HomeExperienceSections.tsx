@@ -579,13 +579,12 @@ export function BenefitsSection() {
             </div>
           </div>
           <div className="ob-home-benefits__proofs">
-            <div className="ob-home-benefits__pulse-dot-track ob-benefit-zap" aria-hidden="true">
-              <svg viewBox="0 0 1200 92" focusable="false">
-                <path className="ob-benefit-zap__base" d="M28 48 H238 L282 20 L330 48 H520 L570 72 L636 48 H872 L914 24 L968 48 H1172" />
-                <path className="ob-benefit-zap__glow" d="M28 48 H238 L282 20 L330 48 H520 L570 72 L636 48 H872 L914 24 L968 48 H1172" />
+            <div className="ob-benefits-lightning" aria-hidden="true">
+              <svg viewBox="0 0 940 86" focusable="false">
+                <path className="ob-benefits-lightning__base" d="M18 46H160L196 18L236 46H386L422 68L474 46H638L680 20L724 46H922" />
+                <path className="ob-benefits-lightning__bolt" d="M18 46H160L196 18L236 46H386L422 68L474 46H638L680 20L724 46H922" />
               </svg>
               <i />
-              <span>единый маршрут по всем преимуществам</span>
             </div>
             {benefits.map((item) => {
               const Icon = item.icon;
@@ -639,9 +638,17 @@ export function HomePricingSection() {
               <span className="ob-pricing-estimate__client">клиент</span>
               <i className="ob-pricing-flow__dot ob-pricing-estimate__dot" />
             </div>
-            <div className="ob-home-pricing__formula-note">
+            <div className="ob-home-pricing__formula-note ob-pricing-principle">
               <small>принцип расчёта</small>
-              <b>лицензии + внедрение + интеграции + поддержка</b>
+              <b>
+                <span className="is-license">лицензии</span>
+                <i>+</i>
+                <span className="is-project">внедрение</span>
+                <i>+</i>
+                <span className="is-integration">интеграции</span>
+                <i>+</i>
+                <span className="is-support">поддержка</span>
+              </b>
             </div>
           </div>
           <div className="ob-home-pricing__cards" aria-label="Основные части бюджета">
