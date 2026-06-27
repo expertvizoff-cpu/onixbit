@@ -9,7 +9,6 @@ import {
   BarChart3,
   CheckCircle2,
   CircleDollarSign,
-  Clock3,
   DatabaseZap,
   FileCheck2,
   GitBranch,
@@ -22,6 +21,7 @@ import {
   ShieldCheck,
   SlidersHorizontal,
   Workflow,
+  XCircle,
 } from "lucide-react";
 import { company } from "@/data/site";
 import { ButtonLink, LeadButton } from "./Buttons";
@@ -32,21 +32,37 @@ const painItems = [
     icon: MessageSquareWarning,
     title: "Заявки живут в разных каналах",
     text: "Чаты, телефония, формы сайта и почта не сходятся в единую картину для руководителя.",
+    signal: "Нет единой очереди заявок",
+    loss: "Ответственный назначается поздно, история общения расползается, руководитель видит проблему только после ручной сверки.",
+    fix: "Нужен единый вход обращения и понятный маршрут до сделки, задачи и отчёта.",
+    diagnostic: ["чат", "телефония", "форма", "ручная сводка"],
   },
   {
     icon: GitBranch,
     title: "CRM настроена поверх процесса",
     text: "Этапы, права и роботы есть, но менеджеры обходят систему, а контроль остаётся ручным.",
+    signal: "Автоматизация не совпадает с работой отдела",
+    loss: "CRM выглядит настроенной, но команда продолжает держать важные действия в личных заметках, чатах и таблицах.",
+    fix: "Нужно пересобрать этапы, роли, права и роботов вокруг фактического процесса продаж.",
+    diagnostic: ["этапы", "права", "роботы", "обход CRM"],
   },
   {
     icon: DatabaseZap,
     title: "1С, сайт и CRM спорят данными",
     text: "Заказы, остатки, статусы и ответственные расходятся, появляются дубли и уточнения вручную.",
+    signal: "Данные расходятся между системами",
+    loss: "Сотрудники уточняют остатки, цены, статусы и документы вручную, а ошибка в одном месте быстро размножается дальше.",
+    fix: "Нужна карта обменов: какие данные главные, куда они уходят и кто отвечает за ошибку.",
+    diagnostic: ["сайт", "CRM", "1С", "дубли"],
   },
   {
     icon: AlertTriangle,
     title: "Подрядчики закрывают только свой кусок",
     text: "Сайт, CRM, учёт и аналитика развиваются отдельно, поэтому итоговая система не управляется целиком.",
+    signal: "Никто не отвечает за связку целиком",
+    loss: "Каждый подрядчик прав внутри своей зоны, но на стыках появляются разрывы, спорные задачи и бесконечные согласования.",
+    fix: "Нужен один владелец архитектуры, который видит весь путь заявки и границы ответственности.",
+    diagnostic: ["сайт", "CRM", "учёт", "разрыв"],
   },
 ];
 
@@ -63,6 +79,9 @@ const solutionNodes = [
     icon: Workflow,
     title: "Битрикс24",
     text: "воронки, роботы, задачи, коммуникации",
+    problem: "Разрозненные обращения из чатов, телефонии, форм и почты.",
+    before: "Заявка живёт в канале, где её заметили первым.",
+    after: "Заявка сразу попадает в воронку, получает ответственного и срок.",
     result: "Заявка попадает в нужную воронку, получает ответственного, задачу, контроль срока и понятную историю общения.",
     action: "Снимаем хаос из чатов и таблиц, чтобы менеджеры работали в одном маршруте.",
     linkLabel: "Открыть CRM-направление",
@@ -73,6 +92,9 @@ const solutionNodes = [
     icon: Layers3,
     title: "1С-Битрикс",
     text: "структура сайта, каталог, формы, заявки",
+    problem: "Формы и каталог собирают интерес, но не ведут клиента дальше по процессу.",
+    before: "Сайт передаёт заявку как отдельное сообщение без контекста.",
+    after: "Форма, каталог и CRM работают как один маршрут клиента.",
     result: "Сайт становится источником качественных заявок: формы, каталог и контент сразу связаны с CRM и аналитикой.",
     action: "Проектируем не витрину страниц, а понятный путь клиента от интереса до заявки.",
     linkLabel: "Открыть сайты на Битрикс",
@@ -83,6 +105,9 @@ const solutionNodes = [
     icon: DatabaseZap,
     title: "1С и обмены",
     text: "заказы, остатки, цены, документы",
+    problem: "Заказы, остатки, цены и статусы расходятся между сайтом, CRM и 1С.",
+    before: "Сотрудники сверяют данные вручную и исправляют последствия дублей.",
+    after: "Обмены идут по понятным правилам, а спорные статусы разобраны заранее.",
     result: "Данные о заказах, остатках, ценах и статусах проходят между сайтом, CRM и учётом без ручного дублирования.",
     action: "Фиксируем границы обмена и заранее разбираем спорные статусы, чтобы интеграция была управляемой.",
     linkLabel: "Открыть работы по 1С",
@@ -93,6 +118,9 @@ const solutionNodes = [
     icon: BarChart3,
     title: "Отчёты",
     text: "контроль этапов, нагрузка, потери",
+    problem: "Руководитель узнаёт о потерях из ручных отчётов, когда повлиять уже сложнее.",
+    before: "Контроль собирается в конце недели из таблиц и сообщений.",
+    after: "Этапы, нагрузка и потери видны по ходу работы.",
     result: "Руководитель видит, где застревают сделки, кто перегружен и какие этапы требуют внимания.",
     action: "Собираем контроль вокруг процесса, а не вокруг ручной выгрузки в конце недели.",
     className: "ob-system-node--analytics",
@@ -101,6 +129,9 @@ const solutionNodes = [
     icon: PlugZap,
     title: "Интеграции",
     text: "телефония, мессенджеры, обмены, отчёты",
+    problem: "Сервисы подключены отдельно, поэтому на стыках появляются ручные действия и спорные зоны.",
+    before: "Каждая интеграция решает свою маленькую задачу и добавляет новый стык.",
+    after: "Интеграции поддерживают один сценарий заявки, учёта и контроля.",
     result: "Телефония, мессенджеры, формы, склад и внешние сервисы не спорят между собой, а поддерживают один сценарий.",
     action: "Подключаем только те сервисы, которые реально закрывают путь заявки и контроль качества.",
     className: "ob-system-node--api",
@@ -172,30 +203,64 @@ const faqItems = [
 ];
 
 export function PainSection() {
+  const [activePain, setActivePain] = useState(0);
+  const selectedPain = painItems[activePain] ?? painItems[0];
+  const SelectedPainIcon = selectedPain.icon;
+
   return (
     <section className="ob-section ob-home-pain" id="problems">
       <div className="ob-container ob-home-pain__grid">
         <div className="ob-home-pain__intro">
           <SectionIntro
-            kicker="Проблематика"
-            title="Когда CRM, сайт и 1С растут отдельно, бизнес теряет управляемость"
-            text="Обычно проблема не в одной кнопке или тарифе. Слабое место появляется там, где заявка, задача, заказ, остаток и отчёт переходят из одной системы в другую."
+            kicker="Блок проблем"
+            title="Сначала показываем, где система теряет управляемость"
+            text="Проблема видна не как список жалоб, а как разрыв маршрута: обращение приходит в одном месте, данные живут в другом, контроль собирается вручную. Выберите сигнал - панель покажет, что именно ломается."
           />
-          <div className="ob-home-pain__signal" aria-label="Типовой сигнал к аудиту">
-            <Clock3 size={22} aria-hidden="true" />
-            <span>Если менеджеры ведут сделки в чатах, а руководитель собирает отчёты вручную, систему уже пора пересобирать.</span>
+          <div className="ob-home-pain__diagnostic" aria-live="polite">
+            <div className="ob-pain-console__head">
+              <span><AlertTriangle size={17} aria-hidden="true" /> Диагностика разрыва</span>
+              <strong>{String(activePain + 1).padStart(2, "0")}</strong>
+            </div>
+            <div className="ob-pain-console__flow" aria-label="Как проблема проходит через системы">
+              {selectedPain.diagnostic.map((item, index) => (
+                <span className={index === selectedPain.diagnostic.length - 1 ? "is-loss" : ""} key={item + index}>
+                  {item}
+                </span>
+              ))}
+            </div>
+            <div className="ob-pain-console__result">
+              <SelectedPainIcon size={21} aria-hidden="true" />
+              <div>
+                <strong>{selectedPain.signal}</strong>
+                <p>{selectedPain.loss}</p>
+              </div>
+            </div>
+            <div className="ob-pain-console__fix">
+              <XCircle size={17} aria-hidden="true" />
+              <span>{selectedPain.fix}</span>
+            </div>
           </div>
         </div>
-        <div className="ob-home-pain__cards">
+        <div className="ob-home-pain__cards" aria-label="Выберите тип проблемы">
           {painItems.map((item, index) => {
             const Icon = item.icon;
+            const isActive = activePain === index;
             return (
-              <article className="ob-home-pain-card" key={item.title}>
+              <button
+                aria-pressed={isActive}
+                className={"ob-home-pain-card" + (isActive ? " is-active" : "")}
+                key={item.title}
+                onClick={() => setActivePain(index)}
+                onFocus={() => setActivePain(index)}
+                onMouseEnter={() => setActivePain(index)}
+                type="button"
+              >
                 <span>{String(index + 1).padStart(2, "0")}</span>
                 <Icon size={24} aria-hidden="true" />
                 <h3>{item.title}</h3>
                 <p>{item.text}</p>
-              </article>
+                <em>Что чинить: {item.fix}</em>
+              </button>
             );
           })}
         </div>
@@ -213,6 +278,10 @@ export function SystemSolutionSection() {
     <section className="ob-section ob-home-system" id="solution">
       <div className="ob-container ob-home-system__grid">
         <div className="ob-home-system__map" aria-label="Интерактивная схема связки CRM, сайта, 1С и интеграций">
+          <div className="ob-system-map-label">
+            <span>Блок решения</span>
+            <strong>собранный контур заявки</strong>
+          </div>
           <svg className="ob-home-system__links" viewBox="0 0 640 460" aria-hidden="true">
             {solutionPaths.map((path, index) => (
               <path className={activeNode === index ? "is-active" : ""} d={path} key={path} />
@@ -247,14 +316,31 @@ export function SystemSolutionSection() {
         <div className="ob-home-system__content">
           <SectionIntro
             kicker="Решение"
-            title="Собираем не набор сервисов, а рабочую систему вокруг заявки"
-            text="Выберите узел на схеме: покажем, какую часть бизнес-маршрута он закрывает и какой практический результат должен появиться после внедрения."
+            title="Ниже тот же маршрут, но уже собранный в управляемую систему"
+            text="Выберите узел на схеме: покажем, какую проблему он закрывает и каким становится путь заявки после внедрения."
           />
+          <div className="ob-home-system__transform" aria-label="Как проблема превращается в решение">
+            <div className="is-before">
+              <span>Было</span>
+              <strong>{activeSolution.before}</strong>
+            </div>
+            <div className="ob-home-system__transform-arrow" aria-hidden="true">
+              <ArrowUpRight size={18} />
+            </div>
+            <div className="is-after">
+              <span>Стало</span>
+              <strong>{activeSolution.after}</strong>
+            </div>
+          </div>
           <div className="ob-home-system__active">
-            <span>Активный узел</span>
-            <div>
+            <span>Активный узел решения</span>
+            <div className="ob-home-system__active-title">
               <ActiveSolutionIcon size={20} aria-hidden="true" />
               <strong>{activeSolution.title}</strong>
+            </div>
+            <div className="ob-home-system__closes">
+              <XCircle size={17} aria-hidden="true" />
+              <span>Закрывает: {activeSolution.problem}</span>
             </div>
             <p>{activeSolution.result}</p>
             <small>{activeSolution.action}</small>
