@@ -438,12 +438,23 @@ export function BenefitsSection() {
         <div className="ob-home-benefits__layout">
           <div className="ob-home-benefits__accent">
             <span>главный фокус</span>
-            <div className="ob-home-benefits__graphic" aria-hidden="true">
-              <i />
-              <b>CRM</b>
-              <b>1С</b>
-              <b>Сайт</b>
-              <b>BI</b>
+            <div className="ob-home-benefits__graphic ob-benefit-console" aria-hidden="true">
+              <div className="ob-benefit-console__screen">
+                <span>единая архитектура</span>
+                <strong>заявка проходит без ручных разрывов</strong>
+                <div className="ob-benefit-console__lanes">
+                  <i />
+                  <i />
+                  <i />
+                </div>
+              </div>
+              <div className="ob-benefit-console__stack">
+                <span>CRM</span>
+                <span>Сайт</span>
+                <span>1С</span>
+                <span>BI</span>
+              </div>
+              <div className="ob-benefit-console__signal" />
             </div>
             <h3>Один маршрут заявки вместо набора разрозненных настроек</h3>
             <p>
@@ -457,7 +468,10 @@ export function BenefitsSection() {
             </div>
           </div>
           <div className="ob-home-benefits__proofs">
-            <span className="ob-home-benefits__wave" aria-hidden="true"><i /></span>
+            <svg className="ob-home-benefits__pulse" viewBox="0 0 1200 120" aria-hidden="true" focusable="false">
+              <path className="ob-home-benefits__pulse-base" d="M20 76 C 150 76, 168 76, 228 76 C 254 76, 258 22, 286 22 C 318 22, 316 98, 350 98 C 392 98, 392 58, 438 58 C 510 58, 520 76, 590 76 C 696 76, 700 76, 780 76 C 806 76, 812 36, 840 36 C 876 36, 868 92, 906 92 C 956 92, 960 76, 1032 76 C 1090 76, 1124 76, 1180 76" />
+              <path className="ob-home-benefits__pulse-glow" d="M20 76 C 150 76, 168 76, 228 76 C 254 76, 258 22, 286 22 C 318 22, 316 98, 350 98 C 392 98, 392 58, 438 58 C 510 58, 520 76, 590 76 C 696 76, 700 76, 780 76 C 806 76, 812 36, 840 36 C 876 36, 868 92, 906 92 C 956 92, 960 76, 1032 76 C 1090 76, 1124 76, 1180 76" />
+            </svg>
             {benefits.map((item) => {
               const Icon = item.icon;
               return (
@@ -489,27 +503,46 @@ export function HomePricingSection() {
         <div className="ob-home-pricing__matrix">
           <div className="ob-home-pricing__formula" aria-label="Формула расчёта">
             <span>формула бюджета</span>
-            <strong>Лицензии + внедрение + интеграции + поддержка</strong>
+            <strong>Смета собирается из понятных слоёв, а не из одной туманной суммы</strong>
             <p>На консультации быстро отделяем обязательный контур от того, что можно запускать вторым этапом.</p>
+            <div className="ob-home-pricing__formula-visual" aria-hidden="true">
+              <i />
+              <i />
+              <i />
+              <b>контур</b>
+            </div>
+            <div className="ob-home-pricing__formula-note">
+              <small>принцип расчёта</small>
+              <b>лицензии + внедрение + интеграции + поддержка</b>
+            </div>
           </div>
           <div className="ob-home-pricing__cards" aria-label="Основные части бюджета">
             <article className="is-license">
-              <CircleDollarSign size={25} aria-hidden="true" />
-              <span>01 / подбор</span>
-              <h3>Лицензии</h3>
-              <p>Подбираем тариф Битрикс24, 1С-Битрикс или сервисов коммуникаций под сценарий, а не по названию пакета.</p>
+              <div className="ob-home-pricing-card__icon"><CircleDollarSign size={31} aria-hidden="true" /></div>
+              <div className="ob-home-pricing-card__copy">
+                <span>01 / подбор</span>
+                <h3>Лицензии</h3>
+                <p>Подбираем тариф Битрикс24, 1С-Битрикс или сервисов коммуникаций под сценарий, а не по названию пакета.</p>
+              </div>
+              <b className="ob-home-pricing-card__index">01</b>
             </article>
             <article className="is-project">
-              <ReceiptText size={25} aria-hidden="true" />
-              <span>02 / проект</span>
-              <h3>Внедрение</h3>
-              <p>Стоимость зависит от процессов, прав, роботов, интеграций, данных и обучения команды.</p>
+              <div className="ob-home-pricing-card__icon"><ReceiptText size={31} aria-hidden="true" /></div>
+              <div className="ob-home-pricing-card__copy">
+                <span>02 / проект</span>
+                <h3>Внедрение</h3>
+                <p>Стоимость зависит от процессов, прав, роботов, интеграций, данных и обучения команды.</p>
+              </div>
+              <b className="ob-home-pricing-card__index">02</b>
             </article>
             <article className="is-support">
-              <FileCheck2 size={25} aria-hidden="true" />
-              <span>03 / развитие</span>
-              <h3>Поддержка</h3>
-              <p>После запуска можно вести развитие по задачам, регламенту или отдельному плану улучшений.</p>
+              <div className="ob-home-pricing-card__icon"><FileCheck2 size={31} aria-hidden="true" /></div>
+              <div className="ob-home-pricing-card__copy">
+                <span>03 / развитие</span>
+                <h3>Поддержка</h3>
+                <p>После запуска можно вести развитие по задачам, регламенту или отдельному плану улучшений.</p>
+              </div>
+              <b className="ob-home-pricing-card__index">03</b>
             </article>
           </div>
           <div className="ob-home-pricing__calculation">
@@ -549,10 +582,23 @@ export function HomeTrustSection() {
               Показываем подтверждения как контрольную панель: что проверено, где применяется и какой раздел можно открыть до старта.
             </p>
           </div>
-          <div className="ob-home-trust__stamp" aria-hidden="true">
-            <span>verified</span>
-            <strong>Onixbit</strong>
-            <i />
+          <div className="ob-home-trust__vault" aria-hidden="true">
+            <div className="ob-home-trust__cert is-main">
+              <span>Bitrix24</span>
+              <strong>партнёр</strong>
+              <i />
+            </div>
+            <div className="ob-home-trust__cert is-second">
+              <span>1C-Bitrix</span>
+              <strong>статус</strong>
+              <i />
+            </div>
+            <div className="ob-home-trust__cert is-third">
+              <span>CRM</span>
+              <strong>экспертиза</strong>
+              <i />
+            </div>
+            <div className="ob-home-trust__light" />
           </div>
           <div className="ob-home-trust__shelf">
             <div className="ob-home-trust__badges" aria-label="Подтверждения компетенций">

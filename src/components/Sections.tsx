@@ -182,24 +182,30 @@ export function CasesPreview({ full = false }: { full?: boolean }) {
         />
         <div className="ob-home-cases__layout">
           {cases.map((item, index) => (
-            <article className={"ob-case-card ob-home-case-card" + (index === 0 ? " is-featured" : "")} key={item.title}>
-              <div className="ob-home-case-card__top">
-                <span>{item.sector}</span>
-                <b>{String(index + 1).padStart(2, "0")}</b>
+            <Link className={"ob-case-card ob-home-case-card is-visual-" + index + (index === 0 ? " is-featured" : "")} href="/cases" key={item.title}>
+              <div className="ob-home-case-card__visual" role="img" aria-label={"Визуальное превью: " + item.title}>
+                <span />
+                <i />
+                <b />
               </div>
-              <h3>{item.title}</h3>
-              <p>{item.result}</p>
-              <div className="ob-home-case-card__route" aria-label="Формат кейса">
-                <i>задача</i>
-                <i>решение</i>
-                <i>контроль</i>
+              <div className="ob-home-case-card__body">
+                <div className="ob-home-case-card__top">
+                  <span>{item.sector}</span>
+                  <b>{String(index + 1).padStart(2, "0")}</b>
+                </div>
+                <h3>{item.title}</h3>
+                <p>{item.result}</p>
+                <div>
+                  {item.tags.map((tag) => (
+                    <em key={tag}>{tag}</em>
+                  ))}
+                </div>
               </div>
-              <div>
-                {item.tags.map((tag) => (
-                  <em key={tag}>{tag}</em>
-                ))}
-              </div>
-            </article>
+              <span className="ob-home-case-card__cta">
+                Читать разбор
+                <ArrowUpRight size={18} aria-hidden="true" />
+              </span>
+            </Link>
           ))}
         </div>
         {!full && (
@@ -246,7 +252,12 @@ export function ArticlesPreview({ full = false }: { full?: boolean }) {
         />
         <div className="ob-home-articles__layout">
           {articles.map((article, index) => (
-            <article className={"ob-article-card ob-home-article-card" + (index === 0 ? " is-featured" : "")} key={article.title}>
+            <Link className={"ob-article-card ob-home-article-card is-visual-" + index + (index === 0 ? " is-featured" : "")} href="/articles" key={article.title}>
+              <div className="ob-home-article-card__visual" role="img" aria-label={"Обложка статьи: " + article.title}>
+                <span />
+                <i />
+                <b />
+              </div>
               <div className="ob-home-article-card__meta">
                 <BookOpen size={18} aria-hidden="true" />
                 <span>{article.category}</span>
@@ -254,8 +265,12 @@ export function ArticlesPreview({ full = false }: { full?: boolean }) {
               </div>
               <h3>{article.title}</h3>
               <p>{article.text}</p>
+              <span className="ob-home-article-card__cta">
+                Читать статью
+                <ArrowUpRight size={17} aria-hidden="true" />
+              </span>
               <span className="ob-home-article-card__line" aria-hidden="true" />
-            </article>
+            </Link>
           ))}
         </div>
         {!full && (
