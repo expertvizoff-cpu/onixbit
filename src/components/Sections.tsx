@@ -67,6 +67,12 @@ const articleCovers = [
   "/media/home/article-integration-cover.png",
 ] as const;
 
+const directionLogos: Record<Direction["id"], { src: string; width: number; height: number; className: string }> = {
+  bitrix24: { src: "/media/logos/bitrix24-logo-rus.svg", width: 168, height: 44, className: "is-bitrix24" },
+  sites: { src: "/media/logos/1c-bitrix-logo.svg", width: 176, height: 44, className: "is-bitrix" },
+  onec: { src: "/media/logos/1c-logo.svg", width: 88, height: 48, className: "is-onec" },
+};
+
 export function ProofStrip() {
   return (
     <section className="ob-section ob-section--tight">
@@ -96,26 +102,33 @@ export function DirectionsSection() {
           text="Главная ценность не в отдельных настройках, а в связке: CRM получает заявки, сайт продаёт, учётная система отдаёт данные без ручной суеты."
         />
         <div className="ob-home-directions__grid">
-          {directions.map((direction, index) => (
-            <Link
-              className={"ob-direction-card ob-home-direction-tile" + (index === 0 ? " is-featured" : "")}
-              href={direction.href}
-              key={direction.id}
-            >
-              <span>{direction.shortTitle}</span>
-              <strong>{direction.title}</strong>
-              <p>{direction.description}</p>
-              <div className="ob-home-direction-tile__scope" aria-label="Что входит">
-                {direction.scope.slice(0, 3).map((item) => (
-                  <b key={item}>{item}</b>
-                ))}
-              </div>
-              <em>
-                Смотреть направление
-                <ArrowUpRight size={17} />
-              </em>
-            </Link>
-          ))}
+          {directions.map((direction, index) => {
+            const logo = directionLogos[direction.id];
+
+            return (
+              <Link
+                className={"ob-direction-card ob-home-direction-tile" + (index === 0 ? " is-featured" : "")}
+                href={direction.href}
+                key={direction.id}
+              >
+                <span className={"ob-home-direction-tile__logo " + logo.className} aria-hidden="true">
+                  <Image src={logo.src} alt="" width={logo.width} height={logo.height} />
+                </span>
+                <span>{direction.shortTitle}</span>
+                <strong>{direction.title}</strong>
+                <p>{direction.description}</p>
+                <div className="ob-home-direction-tile__scope" aria-label="Что входит">
+                  {direction.scope.slice(0, 3).map((item) => (
+                    <b key={item}>{item}</b>
+                  ))}
+                </div>
+                <em>
+                  Смотреть направление
+                  <ArrowUpRight size={17} />
+                </em>
+              </Link>
+            );
+          })}
         </div>
       </div>
     </section>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -79,6 +79,7 @@ const solutionNodes = [
     action: "Снимаем хаос из чатов и таблиц, чтобы менеджеры работали в одном маршруте.",
     linkLabel: "Открыть CRM-направление",
     href: "/vnedrenie-bitrix24",
+    motion: "crm",
     className: "ob-system-node--crm",
   },
   {
@@ -92,6 +93,7 @@ const solutionNodes = [
     action: "Проектируем не витрину страниц, а понятный путь клиента от интереса до заявки.",
     linkLabel: "Открыть сайты на Битрикс",
     href: "/razrabotka-saitov-na-1c-bitrix",
+    motion: "site",
     className: "ob-system-node--site",
   },
   {
@@ -105,6 +107,7 @@ const solutionNodes = [
     action: "Фиксируем границы обмена и заранее разбираем спорные статусы, чтобы интеграция была управляемой.",
     linkLabel: "Открыть работы по 1С",
     href: "/raboty-po-1c-predpriyatie",
+    motion: "onec",
     className: "ob-system-node--onec",
   },
   {
@@ -116,6 +119,7 @@ const solutionNodes = [
     after: "Этапы, нагрузка и потери видны по ходу работы.",
     result: "Руководитель видит, где застревают сделки, кто перегружен и какие этапы требуют внимания.",
     action: "Собираем контроль вокруг процесса, а не вокруг ручной выгрузки в конце недели.",
+    motion: "analytics",
     className: "ob-system-node--analytics",
   },
   {
@@ -127,9 +131,24 @@ const solutionNodes = [
     after: "Интеграции поддерживают один сценарий заявки, учёта и контроля.",
     result: "Телефония, мессенджеры, формы, склад и внешние сервисы не спорят между собой, а поддерживают один сценарий.",
     action: "Подключаем только те сервисы, которые реально закрывают путь заявки и контроль качества.",
+    motion: "api",
     className: "ob-system-node--api",
   },
 ];
+
+function SolutionActionIcon({ type }: { type: string }) {
+  return (
+    <span className={"ob-system-action-icon is-" + type}>
+      <i />
+      <i />
+      <i />
+      <b />
+      <b />
+      <b />
+      <em />
+    </span>
+  );
+}
 
 const benefits = [
   {
@@ -193,6 +212,30 @@ const trustSignals = [
   "компетенции привязаны к реальным направлениям работ",
   "документы можно открыть до старта проекта",
 ];
+
+const trustCertificates = [
+  {
+    label: "Битрикс24",
+    title: "Золотой партнёр",
+    image: "/media/certificates/Золотой%20партнёр%20Битрикс24.jpg",
+    orientation: "landscape",
+    className: "is-main",
+  },
+  {
+    label: "1С-Битрикс",
+    title: "Золотой партнёр",
+    image: "/media/certificates/Золотой%20партнёр%201С-Битрикс.jpg",
+    orientation: "landscape",
+    className: "is-second",
+  },
+  {
+    label: "Интеграция с 1С",
+    title: "Компетенция",
+    image: "/media/certificates/Компетенция%20Интеграция%20с%201С.jpg",
+    orientation: "portrait",
+    className: "is-third",
+  },
+] as const;
 
 const faqItems = [
   {
@@ -318,7 +361,6 @@ export function SystemSolutionSection() {
           <div className="ob-system-route__track" aria-label="Станции решения">
             <span className="ob-system-route__rail" aria-hidden="true"><i /></span>
             {solutionNodes.map((node, index) => {
-              const Icon = node.icon;
               const isActive = activeNode === index;
               return (
                 <button
@@ -332,7 +374,7 @@ export function SystemSolutionSection() {
                   type="button"
                 >
                   <span className="ob-system-route__node" aria-hidden="true">
-                    <Icon size={21} />
+                    <SolutionActionIcon type={node.motion} />
                   </span>
                   <span className="ob-system-route__copy">
                     <strong>{node.title}</strong>
@@ -438,32 +480,27 @@ export function BenefitsSection() {
         <div className="ob-home-benefits__layout">
           <div className="ob-home-benefits__accent">
             <span>главный фокус</span>
-            <div className="ob-home-benefits__graphic ob-benefit-console" aria-hidden="true">
-              <div className="ob-benefit-console__screen">
-                <span>единая архитектура</span>
-                <strong>заявка проходит без ручных разрывов</strong>
-                <div className="ob-benefit-console__lanes">
-                  <i />
-                  <i />
-                  <i />
-                </div>
+            <div className="ob-home-benefits__graphic ob-benefit-architect" aria-hidden="true">
+              <div className="ob-benefit-architect__inputs">
+                <span>форма</span>
+                <span>чат</span>
+                <span>звонок</span>
               </div>
-              <div className="ob-benefit-console__map">
-                <span>заявка</span>
+              <div className="ob-benefit-architect__core">
+                <b>единый маршрут</b>
                 <i />
+              </div>
+              <div className="ob-benefit-architect__systems">
                 <span>CRM</span>
-                <i />
                 <span>1С</span>
-                <i />
                 <span>отчёт</span>
               </div>
-              <div className="ob-benefit-console__stack">
-                <span>роль</span>
-                <span>данные</span>
-                <span>срок</span>
-                <span>контроль</span>
+              <div className="ob-benefit-architect__rules">
+                <em>ответственный</em>
+                <em>срок</em>
+                <em>контроль</em>
               </div>
-              <div className="ob-benefit-console__signal" />
+              <div className="ob-benefit-architect__dot" />
             </div>
             <h3>Один маршрут заявки вместо набора разрозненных настроек</h3>
             <p>
@@ -477,10 +514,10 @@ export function BenefitsSection() {
             </div>
           </div>
           <div className="ob-home-benefits__proofs">
-            <svg className="ob-home-benefits__pulse" viewBox="0 0 1200 120" aria-hidden="true" focusable="false">
-              <path className="ob-home-benefits__pulse-base" d="M20 76 C 150 76, 168 76, 228 76 C 254 76, 258 22, 286 22 C 318 22, 316 98, 350 98 C 392 98, 392 58, 438 58 C 510 58, 520 76, 590 76 C 696 76, 700 76, 780 76 C 806 76, 812 36, 840 36 C 876 36, 868 92, 906 92 C 956 92, 960 76, 1032 76 C 1090 76, 1124 76, 1180 76" />
-              <path className="ob-home-benefits__pulse-glow" d="M20 76 C 150 76, 168 76, 228 76 C 254 76, 258 22, 286 22 C 318 22, 316 98, 350 98 C 392 98, 392 58, 438 58 C 510 58, 520 76, 590 76 C 696 76, 700 76, 780 76 C 806 76, 812 36, 840 36 C 876 36, 868 92, 906 92 C 956 92, 960 76, 1032 76 C 1090 76, 1124 76, 1180 76" />
-            </svg>
+            <div className="ob-home-benefits__pulse-dot-track" aria-hidden="true">
+              <i />
+              <span>единый маршрут по всем преимуществам</span>
+            </div>
             {benefits.map((item) => {
               const Icon = item.icon;
               return (
@@ -514,13 +551,22 @@ export function HomePricingSection() {
             <span>формула бюджета</span>
             <strong>Смета собирается из понятных слоёв, а не из одной туманной суммы</strong>
             <p>На консультации быстро отделяем обязательный контур от того, что можно запускать вторым этапом.</p>
-            <div className="ob-home-pricing__formula-visual" aria-hidden="true">
-              <div className="ob-pricing-orbit__core">расчёт</div>
-              <span className="is-license">лицензии</span>
-              <span className="is-project">внедрение</span>
-              <span className="is-integration">интеграции</span>
-              <span className="is-support">поддержка</span>
-              <i />
+            <div className="ob-home-pricing__formula-visual ob-pricing-flow" aria-hidden="true">
+              <div className="ob-pricing-flow__steps">
+                <span className="is-license">лицензии</span>
+                <span className="is-project">внедрение</span>
+                <span className="is-integration">интеграции</span>
+                <span className="is-support">поддержка</span>
+              </div>
+              <div className="ob-pricing-flow__core">
+                <span>расчёт</span>
+                <b>КП</b>
+              </div>
+              <div className="ob-pricing-flow__mail">
+                <b>КП</b>
+                <i />
+              </div>
+              <i className="ob-pricing-flow__dot" />
             </div>
             <div className="ob-home-pricing__formula-note">
               <small>принцип расчёта</small>
@@ -582,6 +628,26 @@ export function HomePricingSection() {
 }
 
 export function HomeTrustSection() {
+  const [activeTrustCertificate, setActiveTrustCertificate] = useState<number | null>(null);
+  const activeCertificate = activeTrustCertificate === null ? null : trustCertificates[activeTrustCertificate];
+
+  useEffect(() => {
+    if (!activeCertificate) return;
+
+    const originalOverflow = document.documentElement.style.overflow;
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setActiveTrustCertificate(null);
+    };
+
+    document.documentElement.style.overflow = "hidden";
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.documentElement.style.overflow = originalOverflow;
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [activeCertificate]);
+
   return (
     <section className="ob-section ob-section--tight ob-home-trust">
       <div className="ob-container">
@@ -594,28 +660,33 @@ export function HomeTrustSection() {
             </p>
           </div>
           <div className="ob-home-trust__vault" aria-label="Витрина сертификатов">
-            <a className="ob-home-trust__cert is-main" href="/media/certificates/Золотой%20партнёр%20Битрикс24.jpg" target="_blank" rel="noreferrer">
-              <Image src="/media/certificates/Золотой%20партнёр%20Битрикс24.jpg" alt="Золотой партнёр Битрикс24" width={160} height={164} sizes="(max-width: 760px) 132px, 160px" />
-              <span>Битрикс24</span>
-              <strong>Золотой партнёр</strong>
-            </a>
-            <a className="ob-home-trust__cert is-second" href="/media/certificates/Золотой%20партнёр%201С-Битрикс.jpg" target="_blank" rel="noreferrer">
-              <Image src="/media/certificates/Золотой%20партнёр%201С-Битрикс.jpg" alt="Золотой партнёр 1С-Битрикс" width={160} height={164} sizes="(max-width: 760px) 132px, 160px" />
-              <span>1С-Битрикс</span>
-              <strong>Партнёрский статус</strong>
-            </a>
-            <a className="ob-home-trust__cert is-third" href="/media/certificates/Компетенция%20CRM.jpg" target="_blank" rel="noreferrer">
-              <Image src="/media/certificates/Компетенция%20CRM.jpg" alt="Компетенция CRM" width={160} height={164} sizes="(max-width: 760px) 132px, 160px" />
-              <span>CRM</span>
-              <strong>Компетенция</strong>
-            </a>
+            {trustCertificates.map((certificate, index) => (
+              <button
+                className={"ob-home-trust__cert " + certificate.className + " is-" + certificate.orientation}
+                key={certificate.image}
+                onClick={() => setActiveTrustCertificate(index)}
+                type="button"
+              >
+                <div className="ob-home-trust__cert-preview">
+                  <Image
+                    src={certificate.image}
+                    alt={certificate.label + ": " + certificate.title}
+                    width={certificate.orientation === "landscape" ? 240 : 150}
+                    height={certificate.orientation === "landscape" ? 170 : 214}
+                    sizes="(max-width: 760px) 44vw, 210px"
+                  />
+                </div>
+                <span>{certificate.label}</span>
+                <strong>{certificate.title}</strong>
+              </button>
+            ))}
             <div className="ob-home-trust__light" aria-hidden="true" />
           </div>
           <div className="ob-home-trust__shelf">
             <div className="ob-home-trust__badges" aria-label="Подтверждения компетенций">
               <span><BadgeCheck size={18} /> партнёр Битрикс24</span>
               <span><BadgeCheck size={18} /> партнёр 1С-Битрикс</span>
-              <span><ShieldCheck size={18} /> компетенции CRM и интеграций</span>
+              <span><ShieldCheck size={18} /> компетенция интеграции с 1С</span>
               <span><FileCheck2 size={18} /> документы можно открыть</span>
             </div>
             <div className="ob-home-trust__signals">
@@ -630,6 +701,30 @@ export function HomeTrustSection() {
             </Link>
           </div>
         </div>
+        {activeCertificate ? (
+          <div className="ob-home-cert-frame" role="dialog" aria-modal="true" aria-label={activeCertificate.label + ": " + activeCertificate.title}>
+            <button className="ob-home-cert-frame__backdrop" type="button" onClick={() => setActiveTrustCertificate(null)} aria-label="Закрыть сертификат" />
+            <div className="ob-home-cert-frame__panel">
+              <button className="ob-home-cert-frame__close" type="button" onClick={() => setActiveTrustCertificate(null)} aria-label="Закрыть сертификат">
+                ×
+              </button>
+              <div className={"ob-home-cert-frame__sheet is-" + activeCertificate.orientation}>
+                <Image
+                  src={activeCertificate.image}
+                  alt={activeCertificate.label + ": " + activeCertificate.title}
+                  width={activeCertificate.orientation === "landscape" ? 1280 : 920}
+                  height={activeCertificate.orientation === "landscape" ? 910 : 1280}
+                  sizes="96vw"
+                  priority
+                />
+              </div>
+              <div className="ob-home-cert-frame__caption">
+                <span>{activeCertificate.label}</span>
+                <strong>{activeCertificate.title}</strong>
+              </div>
+            </div>
+          </div>
+        ) : null}
       </div>
     </section>
   );
