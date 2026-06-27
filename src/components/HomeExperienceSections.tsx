@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import {
   AlertTriangle,
@@ -331,7 +332,6 @@ export function SystemSolutionSection() {
                   type="button"
                 >
                   <span className="ob-system-route__node" aria-hidden="true">
-                    <i />
                     <Icon size={21} />
                   </span>
                   <span className="ob-system-route__copy">
@@ -448,11 +448,20 @@ export function BenefitsSection() {
                   <i />
                 </div>
               </div>
-              <div className="ob-benefit-console__stack">
+              <div className="ob-benefit-console__map">
+                <span>заявка</span>
+                <i />
                 <span>CRM</span>
-                <span>Сайт</span>
+                <i />
                 <span>1С</span>
-                <span>BI</span>
+                <i />
+                <span>отчёт</span>
+              </div>
+              <div className="ob-benefit-console__stack">
+                <span>роль</span>
+                <span>данные</span>
+                <span>срок</span>
+                <span>контроль</span>
               </div>
               <div className="ob-benefit-console__signal" />
             </div>
@@ -506,10 +515,12 @@ export function HomePricingSection() {
             <strong>Смета собирается из понятных слоёв, а не из одной туманной суммы</strong>
             <p>На консультации быстро отделяем обязательный контур от того, что можно запускать вторым этапом.</p>
             <div className="ob-home-pricing__formula-visual" aria-hidden="true">
+              <div className="ob-pricing-orbit__core">расчёт</div>
+              <span className="is-license">лицензии</span>
+              <span className="is-project">внедрение</span>
+              <span className="is-integration">интеграции</span>
+              <span className="is-support">поддержка</span>
               <i />
-              <i />
-              <i />
-              <b>контур</b>
             </div>
             <div className="ob-home-pricing__formula-note">
               <small>принцип расчёта</small>
@@ -582,23 +593,23 @@ export function HomeTrustSection() {
               Показываем подтверждения как контрольную панель: что проверено, где применяется и какой раздел можно открыть до старта.
             </p>
           </div>
-          <div className="ob-home-trust__vault" aria-hidden="true">
-            <div className="ob-home-trust__cert is-main">
-              <span>Bitrix24</span>
-              <strong>партнёр</strong>
-              <i />
-            </div>
-            <div className="ob-home-trust__cert is-second">
-              <span>1C-Bitrix</span>
-              <strong>статус</strong>
-              <i />
-            </div>
-            <div className="ob-home-trust__cert is-third">
+          <div className="ob-home-trust__vault" aria-label="Витрина сертификатов">
+            <a className="ob-home-trust__cert is-main" href="/media/certificates/Золотой%20партнёр%20Битрикс24.jpg" target="_blank" rel="noreferrer">
+              <Image src="/media/certificates/Золотой%20партнёр%20Битрикс24.jpg" alt="Золотой партнёр Битрикс24" width={160} height={164} sizes="(max-width: 760px) 132px, 160px" />
+              <span>Битрикс24</span>
+              <strong>Золотой партнёр</strong>
+            </a>
+            <a className="ob-home-trust__cert is-second" href="/media/certificates/Золотой%20партнёр%201С-Битрикс.jpg" target="_blank" rel="noreferrer">
+              <Image src="/media/certificates/Золотой%20партнёр%201С-Битрикс.jpg" alt="Золотой партнёр 1С-Битрикс" width={160} height={164} sizes="(max-width: 760px) 132px, 160px" />
+              <span>1С-Битрикс</span>
+              <strong>Партнёрский статус</strong>
+            </a>
+            <a className="ob-home-trust__cert is-third" href="/media/certificates/Компетенция%20CRM.jpg" target="_blank" rel="noreferrer">
+              <Image src="/media/certificates/Компетенция%20CRM.jpg" alt="Компетенция CRM" width={160} height={164} sizes="(max-width: 760px) 132px, 160px" />
               <span>CRM</span>
-              <strong>экспертиза</strong>
-              <i />
-            </div>
-            <div className="ob-home-trust__light" />
+              <strong>Компетенция</strong>
+            </a>
+            <div className="ob-home-trust__light" aria-hidden="true" />
           </div>
           <div className="ob-home-trust__shelf">
             <div className="ob-home-trust__badges" aria-label="Подтверждения компетенций">

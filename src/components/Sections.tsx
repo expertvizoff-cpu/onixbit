@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowUpRight,
@@ -53,6 +54,18 @@ export function SectionIntro({
 }
 
 const proofIcons = [CalendarClock, ShieldCheck, Route, Building2] as const;
+
+const caseCovers = [
+  "/media/home/case-crm-cover.png",
+  "/media/home/case-site-cover.png",
+  "/media/home/case-integration-cover.png",
+] as const;
+
+const articleCovers = [
+  "/media/home/article-crm-audit-cover.png",
+  "/media/home/article-site-conversion-cover.png",
+  "/media/home/article-integration-cover.png",
+] as const;
 
 export function ProofStrip() {
   return (
@@ -183,10 +196,9 @@ export function CasesPreview({ full = false }: { full?: boolean }) {
         <div className="ob-home-cases__layout">
           {cases.map((item, index) => (
             <Link className={"ob-case-card ob-home-case-card is-visual-" + index + (index === 0 ? " is-featured" : "")} href="/cases" key={item.title}>
-              <div className="ob-home-case-card__visual" role="img" aria-label={"Визуальное превью: " + item.title}>
-                <span />
-                <i />
-                <b />
+              <div className="ob-home-case-card__visual">
+                <Image src={caseCovers[index] ?? caseCovers[0]} alt={"Визуальное превью кейса: " + item.title} fill sizes="(max-width: 760px) 100vw, (max-width: 1180px) 44vw, 28vw" />
+                <span aria-hidden="true" />
               </div>
               <div className="ob-home-case-card__body">
                 <div className="ob-home-case-card__top">
@@ -253,10 +265,9 @@ export function ArticlesPreview({ full = false }: { full?: boolean }) {
         <div className="ob-home-articles__layout">
           {articles.map((article, index) => (
             <Link className={"ob-article-card ob-home-article-card is-visual-" + index + (index === 0 ? " is-featured" : "")} href="/articles" key={article.title}>
-              <div className="ob-home-article-card__visual" role="img" aria-label={"Обложка статьи: " + article.title}>
-                <span />
-                <i />
-                <b />
+              <div className="ob-home-article-card__visual">
+                <Image src={articleCovers[index] ?? articleCovers[0]} alt={"Обложка статьи: " + article.title} fill sizes="(max-width: 760px) 100vw, (max-width: 1180px) 92vw, 48vw" />
+                <span aria-hidden="true" />
               </div>
               <div className="ob-home-article-card__meta">
                 <BookOpen size={18} aria-hidden="true" />
