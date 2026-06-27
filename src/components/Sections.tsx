@@ -52,16 +52,22 @@ export function SectionIntro({
   );
 }
 
+const proofIcons = [CalendarClock, ShieldCheck, Route, Building2] as const;
+
 export function ProofStrip() {
   return (
     <section className="ob-section ob-section--tight">
-      <div className="ob-container ob-proof">
-        {proofItems.map((item) => (
-          <div className="ob-proof__item" key={item.label}>
-            <strong>{item.value}</strong>
-            <span>{item.label}</span>
-          </div>
-        ))}
+      <div className="ob-container ob-proof" aria-label="Ключевые факты Ониксбит">
+        {proofItems.map((item, index) => {
+          const Icon = proofIcons[index] ?? ShieldCheck;
+          return (
+            <article className="ob-proof__item" key={item.label}>
+              <span className="ob-proof__icon" aria-hidden="true"><Icon size={22} /></span>
+              <strong>{item.value}</strong>
+              <span>{item.label}</span>
+            </article>
+          );
+        })}
       </div>
     </section>
   );

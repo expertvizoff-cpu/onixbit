@@ -66,14 +66,6 @@ const painItems = [
   },
 ];
 
-const solutionPaths = [
-  "M320 230 C270 140 205 120 138 112",
-  "M320 230 C398 118 484 94 548 136",
-  "M320 230 C240 328 162 354 96 320",
-  "M320 230 C428 238 505 276 552 348",
-  "M320 230 C322 320 320 374 320 424",
-];
-
 const solutionNodes = [
   {
     icon: Workflow,
@@ -316,71 +308,43 @@ export function SystemSolutionSection() {
   return (
     <section className="ob-section ob-home-system" id="solution">
       <div className="ob-container ob-home-system__grid">
-        <div className="ob-home-system__map" aria-label="Интерактивная схема связки CRM, сайта, 1С и интеграций">
-          <div className="ob-system-map-label">
+        <div className={"ob-home-system__map ob-system-route is-step-" + activeNode} aria-label="Интерактивный маршрут решения">
+          <div className="ob-system-route__head">
             <span>Блок решения</span>
-            <strong>собранный контур заявки</strong>
+            <strong>маршрут заявки без разрывов</strong>
+            <p>Выберите станцию: слева подсвечивается участок, справа меняется объяснение.</p>
           </div>
-          <svg className="ob-home-system__links" viewBox="0 0 640 460" aria-hidden="true">
-            <defs>
-              <filter id="ob-system-glow" x="-80%" y="-80%" width="260%" height="260%">
-                <feGaussianBlur stdDeviation="5" result="blur" />
-                <feColorMatrix
-                  in="blur"
-                  type="matrix"
-                  values="1 0 0 0 1 0 0.78 0 0 0.55 0 0 0.18 0 0.05 0 0 0 1 0"
-                  result="glow"
-                />
-                <feMerge>
-                  <feMergeNode in="glow" />
-                  <feMergeNode in="SourceGraphic" />
-                </feMerge>
-              </filter>
-            </defs>
-            {solutionPaths.map((path, index) => (
-              <path
-                className={activeNode === index ? "is-active" : ""}
-                d={path}
-                id={"ob-solution-path-" + index}
-                key={path}
-              />
-            ))}
-            <circle className="ob-home-system__pulse-dot" filter="url(#ob-system-glow)" key={activeNode} r="6">
-              <animateMotion dur="2.8s" repeatCount="indefinite" rotate="auto">
-                <mpath href={"#ob-solution-path-" + activeNode} />
-              </animateMotion>
-            </circle>
-          </svg>
-          <div className="ob-system-core">
-            <Network size={34} aria-hidden="true" />
-            <strong>Ониксбит</strong>
-            <span>архитектура связки</span>
+          <div className="ob-system-route__track" aria-label="Станции решения">
+            <span className="ob-system-route__beam" aria-hidden="true" />
+            <span className="ob-system-route__pulse" aria-hidden="true" />
+            {solutionNodes.map((node, index) => {
+              const Icon = node.icon;
+              const isActive = activeNode === index;
+              return (
+                <button
+                  aria-label={node.title + ": " + node.result}
+                  aria-pressed={isActive}
+                  className={"ob-system-route__station" + (isActive ? " is-active" : "")}
+                  key={node.title}
+                  onClick={() => setActiveNode(index)}
+                  onFocus={() => setActiveNode(index)}
+                  onMouseEnter={() => setActiveNode(index)}
+                  type="button"
+                >
+                  <span className="ob-system-route__icon" aria-hidden="true"><Icon size={22} /></span>
+                  <span>
+                    <strong>{node.title}</strong>
+                    <small>{node.text}</small>
+                  </span>
+                </button>
+              );
+            })}
           </div>
-          <div className="ob-system-energy-readout" aria-live="polite">
-            <span>активная линия</span>
+          <div className="ob-system-route__result" aria-live="polite">
+            <span>активная станция</span>
             <strong>{activeSolution.title}</strong>
-            <p>{activeSolution.text}</p>
+            <p>{activeSolution.problem}</p>
           </div>
-          {solutionNodes.map((node, index) => {
-            const Icon = node.icon;
-            const isActive = activeNode === index;
-            return (
-              <button
-                aria-label={node.title + ": " + node.result}
-                aria-pressed={isActive}
-                className={"ob-system-node " + node.className + (isActive ? " is-active" : "")}
-                key={node.title}
-                onClick={() => setActiveNode(index)}
-                onFocus={() => setActiveNode(index)}
-                onMouseEnter={() => setActiveNode(index)}
-                type="button"
-              >
-                <Icon size={22} aria-hidden="true" />
-                <strong>{node.title}</strong>
-                <span>{node.text}</span>
-              </button>
-            );
-          })}
         </div>
         <div className="ob-home-system__content">
           <SectionIntro
@@ -501,50 +465,52 @@ export function BenefitsSection() {
 export function HomePricingSection() {
   return (
     <section className="ob-section ob-home-pricing" id="pricing">
-      <div className="ob-container ob-home-pricing__grid">
-        <div className="ob-home-pricing__panel">
-          <SectionIntro
-            kicker="Ценообразование"
-            title="Цена складывается из контура, логики и связок"
-            text="Показываем не абстрактную вилку, а из чего реально собирается бюджет: лицензии, внедрение, интеграции, обучение и дальнейшая поддержка."
-          />
-          <div className="ob-home-pricing__route" aria-label="Как формируется стоимость">
-            {pricingRoute.map((item) => (
-              <div key={item.label}>
-                <span>{item.label}</span>
-                <p>{item.text}</p>
-              </div>
-            ))}
+      <div className="ob-container">
+        <SectionIntro
+          kicker="Ценообразование"
+          title="Бюджет видно по слоям, а не по случайной вилке"
+          text="Разделяем стоимость на понятные части: лицензии, внедрение, интеграции и поддержку. Так проще сравнить объём работ и не потерять важные стыки."
+        />
+        <div className="ob-home-pricing__matrix">
+          <div className="ob-home-pricing__cards" aria-label="Основные части бюджета">
+            <article>
+              <CircleDollarSign size={25} aria-hidden="true" />
+              <span>01 / подбор</span>
+              <h3>Лицензии</h3>
+              <p>Подбираем тариф Битрикс24, 1С-Битрикс или сервисов коммуникаций под сценарий, а не по названию пакета.</p>
+            </article>
+            <article>
+              <ReceiptText size={25} aria-hidden="true" />
+              <span>02 / проект</span>
+              <h3>Внедрение</h3>
+              <p>Стоимость зависит от процессов, прав, роботов, интеграций, данных и обучения команды.</p>
+            </article>
+            <article>
+              <FileCheck2 size={25} aria-hidden="true" />
+              <span>03 / развитие</span>
+              <h3>Поддержка</h3>
+              <p>После запуска можно вести развитие по задачам, регламенту или отдельному плану улучшений.</p>
+            </article>
           </div>
-          <div className="ob-home-pricing__factors" aria-label="Что влияет на стоимость">
-            {pricingFactors.map((item) => (
-              <span key={item}><CheckCircle2 size={16} aria-hidden="true" /> {item}</span>
-            ))}
+          <div className="ob-home-pricing__calculation">
+            <div className="ob-home-pricing__route" aria-label="Как формируется стоимость">
+              {pricingRoute.map((item) => (
+                <div key={item.label}>
+                  <span>{item.label}</span>
+                  <p>{item.text}</p>
+                </div>
+              ))}
+            </div>
+            <div className="ob-home-pricing__factors" aria-label="Что влияет на стоимость">
+              {pricingFactors.map((item) => (
+                <span key={item}><CheckCircle2 size={16} aria-hidden="true" /> {item}</span>
+              ))}
+            </div>
+            <div className="ob-actions">
+              <ButtonLink href="/tarify-licenziy">Открыть тарифы</ButtonLink>
+              <LeadButton variant="secondary">Получить расчёт</LeadButton>
+            </div>
           </div>
-          <div className="ob-actions">
-            <ButtonLink href="/tarify-licenziy">Открыть тарифы</ButtonLink>
-            <LeadButton variant="secondary">Получить расчёт</LeadButton>
-          </div>
-        </div>
-        <div className="ob-home-pricing__cards">
-          <article>
-            <CircleDollarSign size={25} aria-hidden="true" />
-            <span>подбор</span>
-            <h3>Лицензии</h3>
-            <p>Подбираем тариф Битрикс24, 1С-Битрикс или сервисов коммуникаций под сценарий, а не по названию пакета.</p>
-          </article>
-          <article>
-            <ReceiptText size={25} aria-hidden="true" />
-            <span>проект</span>
-            <h3>Внедрение</h3>
-            <p>Стоимость зависит от процессов, прав, роботов, интеграций, данных и обучения команды.</p>
-          </article>
-          <article>
-            <FileCheck2 size={25} aria-hidden="true" />
-            <span>после запуска</span>
-            <h3>Поддержка</h3>
-            <p>После запуска можно вести развитие по задачам, регламенту или отдельному плану улучшений.</p>
-          </article>
         </div>
       </div>
     </section>
@@ -554,30 +520,37 @@ export function HomePricingSection() {
 export function HomeTrustSection() {
   return (
     <section className="ob-section ob-section--tight ob-home-trust">
-      <div className="ob-container ob-home-trust__grid">
-        <div className="ob-home-trust__proof">
-          <span className="ob-kicker">Доказательства</span>
-          <h2>Статусы работают как проверка, а не как россыпь бейджей</h2>
+      <div className="ob-container">
+        <div className="ob-home-trust__head">
+          <div>
+            <span className="ob-kicker">Доказательства</span>
+            <h2>Статусы привязаны к работам, а не висят отдельной витриной</h2>
+          </div>
           <p>
             Партнёрства Битрикс24, 1С-Битрикс и смежные компетенции показываем рядом с тем,
             где они действительно помогают: CRM, сайты, обмены и коммуникации.
           </p>
-          <div className="ob-home-trust__signals">
-            {trustSignals.map((item) => (
-              <span key={item}><CheckCircle2 size={16} aria-hidden="true" /> {item}</span>
-            ))}
+        </div>
+        <div className="ob-home-trust__shelf">
+          <div className="ob-home-trust__proof">
+            <strong>Проверяем перед стартом</strong>
+            <div className="ob-home-trust__signals">
+              {trustSignals.map((item) => (
+                <span key={item}><CheckCircle2 size={16} aria-hidden="true" /> {item}</span>
+              ))}
+            </div>
           </div>
+          <div className="ob-home-trust__badges" aria-label="Подтверждения компетенций">
+            <span><BadgeCheck size={18} /> партнёр Битрикс24</span>
+            <span><BadgeCheck size={18} /> партнёр 1С-Битрикс</span>
+            <span><ShieldCheck size={18} /> компетенции CRM и интеграций</span>
+            <span><FileCheck2 size={18} /> документы можно открыть</span>
+          </div>
+          <Link className="ob-home-trust__link" href="/certificates">
+            <span>Смотреть сертификаты</span>
+            <ArrowUpRight size={18} aria-hidden="true" />
+          </Link>
         </div>
-        <div className="ob-home-trust__badges" aria-label="Подтверждения компетенций">
-          <span><BadgeCheck size={18} /> партнёр Битрикс24</span>
-          <span><BadgeCheck size={18} /> партнёр 1С-Битрикс</span>
-          <span><ShieldCheck size={18} /> компетенции CRM и интеграций</span>
-          <span><FileCheck2 size={18} /> документы можно открыть</span>
-        </div>
-        <Link className="ob-home-trust__link" href="/certificates">
-          <span>Смотреть сертификаты</span>
-          <ArrowUpRight size={18} aria-hidden="true" />
-        </Link>
       </div>
     </section>
   );
@@ -586,32 +559,40 @@ export function HomeTrustSection() {
 export function HomeFaqSection() {
   return (
     <section className="ob-section ob-home-faq" id="faq">
-      <div className="ob-container ob-home-faq__grid">
-        <div className="ob-home-faq__console">
+      <div className="ob-container">
+        <div className="ob-home-faq__header">
           <SectionIntro
             kicker="FAQ"
-            title="Коротко о частых вопросах перед стартом"
+            title="Ответы перед стартом без лишней переписки"
             text={"Если вопрос срочный, можно сразу позвонить " + company.phone + " или оставить заявку. Ниже - ответы, которые помогают понять формат работы."}
           />
-          <div className="ob-home-faq__quick">
-            <span>быстрый маршрут</span>
-            <strong>Аудит → план → расчёт → запуск</strong>
-            <p>Если вопрос не помещается в FAQ, лучше сразу разобрать вашу связку CRM, сайта и 1С.</p>
-          </div>
           <div className="ob-actions">
             <LeadButton>Задать вопрос</LeadButton>
           </div>
         </div>
-        <div className="ob-home-faq__items">
-          {faqItems.map((item, index) => (
-            <details key={item.question} open={index === 0}>
-              <summary>
-                <span>{item.question}</span>
-                <ArrowUpRight size={18} aria-hidden="true" />
-              </summary>
-              <p>{item.answer}</p>
-            </details>
-          ))}
+        <div className="ob-home-faq__grid">
+          <div className="ob-home-faq__route" aria-label="Быстрый маршрут консультации">
+            <span>быстрый маршрут</span>
+            <strong>Аудит → план → расчёт → запуск</strong>
+            <p>Если вопрос не помещается в FAQ, лучше сразу разобрать вашу связку CRM, сайта и 1С.</p>
+            <div>
+              <b>01</b>
+              <b>02</b>
+              <b>03</b>
+              <b>04</b>
+            </div>
+          </div>
+          <div className="ob-home-faq__items">
+            {faqItems.map((item, index) => (
+              <details key={item.question} open={index === 0}>
+                <summary>
+                  <span>{item.question}</span>
+                  <ArrowUpRight size={18} aria-hidden="true" />
+                </summary>
+                <p>{item.answer}</p>
+              </details>
+            ))}
+          </div>
         </div>
       </div>
     </section>

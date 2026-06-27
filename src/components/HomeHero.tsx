@@ -141,7 +141,7 @@ export function HomeHero() {
                 onClick={() => setActive(index)}
                 type="button"
               >
-                <span>{item.menuTitle}</span>
+                <span>{item.shortTitle}</span>
                 <i />
               </button>
             ))}
