@@ -416,7 +416,7 @@ span.ob-pricing-estimate__client {
   @supports (offset-path: path("M 0 0 L 1 1")) {
     .ob-pricing-estimate__dot,
     .ob-home-pricing__formula-visual.ob-pricing-estimate .ob-pricing-estimate__dot {
-      offset-path: path("M 41 -24 C 41 74 41 210 41 313 C 62 220 98 220 119 319 C 140 220 176 220 197 318 C 218 220 252 220 274 318 C 274 205 222 42 160 -24") !important;
+      offset-path: path("M 41 -24 C 41 74 41 210 41 313 C 62 220 98 220 119 319 C 140 220 176 220 197 318 C 218 220 252 220 274 321 C 274 205 222 42 160 -24") !important;
     }
 
     @keyframes ob-budget-dot-touch-20260627 {
