@@ -519,7 +519,7 @@ export function BitrixPricingBlock() {
                 <article className="obx-tariffs__edition obx-tariffs__edition--cloud">
                   <div className="obx-tariffs__edition-head">
                     <span>Облако</span>
-                    <h4>Быстрый запуск без своего сервера</h4>
+                    <h3>Быстрый запуск без своего сервера</h3>
                     <p>Выбираем, когда важны скорость, обновления на стороне сервиса и понятная подписка.</p>
                   </div>
                   <div className="obx-tariffs__plans">
@@ -575,7 +575,7 @@ export function BitrixPricingBlock() {
                 <article className="obx-tariffs__edition obx-tariffs__edition--box">
                   <div className="obx-tariffs__edition-head">
                     <span>Коробка</span>
-                    <h4>Собственный сервер и контроль контура</h4>
+                    <h3>Собственный сервер и контроль контура</h3>
                     <p>Для компаний, где важны инфраструктура, безопасность, доработки и владение данными.</p>
                   </div>
                   <div className="obx-tariffs__plans obx-tariffs__plans--box">
@@ -686,7 +686,7 @@ export function BitrixPricingBlock() {
                 return (
                   <article className={`obx-price-line__card ${plan.featured ? "is-featured" : ""} ${plan.enterprise ? "obx-price-line__card--enterprise" : ""} ${isPickerOpen ? "is-picker-open" : ""}`} key={plan.id}>
                     {plan.popular && <span className="obx-price-line__popular">Популярный</span>}
-                    <h4>{plan.title}</h4>
+                    <h3>{plan.title}</h3>
                     <p className="obx-price-line__description">{plan.description}</p>
                     <div className="obx-price-line__metric-line">
                       <div className={`obx-price-line__user-line ${plan.enterprise ? "obx-price-line__user-line--picker" : "obx-price-line__user-line--fixed"}`}>
@@ -744,7 +744,7 @@ export function BitrixPricingBlock() {
             <div className="obx-price-line__catalog" data-obx-panel="box">
               {boxPlans.map((plan) => (
                 <article className={`obx-price-line__card ${plan.featured ? "is-featured" : ""}`} key={plan.id}>
-                  <h4>{plan.title}</h4>
+                  <h3>{plan.title}</h3>
                   <p className="obx-price-line__description">{plan.description}</p>
                   <div className="obx-price-line__metric-line">
                     <div className="obx-price-line__user-line obx-price-line__user-line--fixed"><span>{plan.usersLabel}</span></div>
@@ -848,7 +848,7 @@ export function BitrixPricingBlock() {
                   <article className={`obx-marketplace-plus__card ${plan.popular ? "is-popular" : ""} ${isEnterprise ? "is-enterprise" : ""} ${isPickerOpen ? "is-picker-open" : ""}`} key={`${marketMode}-${plan.id}`}>
                     {plan.popular && <span className="obx-marketplace-plus__popular">Популярный</span>}
                     <Sparkles size={18} aria-hidden="true" />
-                    <h4>{plan.title}</h4>
+                    <h3>{plan.title}</h3>
                     <p>{plan.description}</p>
                     <div className="obx-marketplace-plus__metrics">
                       {isEnterprise ? (

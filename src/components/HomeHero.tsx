@@ -76,17 +76,21 @@ export function HomeHero() {
     <section className="ob-hero ob-section">
       <div className="ob-container ob-hero__grid">
         <div className="ob-hero__copy">
-          <span className="ob-kicker">{direction.badge}</span>
+          <span className="ob-kicker">Ониксбит для продаж, сайта и учёта</span>
           <h1 className="ob-hero__title">
-            {slide.title.map((line) => (
-              <span key={line}>{line}</span>
-            ))}
+            <span>CRM, сайт и 1С</span>
+            <span>работают как</span>
+            <span>одна система</span>
           </h1>
-          <p className="ob-hero__lead">
-            {slide.text.map((line) => (
-              <span key={line}>{line}</span>
-            ))}
-          </p>
+          <div className="ob-hero__focus">
+            <span>{direction.badge}</span>
+            <strong>{slide.title.join(" ")}</strong>
+            <p>
+              {slide.text.map((line) => (
+                <span key={line}>{line}</span>
+              ))}
+            </p>
+          </div>
           <div className="ob-actions">
             <LeadButton>{direction.cta}</LeadButton>
             <ButtonLink href={direction.href} variant="secondary">

@@ -104,6 +104,7 @@ export function Header() {
             alt="Ониксбит"
             width={150}
             height={45}
+            style={{ height: "auto" }}
             priority
           />
         </Link>

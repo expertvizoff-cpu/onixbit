@@ -2,13 +2,18 @@ import {
   ApproachSection,
   ArticlesPreview,
   CasesPreview,
-  CertificatesGrid,
   DirectionsSection,
   LeadSection,
-  LicenseGrid,
   ProofStrip,
-  TestimonialsSection,
 } from "@/components/Sections";
+import {
+  BenefitsSection,
+  HomeFaqSection,
+  HomePricingSection,
+  HomeTrustSection,
+  PainSection,
+  SystemSolutionSection,
+} from "@/components/HomeExperienceSections";
 import { HomeHero } from "@/components/HomeHero";
 
 export default function Home() {
@@ -16,13 +21,16 @@ export default function Home() {
     <>
       <HomeHero />
       <ProofStrip />
+      <PainSection />
+      <SystemSolutionSection />
       <DirectionsSection />
-      <LicenseGrid />
-      <CertificatesGrid />
+      <BenefitsSection />
       <ApproachSection />
+      <HomePricingSection />
+      <HomeTrustSection />
       <CasesPreview />
-      <TestimonialsSection />
       <ArticlesPreview />
+      <HomeFaqSection />
       <LeadSection />
     </>
   );

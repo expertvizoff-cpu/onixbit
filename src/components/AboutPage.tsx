@@ -32,8 +32,8 @@ import { LeadSection, SectionIntro } from "./Sections";
 
 const founderFacts = [
   { icon: BriefcaseBusiness, value: "14 лет", label: "опыт" },
-  { icon: Building2, value: "B2B", label: "фокус" },
-  { icon: Award, value: "Gold", label: "статусы" },
+  { icon: Building2, value: "Бизнес", label: "фокус" },
+  { icon: Award, value: "Партнёр", label: "статусы" },
 ];
 
 const workStepDuration = 5600;

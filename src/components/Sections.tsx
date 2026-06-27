@@ -145,8 +145,8 @@ export function CasesPreview({ full = false }: { full?: boolean }) {
       <div className="ob-container">
         <SectionIntro
           kicker="Кейсы"
-          title={full ? "Кейсы готовятся к публикации" : "Скоро здесь будут реальные разборы проектов"}
-          text="Не выдаём выдуманные логотипы за опыт. Готовим публичные материалы с понятной задачей, решением, ограничениями и пользой для бизнеса."
+          title={full ? "Кейсы готовятся к публикации" : "Кейсы будут в формате честного разбора, а не витрины логотипов"}
+          text="Показываем будущий стандарт: задача, ограничения, решение и польза для бизнеса. Не публикуем вымышленные результаты и неподтверждённые отзывы."
         />
         <div className="ob-card-grid ob-card-grid--3">
           {cases.map((item) => (
@@ -201,8 +201,8 @@ export function ArticlesPreview({ full = false }: { full?: boolean }) {
       <div className="ob-container">
         <SectionIntro
           kicker="Статьи"
-          title={full ? "Готовим базу знаний Ониксбит" : "Скоро: статьи от лица основателя"}
-          text="Собираем материалы без пустого копирайтинга: CRM, сайты, интеграции, обмены, лицензии и поддержка простым языком для руководителей."
+          title={full ? "Готовим базу знаний Ониксбит" : "Статьи для руководителей о CRM, сайтах и интеграциях"}
+          text="Материалы будут без пустого копирайтинга: разборы Битрикс24, 1С-Битрикс, обменов, лицензий и поддержки простым языком для руководителей."
         />
         <div className="ob-card-grid ob-card-grid--3">
           {articles.map((article) => (
@@ -217,6 +217,11 @@ export function ArticlesPreview({ full = false }: { full?: boolean }) {
             </article>
           ))}
         </div>
+        {!full && (
+          <div className="ob-section-tail">
+            <ButtonLink href="/articles">Открыть статьи</ButtonLink>
+          </div>
+        )}
       </div>
     </section>
   );

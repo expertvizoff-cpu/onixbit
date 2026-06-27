@@ -216,7 +216,7 @@ function Bitrix24Workspace({ active, setActive }: { active: number; setActive: (
   return (
     <div className="obc-product-ui obc-product-ui--b24">
       <div className="obc-product-topbar obc-b24-topbar">
-        <Image src="/media/logos/bitrix24-logo.svg" alt="Битрикс24" width={118} height={22} />
+        <Image src="/media/logos/bitrix24-logo.svg" alt="Битрикс24" width={118} height={22} style={{ height: "auto" }} />
         <strong>CRM</strong>
         <span>Сделки</span>
         <button type="button">Расширения</button>
@@ -266,7 +266,7 @@ function BitrixWorkspace({ active, setActive }: { active: number; setActive: (in
         <strong>Администрирование</strong>
         <label>поиск...</label>
         <span>Наталья Сергеева</span>
-        <Image src="/media/logos/1c-bitrix-logo.svg" alt="1С-Битрикс" width={84} height={17} />
+        <Image src="/media/logos/1c-bitrix-logo.svg" alt="1С-Битрикс" width={84} height={17} style={{ height: "auto" }} />
       </div>
       <div className="obc-cms-body">
         <aside className="obc-cms-sidebar">
@@ -295,7 +295,7 @@ function OneCWorkspace({ active, setActive }: { active: number; setActive: (inde
   return (
     <div className="obc-product-ui obc-product-ui--onec">
       <div className="obc-onec-titlebar">
-        <Image src="/media/logos/1c-logo-small.svg" alt="1С" width={22} height={11} />
+        <Image src="/media/logos/1c-logo-small.svg" alt="1С" width={22} height={11} style={{ height: "auto" }} />
         <strong>ООО НПЦ Меркурий / Администратор</strong>
         <span>1С:Предприятие</span>
       </div>

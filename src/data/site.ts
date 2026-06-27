@@ -70,8 +70,8 @@ export const directions: Direction[] = [
     scene: "bitrix24",
     stats: [
       { value: "14 лет", label: "опыта в интеграциях" },
-      { value: "Gold", label: "статус партнёра" },
-      { value: "B2B", label: "фокус на сложные процессы" },
+      { value: "Официально", label: "партнёрский статус" },
+      { value: "Процессы", label: "фокус на сложные связки" },
     ],
     bullets: [
       "аудит текущей CRM и процессов",
@@ -121,7 +121,7 @@ export const directions: Direction[] = [
     secondaryCta: "Архитектура",
     scene: "sites",
     stats: [
-      { value: "Gold", label: "статус партнёра" },
+      { value: "Официально", label: "партнёрский статус" },
       { value: "ASPRO", label: "партнёр решений" },
       { value: "SEO", label: "структура под рост" },
     ],
@@ -221,9 +221,9 @@ export const mainNav = [
 
 export const proofItems = [
   { value: "14 лет", label: "в разработке и интеграциях" },
-  { value: "Gold", label: "партнёрские статусы Битрикс24 и 1С-Битрикс" },
-  { value: "B2B", label: "работаем с задачами среднего и крупного бизнеса" },
-  { value: "API", label: "умеем связывать CRM, сайт, 1С и коммуникации" },
+  { value: "Статусы", label: "официальные партнёрства Битрикс24 и 1С-Битрикс" },
+  { value: "Процессы", label: "задачи среднего и крупного бизнеса" },
+  { value: "Связка", label: "CRM, сайт, 1С и коммуникации в одной логике" },
 ];
 
 export const cases = [
