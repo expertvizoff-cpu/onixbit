@@ -163,4 +163,6 @@ npm run check
 - Sentry-ready files and `/api/health` exist; monitoring stays disabled until `NEXT_PUBLIC_SENTRY_DSN` is configured.
 - Typography now uses self-hosted open-source Manrope for body text and Montserrat for headings, buttons, and accent UI.
 - GitHub CLI `gh` is installed but not authenticated yet.
+- Homepage budget animation refinements live in `src/app/home-budget-20260627.css`, imported after `globals.css` to force a fresh CSS chunk for cache-busting.
+- `next.config.ts` sets `Cache-Control: public, max-age=0, must-revalidate` for `/_next/static/chunks/:path*` so CSS/JS chunk updates are revalidated instead of being stuck behind immutable browser cache during visual edits.
 - No current unfinished implementation task is recorded here.

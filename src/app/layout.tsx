@@ -19,6 +19,7 @@ import "@fontsource/montserrat/700.css";
 import "@fontsource/montserrat/800.css";
 import "@fontsource/montserrat/900.css";
 import "./globals.css";
+import "./home-budget-20260627.css";
 
 const yandexMetrikaCounterId =
   process.env.NEXT_PUBLIC_YANDEX_METRIKA_ID || "88710867";
