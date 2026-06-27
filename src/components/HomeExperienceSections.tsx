@@ -622,55 +622,39 @@ export function HomePricingSection() {
               </span>
               <i className="ob-pricing-flow__dot ob-pricing-estimate__dot" />
             </div>
-            <div className="ob-home-pricing__formula-note ob-pricing-principle">
-              <small>принцип расчёта</small>
-              <b>
-                <span className="is-license">лицензии</span>
-                <i>+</i>
-                <span className="is-project">внедрение</span>
-                <i>+</i>
-                <span className="is-integration">интеграции</span>
-                <i>+</i>
-                <span className="is-training">обучение</span>
-              </b>
-            </div>
           </div>
           <div className="ob-home-pricing__cards" aria-label="Основные части бюджета">
             <article className="is-license">
               <div className="ob-home-pricing-card__icon"><CircleDollarSign size={31} aria-hidden="true" /></div>
               <div className="ob-home-pricing-card__copy">
-                <span>01 / лицензии</span>
+                <span>лицензии</span>
                 <h3>Подбор тарифа</h3>
                 <p>Определяем продукты, пользователей и редакции Битрикс24, 1С-Битрикс и сервисов под рабочий сценарий.</p>
               </div>
-              <b className="ob-home-pricing-card__index">01</b>
             </article>
             <article className="is-project">
               <div className="ob-home-pricing-card__icon"><ReceiptText size={31} aria-hidden="true" /></div>
               <div className="ob-home-pricing-card__copy">
-                <span>02 / внедрение</span>
+                <span>внедрение</span>
                 <h3>Настройка процесса</h3>
                 <p>Считаем воронки, права, роботов, отчёты, перенос данных, тестирование и запуск команды.</p>
               </div>
-              <b className="ob-home-pricing-card__index">02</b>
             </article>
             <article className="is-integration">
               <div className="ob-home-pricing-card__icon"><PlugZap size={31} aria-hidden="true" /></div>
               <div className="ob-home-pricing-card__copy">
-                <span>03 / интеграции</span>
+                <span>интеграции</span>
                 <h3>Связи между системами</h3>
                 <p>Отдельно оцениваем 1С, сайт, телефонию, мессенджеры, статусы, обмены и нестандартные сервисы.</p>
               </div>
-              <b className="ob-home-pricing-card__index">03</b>
             </article>
             <article className="is-training">
               <div className="ob-home-pricing-card__icon"><Headphones size={31} aria-hidden="true" /></div>
               <div className="ob-home-pricing-card__copy">
-                <span>04 / обучение</span>
+                <span>обучение</span>
                 <h3>Регламент и передача</h3>
                 <p>Закладываем инструктаж пользователей, описание правил работы и поддержку после запуска.</p>
               </div>
-              <b className="ob-home-pricing-card__index">04</b>
             </article>
           </div>
           <div className="ob-home-pricing__calculation">
@@ -756,10 +740,42 @@ export function HomeTrustSection() {
           </div>
           <div className="ob-home-trust__shelf">
             <div className="ob-home-trust__badges" aria-label="Подтверждения компетенций">
-              <span className="is-bitrix24"><BadgeCheck size={18} /> партнёр Битрикс24</span>
-              <span className="is-bitrix"><BadgeCheck size={18} /> партнёр 1С-Битрикс</span>
-              <span className="is-integration"><ShieldCheck size={18} /> компетенция интеграции с 1С</span>
-              <span className="is-quality"><FileCheck2 size={18} /> документы можно открыть</span>
+              <article className="is-bitrix24">
+                <span className="ob-home-trust__badge-cert" aria-hidden="true">
+                  <Image src="/media/certificates/Золотой%20партнёр%20Битрикс24.jpg" alt="" width={96} height={68} sizes="96px" />
+                </span>
+                <div>
+                  <strong><BadgeCheck size={18} aria-hidden="true" /> партнёр Битрикс24</strong>
+                  <p>Подтверждает право подбирать лицензии, внедрять CRM и сопровождать портал по стандартам вендора.</p>
+                </div>
+              </article>
+              <article className="is-bitrix">
+                <span className="ob-home-trust__badge-cert" aria-hidden="true">
+                  <Image src="/media/certificates/Золотой%20партнёр%201С-Битрикс.jpg" alt="" width={96} height={68} sizes="96px" />
+                </span>
+                <div>
+                  <strong><BadgeCheck size={18} aria-hidden="true" /> партнёр 1С-Битрикс</strong>
+                  <p>Показывает опыт в проектах на 1С-Битрикс: структура сайта, каталог, заявки и связка с CRM.</p>
+                </div>
+              </article>
+              <article className="is-integration">
+                <span className="ob-home-trust__badge-cert" aria-hidden="true">
+                  <Image src="/media/certificates/Компетенция%20Интеграция%20с%201С.jpg" alt="" width={78} height={108} sizes="78px" />
+                </span>
+                <div>
+                  <strong><ShieldCheck size={18} aria-hidden="true" /> интеграция с 1С</strong>
+                  <p>Отдельная компетенция по обменам: заказы, остатки, статусы, документы и правила синхронизации.</p>
+                </div>
+              </article>
+              <article className="is-quality">
+                <span className="ob-home-trust__badge-cert is-document" aria-hidden="true">
+                  <FileCheck2 size={28} />
+                </span>
+                <div>
+                  <strong><FileCheck2 size={18} aria-hidden="true" /> документы открыты</strong>
+                  <p>Сертификаты можно посмотреть до старта: без скрытых обещаний и неподтверждённых регалий.</p>
+                </div>
+              </article>
             </div>
             <div className="ob-home-trust__signals">
               <strong>Что подтверждают</strong>
