@@ -23165,3 +23165,463 @@ span.ob-pricing-estimate__client {
     animation: none !important;
   }
 }
+
+
+/* Homepage budget formula final correction 2026-06-27 */
+.ob-home-pricing__intro-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(250px, 0.36fr);
+  gap: clamp(18px, 3vw, 34px);
+  align-items: center;
+  margin-bottom: clamp(22px, 3vw, 34px);
+}
+
+.ob-home-pricing__intro-row .ob-section-intro {
+  margin: 0;
+}
+
+.ob-home-pricing__intro-row .ob-section-intro h2 {
+  max-width: 760px;
+}
+
+.ob-home-pricing__intro-row .ob-section-intro p {
+  max-width: 720px;
+}
+
+.ob-home-pricing__float-docs--intro {
+  width: min(100%, 286px);
+  min-height: 196px;
+  justify-self: end;
+}
+
+.ob-home-pricing__float-docs--intro .ob-home-pricing__float-doc.is-offer {
+  left: 58px;
+  top: 0;
+}
+
+.ob-home-pricing__float-docs--intro .ob-home-pricing__float-doc.is-estimate {
+  left: 0;
+  top: 31px;
+}
+
+.ob-home-pricing__float-docs--intro .ob-home-pricing__float-doc.is-invoice {
+  right: 0;
+  top: 48px;
+}
+
+.ob-home-pricing__formula-head {
+  display: block !important;
+  grid-template-columns: 1fr !important;
+}
+
+.ob-home-pricing__formula-head .ob-home-pricing__formula-copy > strong {
+  max-width: 540px;
+  font-size: clamp(31px, 2.8vw, 51px);
+}
+
+.ob-home-pricing__formula-head .ob-home-pricing__formula-copy > p {
+  max-width: 440px;
+}
+
+.ob-home-trust__badge-cert.is-document {
+  overflow: hidden !important;
+  border-color: rgba(237, 28, 36, 0.12) !important;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(255, 247, 220, 0.96)),
+    linear-gradient(90deg, rgba(237, 28, 36, 0.05) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(237, 28, 36, 0.045) 1px, transparent 1px) !important;
+  background-size: auto, 14px 14px, 14px 14px !important;
+  box-shadow: inset 0 0 0 5px rgba(255, 255, 255, 0.7), 0 12px 26px rgba(8, 8, 8, 0.07) !important;
+}
+
+.ob-home-trust__badge-cert.is-document::before {
+  left: 13px !important;
+  right: 13px !important;
+  top: 55px !important;
+  height: 42px !important;
+  background: repeating-linear-gradient(180deg, rgba(8, 8, 8, 0.2) 0 2px, transparent 2px 10px) !important;
+  opacity: 0.58 !important;
+}
+
+.ob-home-trust__badge-cert.is-document::after {
+  content: "подтверждено" !important;
+  display: block !important;
+  left: 14px !important;
+  top: 34px !important;
+  width: auto !important;
+  height: auto !important;
+  color: rgba(8, 8, 8, 0.5) !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  font-size: 5.5px !important;
+  line-height: 1 !important;
+  text-transform: uppercase !important;
+  transform: none !important;
+}
+
+.ob-home-trust__badge-cert.is-document b {
+  left: 13px !important;
+  right: 10px !important;
+  top: 15px !important;
+  color: var(--ob-red-deep) !important;
+  font-size: 10px !important;
+  line-height: 1 !important;
+  letter-spacing: 0 !important;
+  text-transform: uppercase;
+}
+
+.ob-home-trust__badge-cert.is-document i {
+  right: 12px !important;
+  bottom: 14px !important;
+  width: 38px !important;
+  height: 38px !important;
+  border-color: rgba(237, 28, 36, 0.58) !important;
+  background:
+    radial-gradient(circle, rgba(237, 28, 36, 0.2) 0 38%, transparent 40%),
+    repeating-conic-gradient(from 0deg, rgba(237, 28, 36, 0.12) 0 10deg, transparent 10deg 20deg) !important;
+}
+
+.ob-home-trust__badge-cert.is-document i::before {
+  content: "печать" !important;
+  font-size: 5px !important;
+}
+
+.ob-home-trust__badge-cert.is-document em {
+  left: 14px !important;
+  bottom: 25px !important;
+  width: 48px !important;
+  border-bottom-color: rgba(8, 8, 8, 0.42) !important;
+}
+
+.ob-pricing-estimate__bills {
+  width: 286px !important;
+  height: 214px !important;
+  border-radius: 18px !important;
+}
+
+.ob-pricing-estimate__bills::before {
+  top: 17px !important;
+}
+
+.ob-pricing-estimate__bills i {
+  height: 40px !important;
+}
+
+.ob-pricing-estimate__bills i:nth-child(1) { top: 62px !important; }
+.ob-pricing-estimate__bills i:nth-child(2) { top: 110px !important; }
+.ob-pricing-estimate__bills i:nth-child(3) { top: 158px !important; }
+
+.ob-pricing-estimate__bills i::after {
+  top: 13px !important;
+}
+
+.ob-pricing-estimate__offer {
+  overflow: hidden !important;
+}
+
+@keyframes ob-budget-offer-story {
+  0%, 50%, 100% { opacity: 0; transform: translate(-50%, -50%) scale(0.72) rotate(0deg); }
+  53%, 63% { opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(0deg); }
+  68% { opacity: 1; transform: translate(-244%, -42%) scale(0.54) rotate(-7deg); }
+  69%, 100% { opacity: 0; transform: translate(-244%, -42%) scale(0.34) rotate(-7deg); }
+}
+
+.ob-pricing-estimate__mail {
+  left: 18% !important;
+  top: 50% !important;
+  width: 98px !important;
+  height: 68px !important;
+  overflow: visible !important;
+  border: 1px solid rgba(255, 212, 90, 0.58) !important;
+  border-radius: 10px !important;
+  color: var(--ob-red-deep) !important;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.64), transparent 46%),
+    linear-gradient(180deg, #fffdf4, #ffdf86) !important;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.88) !important;
+  transform-origin: center center !important;
+  animation: ob-budget-mail-story var(--budget-cycle) cubic-bezier(0.37, 0, 0.18, 1) infinite !important;
+}
+
+.ob-pricing-estimate__mail::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: inherit;
+  background:
+    linear-gradient(34deg, transparent 49%, rgba(237, 28, 36, 0.22) 50% 52%, transparent 53%),
+    linear-gradient(146deg, transparent 49%, rgba(237, 28, 36, 0.2) 50% 52%, transparent 53%);
+  pointer-events: none;
+}
+
+.ob-pricing-estimate__mail i {
+  left: 17px !important;
+  right: 17px !important;
+  top: 10px !important;
+  z-index: 2 !important;
+  height: 43px !important;
+  border-right: 2px solid rgba(237, 28, 36, 0.22) !important;
+  border-bottom: 2px solid rgba(237, 28, 36, 0.22) !important;
+  transform: rotate(45deg) translateY(-4px);
+  transform-origin: center center;
+  animation: ob-budget-mail-flap-story var(--budget-cycle) ease-in-out infinite !important;
+}
+
+.ob-pricing-estimate__mail b {
+  z-index: 3 !important;
+  display: grid;
+  width: 34px;
+  height: 24px;
+  place-items: center;
+  border: 1px solid rgba(237, 28, 36, 0.12);
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.72);
+  font-size: 12px !important;
+}
+
+.ob-pricing-estimate__mail::after {
+  content: "КП";
+  position: absolute;
+  left: 50%;
+  bottom: 22px;
+  z-index: 5;
+  display: grid;
+  width: 48px;
+  height: 62px;
+  place-items: center;
+  border: 1px solid rgba(237, 28, 36, 0.2);
+  border-radius: 6px;
+  opacity: 0;
+  color: var(--ob-red-deep);
+  background:
+    repeating-linear-gradient(180deg, transparent 0 10px, rgba(8, 8, 8, 0.13) 10px 12px, transparent 12px 18px),
+    #fffdf6;
+  box-shadow: 0 10px 24px rgba(8, 8, 8, 0.16);
+  font-size: 14px;
+  font-weight: 950;
+  transform: translate(-50%, 18px) scale(0.72);
+  animation: ob-budget-mail-offer-peek var(--budget-cycle) ease-in-out infinite !important;
+}
+
+@keyframes ob-budget-mail-story {
+  0%, 67%, 100% { left: 18%; top: 50%; opacity: 0; transform: translate(-50%, -50%) scale(0.72); }
+  68%, 72% { left: 18%; top: 50%; opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  84%, 96% { left: 86.5%; top: 56%; opacity: 1; transform: translate(-50%, -50%) scale(0.94); }
+  98%, 100% { left: 86.5%; top: 56%; opacity: 0; transform: translate(-50%, -50%) scale(0.84); }
+}
+
+@keyframes ob-budget-mail-flap-story {
+  0%, 68%, 82%, 100% { transform: rotate(45deg) translateY(-4px); }
+  86%, 96% { transform: rotate(45deg) translateY(-17px); }
+}
+
+@keyframes ob-budget-mail-offer-peek {
+  0%, 84%, 100% { opacity: 0; transform: translate(-50%, 18px) scale(0.72); }
+  88%, 96% { opacity: 1; transform: translate(-50%, -22px) scale(1.06); }
+}
+
+.ob-pricing-estimate__client,
+span.ob-pricing-estimate__client {
+  right: 4.5% !important;
+  top: 39% !important;
+  width: 112px !important;
+  height: 174px !important;
+}
+
+.ob-pricing-estimate__client::before {
+  left: 50% !important;
+  top: 0 !important;
+  width: 42px !important;
+  height: 46px !important;
+  border: 2px solid rgba(255, 212, 90, 0.32) !important;
+  border-radius: 44% 44% 48% 48% !important;
+  background:
+    radial-gradient(circle at 37% 53%, #231514 0 2px, transparent 2.7px),
+    radial-gradient(circle at 63% 53%, #231514 0 2px, transparent 2.7px),
+    radial-gradient(ellipse at 50% 67%, rgba(117, 45, 38, 0.45) 0 4px, transparent 5px),
+    linear-gradient(180deg, #2a1915 0 23%, transparent 23% 100%),
+    radial-gradient(ellipse at 50% 18%, #2a1915 0 19px, transparent 20px),
+    linear-gradient(180deg, #f1c49a, #d39163) !important;
+  box-shadow: inset 0 7px 0 rgba(42, 25, 21, 0.95), 0 8px 18px rgba(0, 0, 0, 0.2) !important;
+}
+
+.ob-pricing-estimate__client::after {
+  left: 20px !important;
+  top: 49px !important;
+  width: 72px !important;
+  height: 92px !important;
+  border-radius: 18px 18px 12px 12px !important;
+  background:
+    linear-gradient(90deg, transparent 0 30%, rgba(8, 8, 8, 0.52) 30% 35%, transparent 35% 65%, rgba(8, 8, 8, 0.52) 65% 70%, transparent 70%),
+    linear-gradient(90deg, transparent 43%, #ffffff 43% 57%, transparent 57%),
+    linear-gradient(180deg, var(--ob-red) 0 18%, #7c1519 18% 100%),
+    linear-gradient(135deg, #171717, #2e1014) !important;
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.25) !important;
+}
+
+.ob-pricing-estimate__client i {
+  display: none !important;
+}
+
+.ob-pricing-estimate__client b {
+  right: -1px !important;
+  top: 72px !important;
+  width: 34px !important;
+  height: 22px !important;
+  border-radius: 999px !important;
+  opacity: 1 !important;
+  background: linear-gradient(180deg, #f1c49a, #d39163) !important;
+  transform: rotate(-16deg) !important;
+  animation: none !important;
+}
+
+.ob-pricing-estimate__client b::before {
+  right: -4px !important;
+  top: -8px !important;
+  width: 11px !important;
+  height: 20px !important;
+  background: linear-gradient(180deg, #f1c49a, #d39163) !important;
+}
+
+.ob-pricing-estimate__client small {
+  top: 145px !important;
+}
+
+@supports (offset-path: path("M 0 0 L 1 1")) {
+  .ob-pricing-estimate__dot,
+  .ob-home-pricing__formula-visual.ob-pricing-estimate .ob-pricing-estimate__dot {
+    left: 0 !important;
+    top: 0 !important;
+    width: 16px !important;
+    height: 16px !important;
+    opacity: 0;
+    transform: none !important;
+    offset-anchor: center;
+    offset-rotate: 0deg;
+    offset-path: path("M 82 -28 C 82 118 82 284 82 390 C 102 244 168 244 221 390 C 242 244 306 244 360 390 C 382 244 450 244 494 390 C 494 270 404 58 290 -30");
+    animation: ob-budget-dot-smooth var(--budget-cycle) cubic-bezier(0.38, 0, 0.16, 1) infinite !important;
+  }
+
+  @keyframes ob-budget-dot-smooth {
+    0% { opacity: 0; offset-distance: 0%; transform: scale(0.72); }
+    1% { opacity: 1; offset-distance: 0%; transform: scale(0.86); }
+    4% { opacity: 1; offset-distance: 34%; transform: scale(1.2); }
+    5.4% { opacity: 1; offset-distance: 34%; transform: scale(0.96); }
+    10% { opacity: 1; offset-distance: 50%; transform: scale(1.2); }
+    11.4% { opacity: 1; offset-distance: 50%; transform: scale(0.96); }
+    16% { opacity: 1; offset-distance: 66%; transform: scale(1.2); }
+    17.4% { opacity: 1; offset-distance: 66%; transform: scale(0.96); }
+    22% { opacity: 1; offset-distance: 82%; transform: scale(1.2); }
+    24% { opacity: 1; offset-distance: 88%; transform: scale(0.92); }
+    28.4% { opacity: 0; offset-distance: 100%; transform: scale(0.36); }
+    28.5%, 100% { opacity: 0; offset-distance: 100%; transform: scale(0.36); }
+  }
+}
+
+@media (max-width: 1180px) {
+  .ob-home-pricing__intro-row {
+    grid-template-columns: minmax(0, 1fr) minmax(220px, 0.34fr);
+  }
+
+  .ob-home-pricing__float-docs--intro {
+    width: 240px;
+  }
+}
+
+@media (max-width: 760px) {
+  .ob-home-pricing__intro-row {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .ob-home-pricing__float-docs--intro {
+    width: min(100%, 336px);
+    min-height: 156px;
+    justify-self: stretch;
+  }
+
+  .ob-home-pricing__formula-head .ob-home-pricing__formula-copy > strong {
+    max-width: none;
+    font-size: clamp(24px, 8vw, 32px);
+  }
+
+  .ob-pricing-estimate__bills {
+    width: 220px !important;
+    height: 178px !important;
+  }
+
+  .ob-pricing-estimate__bills i {
+    height: 34px !important;
+  }
+
+  .ob-pricing-estimate__bills i:nth-child(1) { top: 56px !important; }
+  .ob-pricing-estimate__bills i:nth-child(2) { top: 96px !important; }
+  .ob-pricing-estimate__bills i:nth-child(3) { top: 136px !important; }
+
+  .ob-pricing-estimate__mail {
+    width: 78px !important;
+    height: 56px !important;
+  }
+
+  .ob-pricing-estimate__client,
+  span.ob-pricing-estimate__client {
+    right: 0 !important;
+    top: 50% !important;
+    width: 84px !important;
+    height: 142px !important;
+  }
+
+  .ob-pricing-estimate__client::before {
+    width: 34px !important;
+    height: 38px !important;
+  }
+
+  .ob-pricing-estimate__client::after {
+    left: 16px !important;
+    top: 42px !important;
+    width: 52px !important;
+    height: 70px !important;
+  }
+
+  .ob-pricing-estimate__client b {
+    top: 62px !important;
+    width: 27px !important;
+  }
+
+  .ob-pricing-estimate__client small {
+    top: 118px !important;
+  }
+
+  @supports (offset-path: path("M 0 0 L 1 1")) {
+    .ob-pricing-estimate__dot,
+    .ob-home-pricing__formula-visual.ob-pricing-estimate .ob-pricing-estimate__dot {
+      offset-path: path("M 86 -24 C 86 76 86 205 86 302 C 98 186 210 186 262 302 C 246 224 112 226 86 302 C 110 250 214 250 262 302 C 250 200 192 48 174 -24");
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ob-pricing-estimate__mail::after,
+  .ob-pricing-estimate__mail::before {
+    animation: none !important;
+  }
+}
+
+
+/* Homepage budget envelope flight transform fix 2026-06-27 */
+@keyframes ob-budget-mail-story {
+  0%, 67%, 100% { opacity: 0; transform: translate(-50%, -50%) scale(0.72); }
+  68%, 72% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  84%, 96% { opacity: 1; transform: translate(350%, 15%) scale(0.94); }
+  98%, 100% { opacity: 0; transform: translate(350%, 15%) scale(0.84); }
+}
+
+@media (max-width: 760px) {
+  @keyframes ob-budget-mail-story {
+    0%, 67%, 100% { opacity: 0; transform: translate(-50%, -50%) scale(0.72); }
+    68%, 72% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    84%, 96% { opacity: 1; transform: translate(245%, 16%) scale(0.9); }
+    98%, 100% { opacity: 0; transform: translate(245%, 16%) scale(0.82); }
+  }
+}

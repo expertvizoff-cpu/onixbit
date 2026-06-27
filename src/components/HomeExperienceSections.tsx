@@ -581,11 +581,33 @@ export function HomePricingSection() {
   return (
     <section className="ob-section ob-home-pricing" id="pricing">
       <div className="ob-container">
-        <SectionIntro
-          kicker="Формула бюджета"
-          title="Расчёт собирается из понятных шагов и превращается в КП"
-          text="Показываем, из чего складывается предложение: лицензии, внедрение, интеграции, обучение и финальный расчёт. Так легче понять бюджет и не потерять важные работы."
-        />
+        <div className="ob-home-pricing__intro-row">
+          <SectionIntro
+            kicker="Формула бюджета"
+            title="Расчёт собирается из понятных шагов и превращается в КП"
+            text="Показываем, из чего складывается предложение: лицензии, внедрение, интеграции, обучение и финальный расчёт. Так легче понять бюджет и не потерять важные работы."
+          />
+          <div className="ob-home-pricing__float-docs ob-home-pricing__float-docs--intro" aria-hidden="true">
+            <div className="ob-home-pricing__float-doc is-offer">
+              <b>Коммерческое предложение</b>
+              <small>КП</small>
+              <i />
+              <em />
+            </div>
+            <div className="ob-home-pricing__float-doc is-estimate">
+              <b>Смета</b>
+              <small>работы и сроки</small>
+              <i />
+              <em />
+            </div>
+            <div className="ob-home-pricing__float-doc is-invoice">
+              <b>Счёт</b>
+              <small>к оплате</small>
+              <i />
+              <em />
+            </div>
+          </div>
+        </div>
         <div className="ob-home-pricing__matrix">
           <div className="ob-home-pricing__formula" aria-label="Формула расчёта">
             <div className="ob-home-pricing__formula-head">
@@ -593,26 +615,6 @@ export function HomePricingSection() {
                 <span>формула бюджета</span>
                 <strong>Смета собирается из понятных слоёв, а не из одной туманной суммы</strong>
                 <p>На консультации быстро отделяем обязательный контур от того, что можно запускать вторым этапом.</p>
-              </div>
-              <div className="ob-home-pricing__float-docs" aria-hidden="true">
-                <div className="ob-home-pricing__float-doc is-offer">
-                  <b>Коммерческое предложение</b>
-                  <small>КП</small>
-                  <i />
-                  <em />
-                </div>
-                <div className="ob-home-pricing__float-doc is-estimate">
-                  <b>Смета</b>
-                  <small>работы и сроки</small>
-                  <i />
-                  <em />
-                </div>
-                <div className="ob-home-pricing__float-doc is-invoice">
-                  <b>Счёт</b>
-                  <small>к оплате</small>
-                  <i />
-                  <em />
-                </div>
               </div>
             </div>
             <div className="ob-home-pricing__formula-visual ob-pricing-flow ob-pricing-estimate" aria-hidden="true">
@@ -804,7 +806,7 @@ export function HomeTrustSection() {
               </article>
               <article className="is-quality">
                 <span className="ob-home-trust__badge-cert is-document" aria-hidden="true">
-                  <b>КП</b>
+                  <b>Сертификат</b>
                   <i />
                   <em />
                 </span>
