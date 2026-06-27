@@ -67,12 +67,6 @@ const articleCovers = [
   "/media/home/article-integration-cover.png",
 ] as const;
 
-const directionLogos: Record<Direction["id"], { src: string; width: number; height: number; className: string }> = {
-  bitrix24: { src: "/media/logos/bitrix24-logo-rus.svg", width: 168, height: 44, className: "is-bitrix24" },
-  sites: { src: "/media/logos/1c-bitrix-logo-dark.svg", width: 176, height: 44, className: "is-bitrix" },
-  onec: { src: "/media/logos/1c-logo.svg", width: 88, height: 48, className: "is-onec" },
-};
-
 export function ProofStrip() {
   return (
     <section className="ob-section ob-section--tight">
@@ -94,41 +88,25 @@ export function ProofStrip() {
 
 export function DirectionsSection() {
   return (
-    <section className="ob-section ob-home-directions">
+    <section className="ob-section">
       <div className="ob-container">
         <SectionIntro
           kicker="Направления"
           title="Три компетенции в одной системе"
           text="Главная ценность не в отдельных настройках, а в связке: CRM получает заявки, сайт продаёт, учётная система отдаёт данные без ручной суеты."
         />
-        <div className="ob-home-directions__grid">
-          {directions.map((direction, index) => {
-            const logo = directionLogos[direction.id];
-
-            return (
-              <Link
-                className={"ob-direction-card ob-home-direction-tile" + (index === 0 ? " is-featured" : "")}
-                href={direction.href}
-                key={direction.id}
-              >
-                <span className={"ob-home-direction-tile__logo " + logo.className} aria-hidden="true">
-                  <Image src={logo.src} alt="" width={logo.width} height={logo.height} />
-                </span>
-                <span>{direction.shortTitle}</span>
-                <strong>{direction.title}</strong>
-                <p>{direction.description}</p>
-                <div className="ob-home-direction-tile__scope" aria-label="Что входит">
-                  {direction.scope.slice(0, 3).map((item) => (
-                    <b key={item}>{item}</b>
-                  ))}
-                </div>
-                <em>
-                  Смотреть направление
-                  <ArrowUpRight size={17} />
-                </em>
-              </Link>
-            );
-          })}
+        <div className="ob-card-grid ob-card-grid--3">
+          {directions.map((direction) => (
+            <Link className="ob-direction-card" href={direction.href} key={direction.id}>
+              <span>{direction.badge}</span>
+              <strong>{direction.title}</strong>
+              <p>{direction.description}</p>
+              <em>
+                Подробнее
+                <ArrowUpRight size={17} />
+              </em>
+            </Link>
+          ))}
         </div>
       </div>
     </section>
@@ -216,7 +194,6 @@ export function CasesPreview({ full = false }: { full?: boolean }) {
               <div className="ob-home-case-card__body">
                 <div className="ob-home-case-card__top">
                   <span>{item.sector}</span>
-                  <b>{String(index + 1).padStart(2, "0")}</b>
                 </div>
                 <h3>{item.title}</h3>
                 <p>{item.result}</p>

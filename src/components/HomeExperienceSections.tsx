@@ -154,10 +154,11 @@ function SolutionActionIcon({ type }: { type: string }) {
     return (
       <span className="ob-system-action-icon is-site" aria-hidden="true">
         <svg className="ob-solution-mark" viewBox="0 0 48 48" focusable="false">
-          <rect className="ob-solution-mark__diamond is-one" x="19" y="7" width="10" height="10" rx="2" />
-          <rect className="ob-solution-mark__diamond is-two" x="10" y="22" width="10" height="10" rx="2" />
-          <rect className="ob-solution-mark__diamond is-three" x="28" y="22" width="10" height="10" rx="2" />
-          <path className="ob-solution-mark__stroke ob-solution-mark__browser" d="M9 38h30M13 14h22" />
+          <path className="ob-solution-mark__stroke ob-solution-mark__cart" d="M9 12h5l4 20h19l4-14H17" />
+          <path className="ob-solution-mark__stroke ob-solution-mark__cart-basket" d="M20 23h17M22 28h12" />
+          <circle className="ob-solution-mark__wheel is-one" cx="21" cy="38" r="3.2" />
+          <circle className="ob-solution-mark__wheel is-two" cx="35" cy="38" r="3.2" />
+          <path className="ob-solution-mark__stroke ob-solution-mark__cart-spark" d="M31 10l2 4 4 1-4 1.5-2 4-2-4-4-1.5 4-1z" />
         </svg>
       </span>
     );
@@ -218,64 +219,68 @@ function SolutionActionIcon({ type }: { type: string }) {
 const benefits = [
   {
     icon: ShieldCheck,
-    title: "Понятные границы работ",
-    text: "Сначала фиксируем процесс, роли, данные и ограничения, затем предлагаем реалистичный маршрут.",
+    title: "Понятные границы проекта",
+    text: "До старта фиксируем задачи, роли, данные, ограничения и ожидаемый результат, чтобы не расползался объём работ.",
   },
   {
     icon: Network,
-    title: "Единый владелец архитектуры",
-    text: "Один подрядчик держит связку CRM, сайта, 1С и коммуникаций, поэтому решения не конфликтуют между собой.",
+    title: "Единая архитектура",
+    text: "Смотрим на CRM, сайт, 1С, телефонию и мессенджеры как на связанную систему, а не как на отдельные настройки.",
   },
   {
     icon: BadgeCheck,
-    title: "Проверяемая экспертиза",
-    text: "Партнёрские статусы, сертификаты и компетенции вынесены в отдельный раздел, где их можно открыть.",
+    title: "Подтверждённые компетенции",
+    text: "Партнёрские статусы и сертификаты вынесены в отдельный раздел, чтобы их можно было проверить до проекта.",
   },
   {
     icon: SlidersHorizontal,
-    title: "Настройки без хаоса",
-    text: "Не превращаем CRM и сайт в витрину возможностей. Оставляем только то, что помогает работе команды.",
+    title: "Настройки по процессу",
+    text: "Оставляем в системе только то, что помогает команде работать: этапы, права, автоматизацию, отчёты и контроль.",
   },
   {
     icon: Headphones,
-    title: "Запуск с поддержкой",
-    text: "После внедрения остаётся понятный регламент, обучение и маршрут развития системы.",
+    title: "Запуск с обучением",
+    text: "После внедрения передаём регламент, объясняем логику пользователям и остаёмся на поддержке развития.",
   },
 ];
 
 const benefitSignals = [
-  "сначала разбираем процесс, потом включаем инструменты",
-  "держим ответственность за стыки между CRM, сайтом, 1С и коммуникациями",
-  "оставляем после запуска регламент, обучение и понятную карту развития",
+  "карта процесса и ответственности до настройки",
+  "единая логика CRM, сайта, 1С и коммуникаций",
+  "регламент, обучение и поддержка после запуска",
 ];
 
 const pricingFactors = [
-  "количество пользователей и отделов",
-  "число воронок, прав и роботов",
-  "объём каталога, форм и контента",
-  "интеграции с 1С, телефонией и сервисами",
-  "требования к коробке, серверу и поддержке",
+  "тарифы и количество пользователей",
+  "объём внедрения, прав и автоматизации",
+  "интеграции с 1С, сайтом и коммуникациями",
+  "обучение команды и регламенты",
+  "поддержка после запуска и развитие системы",
 ];
 
 const pricingRoute = [
   {
-    label: "Контур",
-    text: "пользователи, отделы, права и точки входа заявок",
+    label: "Лицензии",
+    text: "тарифы Битрикс24, 1С-Битрикс и сервисов под реальный сценарий",
   },
   {
-    label: "Логика",
-    text: "воронки, роботы, отчёты, регламенты и обучение",
+    label: "Внедрение",
+    text: "воронки, права, роботы, отчёты и проверка процесса",
   },
   {
-    label: "Связки",
-    text: "1С, сайт, телефония, мессенджеры и поддержка",
+    label: "Интеграции",
+    text: "1С, сайт, телефония, мессенджеры, обмены и статусы",
+  },
+  {
+    label: "Обучение",
+    text: "регламент, запуск пользователей и понятный план поддержки",
   },
 ];
 
 const trustSignals = [
-  "партнёрские статусы вынесены в отдельный раздел",
-  "компетенции привязаны к реальным направлениям работ",
-  "документы можно открыть до старта проекта",
+  "официальные статусы партнёра Битрикс24 и 1С-Битрикс",
+  "компетенции по CRM, бизнес-процессам, коробке и интеграции с 1С",
+  "сертификаты и документы можно открыть до старта работ",
 ];
 
 const trustCertificates = [
@@ -412,7 +417,6 @@ export function PainSection() {
 export function SystemSolutionSection() {
   const [activeNode, setActiveNode] = useState(0);
   const activeSolution = solutionNodes[activeNode] ?? solutionNodes[0];
-  const ActiveSolutionIcon = activeSolution.icon;
 
   return (
     <section className="ob-section ob-home-system" id="solution">
@@ -468,7 +472,6 @@ export function SystemSolutionSection() {
           />
           <div className="ob-home-system__tabs" aria-label="Выберите узел решения">
             {solutionNodes.map((node, index) => {
-              const Icon = node.icon;
               const isActive = activeNode === index;
               return (
                 <button
@@ -479,7 +482,7 @@ export function SystemSolutionSection() {
                   onFocus={() => setActiveNode(index)}
                   type="button"
                 >
-                  <Icon size={17} aria-hidden="true" />
+                  <SolutionActionIcon type={node.motion} />
                   <span>{node.title}</span>
                 </button>
               );
@@ -501,7 +504,7 @@ export function SystemSolutionSection() {
           <div className="ob-home-system__active">
             <span>Активный узел решения</span>
             <div className="ob-home-system__active-title">
-              <ActiveSolutionIcon size={20} aria-hidden="true" />
+              <SolutionActionIcon type={activeSolution.motion} />
               <strong>{activeSolution.title}</strong>
             </div>
             <div className="ob-home-system__closes">
@@ -539,62 +542,31 @@ export function BenefitsSection() {
       <div className="ob-container">
         <SectionIntro
           kicker="Преимущества"
-          title="Чем Ониксбит отличается от подрядчика на одну настройку"
-          text="Сильная сторона - связка компетенций. Мы смотрим на CRM, сайт, 1С и лицензии как на одну операционную систему, где важна ответственность за результат."
+          title="Собираем систему так, чтобы ей управляли после запуска"
+          text="Ониксбит держит вместе процесс, платформы и ответственность: сначала разбираем задачу, затем настраиваем CRM, сайт, 1С и коммуникации как одну рабочую связку."
         />
-        <div className="ob-home-benefits__layout">
-          <div className="ob-home-benefits__accent">
-            <span>главный фокус</span>
-            <div className="ob-home-benefits__graphic ob-benefit-architect" aria-hidden="true">
-              <div className="ob-benefit-architect__inputs">
-                <span>форма</span>
-                <span>чат</span>
-                <span>звонок</span>
-              </div>
-              <div className="ob-benefit-architect__core">
-                <b>единый маршрут</b>
-                <i />
-              </div>
-              <div className="ob-benefit-architect__systems">
-                <span>CRM</span>
-                <span>1С</span>
-                <span>отчёт</span>
-              </div>
-              <div className="ob-benefit-architect__rules">
-                <em>ответственный</em>
-                <em>срок</em>
-                <em>контроль</em>
-              </div>
-              <div className="ob-benefit-architect__dot" />
-            </div>
-            <h3>Один маршрут заявки вместо набора разрозненных настроек</h3>
+        <div className="ob-home-benefits-clean">
+          <article className="ob-home-benefits-clean__lead">
+            <span>главный принцип</span>
+            <h3>Не отдельные доработки, а понятный маршрут заявки и данных</h3>
             <p>
-              Мы не продаём отдельную кнопку в CRM или красивый блок на сайте. Сначала собираем путь клиента,
-              данные, роли и контроль, а потом уже выбираем инструменты, которые действительно выдержат процесс.
+              Мы убираем разрывы между отделами и системами: заявка получает ответственного, данные не дублируются вручную,
+              руководитель видит контрольные точки, а команда понимает, как работать в обновлённом процессе.
             </p>
-            <div className="ob-home-benefits__signals" aria-label="Что получает бизнес">
+            <div className="ob-home-benefits-clean__signals" aria-label="Что получает бизнес">
               {benefitSignals.map((item) => (
                 <span key={item}><CheckCircle2 size={16} aria-hidden="true" /> {item}</span>
               ))}
             </div>
-          </div>
-          <div className="ob-home-benefits__proofs">
-            <div className="ob-benefits-lightning" aria-hidden="true">
-              <svg viewBox="0 0 940 86" focusable="false">
-                <path className="ob-benefits-lightning__base" d="M18 46H160L196 18L236 46H386L422 68L474 46H638L680 20L724 46H922" />
-                <path className="ob-benefits-lightning__bolt" d="M18 46H160L196 18L236 46H386L422 68L474 46H638L680 20L724 46H922" />
-              </svg>
-              <i />
-            </div>
+          </article>
+          <div className="ob-home-benefits-clean__cards">
             {benefits.map((item) => {
               const Icon = item.icon;
               return (
-                <article className="ob-home-benefit-proof" key={item.title}>
+                <article className="ob-home-benefit-clean-card" key={item.title}>
                   <span aria-hidden="true"><Icon size={21} /></span>
-                  <div>
-                    <h3>{item.title}</h3>
-                    <p>{item.text}</p>
-                  </div>
+                  <h3>{item.title}</h3>
+                  <p>{item.text}</p>
                 </article>
               );
             })}
@@ -610,9 +582,9 @@ export function HomePricingSection() {
     <section className="ob-section ob-home-pricing" id="pricing">
       <div className="ob-container">
         <SectionIntro
-          kicker="Ценообразование"
-          title="Бюджет видно по слоям, а не по случайной вилке"
-          text="Разделяем стоимость на понятные части: лицензии, внедрение, интеграции и поддержку. Так проще сравнить объём работ и не потерять важные стыки."
+          kicker="Формула бюджета"
+          title="Расчёт собирается из понятных шагов и превращается в КП"
+          text="Показываем, из чего складывается предложение: лицензии, внедрение, интеграции, обучение и финальный расчёт. Так легче понять бюджет и не потерять важные работы."
         />
         <div className="ob-home-pricing__matrix">
           <div className="ob-home-pricing__formula" aria-label="Формула расчёта">
@@ -624,18 +596,30 @@ export function HomePricingSection() {
                 <span className="is-license">лицензии</span>
                 <span className="is-project">внедрение</span>
                 <span className="is-integration">интеграции</span>
-                <span className="is-support">поддержка</span>
+                <span className="is-training">обучение</span>
               </div>
               <div className="ob-pricing-flow__core ob-pricing-estimate__calc">
-                <span>расчёт</span>
+                <span>Расчёт</span>
+              </div>
+              <div className="ob-pricing-estimate__bills">
+                <i />
+                <i />
+                <i />
+              </div>
+              <div className="ob-pricing-estimate__offer">
                 <b>КП</b>
-                <em>коммерческое предложение</em>
+                <span>коммерческое предложение</span>
+                <i />
+                <em />
               </div>
               <div className="ob-pricing-flow__mail ob-pricing-estimate__mail">
                 <b>КП</b>
                 <i />
               </div>
-              <span className="ob-pricing-estimate__client">клиент</span>
+              <span className="ob-pricing-estimate__client">
+                <i />
+                <b />
+              </span>
               <i className="ob-pricing-flow__dot ob-pricing-estimate__dot" />
             </div>
             <div className="ob-home-pricing__formula-note ob-pricing-principle">
@@ -647,7 +631,7 @@ export function HomePricingSection() {
                 <i>+</i>
                 <span className="is-integration">интеграции</span>
                 <i>+</i>
-                <span className="is-support">поддержка</span>
+                <span className="is-training">обучение</span>
               </b>
             </div>
           </div>
@@ -655,29 +639,38 @@ export function HomePricingSection() {
             <article className="is-license">
               <div className="ob-home-pricing-card__icon"><CircleDollarSign size={31} aria-hidden="true" /></div>
               <div className="ob-home-pricing-card__copy">
-                <span>01 / подбор</span>
-                <h3>Лицензии</h3>
-                <p>Подбираем тариф Битрикс24, 1С-Битрикс или сервисов коммуникаций под сценарий, а не по названию пакета.</p>
+                <span>01 / лицензии</span>
+                <h3>Подбор тарифа</h3>
+                <p>Определяем продукты, пользователей и редакции Битрикс24, 1С-Битрикс и сервисов под рабочий сценарий.</p>
               </div>
               <b className="ob-home-pricing-card__index">01</b>
             </article>
             <article className="is-project">
               <div className="ob-home-pricing-card__icon"><ReceiptText size={31} aria-hidden="true" /></div>
               <div className="ob-home-pricing-card__copy">
-                <span>02 / проект</span>
-                <h3>Внедрение</h3>
-                <p>Стоимость зависит от процессов, прав, роботов, интеграций, данных и обучения команды.</p>
+                <span>02 / внедрение</span>
+                <h3>Настройка процесса</h3>
+                <p>Считаем воронки, права, роботов, отчёты, перенос данных, тестирование и запуск команды.</p>
               </div>
               <b className="ob-home-pricing-card__index">02</b>
             </article>
-            <article className="is-support">
-              <div className="ob-home-pricing-card__icon"><FileCheck2 size={31} aria-hidden="true" /></div>
+            <article className="is-integration">
+              <div className="ob-home-pricing-card__icon"><PlugZap size={31} aria-hidden="true" /></div>
               <div className="ob-home-pricing-card__copy">
-                <span>03 / развитие</span>
-                <h3>Поддержка</h3>
-                <p>После запуска можно вести развитие по задачам, регламенту или отдельному плану улучшений.</p>
+                <span>03 / интеграции</span>
+                <h3>Связи между системами</h3>
+                <p>Отдельно оцениваем 1С, сайт, телефонию, мессенджеры, статусы, обмены и нестандартные сервисы.</p>
               </div>
               <b className="ob-home-pricing-card__index">03</b>
+            </article>
+            <article className="is-training">
+              <div className="ob-home-pricing-card__icon"><Headphones size={31} aria-hidden="true" /></div>
+              <div className="ob-home-pricing-card__copy">
+                <span>04 / обучение</span>
+                <h3>Регламент и передача</h3>
+                <p>Закладываем инструктаж пользователей, описание правил работы и поддержку после запуска.</p>
+              </div>
+              <b className="ob-home-pricing-card__index">04</b>
             </article>
           </div>
           <div className="ob-home-pricing__calculation">
@@ -732,12 +725,13 @@ export function HomeTrustSection() {
         <div className="ob-home-trust__board">
           <div>
             <span className="ob-kicker">Доказательства</span>
-            <h2>Статусы привязаны к работам, а не висят отдельной витриной</h2>
+            <h2>Сертификаты и компетенции можно проверить до начала работ</h2>
             <p>
-              Показываем подтверждения как контрольную панель: что проверено, где применяется и какой раздел можно открыть до старта.
+              В этом блоке собраны подтверждения экспертизы Ониксбит: партнёрские статусы Битрикс24 и 1С-Битрикс,
+              компетенции по CRM, бизнес-процессам, коробочной версии и интеграции с 1С. Полный список документов открыт в разделе сертификатов.
             </p>
           </div>
-          <div className="ob-home-trust__vault" aria-label="Витрина сертификатов">
+          <div className="ob-home-trust__vault" aria-label="Сертификаты и партнёрские документы">
             {trustCertificates.map((certificate, index) => (
               <button
                 className={"ob-home-trust__cert " + certificate.className + " is-" + certificate.orientation}
@@ -768,7 +762,7 @@ export function HomeTrustSection() {
               <span className="is-quality"><FileCheck2 size={18} /> документы можно открыть</span>
             </div>
             <div className="ob-home-trust__signals">
-              <strong>Что проверяем</strong>
+              <strong>Что подтверждают</strong>
               {trustSignals.map((item) => (
                 <span key={item}><CheckCircle2 size={16} aria-hidden="true" /> {item}</span>
               ))}
