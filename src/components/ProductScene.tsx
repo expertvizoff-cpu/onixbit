@@ -265,7 +265,7 @@ function BitrixWorkspace({ active, setActive }: { active: number; setActive: (in
       <div className="obc-cms-topbar">
         <strong>Администрирование</strong>
         <label>поиск...</label>
-        <span>Наталья Сергеева</span>
+        <span>Администратор сайта</span>
         <Image src="/media/logos/1c-bitrix-logo.svg" alt="1С-Битрикс" width={84} height={17} style={{ height: "auto" }} />
       </div>
       <div className="obc-cms-body">
@@ -280,8 +280,8 @@ function BitrixWorkspace({ active, setActive }: { active: number; setActive: (in
           <button className={setButtonState(1, active, "obc-cms-add")} onClick={() => setActive(1)} onMouseEnter={() => setActive(1)} type="button">+ Добавить сайт</button>
           <div className="obc-cms-table">
             <div className="obc-cms-head"><span /><span>ID</span><span>Акт.</span><span>Сортировка</span><span>Название</span></div>
-            <button className={setButtonState(2, active, "obc-cms-row is-active")} onClick={() => setActive(2)} onMouseEnter={() => setActive(2)} type="button"><span aria-hidden="true" /><strong>s1</strong><em>Да</em><b>1</b><i>Моя компания</i></button>
-            <button className="obc-cms-row" type="button"><span aria-hidden="true" /><strong>aq</strong><em>Да</em><b>100</b><i>Каталог</i></button>
+            <button className={setButtonState(2, active, "obc-cms-row is-active")} onClick={() => setActive(2)} onMouseEnter={() => setActive(2)} type="button"><span aria-hidden="true" /><strong>s1</strong><em>Да</em><b>1</b><i>Корпоративный сайт</i></button>
+            <button className="obc-cms-row" type="button"><span aria-hidden="true" /><strong>ct</strong><em>Да</em><b>100</b><i>Каталог услуг</i></button>
           </div>
           <button className={setButtonState(3, active, "obc-cms-menu")} onClick={() => setActive(3)} onMouseEnter={() => setActive(3)} type="button"><span>Изменить</span><span>Копировать</span><strong>Удалить</strong></button>
         </div>
@@ -296,7 +296,7 @@ function OneCWorkspace({ active, setActive }: { active: number; setActive: (inde
     <div className="obc-product-ui obc-product-ui--onec">
       <div className="obc-onec-titlebar">
         <Image src="/media/logos/1c-logo-small.svg" alt="1С" width={22} height={11} style={{ height: "auto" }} />
-        <strong>ООО НПЦ Меркурий / Администратор</strong>
+        <strong>Рабочая база / Администратор</strong>
         <span>1С:Предприятие</span>
       </div>
       <div className="obc-onec-ribbon">

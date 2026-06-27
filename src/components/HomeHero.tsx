@@ -27,6 +27,7 @@ const heroFactIcons = [
 
 const heroSlides = [
   {
+    focusLabel: "CRM и продажи",
     title: ["Внедрение CRM", "на Битрикс24", "для продаж"],
     text: [
       "Настраиваем воронки, роботов и задачи",
@@ -37,6 +38,7 @@ const heroSlides = [
     facts: ["10-50 дней", "CRM, телефония, 1С", "Поддержка 30 дней"],
   },
   {
+    focusLabel: "Сайт и заявки",
     title: ["Разработка сайтов", "на 1С-Битрикс", "для заявок и CRM"],
     text: [
       "Проектируем структуру, каталог и формы",
@@ -47,6 +49,7 @@ const heroSlides = [
     facts: ["Каталог и формы", "SEO, скорость, адаптив", "CRM-интеграции"],
   },
   {
+    focusLabel: "Учёт и обмены",
     title: ["Работы по 1С", "и обменам", "для учёта"],
     text: [
       "Наводим порядок в правах и документах,",
@@ -83,7 +86,7 @@ export function HomeHero() {
             <span>одна система</span>
           </h1>
           <div className="ob-hero__focus">
-            <span>{direction.badge}</span>
+            <span>{slide.focusLabel}</span>
             <strong>{slide.title.join(" ")}</strong>
             <p>
               {slide.text.map((line) => (
@@ -94,7 +97,7 @@ export function HomeHero() {
           <div className="ob-actions">
             <LeadButton>{direction.cta}</LeadButton>
             <ButtonLink href={direction.href} variant="secondary">
-              {direction.secondaryCta}
+              Смотреть направление
             </ButtonLink>
           </div>
           <BitrixCrmProof variant="compact" className={direction.id === "bitrix24" ? "" : "is-hidden"} />

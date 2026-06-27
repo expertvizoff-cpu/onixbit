@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
 import {
   AlertTriangle,
@@ -47,11 +50,22 @@ const painItems = [
   },
 ];
 
+const solutionPaths = [
+  "M320 230 C270 140 205 120 138 112",
+  "M320 230 C398 118 484 94 548 136",
+  "M320 230 C240 328 162 354 96 320",
+  "M320 230 C428 238 505 276 552 348",
+  "M320 230 C322 320 320 374 320 424",
+];
+
 const solutionNodes = [
   {
     icon: Workflow,
     title: "Битрикс24",
     text: "воронки, роботы, задачи, коммуникации",
+    result: "Заявка попадает в нужную воронку, получает ответственного, задачу, контроль срока и понятную историю общения.",
+    action: "Снимаем хаос из чатов и таблиц, чтобы менеджеры работали в одном маршруте.",
+    linkLabel: "Открыть CRM-направление",
     href: "/vnedrenie-bitrix24",
     className: "ob-system-node--crm",
   },
@@ -59,6 +73,9 @@ const solutionNodes = [
     icon: Layers3,
     title: "1С-Битрикс",
     text: "структура сайта, каталог, формы, заявки",
+    result: "Сайт становится источником качественных заявок: формы, каталог и контент сразу связаны с CRM и аналитикой.",
+    action: "Проектируем не витрину страниц, а понятный путь клиента от интереса до заявки.",
+    linkLabel: "Открыть сайты на Битрикс",
     href: "/razrabotka-saitov-na-1c-bitrix",
     className: "ob-system-node--site",
   },
@@ -66,6 +83,9 @@ const solutionNodes = [
     icon: DatabaseZap,
     title: "1С и обмены",
     text: "заказы, остатки, цены, документы",
+    result: "Данные о заказах, остатках, ценах и статусах проходят между сайтом, CRM и учётом без ручного дублирования.",
+    action: "Фиксируем границы обмена и заранее разбираем спорные статусы, чтобы интеграция была управляемой.",
+    linkLabel: "Открыть работы по 1С",
     href: "/raboty-po-1c-predpriyatie",
     className: "ob-system-node--onec",
   },
@@ -73,12 +93,16 @@ const solutionNodes = [
     icon: BarChart3,
     title: "Отчёты",
     text: "контроль этапов, нагрузка, потери",
+    result: "Руководитель видит, где застревают сделки, кто перегружен и какие этапы требуют внимания.",
+    action: "Собираем контроль вокруг процесса, а не вокруг ручной выгрузки в конце недели.",
     className: "ob-system-node--analytics",
   },
   {
     icon: PlugZap,
     title: "Интеграции",
     text: "телефония, мессенджеры, обмены, отчёты",
+    result: "Телефония, мессенджеры, формы, склад и внешние сервисы не спорят между собой, а поддерживают один сценарий.",
+    action: "Подключаем только те сервисы, которые реально закрывают путь заявки и контроль качества.",
     className: "ob-system-node--api",
   },
 ];
@@ -88,6 +112,11 @@ const benefits = [
     icon: ShieldCheck,
     title: "Понятные границы работ",
     text: "Сначала фиксируем процесс, роли, данные и ограничения, затем предлагаем реалистичный маршрут.",
+  },
+  {
+    icon: Network,
+    title: "Единый владелец архитектуры",
+    text: "Один подрядчик держит связку CRM, сайта, 1С и коммуникаций, поэтому решения не конфликтуют между собой.",
   },
   {
     icon: BadgeCheck,
@@ -176,39 +205,42 @@ export function PainSection() {
 }
 
 export function SystemSolutionSection() {
+  const [activeNode, setActiveNode] = useState(0);
+  const activeSolution = solutionNodes[activeNode] ?? solutionNodes[0];
+  const ActiveSolutionIcon = activeSolution.icon;
+
   return (
     <section className="ob-section ob-home-system" id="solution">
       <div className="ob-container ob-home-system__grid">
-        <div className="ob-home-system__map" aria-label="Схема связки CRM, сайта, 1С и интеграций">
+        <div className="ob-home-system__map" aria-label="Интерактивная схема связки CRM, сайта, 1С и интеграций">
           <svg className="ob-home-system__links" viewBox="0 0 640 460" aria-hidden="true">
-            <path d="M320 230 C270 140 205 120 138 112" />
-            <path d="M320 230 C398 118 484 94 548 136" />
-            <path d="M320 230 C428 238 505 276 552 348" />
-            <path d="M320 230 C240 328 162 354 96 320" />
-            <path d="M320 230 C322 320 320 374 320 424" />
+            {solutionPaths.map((path, index) => (
+              <path className={activeNode === index ? "is-active" : ""} d={path} key={path} />
+            ))}
           </svg>
           <div className="ob-system-core">
             <Network size={34} aria-hidden="true" />
             <strong>Ониксбит</strong>
             <span>архитектура связки</span>
           </div>
-          {solutionNodes.map((node) => {
+          {solutionNodes.map((node, index) => {
             const Icon = node.icon;
-            const body = (
-              <>
+            const isActive = activeNode === index;
+            return (
+              <button
+                aria-label={node.title + ": " + node.result}
+                aria-pressed={isActive}
+                className={"ob-system-node " + node.className + (isActive ? " is-active" : "")}
+                key={node.title}
+                onClick={() => setActiveNode(index)}
+                onFocus={() => setActiveNode(index)}
+                onMouseEnter={() => setActiveNode(index)}
+                type="button"
+              >
                 <Icon size={22} aria-hidden="true" />
                 <strong>{node.title}</strong>
                 <span>{node.text}</span>
-              </>
-            );
-            return node.href ? (
-              <Link className={"ob-system-node " + node.className} href={node.href} key={node.title}>
-                {body}
-              </Link>
-            ) : (
-              <div className={"ob-system-node " + node.className} key={node.title}>
-                {body}
-              </div>
+              </button>
             );
           })}
         </div>
@@ -216,8 +248,23 @@ export function SystemSolutionSection() {
           <SectionIntro
             kicker="Решение"
             title="Собираем не набор сервисов, а рабочую систему вокруг заявки"
-            text="У каждого проекта есть маршрут: источник обращения, CRM-логика, ответственный, документы, обмены, контроль и развитие. Главная задача - сделать этот маршрут понятным и измеримым."
+            text="Выберите узел на схеме: покажем, какую часть бизнес-маршрута он закрывает и какой практический результат должен появиться после внедрения."
           />
+          <div className="ob-home-system__active">
+            <span>Активный узел</span>
+            <div>
+              <ActiveSolutionIcon size={20} aria-hidden="true" />
+              <strong>{activeSolution.title}</strong>
+            </div>
+            <p>{activeSolution.result}</p>
+            <small>{activeSolution.action}</small>
+            {activeSolution.href && (
+              <Link href={activeSolution.href}>
+                <span>{activeSolution.linkLabel}</span>
+                <ArrowUpRight size={17} aria-hidden="true" />
+              </Link>
+            )}
+          </div>
           <div className="ob-home-system__steps">
             <div><CheckCircle2 size={18} /> фиксируем путь клиента и данные</div>
             <div><CheckCircle2 size={18} /> проектируем роли, права и этапы</div>

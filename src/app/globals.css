@@ -1910,9 +1910,17 @@ textarea:focus-visible {
 }
 
 .ob-case-card--soon::after,
+.ob-article-card--soon::after {
+  content: "разбор";
+}
+
+.ob-testimonial--soon::after {
+  content: "отзыв";
+}
+
+.ob-case-card--soon::after,
 .ob-testimonial--soon::after,
 .ob-article-card--soon::after {
-  content: "готовим";
   position: absolute;
   right: 18px;
   bottom: 18px;
@@ -6459,6 +6467,26 @@ a:hover .lucide-mail polyline {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
+
+@media (min-width: 761px) and (max-width: 900px) {
+  .ob-hero__facts {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .ob-hero__facts span {
+    min-height: 92px;
+  }
+
+  .ob-product-scene {
+    min-height: auto;
+    padding-top: 24px;
+  }
+
+  .ob-product-frame {
+    height: 340px;
+  }
+}
+
 
 @media (max-width: 760px) {
   .ob-page-hero .ob-rich-hero,
@@ -11530,12 +11558,22 @@ a:hover .lucide-mail polyline {
   stroke-width: 2;
   stroke-linecap: round;
   stroke-dasharray: 9 12;
+  opacity: 0.68;
+  transition: stroke 0.24s var(--ob-ease), stroke-width 0.24s var(--ob-ease), opacity 0.24s var(--ob-ease), filter 0.24s var(--ob-ease);
   animation: ob-network-flow 8s linear infinite;
 }
 
 .ob-home-system__links path:nth-child(2n) {
   stroke: rgba(237, 28, 36, 0.72);
   animation-duration: 10s;
+}
+
+.ob-home-system__links path.is-active {
+  stroke: #ffffff;
+  stroke-width: 3;
+  opacity: 1;
+  filter: drop-shadow(0 0 10px rgba(255, 212, 90, 0.54));
+  animation-duration: 4.8s;
 }
 
 @keyframes ob-network-flow {
@@ -11590,19 +11628,35 @@ a:hover .lucide-mail polyline {
   padding: 17px;
   border-radius: var(--ob-radius-md);
   color: #ffffff;
+  appearance: none;
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
   transition: transform 0.24s var(--ob-ease), background 0.24s var(--ob-ease), border-color 0.24s var(--ob-ease), box-shadow 0.24s var(--ob-ease);
 }
 
 .ob-system-node:hover,
-.ob-system-node:focus-visible {
+.ob-system-node:focus-visible,
+.ob-system-node.is-active {
   transform: translateY(-5px) scale(1.02);
-  border-color: rgba(255, 212, 90, 0.48);
-  background: rgba(255, 255, 255, 0.16);
-  box-shadow: 0 30px 82px rgba(0, 0, 0, 0.3);
+  border-color: rgba(255, 212, 90, 0.5);
+  background: rgba(255, 255, 255, 0.17);
+  box-shadow: 0 30px 82px rgba(0, 0, 0, 0.3), inset 0 0 0 1px rgba(255, 212, 90, 0.2);
+}
+
+.ob-system-node:focus-visible {
+  outline: 3px solid rgba(255, 212, 90, 0.42);
+  outline-offset: 3px;
 }
 
 .ob-system-node svg {
   color: var(--ob-yellow);
+  transition: color 0.24s var(--ob-ease), transform 0.24s var(--ob-ease);
+}
+
+.ob-system-node.is-active svg {
+  color: #ffffff;
+  transform: translateY(-1px) scale(1.08);
 }
 
 .ob-system-node strong {
@@ -11625,7 +11679,87 @@ a:hover .lucide-mail polyline {
 .ob-system-node--analytics { right: 54px; bottom: 74px; }
 .ob-system-node--api { left: 50%; bottom: 28px; transform: translateX(-50%); }
 .ob-system-node--api:hover,
-.ob-system-node--api:focus-visible { transform: translateX(-50%) translateY(-5px) scale(1.02); }
+.ob-system-node--api:focus-visible,
+.ob-system-node--api.is-active { transform: translateX(-50%) translateY(-5px) scale(1.02); }
+
+.ob-home-system__active {
+  position: relative;
+  margin-top: 24px;
+  padding: 20px;
+  border: 1px solid rgba(237, 28, 36, 0.13);
+  border-radius: var(--ob-radius-md);
+  overflow: hidden;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 248, 224, 0.78)),
+    radial-gradient(circle at 100% 0%, rgba(237, 28, 36, 0.12), transparent 42%);
+  box-shadow: 0 20px 58px rgba(8, 8, 8, 0.08);
+}
+
+.ob-home-system__active::after {
+  content: "";
+  position: absolute;
+  inset: auto 20px 0 20px;
+  height: 3px;
+  border-radius: 999px 999px 0 0;
+  background: linear-gradient(90deg, var(--ob-red), var(--ob-yellow));
+}
+
+.ob-home-system__active > span {
+  color: var(--ob-red-deep);
+  font-size: 11px;
+  font-weight: 950;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.ob-home-system__active div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+  color: var(--ob-ink);
+}
+
+.ob-home-system__active div svg {
+  color: var(--ob-red);
+}
+
+.ob-home-system__active strong {
+  font-size: clamp(20px, 1.35vw, 26px);
+  line-height: 1.12;
+  font-weight: 950;
+}
+
+.ob-home-system__active p {
+  margin: 12px 0 0;
+  color: var(--ob-ink);
+  font-size: 15px;
+  line-height: 1.56;
+  font-weight: 720;
+}
+
+.ob-home-system__active small {
+  display: block;
+  margin-top: 10px;
+  color: var(--ob-muted);
+  font-size: 13.5px;
+  line-height: 1.5;
+  font-weight: 600;
+}
+
+.ob-home-system__active a {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 15px;
+  color: var(--ob-red-deep);
+  font-size: 14px;
+  font-weight: 900;
+}
+
+.ob-home-system__active a:hover {
+  color: var(--ob-red);
+}
 
 .ob-home-system__steps {
   display: grid;
@@ -11653,22 +11787,22 @@ a:hover .lucide-mail polyline {
 
 .ob-home-benefits__grid {
   display: grid;
-  grid-template-columns: 1.2fr 0.8fr 0.8fr 1.2fr;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 14px;
 }
 
 .ob-home-benefit {
   position: relative;
-  min-height: 300px;
-  padding: 26px;
+  min-height: 294px;
+  padding: 24px;
   border-radius: var(--ob-radius);
   overflow: hidden;
   transition: transform 0.24s var(--ob-ease), border-color 0.24s var(--ob-ease), background 0.24s var(--ob-ease), box-shadow 0.24s var(--ob-ease);
 }
 
 .ob-home-benefit:nth-child(1),
-.ob-home-benefit:nth-child(4) {
-  min-height: 340px;
+.ob-home-benefit:nth-child(5) {
+  min-height: 326px;
 }
 
 .ob-home-benefit::after {
@@ -11889,10 +12023,14 @@ a:hover .lucide-mail polyline {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  .ob-home-system__content {
+    order: -1;
+  }
+
   .ob-home-benefit,
   .ob-home-benefit:nth-child(1),
-  .ob-home-benefit:nth-child(4) {
-    min-height: 260px;
+  .ob-home-benefit:nth-child(5) {
+    min-height: 250px;
   }
 
   .ob-home-trust__link {
@@ -11925,6 +12063,11 @@ a:hover .lucide-mail polyline {
     padding: 18px;
   }
 
+  .ob-home-system__active {
+    margin-top: 18px;
+    padding: 18px;
+  }
+
   .ob-home-system__map::before,
   .ob-home-system__links {
     display: none;
@@ -11950,8 +12093,10 @@ a:hover .lucide-mail polyline {
 
   .ob-system-node--api:hover,
   .ob-system-node--api:focus-visible,
+  .ob-system-node--api.is-active,
   .ob-system-node:hover,
-  .ob-system-node:focus-visible {
+  .ob-system-node:focus-visible,
+  .ob-system-node.is-active {
     transform: translateY(-3px);
   }
 
@@ -11976,5 +12121,120 @@ a:hover .lucide-mail polyline {
 @media (prefers-reduced-motion: reduce) {
   .ob-home-system__links path {
     animation: none;
+  }
+}
+
+
+@media (max-width: 760px) {
+  .ob-hero {
+    padding-top: 26px;
+    padding-bottom: 34px;
+  }
+
+  .ob-hero__copy {
+    padding-top: 0;
+  }
+
+  .ob-hero__title {
+    margin-top: 14px;
+    font-size: clamp(34px, 10.6vw, 44px);
+  }
+
+  .ob-hero__focus {
+    margin-top: 18px;
+    padding: 15px;
+  }
+
+  .ob-hero__focus strong {
+    font-size: clamp(19px, 5.8vw, 24px);
+  }
+
+  .ob-hero__copy .ob-actions {
+    margin-top: 22px;
+  }
+
+  .ob-hero__facts {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .ob-hero__facts span {
+    min-height: 86px;
+    padding: 11px 8px;
+    gap: 7px;
+  }
+
+  .ob-hero__facts span b {
+    font-size: 11px;
+    white-space: normal;
+  }
+
+  .ob-product-scene {
+    padding-top: 18px;
+    gap: 10px;
+  }
+
+  .ob-product-status {
+    padding: 11px 13px 10px;
+  }
+
+  .ob-product-frame {
+    height: 268px;
+  }
+
+  .ob-main-tabs {
+    margin-top: 10px;
+  }
+
+  .ob-main-tabs button {
+    min-width: 152px;
+    width: 152px;
+  }
+
+  .ob-home-pain__grid,
+  .ob-home-system__grid,
+  .ob-home-pricing__grid,
+  .ob-home-faq__grid {
+    gap: 22px;
+  }
+
+  .ob-home-system__map {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    padding: 14px;
+  }
+
+  .ob-home-system__map .ob-system-core {
+    grid-column: 1 / -1;
+    width: 100%;
+    padding: 16px;
+  }
+
+  .ob-home-system__map .ob-system-node {
+    width: auto;
+    min-height: 122px;
+    padding: 14px;
+  }
+
+  .ob-home-system__map .ob-system-node--api {
+    grid-column: 1 / -1;
+    width: 100%;
+  }
+
+  .ob-system-node strong {
+    margin-top: 10px;
+    font-size: 15px;
+  }
+
+  .ob-system-node span {
+    font-size: 12px;
+  }
+
+  .ob-home-system__steps {
+    margin: 20px 0 22px;
+  }
+
+  .ob-home-system__steps div {
+    align-items: flex-start;
   }
 }
