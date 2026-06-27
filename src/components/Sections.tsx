@@ -69,21 +69,30 @@ export function ProofStrip() {
 
 export function DirectionsSection() {
   return (
-    <section className="ob-section">
+    <section className="ob-section ob-home-directions">
       <div className="ob-container">
         <SectionIntro
           kicker="Направления"
           title="Три компетенции в одной системе"
           text="Главная ценность не в отдельных настройках, а в связке: CRM получает заявки, сайт продаёт, учётная система отдаёт данные без ручной суеты."
         />
-        <div className="ob-card-grid ob-card-grid--3">
-          {directions.map((direction) => (
-            <Link className="ob-direction-card" href={direction.href} key={direction.id}>
-              <span>{direction.badge}</span>
+        <div className="ob-home-directions__grid">
+          {directions.map((direction, index) => (
+            <Link
+              className={"ob-direction-card ob-home-direction-tile" + (index === 0 ? " is-featured" : "")}
+              href={direction.href}
+              key={direction.id}
+            >
+              <span>{direction.shortTitle}</span>
               <strong>{direction.title}</strong>
               <p>{direction.description}</p>
+              <div className="ob-home-direction-tile__scope" aria-label="Что входит">
+                {direction.scope.slice(0, 3).map((item) => (
+                  <b key={item}>{item}</b>
+                ))}
+              </div>
               <em>
-                Подробнее
+                Смотреть направление
                 <ArrowUpRight size={17} />
               </em>
             </Link>
@@ -97,42 +106,59 @@ export function DirectionsSection() {
 export function ApproachSection() {
   const steps = [
     {
+      icon: ClipboardCheck,
+      label: "Диагностика",
       title: "Сначала процесс",
       text: "Разбираем роли, данные, статусы, ограничения и ожидания руководителя.",
     },
     {
+      icon: Route,
+      label: "Архитектура",
       title: "Потом интерфейс",
       text: "Проектируем страницы, CRM-воронки и обмены так, чтобы ими пользовались.",
     },
     {
+      icon: Sparkles,
+      label: "Запуск",
       title: "Затем внедрение",
       text: "Собираем решение, тестируем сценарии, обучаем и оставляем понятный регламент.",
     },
   ];
 
   return (
-    <section className="ob-section">
-      <div className="ob-container ob-split">
-        <div>
+    <section className="ob-section ob-home-approach">
+      <div className="ob-container ob-home-approach__grid">
+        <div className="ob-home-approach__intro">
           <SectionIntro
             kicker="Подход"
             title="Не продаём хаотичную разработку"
             text="Мы держим в фокусе бизнес-цель, а не количество экранов и настроек. Поэтому сайт, CRM и обмены проектируются как одна операционная система."
           />
+          <div className="ob-home-approach__signal">
+            <CheckCircle2 size={18} aria-hidden="true" />
+            <div>
+              <strong>Каждый этап заканчивается проверяемым артефактом</strong>
+              <p>Карта процесса, схема интеграций, список ролей, тестовые сценарии и регламент запуска.</p>
+            </div>
+          </div>
           <div className="ob-actions">
             <LeadButton>Получить экспресс-аудит</LeadButton>
           </div>
         </div>
-        <div className="ob-process-list">
-          {steps.map((step, index) => (
-            <article className="ob-process-item" key={step.title}>
-              <span>{String(index + 1).padStart(2, "0")}</span>
-              <div>
-                <strong>{step.title}</strong>
-                <p>{step.text}</p>
-              </div>
-            </article>
-          ))}
+        <div className="ob-home-approach__map">
+          {steps.map((step) => {
+            const Icon = step.icon;
+            return (
+              <article className="ob-process-item ob-home-approach-step" key={step.title}>
+                <span aria-hidden="true"><Icon size={22} /></span>
+                <div>
+                  <em>{step.label}</em>
+                  <strong>{step.title}</strong>
+                  <p>{step.text}</p>
+                </div>
+              </article>
+            );
+          })}
         </div>
       </div>
     </section>
@@ -141,16 +167,16 @@ export function ApproachSection() {
 
 export function CasesPreview({ full = false }: { full?: boolean }) {
   return (
-    <section className="ob-section">
+    <section className={"ob-section ob-home-cases" + (full ? " is-full" : "")}>
       <div className="ob-container">
         <SectionIntro
           kicker="Кейсы"
           title={full ? "Кейсы готовятся к публикации" : "Кейсы: честный разбор задачи, решения и ограничений"}
           text="Показываем стандарт материала: задача, ограничения, решение и польза для бизнеса. Не публикуем вымышленные результаты и неподтверждённые отзывы."
         />
-        <div className="ob-card-grid ob-card-grid--3">
-          {cases.map((item) => (
-            <article className="ob-case-card ob-case-card--soon" key={item.title}>
+        <div className="ob-home-cases__layout">
+          {cases.map((item, index) => (
+            <article className={"ob-case-card ob-home-case-card" + (index === 0 ? " is-featured" : "")} key={item.title}>
               <span>{item.sector}</span>
               <h3>{item.title}</h3>
               <p>{item.result}</p>
@@ -197,18 +223,18 @@ export function TestimonialsSection() {
 
 export function ArticlesPreview({ full = false }: { full?: boolean }) {
   return (
-    <section className="ob-section">
+    <section className={"ob-section ob-home-articles" + (full ? " is-full" : "")}>
       <div className="ob-container">
         <SectionIntro
           kicker="Статьи"
           title={full ? "Готовим базу знаний Ониксбит" : "Статьи для руководителей о CRM, сайтах и интеграциях"}
           text="Материалы без пустого копирайтинга: разборы Битрикс24, 1С-Битрикс, обменов, лицензий и поддержки простым языком для руководителей."
         />
-        <div className="ob-card-grid ob-card-grid--3">
-          {articles.map((article) => (
-            <article className="ob-article-card ob-article-card--soon" key={article.title}>
+        <div className="ob-home-articles__layout">
+          {articles.map((article, index) => (
+            <article className={"ob-article-card ob-home-article-card" + (index === 0 ? " is-featured" : "")} key={article.title}>
               <div>
-                <BookOpen size={18} />
+                <BookOpen size={18} aria-hidden="true" />
                 <span>{article.category}</span>
                 <em>{article.minutes}</em>
               </div>

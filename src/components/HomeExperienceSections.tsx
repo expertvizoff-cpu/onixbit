@@ -180,6 +180,27 @@ const pricingFactors = [
   "требования к коробке, серверу и поддержке",
 ];
 
+const pricingRoute = [
+  {
+    label: "Контур",
+    text: "пользователи, отделы, права и точки входа заявок",
+  },
+  {
+    label: "Логика",
+    text: "воронки, роботы, отчёты, регламенты и обучение",
+  },
+  {
+    label: "Связки",
+    text: "1С, сайт, телефония, мессенджеры и поддержка",
+  },
+];
+
+const trustSignals = [
+  "партнёрские статусы вынесены в отдельный раздел",
+  "компетенции привязаны к реальным направлениям работ",
+  "документы можно открыть до старта проекта",
+];
+
 const faqItems = [
   {
     question: "С чего лучше начать: сайт, CRM или интеграции?",
@@ -301,14 +322,44 @@ export function SystemSolutionSection() {
             <strong>собранный контур заявки</strong>
           </div>
           <svg className="ob-home-system__links" viewBox="0 0 640 460" aria-hidden="true">
+            <defs>
+              <filter id="ob-system-glow" x="-80%" y="-80%" width="260%" height="260%">
+                <feGaussianBlur stdDeviation="5" result="blur" />
+                <feColorMatrix
+                  in="blur"
+                  type="matrix"
+                  values="1 0 0 0 1 0 0.78 0 0 0.55 0 0 0.18 0 0.05 0 0 0 1 0"
+                  result="glow"
+                />
+                <feMerge>
+                  <feMergeNode in="glow" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+            </defs>
             {solutionPaths.map((path, index) => (
-              <path className={activeNode === index ? "is-active" : ""} d={path} key={path} />
+              <path
+                className={activeNode === index ? "is-active" : ""}
+                d={path}
+                id={"ob-solution-path-" + index}
+                key={path}
+              />
             ))}
+            <circle className="ob-home-system__pulse-dot" filter="url(#ob-system-glow)" key={activeNode} r="6">
+              <animateMotion dur="2.8s" repeatCount="indefinite" rotate="auto">
+                <mpath href={"#ob-solution-path-" + activeNode} />
+              </animateMotion>
+            </circle>
           </svg>
           <div className="ob-system-core">
             <Network size={34} aria-hidden="true" />
             <strong>Ониксбит</strong>
             <span>архитектура связки</span>
+          </div>
+          <div className="ob-system-energy-readout" aria-live="polite">
+            <span>активная линия</span>
+            <strong>{activeSolution.title}</strong>
+            <p>{activeSolution.text}</p>
           </div>
           {solutionNodes.map((node, index) => {
             const Icon = node.icon;
@@ -454,9 +505,17 @@ export function HomePricingSection() {
         <div className="ob-home-pricing__panel">
           <SectionIntro
             kicker="Ценообразование"
-            title="Сначала считаем задачу, потом подбираем тариф и формат работ"
-            text="На главной оставляем понятную логику цены. Полную таблицу тарифов Битрикс24 и коробочных лицензий лучше смотреть в отдельном разделе, где есть сравнение и переключатели."
+            title="Цена складывается из контура, логики и связок"
+            text="Показываем не абстрактную вилку, а из чего реально собирается бюджет: лицензии, внедрение, интеграции, обучение и дальнейшая поддержка."
           />
+          <div className="ob-home-pricing__route" aria-label="Как формируется стоимость">
+            {pricingRoute.map((item) => (
+              <div key={item.label}>
+                <span>{item.label}</span>
+                <p>{item.text}</p>
+              </div>
+            ))}
+          </div>
           <div className="ob-home-pricing__factors" aria-label="Что влияет на стоимость">
             {pricingFactors.map((item) => (
               <span key={item}><CheckCircle2 size={16} aria-hidden="true" /> {item}</span>
@@ -496,13 +555,18 @@ export function HomeTrustSection() {
   return (
     <section className="ob-section ob-section--tight ob-home-trust">
       <div className="ob-container ob-home-trust__grid">
-        <div>
+        <div className="ob-home-trust__proof">
           <span className="ob-kicker">Доказательства</span>
-          <h2>Статусы и сертификаты не прячем в тексте</h2>
+          <h2>Статусы работают как проверка, а не как россыпь бейджей</h2>
           <p>
-            Партнёрства Битрикс24, 1С-Битрикс и компетенции вынесены в проверяемый раздел.
-            На главной они работают как доверительный мост, а не как набор непонятных слов.
+            Партнёрства Битрикс24, 1С-Битрикс и смежные компетенции показываем рядом с тем,
+            где они действительно помогают: CRM, сайты, обмены и коммуникации.
           </p>
+          <div className="ob-home-trust__signals">
+            {trustSignals.map((item) => (
+              <span key={item}><CheckCircle2 size={16} aria-hidden="true" /> {item}</span>
+            ))}
+          </div>
         </div>
         <div className="ob-home-trust__badges" aria-label="Подтверждения компетенций">
           <span><BadgeCheck size={18} /> партнёр Битрикс24</span>
@@ -523,12 +587,17 @@ export function HomeFaqSection() {
   return (
     <section className="ob-section ob-home-faq" id="faq">
       <div className="ob-container ob-home-faq__grid">
-        <div>
+        <div className="ob-home-faq__console">
           <SectionIntro
             kicker="FAQ"
             title="Коротко о частых вопросах перед стартом"
             text={"Если вопрос срочный, можно сразу позвонить " + company.phone + " или оставить заявку. Ниже - ответы, которые помогают понять формат работы."}
           />
+          <div className="ob-home-faq__quick">
+            <span>быстрый маршрут</span>
+            <strong>Аудит → план → расчёт → запуск</strong>
+            <p>Если вопрос не помещается в FAQ, лучше сразу разобрать вашу связку CRM, сайта и 1С.</p>
+          </div>
           <div className="ob-actions">
             <LeadButton>Задать вопрос</LeadButton>
           </div>
