@@ -588,9 +588,33 @@ export function HomePricingSection() {
         />
         <div className="ob-home-pricing__matrix">
           <div className="ob-home-pricing__formula" aria-label="Формула расчёта">
-            <span>формула бюджета</span>
-            <strong>Смета собирается из понятных слоёв, а не из одной туманной суммы</strong>
-            <p>На консультации быстро отделяем обязательный контур от того, что можно запускать вторым этапом.</p>
+            <div className="ob-home-pricing__formula-head">
+              <div className="ob-home-pricing__formula-copy">
+                <span>формула бюджета</span>
+                <strong>Смета собирается из понятных слоёв, а не из одной туманной суммы</strong>
+                <p>На консультации быстро отделяем обязательный контур от того, что можно запускать вторым этапом.</p>
+              </div>
+              <div className="ob-home-pricing__float-docs" aria-hidden="true">
+                <div className="ob-home-pricing__float-doc is-offer">
+                  <b>Коммерческое предложение</b>
+                  <small>КП</small>
+                  <i />
+                  <em />
+                </div>
+                <div className="ob-home-pricing__float-doc is-estimate">
+                  <b>Смета</b>
+                  <small>работы и сроки</small>
+                  <i />
+                  <em />
+                </div>
+                <div className="ob-home-pricing__float-doc is-invoice">
+                  <b>Счёт</b>
+                  <small>к оплате</small>
+                  <i />
+                  <em />
+                </div>
+              </div>
+            </div>
             <div className="ob-home-pricing__formula-visual ob-pricing-flow ob-pricing-estimate" aria-hidden="true">
               <div className="ob-pricing-flow__steps ob-pricing-estimate__steps">
                 <span className="is-license">лицензии</span>
@@ -619,6 +643,7 @@ export function HomePricingSection() {
               <span className="ob-pricing-estimate__client">
                 <i />
                 <b />
+                <small>Клиент</small>
               </span>
               <i className="ob-pricing-flow__dot ob-pricing-estimate__dot" />
             </div>
@@ -718,7 +743,7 @@ export function HomeTrustSection() {
       <div className="ob-container">
         <div className="ob-home-trust__board">
           <div>
-            <span className="ob-kicker">Доказательства</span>
+            <span className="ob-kicker">Подтверждения</span>
             <h2>Сертификаты и компетенции можно проверить до начала работ</h2>
             <p>
               В этом блоке собраны подтверждения экспертизы Ониксбит: партнёрские статусы Битрикс24 и 1С-Битрикс,
@@ -779,7 +804,9 @@ export function HomeTrustSection() {
               </article>
               <article className="is-quality">
                 <span className="ob-home-trust__badge-cert is-document" aria-hidden="true">
-                  <FileCheck2 size={28} />
+                  <b>КП</b>
+                  <i />
+                  <em />
                 </span>
                 <div>
                   <strong><FileCheck2 size={18} aria-hidden="true" /> документы открыты</strong>
