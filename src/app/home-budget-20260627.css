@@ -1,4 +1,22 @@
 /* Homepage budget visual cache-busting overrides. */
+@property --ob-doc-float-x {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+
+@property --ob-doc-float-y {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+
+@property --ob-doc-float-turn {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
 .ob-home-pricing__formula-visual.ob-pricing-estimate {
   --budget-cycle: 22s;
 }
@@ -9,16 +27,21 @@
   justify-self: center !important;
   perspective: 900px;
   transform-style: preserve-3d;
-  animation: ob-budget-docs-air-drift-20260627 15s cubic-bezier(0.42, 0, 0.58, 1) infinite !important;
+  transform: translate3d(-70px, -12px, 0) rotate(-0.4deg);
   filter: drop-shadow(0 28px 44px rgba(8, 8, 8, 0.16));
 }
 
 .ob-home-pricing__float-docs--intro .ob-home-pricing__float-doc {
   width: 160px !important;
   height: 212px !important;
+  --ob-doc-float-x: 0px;
+  --ob-doc-float-y: 0px;
+  --ob-doc-float-turn: 0deg;
   box-shadow: 0 30px 70px rgba(0, 0, 0, 0.24), inset 0 1px 0 rgba(255, 255, 255, 0.88) !important;
   animation: ob-budget-float-doc-air-20260627 11.5s cubic-bezier(0.42, 0, 0.58, 1) infinite !important;
-  will-change: transform;
+  translate: var(--ob-doc-float-x) var(--ob-doc-float-y);
+  rotate: var(--ob-doc-float-turn);
+  will-change: transform, translate, rotate;
 }
 
 .ob-home-pricing__float-docs--intro .ob-home-pricing__float-doc.is-offer {
@@ -26,6 +49,7 @@
   top: 0 !important;
   --ob-float-doc-base-transform: rotate(4deg) scale(1) translateZ(28px);
   transform: var(--ob-float-doc-base-transform);
+  animation: ob-budget-float-doc-offer-air-20260627 13.2s cubic-bezier(0.42, 0, 0.58, 1) infinite !important;
 }
 
 .ob-home-pricing__float-docs--intro .ob-home-pricing__float-doc.is-estimate {
@@ -33,7 +57,8 @@
   top: 42px !important;
   --ob-float-doc-base-transform: rotate(-8deg) scale(0.98) translateZ(14px);
   transform: var(--ob-float-doc-base-transform);
-  animation-delay: -4.1s !important;
+  animation: ob-budget-float-doc-estimate-air-20260627 16.8s cubic-bezier(0.38, 0, 0.54, 1) infinite !important;
+  animation-delay: -5.4s !important;
 }
 
 .ob-home-pricing__float-docs--intro .ob-home-pricing__float-doc.is-invoice {
@@ -41,16 +66,8 @@
   top: 62px !important;
   --ob-float-doc-base-transform: rotate(9deg) scale(0.96) translateZ(0);
   transform: var(--ob-float-doc-base-transform);
-  animation-delay: -7.6s !important;
-}
-
-@keyframes ob-budget-docs-air-drift-20260627 {
-  0%, 100% {
-    transform: translate3d(-66px, -8px, 0) rotate(-0.6deg);
-  }
-  50% {
-    transform: translate3d(-76px, -25px, 0) rotate(1deg);
-  }
+  animation: ob-budget-float-doc-invoice-air-20260627 14.6s cubic-bezier(0.45, 0, 0.55, 1) infinite !important;
+  animation-delay: -9.2s !important;
 }
 
 @keyframes ob-budget-float-doc-air-20260627 {
@@ -62,6 +79,60 @@
   }
   68% {
     transform: translate3d(-5px, -7px, 0) var(--ob-float-doc-base-transform);
+  }
+}
+
+@keyframes ob-budget-float-doc-offer-air-20260627 {
+  0%, 100% {
+    --ob-doc-float-x: 0px;
+    --ob-doc-float-y: 0px;
+    --ob-doc-float-turn: 0deg;
+  }
+  28% {
+    --ob-doc-float-x: 6px;
+    --ob-doc-float-y: -23px;
+    --ob-doc-float-turn: 1.2deg;
+  }
+  62% {
+    --ob-doc-float-x: -4px;
+    --ob-doc-float-y: -10px;
+    --ob-doc-float-turn: -0.7deg;
+  }
+}
+
+@keyframes ob-budget-float-doc-estimate-air-20260627 {
+  0%, 100% {
+    --ob-doc-float-x: 0px;
+    --ob-doc-float-y: 0px;
+    --ob-doc-float-turn: 0deg;
+  }
+  34% {
+    --ob-doc-float-x: -10px;
+    --ob-doc-float-y: -18px;
+    --ob-doc-float-turn: -1.4deg;
+  }
+  72% {
+    --ob-doc-float-x: 5px;
+    --ob-doc-float-y: -30px;
+    --ob-doc-float-turn: 0.9deg;
+  }
+}
+
+@keyframes ob-budget-float-doc-invoice-air-20260627 {
+  0%, 100% {
+    --ob-doc-float-x: 0px;
+    --ob-doc-float-y: 0px;
+    --ob-doc-float-turn: 0deg;
+  }
+  31% {
+    --ob-doc-float-x: 11px;
+    --ob-doc-float-y: -13px;
+    --ob-doc-float-turn: 1.5deg;
+  }
+  67% {
+    --ob-doc-float-x: -7px;
+    --ob-doc-float-y: -25px;
+    --ob-doc-float-turn: -1deg;
   }
 }
 
