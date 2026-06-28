@@ -87,9 +87,9 @@ export default function CasesPage() {
             <p>Что было сломано, что изменили, где были ограничения и как понять, что проект дал управляемый результат.</p>
           </div>
           <div className="ob-card-grid ob-card-grid--4 ob-case-flow">
-            {caseFlow.map((item, index) => (
+            {caseFlow.map((item) => (
               <article key={item}>
-                <span>{String(index + 1).padStart(2, "0")}</span>
+                <span aria-hidden="true"><CheckCircle2 size={20} /></span>
                 <strong>{item}</strong>
               </article>
             ))}

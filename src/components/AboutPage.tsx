@@ -17,7 +17,6 @@ import {
   FileText,
   Handshake,
   Mail,
-  MapPin,
   Network,
   Route,
   SearchCheck,
@@ -28,6 +27,7 @@ import {
 import { articles, company, directions } from "@/data/site";
 import { LeadButton } from "./Buttons";
 import { MessengerLinks } from "./Messengers";
+import { ContactMapSwitcher } from "./ContactMapSwitcher";
 import { LeadSection, SectionIntro } from "./Sections";
 
 const founderFacts = [
@@ -188,6 +188,23 @@ const companyAddresses = [
 const mainOffice = companyAddresses[0];
 const postalAddress = companyAddresses[1];
 
+const aboutOffices = [
+  {
+    city: "Тула",
+    label: mainOffice.label,
+    address: mainOffice.value,
+    note: "Офис для встреч по предварительной договоренности",
+    coords: { lat: 54.1959222, lon: 37.6044318 },
+  },
+  {
+    city: "Кимовск",
+    label: postalAddress.label,
+    address: postalAddress.value,
+    note: "Адрес для почтовых отправлений и документов",
+    coords: { lat: 53.9691867, lon: 38.528019 },
+  },
+];
+
 const legalItems = [
   { label: "Юридический статус", value: "ИП Тужилкин А.П." },
   { label: "Документы", value: "договор, счёт-оферта, закрывающие документы" },
@@ -197,18 +214,8 @@ const legalItems = [
   { label: "ЭДО ТОЧКА", value: "2MH0d4cc0a6fe5a11ee8a420242ac110002" },
 ];
 
-const aboutRouteMapUrl = (addresses: typeof companyAddresses) =>
-  `https://yandex.ru/map-widget/v1/?mode=routes&rtext=${encodeURIComponent(
-    addresses.map((address) => address.mapQuery).join("~"),
-  )}&rtt=auto`;
-
 const yandexMapUrl = (query: string) =>
   `https://yandex.ru/maps/?text=${encodeURIComponent(query)}`;
-
-const yandexRouteUrl = (addresses: typeof companyAddresses) =>
-  `https://yandex.ru/maps/?mode=routes&rtext=${encodeURIComponent(
-    addresses.map((address) => address.mapQuery).join("~"),
-  )}&rtt=auto`;
 
 const certificatePreview = [
   {
@@ -353,15 +360,15 @@ export function AboutPageContent() {
               </a>
             </div>
             <MessengerLinks className="ob-about-hero__messengers" />
-            <div className="ob-about-hero__facts" aria-label="Факты об Ониксбит">
+            <div className="ob-about-hero__facts ob-about-proof-strip" aria-label="Факты об Ониксбит">
               {founderFacts.map((fact) => {
                 const Icon = fact.icon;
                 return (
-                  <div key={fact.label}>
-                    <Icon size={23} aria-hidden="true" />
+                  <article className="ob-proof__item" key={fact.label}>
+                    <span className="ob-proof__icon" aria-hidden="true"><Icon size={22} /></span>
                     <strong>{fact.value}</strong>
                     <span>{fact.label}</span>
-                  </div>
+                  </article>
                 );
               })}
             </div>
@@ -477,7 +484,7 @@ export function AboutPageContent() {
               <div className="ob-about-work__screen-head">
                 <WorkIcon size={28} aria-hidden="true" />
                 <div>
-                  <span>Этап {String(activeStep + 1).padStart(2, "0")}</span>
+                  <span>Текущий этап</span>
                   <strong>{work.title}</strong>
                 </div>
               </div>
@@ -521,7 +528,6 @@ export function AboutPageContent() {
                   onClick={() => setActiveCompetency(index)}
                   onMouseEnter={() => setActiveCompetency(index)}
                 >
-                  <span>{String(index + 1).padStart(2, "0")}</span>
                   <strong>{route.title}</strong>
                 </button>
               ))}
@@ -724,28 +730,7 @@ export function AboutPageContent() {
             </div>
           </div>
           <div className="ob-about-map-block__map">
-            <iframe
-              title="Яндекс.Карта: основной офис и почтовый адрес Ониксбит"
-              src={aboutRouteMapUrl(companyAddresses)}
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-            />
-            <div className="ob-about-map-markers" aria-hidden="true">
-              <span className="ob-about-map-marker ob-about-map-marker--main">
-                <MapPin size={18} />
-                <strong>Тула</strong>
-                <em>{mainOffice.label}</em>
-              </span>
-              <span className="ob-about-map-marker ob-about-map-marker--postal">
-                <MapPin size={18} />
-                <strong>Кимовск</strong>
-                <em>{postalAddress.label}</em>
-              </span>
-            </div>
-            <a className="ob-about-map-block__route" href={yandexRouteUrl(companyAddresses)} target="_blank" rel="noreferrer">
-              <span>Открыть маршрут</span>
-              <ArrowRight size={16} aria-hidden="true" />
-            </a>
+            <ContactMapSwitcher offices={aboutOffices} />
           </div>
         </div>
       </section>

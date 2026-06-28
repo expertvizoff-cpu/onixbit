@@ -879,15 +879,15 @@ export function HomeFaqSection() {
             <strong>Определяем тип вопроса и сразу ведём к следующему шагу</strong>
             <div>
               <article>
-                <b>01</b>
+                <b aria-hidden="true"><CheckCircle2 size={18} /></b>
                 <p>Что выбрать: CRM, сайт, 1С или связку?</p>
               </article>
               <article>
-                <b>02</b>
+                <b aria-hidden="true"><CheckCircle2 size={18} /></b>
                 <p>Какие ограничения и риски есть в текущей системе?</p>
               </article>
               <article>
-                <b>03</b>
+                <b aria-hidden="true"><CheckCircle2 size={18} /></b>
                 <p>Какой ближайший шаг даст понятный результат?</p>
               </article>
             </div>

@@ -1,9 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
 import {
-  ArrowUpRight,
   BarChart3,
   Clock3,
   Database,
@@ -112,15 +110,6 @@ export function HomeHero() {
               ))}
             </p>
           </div>
-          <div className="ob-hero__quick-routes" aria-label="Быстрый выбор задачи">
-            {directions.map((item) => (
-              <Link href={item.href} key={item.id}>
-                <span>{item.shortTitle}</span>
-                <strong>{item.secondaryCta}</strong>
-                <ArrowUpRight size={15} aria-hidden="true" />
-              </Link>
-            ))}
-          </div>
           <div className="ob-actions">
             <LeadButton>{direction.cta}</LeadButton>
             <ButtonLink href={direction.href} variant="secondary">
@@ -157,7 +146,6 @@ export function HomeHero() {
                 type="button"
               >
                 <span>{item.shortTitle}</span>
-                <small>{String(index + 1).padStart(2, "0")}</small>
                 <i />
               </button>
             ))}

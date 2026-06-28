@@ -292,7 +292,113 @@ export function LicenseGrid() {
   return <BitrixPricingBlock />;
 }
 
+
+const servicePageDetails: Record<Direction["id"], {
+  decisionTitle: string;
+  decisionText: string;
+  signals: string[];
+  outcomes: Array<{ title: string; text: string }>;
+  risks: string[];
+  firstStep: string;
+}> = {
+  bitrix24: {
+    decisionTitle: "Когда Битрикс24 нужен не формально, а как система управления продажами",
+    decisionText:
+      "Страница должна быстро отвечать руководителю: что изменится в продажах, где появится контроль и как не превратить CRM в склад полей.",
+    signals: [
+      "заявки приходят из разных каналов и теряются между менеджерами",
+      "руководитель не видит причины зависших сделок и ручных переносов",
+      "команде нужны правила, роботы, права и отчёты, а не просто новый портал",
+    ],
+    outcomes: [
+      {
+        title: "Карта воронок и ролей",
+        text: "Понятно, какие этапы нужны, кто отвечает за сделку и где появляются задачи, уведомления и контроль.",
+      },
+      {
+        title: "Рабочий CRM-контур",
+        text: "Лиды, сделки, коммуникации, роботы, права и отчёты настроены под реальный процесс компании.",
+      },
+      {
+        title: "Запуск без провала",
+        text: "Команда получает регламент, тестовые сценарии и поддержку после старта, чтобы CRM не осталась витриной.",
+      },
+    ],
+    risks: [
+      "слишком много полей и роботов без понятной логики",
+      "интеграции с телефонией, сайтом и 1С работают отдельно от CRM",
+      "менеджеры обходят систему, потому что им неудобно работать",
+    ],
+    firstStep:
+      "Начинаем с короткого разбора текущего пути заявки: источники, этапы, роли, отчёты и ручные операции. После этого предлагаем карту внедрения.",
+  },
+  sites: {
+    decisionTitle: "Когда сайт на 1С-Битрикс должен продавать и передавать данные дальше",
+    decisionText:
+      "Для клиента важны не только дизайн и CMS, а понятная структура, заявки, каталог, скорость, SEO-основа и связка с CRM/1С.",
+    signals: [
+      "сайт не объясняет услугу или товар так, чтобы заявка дошла до менеджера",
+      "каталог, формы и корзина живут отдельно от CRM и учёта",
+      "нужна управляемая платформа для развития, SEO и интеграций",
+    ],
+    outcomes: [
+      {
+        title: "Структура и сценарии",
+        text: "Фиксируем страницы, навигацию, формы, каталог и точки конверсии до начала разработки.",
+      },
+      {
+        title: "Сайт на управляемой базе",
+        text: "Собираем интерфейс, контентные блоки, каталог, заявки и админку, которую можно поддерживать.",
+      },
+      {
+        title: "Связка с продажами",
+        text: "Формы, заказы и данные передаются в Битрикс24, 1С или другие сервисы по согласованной логике.",
+      },
+    ],
+    risks: [
+      "сайт выглядит отдельно от продаж и не даёт менеджеру контекст заявки",
+      "запуск затягивается из-за неясной структуры, контента и интеграций",
+      "SEO и скорость вспоминают уже после разработки",
+    ],
+    firstStep:
+      "Начинаем с карты страниц, типов заявок, каталога, интеграций и роли сайта в продажах. Это помогает оценить сроки и бюджет без угадывания.",
+  },
+  onec: {
+    decisionTitle: "Когда 1С нужно связать с сайтом, CRM и обменами без ручного дублирования",
+    decisionText:
+      "Здесь особенно важны честные границы: Ониксбит берёт интеграции и связки, а глубокую 1С-разработку усиливает партнёрской экспертизой.",
+    signals: [
+      "заказы, остатки, цены или статусы вручную переносят между системами",
+      "ошибки обмена видны поздно, когда уже страдает клиент или менеджер",
+      "нужно понять, где задача интеграционная, а где требуется профильный 1С-специалист",
+    ],
+    outcomes: [
+      {
+        title: "Границы обмена",
+        text: "Фиксируем, какие данные живут в 1С, что уходит на сайт и что возвращается в CRM.",
+      },
+      {
+        title: "Настроенная связка",
+        text: "Проверяем модули, расписания, статусы, ошибки и правила синхронизации между системами.",
+      },
+      {
+        title: "Регламент поддержки",
+        text: "Описываем контроль ошибок, ответственных и случаи, где подключается отдельная 1С-экспертиза.",
+      },
+    ],
+    risks: [
+      "данные расходятся между сайтом, CRM и учётной системой",
+      "обмен ломается без понятного владельца и регламента",
+      "интеграционную задачу принимают за полноценную 1С-разработку",
+    ],
+    firstStep:
+      "Начинаем с проверки текущих обменов, источников данных, модулей, расписаний и ошибок. Затем честно определяем зону работ.",
+  },
+};
+
 export function ServicePage({ direction }: { direction: Direction }) {
+  const details = servicePageDetails[direction.id];
+
   return (
     <>
       <section className="ob-service-hero ob-section">
@@ -318,6 +424,24 @@ export function ServicePage({ direction }: { direction: Direction }) {
             </div>
           </div>
           <ProductScene type={direction.scene} />
+        </div>
+      </section>
+
+      <section className="ob-section ob-section--tight">
+        <div className="ob-container ob-service-decision">
+          <div className="ob-service-decision__intro">
+            <span className="ob-kicker">Когда обращаться</span>
+            <h2>{details.decisionTitle}</h2>
+            <p>{details.decisionText}</p>
+          </div>
+          <div className="ob-service-decision__signals" aria-label="Сигналы для обращения">
+            {details.signals.map((signal) => (
+              <article key={signal}>
+                <CheckCircle2 size={20} aria-hidden="true" />
+                <span>{signal}</span>
+              </article>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -349,12 +473,46 @@ export function ServicePage({ direction }: { direction: Direction }) {
             text="Делаем так, чтобы решение можно было объяснить команде, развивать и поддерживать после запуска."
           />
           <div className="ob-card-grid ob-card-grid--4">
-            {direction.process.map((step, index) => (
+            {direction.process.map((step) => (
               <article className="ob-process-card" key={step.title}>
-                <span>{String(index + 1).padStart(2, "0")}</span>
+                <span aria-hidden="true"><CheckCircle2 size={20} /></span>
                 <h3>{step.title}</h3>
                 <p>{step.text}</p>
               </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="ob-section ob-section--tight">
+        <div className="ob-container ob-service-outcomes">
+          <div className="ob-service-outcomes__head">
+            <span className="ob-kicker">На выходе</span>
+            <h2>Что получает клиент после проекта</h2>
+            <p>Формулируем результат как рабочие артефакты и настройки, которые можно принять, проверить и развивать.</p>
+          </div>
+          <div className="ob-service-outcomes__grid">
+            {details.outcomes.map((item) => (
+              <article key={item.title}>
+                <ClipboardCheck size={24} aria-hidden="true" />
+                <h3>{item.title}</h3>
+                <p>{item.text}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="ob-section ob-section--tight">
+        <div className="ob-container ob-service-risk-band">
+          <div>
+            <span className="ob-kicker">Риски</span>
+            <h2>Что закрываем до старта разработки</h2>
+            <p>{details.firstStep}</p>
+          </div>
+          <div className="ob-service-risk-band__list">
+            {details.risks.map((risk) => (
+              <span key={risk}><ShieldCheck size={17} aria-hidden="true" /> {risk}</span>
             ))}
           </div>
         </div>
@@ -375,6 +533,17 @@ export function ServicePage({ direction }: { direction: Direction }) {
               <span key={item}>{item}</span>
             ))}
           </div>
+        </div>
+      </section>
+
+      <section className="ob-section ob-section--tight">
+        <div className="ob-container ob-service-next-step">
+          <div>
+            <span className="ob-kicker">Первый шаг</span>
+            <h2>Начнём с диагностики, а не с продажи пакета</h2>
+            <p>{details.firstStep}</p>
+          </div>
+          <LeadButton>{direction.cta}</LeadButton>
         </div>
       </section>
 
@@ -579,11 +748,11 @@ export function ContactsContent() {
             </p>
           </div>
           <ol className="ob-contact-route-flow__list">
-            {contactRoutes.map((item, index) => {
+            {contactRoutes.map((item) => {
               const Icon = item.icon;
               return (
                 <li key={item.title}>
-                  <span>{String(index + 1).padStart(2, "0")}</span>
+                  <span aria-hidden="true"><CheckCircle2 size={20} /></span>
                   <Icon size={22} aria-hidden="true" />
                   <div>
                     <h3>{item.title}</h3>
