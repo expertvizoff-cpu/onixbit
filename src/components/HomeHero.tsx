@@ -104,13 +104,15 @@ export function HomeHero() {
               ))}
             </p>
           </div>
-          <div className="ob-actions">
-            <LeadButton>{direction.cta}</LeadButton>
-            <ButtonLink href={direction.href} variant="secondary">
-              Смотреть направление
-            </ButtonLink>
+          <div className="ob-hero__cta-cluster">
+            <div className="ob-actions">
+              <LeadButton>{direction.cta}</LeadButton>
+              <ButtonLink href={direction.href} variant="secondary">
+                Смотреть направление
+              </ButtonLink>
+            </div>
+            <BitrixCrmProof variant="compact" className={direction.id === "bitrix24" ? "" : "is-hidden"} />
           </div>
-          <BitrixCrmProof variant="compact" className={direction.id === "bitrix24" ? "" : "is-hidden"} />
           <div className="ob-hero__facts">
             {slide.facts.map((fact, index) => {
               const Icon = heroFactIcons[active][index];
