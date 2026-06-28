@@ -2431,51 +2431,6 @@ textarea:focus-visible {
   display: none;
 }
 
-.ob-lead-panel__fallback {
-  position: relative;
-  z-index: 1;
-  display: grid;
-  gap: 10px;
-  padding: 12px 6px 4px;
-  color: rgba(8, 8, 8, 0.72);
-  font-size: 13px;
-  line-height: 1.45;
-  font-weight: 700;
-}
-
-.ob-lead-panel__fallback p {
-  margin: 0;
-}
-
-.ob-lead-panel__fallback-actions,
-.ob-lead-panel__fallback-messengers {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.ob-lead-panel__fallback-actions a {
-  display: inline-flex;
-  align-items: center;
-  min-height: 42px;
-  gap: 7px;
-  border: 1px solid rgba(8, 8, 8, 0.08);
-  border-radius: 14px;
-  padding: 10px 12px;
-  color: var(--ob-ink);
-  background: rgba(255, 255, 255, 0.66);
-  font-weight: 850;
-}
-
-.ob-lead-panel__fallback-actions svg {
-  color: var(--ob-red);
-}
-
-.ob-lead-panel__fallback-messengers .ob-messenger {
-  min-height: 40px;
-  border-radius: 14px;
-}
-
 .ob-form-slot .b24-form,
 .ob-form-slot .b24-form-wrapper,
 .ob-form-slot .b24-form-content {
@@ -26045,16 +26000,6 @@ span.ob-pricing-estimate__client {
     grid-template-columns: 1fr;
     gap: 10px;
     padding: 16px;
-  }
-
-  .ob-lead-panel__fallback-actions,
-  .ob-lead-panel__fallback-messengers {
-    display: grid;
-    grid-template-columns: 1fr;
-  }
-
-  .ob-lead-panel__fallback-messengers .ob-messenger {
-    width: 100%;
   }
 }
 

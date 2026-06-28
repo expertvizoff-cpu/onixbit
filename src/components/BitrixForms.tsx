@@ -1,8 +1,6 @@
 "use client";
 
-import { CheckCircle2, Mail, Phone } from "lucide-react";
-import { company } from "@/data/site";
-import { MessengerLinks } from "./Messengers";
+import { CheckCircle2 } from "lucide-react";
 import { useEffect, useRef } from "react";
 
 const popupLoader =
@@ -129,21 +127,6 @@ export function LeadFormPanel({ className = "", id }: { className?: string; id?:
 
       <div className="ob-lead-panel__frame">
         <InlineBitrixForm />
-      </div>
-
-      <div className="ob-lead-panel__fallback" aria-label="Резервные способы связи">
-        <p>Если форма не загрузилась, напишите напрямую — заявку всё равно заведём в CRM.</p>
-        <div className="ob-lead-panel__fallback-actions">
-          <a href={company.phoneHref}>
-            <Phone size={16} aria-hidden="true" />
-            <span>{company.phone}</span>
-          </a>
-          <a href={company.emailHref}>
-            <Mail size={16} aria-hidden="true" />
-            <span>{company.email}</span>
-          </a>
-        </div>
-        <MessengerLinks className="ob-lead-panel__fallback-messengers" />
       </div>
     </aside>
   );
