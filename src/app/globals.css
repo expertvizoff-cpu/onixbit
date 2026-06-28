@@ -810,7 +810,7 @@ textarea:focus-visible {
   flex-direction: column;
   align-items: center;
   width: min(100%, 720px);
-  margin-top: clamp(30px, 2.4vw, 40px);
+  margin-top: clamp(19px, calc(2.4vw - 11px), 29px);
 }
 
 .ob-hero__cta-cluster .ob-actions {
@@ -12185,7 +12185,7 @@ a:hover .lucide-mail polyline {
   }
 
   .ob-hero__cta-cluster {
-    margin-top: 22px;
+    margin-top: 11px;
   }
 
   .ob-hero__facts {
@@ -24295,7 +24295,7 @@ span.ob-pricing-estimate__client {
 
 @media (max-width: 760px) {
   .ob-hero__cta-cluster {
-    margin-top: 18px;
+    margin-top: 7px;
   }
 
   .ob-hero__copy .ob-actions {
