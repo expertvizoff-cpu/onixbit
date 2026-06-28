@@ -32,8 +32,8 @@ import { LeadSection, SectionIntro } from "./Sections";
 
 const founderFacts = [
   { icon: BriefcaseBusiness, value: "14 лет", label: "опыт" },
-  { icon: Building2, value: "Бизнес", label: "фокус" },
-  { icon: Award, value: "Партнёр", label: "статусы" },
+  { icon: Building2, value: "B2B", label: "CRM, сайт и учёт" },
+  { icon: Award, value: "Партнёр", label: "Битрикс24 и 1С-Битрикс" },
 ];
 
 const workStepDuration = 5600;
@@ -86,6 +86,24 @@ const positionTeasers = [
     icon: UserRoundCheck,
     title: "Держим управляемость",
     text: "Роли, сроки, ответственность и следующий шаг понятны до старта работ.",
+  },
+];
+
+const firstConversationResults = [
+  {
+    icon: SearchCheck,
+    title: "Поймём точку потерь",
+    text: "Разберём, где теряются заявки, сроки, данные или ответственность между CRM, сайтом и 1С.",
+  },
+  {
+    icon: Route,
+    title: "Предложим ближайший шаг",
+    text: "Подскажем, что делать первым: аудит, настройку, расчёт лицензии, ТЗ или отдельную интеграцию.",
+  },
+  {
+    icon: ClipboardCheck,
+    title: "Обозначим границы",
+    text: "Честно отделим зону Ониксбит от задач, где нужна отдельная 1С-экспертиза или подрядчик клиента.",
   },
 ];
 
@@ -291,6 +309,23 @@ export function AboutPageContent() {
     return () => window.clearTimeout(timer);
   }, [activeStep]);
 
+  useEffect(() => {
+    if (!selectedCertificate) return;
+
+    const originalOverflow = document.documentElement.style.overflow;
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setActiveCertificate(null);
+    };
+
+    document.documentElement.style.overflow = "hidden";
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.documentElement.style.overflow = originalOverflow;
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [selectedCertificate]);
+
   return (
     <>
       <section className="ob-about-hero ob-section">
@@ -298,14 +333,14 @@ export function AboutPageContent() {
           <div className="ob-about-hero__content">
             <span className="ob-kicker">О компании</span>
             <h1 className="ob-about-hero__title">
-              <span>Ониксбит — интегратор</span>
-              <span>Битрикс24, сайтов</span>
+              <span>Ониксбит — интегратор</span>{" "}
+              <span>Битрикс24, сайтов</span>{" "}
               <span>и 1С-интеграций</span>
             </h1>
             <p>
-              Меня зовут Александр Тужилкин. Я основатель Ониксбит и эксперт по
-              Битрикс24, сайтам на 1С-Битрикс и интеграциям с 1С. Помогаю B2B-компаниям
-              связывать продажи, сайт, учёт и коммуникации в рабочую систему.
+              Меня зовут Александр Тужилкин. Я основатель Ониксбит. Мы помогаем B2B-компаниям
+              внедрять Битрикс24, развивать сайты на 1С-Битрикс и связывать CRM, 1С,
+              коммуникации и отчёты в рабочую систему без разрывов между отделами.
             </p>
             <div className="ob-actions">
               <LeadButton>Обсудить проект</LeadButton>
@@ -333,7 +368,12 @@ export function AboutPageContent() {
           </div>
 
           <div className="ob-about-hero__visual" aria-label="Александр Тужилкин и экосистема Ониксбит">
-            <div className="ob-about-hero__orbit ob-about-hero__orbit--markers" aria-hidden="true" />
+            <div className="ob-about-hero__orbit ob-about-hero__orbit--markers" aria-hidden="true">
+              <span />
+              <span />
+              <span />
+              <span />
+            </div>
             <div className="ob-about-hero__portrait">
               <Image
                 src="/media/team/founder-alexander-site.webp"
@@ -351,6 +391,31 @@ export function AboutPageContent() {
               <BriefcaseBusiness size={18} aria-hidden="true" />
               <span>Личный разбор B2B-задач</span>
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="ob-section ob-section--tight">
+        <div className="ob-container ob-about-first-call">
+          <div className="ob-about-first-call__intro">
+            <span className="ob-kicker">Первый разговор</span>
+            <h2>После обращения вы получите не продажу пакета, а понятный следующий шаг</h2>
+            <p>
+              На старте важно быстро понять контекст и не навязать лишнюю разработку. Поэтому первый разбор строим вокруг
+              бизнес-процесса, данных, ограничений и ожидаемого результата.
+            </p>
+          </div>
+          <div className="ob-about-first-call__grid">
+            {firstConversationResults.map((item) => {
+              const Icon = item.icon;
+              return (
+                <article key={item.title}>
+                  <Icon size={24} aria-hidden="true" />
+                  <h3>{item.title}</h3>
+                  <p>{item.text}</p>
+                </article>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -686,11 +751,23 @@ export function AboutPageContent() {
       </section>
 
       {selectedCertificate ? (
-        <div className="ob-about-cert-modal" role="dialog" aria-modal="true" aria-label={selectedCertificate.title}>
-          <button className="ob-about-cert-modal__close" type="button" onClick={() => setActiveCertificate(null)} aria-label="Закрыть сертификат">
+        <div
+          className="ob-about-cert-modal"
+          role="dialog"
+          aria-modal="true"
+          aria-label={selectedCertificate.title}
+          onMouseDown={() => setActiveCertificate(null)}
+        >
+          <button
+            className="ob-about-cert-modal__close"
+            type="button"
+            onMouseDown={(event) => event.stopPropagation()}
+            onClick={() => setActiveCertificate(null)}
+            aria-label="Закрыть сертификат"
+          >
             ×
           </button>
-          <div className="ob-about-cert-modal__card">
+          <div className="ob-about-cert-modal__card" onMouseDown={(event) => event.stopPropagation()}>
             <Image src={selectedCertificate.image} alt={selectedCertificate.title} width={1200} height={780} />
           </div>
         </div>

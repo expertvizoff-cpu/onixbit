@@ -1,7 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import {
+  ArrowUpRight,
   BarChart3,
   Clock3,
   Database,
@@ -93,10 +95,14 @@ export function HomeHero() {
         <div className="ob-hero__copy">
           <span className="ob-kicker">Ониксбит для продаж, сайта и учёта</span>
           <h1 className="ob-hero__title">
-            <span>CRM, сайт и 1С</span>
-            <span>работают как</span>
+            <span>CRM, сайт и 1С</span>{" "}
+            <span>работают как</span>{" "}
             <span>одна система</span>
           </h1>
+          <p className="ob-hero__lead">
+            Ониксбит внедряет Битрикс24, разрабатывает сайты на 1С-Битрикс и связывает заявки, учёт,
+            коммуникации и отчёты в понятный рабочий контур.
+          </p>
           <div className="ob-hero__focus">
             <span>{slide.focusLabel}</span>
             <strong>{slide.title.join(" ")}</strong>
@@ -105,6 +111,15 @@ export function HomeHero() {
                 <span key={line}>{line}</span>
               ))}
             </p>
+          </div>
+          <div className="ob-hero__quick-routes" aria-label="Быстрый выбор задачи">
+            {directions.map((item) => (
+              <Link href={item.href} key={item.id}>
+                <span>{item.shortTitle}</span>
+                <strong>{item.secondaryCta}</strong>
+                <ArrowUpRight size={15} aria-hidden="true" />
+              </Link>
+            ))}
           </div>
           <div className="ob-actions">
             <LeadButton>{direction.cta}</LeadButton>

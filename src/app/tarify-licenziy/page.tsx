@@ -3,8 +3,19 @@ import { ArrowRight, Cloud, ServerCog } from "lucide-react";
 import { LeadSection, LicenseGrid } from "@/components/Sections";
 
 export const metadata: Metadata = {
-  title: "Тарифы лицензий",
-  description: "Подбор облачных и коробочных тарифов Битрикс24 под задачи B2B-компании.",
+  title: "Тарифы Битрикс24: облако, коробка, лицензии и подбор",
+  description:
+    "Ониксбит помогает подобрать тарифы Битрикс24: облако, коробка, пользователи, права, диск, интеграции, Маркетплейс, BitrixGPT и счёт для B2B-компании.",
+  alternates: {
+    canonical: "/tarify-licenziy",
+  },
+  openGraph: {
+    title: "Тарифы Битрикс24 | Ониксбит",
+    description:
+      "Подбор облачной или коробочной лицензии Битрикс24 под команду, права, интеграции и инфраструктуру.",
+    url: "/tarify-licenziy",
+    type: "website",
+  },
 };
 
 const licenseRoutes = [

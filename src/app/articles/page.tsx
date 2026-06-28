@@ -4,8 +4,19 @@ import { articles } from "@/data/site";
 import { LeadSection } from "@/components/Sections";
 
 export const metadata: Metadata = {
-  title: "Статьи Ониксбит",
-  description: "Статьи Ониксбит о Битрикс24, 1С-Битрикс, 1С и интеграциях для B2B-руководителей.",
+  title: "Статьи Ониксбит о Битрикс24, 1С-Битрикс, 1С и интеграциях",
+  description:
+    "Практические статьи Ониксбит для B2B-руководителей: внедрение Битрикс24, сайты на 1С-Битрикс, обмены с 1С, лицензии, поддержка и контроль проекта.",
+  alternates: {
+    canonical: "/articles",
+  },
+  openGraph: {
+    title: "Статьи Ониксбит",
+    description:
+      "Практические материалы о CRM, сайтах, 1С, интеграциях и управлении проектом без лишнего копирайтинга.",
+    url: "/articles",
+    type: "website",
+  },
 };
 
 const categories = [
@@ -29,8 +40,8 @@ export default function ArticlesPage() {
             </p>
           </div>
           <div className="ob-page-status-card">
-            <strong>Раздел наполняется</strong>
-            <span>Каркас страницы готов. По мере подготовки материалов карточки станут полноценными статьями с отдельными страницами.</span>
+            <strong>Редакционная база в работе</strong>
+            <span>Темы уже собраны вокруг частых вопросов клиентов: CRM, сайт, 1С, лицензии, интеграции и приёмка результата.</span>
           </div>
         </div>
       </section>

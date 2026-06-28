@@ -1,6 +1,6 @@
 # Onixbit Project State
 
-Last updated: 2026-06-27
+Last updated: 2026-06-28
 
 ## Purpose
 
@@ -94,6 +94,8 @@ These are local Codex environment notes, not project dependencies:
 
 - `ui-ux-pro-max` installed at `/home/aleksander/.codex/skills/ui-ux-pro-max`.
 - `onixbit-brand` installed at `/home/aleksander/.codex/skills/onixbit-brand`.
+- Marketing, sales, SEO/GEO, React, TypeScript, frontend architecture, testing, accessibility, performance, visual-testing, and content skills are installed globally at `/home/aleksander/.codex/skills/`.
+- `bitrix-aspro-photoconstructor` is installed globally for future Lifephotoshop/Bitrix/Aspro/photo-constructor work, but it is not an Onixbit project dependency.
 - 21st.dev Magic MCP is configured locally in Codex config as `21st_magic`.
 - VS Code Russian language pack was installed in the remote VS Code server.
 - GitHub CLI `gh` installed at `/home/aleksander/.local/bin/gh`; run `gh auth login` when GitHub API/Actions access is needed.
@@ -165,4 +167,10 @@ npm run check
 - GitHub CLI `gh` is installed but not authenticated yet.
 - Homepage budget animation refinements live in `src/app/home-budget-20260627.css`, imported after `globals.css` to force a fresh CSS chunk for cache-busting.
 - `next.config.ts` sets `Cache-Control: public, max-age=0, must-revalidate` for `/_next/static/chunks/:path*` so CSS/JS chunk updates are revalidated instead of being stuck behind immutable browser cache during visual edits.
-- No current unfinished implementation task is recorded here.
+- 2026-06-28 session: completed a full-site audit/polish pass across the homepage, `/o-kompanii`, service pages, cases, articles, certificates, tariffs, contacts, privacy, sitemap, and global layout.
+- Main changes from the full-site pass: stronger homepage positioning and quick service routes, more client-facing process copy, a first-call outcomes block on `/o-kompanii`, canonical/OpenGraph metadata on public pages, refined sitemap priorities/frequencies, mobile CTA compaction, and readable H1 text spacing for assistive tech.
+- The temporary GetReview-like video widget is no longer mounted or imported in `src/app/layout.tsx` because the public external test video is not production-ready and the widget competed with mobile hero CTAs. Untracked files `src/components/VideoTrustWidget.tsx` and `src/app/video-trust-widget.css` may remain locally but should not ship unless replaced with an owned Onixbit video.
+- Checks passed after the full-site pass: `npm run check`, `npm run lint`, `npm run build`, and `npm run test:e2e:built` with 26 passed. `next build` still prints the known custom Cache-Control warning for `/_next/static/chunks/:path*`.
+- Playwright desktop/mobile screenshots for all public routes were regenerated in `output/playwright/audit-{desktop,mobile}-*.png`; route geometry checks reported no horizontal overflow.
+- Local preview for the final build was started at `http://127.0.0.1:3100`.
+- Current uncommitted Onixbit changes are expected: production edits across app pages/components/CSS/sitemap plus untracked `output/`, inactive untracked video widget files, and pre-existing/unrelated untracked `CODEX_SETUP_RU.md`.

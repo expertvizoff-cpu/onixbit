@@ -2,8 +2,19 @@ import type { Metadata } from "next";
 import { CertificatesGrid, LeadSection } from "@/components/Sections";
 
 export const metadata: Metadata = {
-  title: "Сертификаты",
-  description: "Сертификаты и партнёрские статусы Ониксбит.",
+  title: "Сертификаты Ониксбит: партнёрства Битрикс24 и 1С-Битрикс",
+  description:
+    "Сертификаты, партнёрские статусы и компетенции Ониксбит по Битрикс24, 1С-Битрикс, CRM, бизнес-процессам, коробке и интеграции с 1С.",
+  alternates: {
+    canonical: "/certificates",
+  },
+  openGraph: {
+    title: "Сертификаты Ониксбит",
+    description:
+      "Проверяемые партнёрские статусы и компетенции по Битрикс24, 1С-Битрикс и интеграциям.",
+    url: "/certificates",
+    type: "website",
+  },
 };
 
 export default function CertificatesPage() {

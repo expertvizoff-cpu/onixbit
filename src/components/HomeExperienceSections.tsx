@@ -309,6 +309,11 @@ const trustCertificates = [
 
 const faqItems = [
   {
+    question: "Работаете только в Туле или по всей России?",
+    answer:
+      "Основной офис Ониксбит находится в Туле, документы можно направлять в Кимовск. Проекты по Битрикс24, 1С-Битрикс, 1С и интеграциям ведём удалённо по всей России: созвоны, задачи, доступы, договоры и ЭДО.",
+  },
+  {
     question: "С чего лучше начать: сайт, CRM или интеграции?",
     answer:
       "Начинаем с бизнес-процесса и точки потерь. После короткой диагностики становится понятно, что даст эффект быстрее: настройка CRM, доработка сайта, обмен с 1С или связка нескольких частей.",
@@ -345,8 +350,8 @@ export function PainSection() {
       <div className="ob-container ob-home-pain__grid">
         <div className="ob-home-pain__intro">
           <SectionIntro
-            kicker="Блок проблем"
-            title="Сначала показываем, где система теряет управляемость"
+            kicker="Диагностика процесса"
+            title="Находим, где заявки, данные и контроль расходятся"
             text="Проблема видна не как список жалоб, а как разрыв маршрута: обращение приходит в одном месте, данные живут в другом, контроль собирается вручную. Выберите сигнал - панель покажет, что именно ломается."
           />
           <div className="ob-home-pain__diagnostic" aria-live="polite">
@@ -401,7 +406,7 @@ export function PainSection() {
                 onMouseEnter={() => setActivePain(index)}
                 type="button"
               >
-                <span className="ob-home-pain-card__status">сигнал процесса</span>
+                <span className="ob-home-pain-card__status">что видит руководитель</span>
                 <h3>{item.title}</h3>
                 <p>{item.text}</p>
                 <em>Что чинить: {item.fix}</em>
@@ -466,8 +471,8 @@ export function SystemSolutionSection() {
         </div>
         <div className="ob-home-system__content">
           <SectionIntro
-            kicker="Решение"
-            title="Ниже тот же маршрут, но уже собранный в управляемую систему"
+            kicker="Архитектура решения"
+            title="Собираем маршрут заявки в управляемую систему"
             text="Выберите узел на схеме или во вкладках: покажем, какую проблему он закрывает и каким становится путь заявки после внедрения."
           />
           <div className="ob-home-system__tabs" aria-label="Выберите узел решения">
@@ -583,7 +588,7 @@ export function HomePricingSection() {
       <div className="ob-container">
         <div className="ob-home-pricing__intro-row">
           <SectionIntro
-            kicker="Формула бюджета"
+            kicker="Бюджет и КП"
             title="Расчёт собирается из понятных шагов и превращается в КП"
             text="Показываем, из чего складывается предложение: лицензии, внедрение, интеграции, обучение и финальный расчёт. Так легче понять бюджет и не потерять важные работы."
           />
