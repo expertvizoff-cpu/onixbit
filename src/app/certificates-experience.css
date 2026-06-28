@@ -1,0 +1,549 @@
+/* Certificates page: interactive competence command center */
+.ob-cert-command {
+  position: relative;
+  min-height: min(820px, calc(100svh - 76px));
+  padding-top: clamp(76px, 8vw, 132px);
+  padding-bottom: clamp(28px, 4vw, 62px);
+  overflow: clip;
+  color: #fff;
+  background:
+    linear-gradient(135deg, rgba(8, 8, 8, 0.96), rgba(33, 30, 30, 0.94) 46%, rgba(90, 13, 18, 0.92)),
+    radial-gradient(circle at 82% 18%, rgba(255, 212, 90, 0.3), transparent 34%),
+    radial-gradient(circle at 14% 72%, rgba(237, 28, 36, 0.34), transparent 30%);
+}
+
+.ob-cert-command::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.055) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(255, 255, 255, 0.055) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.8), transparent 88%);
+}
+
+.ob-cert-command::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 110px;
+  pointer-events: none;
+  background: linear-gradient(180deg, transparent, #f7f7f4);
+}
+
+.ob-cert-command__grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 0.88fr) minmax(460px, 1.12fr);
+  gap: clamp(28px, 5vw, 82px);
+  align-items: center;
+}
+
+.ob-cert-command .ob-kicker {
+  color: var(--ob-yellow);
+  background: rgba(255, 212, 90, 0.12);
+  border-color: rgba(255, 212, 90, 0.34);
+}
+
+.ob-cert-command h1 {
+  max-width: 720px;
+  margin: 18px 0 0;
+  color: #fff;
+  font-size: clamp(46px, 5.4vw, 86px);
+  line-height: 0.94;
+  letter-spacing: 0;
+}
+
+.ob-cert-command__copy > p {
+  max-width: 650px;
+  margin: 22px 0 0;
+  color: rgba(255, 255, 255, 0.75);
+  font-size: clamp(17px, 1.4vw, 22px);
+  line-height: 1.55;
+}
+
+.ob-cert-command .ob-btn--secondary {
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.ob-cert-command__stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  max-width: 720px;
+  margin-top: 30px;
+}
+
+.ob-cert-command__stats span {
+  min-height: 82px;
+  padding: 15px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 18px;
+  color: rgba(255, 255, 255, 0.72);
+  background: rgba(255, 255, 255, 0.07);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.09);
+}
+
+.ob-cert-command__stats strong {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--ob-yellow);
+  font-family: var(--ob-font-display);
+  font-size: 28px;
+  line-height: 1;
+}
+
+.ob-cert-command__stage {
+  position: relative;
+  min-height: 620px;
+  padding: clamp(16px, 2vw, 24px);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 28px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.055)),
+    rgba(8, 8, 8, 0.32);
+  box-shadow: 0 34px 110px rgba(0, 0, 0, 0.36);
+  backdrop-filter: blur(18px);
+}
+
+.ob-cert-command__switcher {
+  position: relative;
+  z-index: 3;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.ob-cert-command__switcher button {
+  display: inline-flex;
+  min-height: 48px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-radius: 14px;
+  padding: 10px 12px;
+  color: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.06);
+  transition: transform 180ms var(--ob-ease), border-color 180ms var(--ob-ease), background 180ms var(--ob-ease), color 180ms var(--ob-ease);
+}
+
+.ob-cert-command__switcher button:hover,
+.ob-cert-command__switcher button.is-active {
+  transform: translateY(-2px);
+  color: #fff;
+  border-color: rgba(255, 212, 90, 0.46);
+  background: rgba(255, 212, 90, 0.13);
+}
+
+.ob-cert-command__map {
+  position: relative;
+  min-height: 520px;
+  margin-top: 18px;
+  overflow: hidden;
+  border-radius: 24px;
+  background:
+    linear-gradient(120deg, rgba(255, 255, 255, 0.06), transparent 42%),
+    radial-gradient(circle at 62% 34%, rgba(255, 212, 90, 0.14), transparent 30%),
+    rgba(0, 0, 0, 0.24);
+}
+
+.ob-cert-command__map::before,
+.ob-cert-command__map::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+}
+
+.ob-cert-command__map::before {
+  left: 11%;
+  right: 16%;
+  top: 48%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(255, 212, 90, 0.64), rgba(237, 28, 36, 0.56), transparent);
+}
+
+.ob-cert-command__map::after {
+  inset: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+}
+
+.ob-cert-command__core {
+  position: absolute;
+  left: 32px;
+  top: 48px;
+  z-index: 2;
+  display: grid;
+  width: 154px;
+  min-height: 154px;
+  place-items: center;
+  border: 1px solid rgba(255, 212, 90, 0.34);
+  border-radius: 999px;
+  padding: 22px;
+  text-align: center;
+  background: rgba(8, 8, 8, 0.72);
+  box-shadow: 0 0 0 12px rgba(255, 212, 90, 0.045), 0 26px 72px rgba(0, 0, 0, 0.34);
+}
+
+.ob-cert-command__core svg {
+  color: var(--ob-yellow);
+}
+
+.ob-cert-command__core strong {
+  color: #fff;
+  font-family: var(--ob-font-display);
+  font-size: 18px;
+}
+
+.ob-cert-command__core span {
+  color: rgba(255, 255, 255, 0.58);
+  font-size: 11px;
+  font-weight: 900;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.ob-cert-command__detail {
+  position: absolute;
+  left: clamp(180px, 27vw, 270px);
+  top: 58px;
+  z-index: 2;
+  width: min(430px, calc(100% - 220px));
+  min-height: 278px;
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-radius: 22px;
+  padding: 24px;
+  background: rgba(8, 8, 8, 0.7);
+  box-shadow: 0 26px 80px rgba(0, 0, 0, 0.28);
+}
+
+.ob-cert-command__detail > span {
+  display: inline-flex;
+  margin-bottom: 12px;
+  color: var(--ob-yellow);
+  font-size: 12px;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.ob-cert-command__detail h2 {
+  margin: 0;
+  color: #fff;
+  font-size: clamp(24px, 2vw, 34px);
+  line-height: 1.06;
+}
+
+.ob-cert-command__detail p {
+  margin: 14px 0 0;
+  color: rgba(255, 255, 255, 0.68);
+  line-height: 1.52;
+}
+
+.ob-cert-command__nodes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.ob-cert-command__nodes em {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 999px;
+  padding: 7px 10px;
+  color: rgba(255, 255, 255, 0.78);
+  background: rgba(255, 255, 255, 0.06);
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 900;
+}
+
+.ob-cert-command__nodes svg {
+  color: var(--ob-yellow);
+}
+
+.ob-cert-command__result {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  margin-top: 16px;
+  color: #fff;
+}
+
+.ob-cert-command__result svg {
+  flex: 0 0 auto;
+  color: var(--ob-yellow);
+}
+
+.ob-cert-command__stack {
+  position: absolute;
+  right: 30px;
+  bottom: 34px;
+  z-index: 3;
+  width: min(360px, 42%);
+  min-height: 330px;
+}
+
+.ob-cert-command__doc {
+  position: absolute;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.34);
+}
+
+.ob-cert-command__doc img {
+  object-fit: contain;
+  padding: 8px;
+}
+
+.ob-cert-command__doc span {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  border-radius: 999px;
+  padding: 6px 9px;
+  color: var(--ob-ink);
+  background: rgba(255, 212, 90, 0.92);
+  font-size: 10px;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.ob-cert-command__doc.is-doc-0 {
+  inset: 8px 34px auto auto;
+  z-index: 3;
+  width: 188px;
+  height: 246px;
+  transform: rotate(-5deg);
+}
+
+.ob-cert-command__doc.is-doc-1 {
+  right: 150px;
+  bottom: 10px;
+  z-index: 2;
+  width: 172px;
+  height: 228px;
+  transform: rotate(5deg);
+}
+
+.ob-cert-command__doc.is-doc-2 {
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  width: 160px;
+  height: 214px;
+  transform: rotate(10deg);
+}
+
+.obx-certs__grid--ecosystem {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  align-items: stretch;
+}
+
+.obx-certs__grid--ecosystem .obx-certs__card {
+  display: flex;
+  min-height: 420px;
+  flex-direction: column;
+}
+
+.obx-certs__grid--ecosystem .obx-certs__frame {
+  height: 214px;
+  border-radius: 14px;
+}
+
+.obx-certs__grid--ecosystem .obx-certs__card.is-portrait .obx-certs__frame,
+.obx-certs__grid--ecosystem .obx-certs__card.is-training .obx-certs__frame {
+  height: 244px;
+}
+
+.obx-certs__grid--ecosystem .obx-certs__preview {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.obx-certs__grid--ecosystem .obx-certs__image {
+  object-fit: contain;
+  padding: 8px;
+}
+
+.obx-certs__grid--ecosystem .obx-certs__card-text {
+  margin-top: auto;
+}
+
+.obx-certs__note {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.obx-certs__note code {
+  color: var(--ob-red);
+  font-size: 0.92em;
+  font-weight: 900;
+}
+
+.obx-certs__modal-dialog {
+  width: min(94vw, 940px);
+  height: min(90vh, 860px);
+}
+
+.obx-certs__modal-media {
+  position: relative;
+  width: 100%;
+  min-height: 0;
+  flex: 1 1 auto;
+}
+
+.obx-certs__modal-image {
+  object-fit: contain;
+}
+
+.obx-certs__modal-close {
+  display: inline-grid;
+  place-items: center;
+}
+
+.obx-certs__modal-close::before,
+.obx-certs__modal-close::after {
+  display: none;
+}
+
+.obx-certs__modal-title {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+@media (max-width: 1180px) {
+  .ob-cert-command__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ob-cert-command__stage {
+    min-height: 560px;
+  }
+
+  .obx-certs__grid--ecosystem {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  .ob-cert-command {
+    padding-top: 46px;
+  }
+
+  .ob-cert-command h1 {
+    font-size: 38px;
+    line-height: 1;
+  }
+
+  .ob-cert-command__stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    margin-top: 22px;
+  }
+
+  .ob-cert-command__stats span {
+    min-height: 66px;
+    padding: 11px;
+    font-size: 12px;
+    line-height: 1.28;
+  }
+
+  .ob-cert-command__stats strong {
+    font-size: 22px;
+  }
+
+  .ob-cert-command__stage {
+    min-height: 0;
+    padding: 12px;
+    border-radius: 22px;
+  }
+
+  .ob-cert-command__switcher {
+    grid-template-columns: 1fr;
+  }
+
+  .ob-cert-command__map {
+    min-height: 680px;
+  }
+
+  .ob-cert-command__core {
+    left: 18px;
+    top: 22px;
+    width: 122px;
+    min-height: 122px;
+    padding: 16px;
+  }
+
+  .ob-cert-command__detail {
+    left: 18px;
+    right: 18px;
+    top: 230px;
+    width: auto;
+    padding: 18px;
+  }
+
+  .ob-cert-command__stack {
+    right: 18px;
+    top: 20px;
+    bottom: auto;
+    width: 212px;
+    min-height: 178px;
+  }
+
+  .ob-cert-command__doc.is-doc-0 {
+    right: 12px;
+    width: 116px;
+    height: 152px;
+  }
+
+  .ob-cert-command__doc.is-doc-1 {
+    right: 92px;
+    width: 106px;
+    height: 140px;
+  }
+
+  .ob-cert-command__doc.is-doc-2 {
+    width: 100px;
+    height: 132px;
+  }
+
+  .obx-certs__grid--ecosystem {
+    grid-template-columns: 1fr;
+  }
+
+  .obx-certs__grid--ecosystem .obx-certs__card {
+    min-height: 0;
+  }
+
+  .obx-certs__grid--ecosystem .obx-certs__frame,
+  .obx-certs__grid--ecosystem .obx-certs__card.is-portrait .obx-certs__frame,
+  .obx-certs__grid--ecosystem .obx-certs__card.is-training .obx-certs__frame {
+    height: 260px;
+  }
+
+  .obx-certs__modal-dialog {
+    height: min(86vh, 720px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ob-cert-command__switcher button,
+  .ob-cert-command__doc {
+    transition: none !important;
+    animation: none !important;
+  }
+}

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import { ButtonLink, LeadButton } from "@/components/Buttons";
-import { CertificatesGrid, LeadSection } from "@/components/Sections";
+import { CertificatesExperience } from "@/components/CertificatesExperience";
+import { LeadSection } from "@/components/Sections";
+import { getCertificateDashboard } from "@/lib/certificate-assets";
 
 export const metadata: Metadata = {
   title: "Сертификаты Ониксбит: партнёрства Битрикс24 и 1С-Битрикс",
@@ -18,25 +19,27 @@ export const metadata: Metadata = {
   },
 };
 
+const certificateImage = (path: string) => "https://onixbit.ru" + encodeURI(path);
+
 const certificateJsonLdItems = [
   {
     name: "Золотой партнёр Битрикс24",
-    image: "https://onixbit.ru/media/certificates/Золотой партнёр Битрикс24.jpg",
+    image: certificateImage("/media/certificates/Битрикс24 сертификаты/Золотой партнёр Битрикс24.jpg"),
     description: "Партнёрский статус Ониксбит по Битрикс24.",
   },
   {
     name: "Золотой партнёр 1С-Битрикс",
-    image: "https://onixbit.ru/media/certificates/Золотой партнёр 1С-Битрикс.jpg",
+    image: certificateImage("/media/certificates/1С-Битрикс сертификаты/Золотой партнёр 1С-Битрикс.jpg"),
     description: "Партнёрский статус Ониксбит по разработке сайтов на 1С-Битрикс.",
   },
   {
     name: "Компетенция CRM",
-    image: "https://onixbit.ru/media/certificates/Компетенция CRM.jpg",
+    image: certificateImage("/media/certificates/Битрикс24 компетенции/Компетенция CRM.jpg"),
     description: "Подтверждение компетенции по CRM и управлению продажами.",
   },
   {
     name: "Компетенция Интеграция с 1С",
-    image: "https://onixbit.ru/media/certificates/Компетенция Интеграция с 1С.jpg",
+    image: certificateImage("/media/certificates/Битрикс24 компетенции/Компетенция Интеграция с 1С.jpg"),
     description: "Подтверждение компетенции по интеграции Битрикс24 с 1С.",
   },
 ];
@@ -96,6 +99,8 @@ const jsonLd = [
 ];
 
 export default function CertificatesPage() {
+  const dashboard = getCertificateDashboard();
+
   return (
     <>
       {jsonLd.map((item, index) => (
@@ -105,36 +110,7 @@ export default function CertificatesPage() {
           type="application/ld+json"
         />
       ))}
-      <section className="ob-page-hero ob-section ob-cert-hero">
-        <div className="ob-container">
-          <span className="ob-kicker">Доверие</span>
-          <h1>Сертификаты, партнёрства и подтверждение компетенций</h1>
-          <p>
-            Здесь собраны партнёрские статусы и документы, которые помогают заранее проверить подрядчика по Битрикс24, 1С-Битрикс, CRM и интеграциям с 1С.
-          </p>
-          <div className="ob-page-hero__actions">
-            <LeadButton>Обсудить проект</LeadButton>
-            <ButtonLink href="#certificates" variant="secondary">
-              Смотреть документы
-            </ButtonLink>
-          </div>
-          <div className="ob-cert-hero__signals" aria-label="Что подтверждают сертификаты">
-            <span>
-              <strong>Официально</strong>
-              партнёрские статусы и компетенции
-            </span>
-            <span>
-              <strong>Проверяемо</strong>
-              документы открываются крупнее
-            </span>
-            <span>
-              <strong>Практично</strong>
-              понятно, какую часть проекта усиливает статус
-            </span>
-          </div>
-        </div>
-      </section>
-      <CertificatesGrid />
+      <CertificatesExperience dashboard={dashboard} />
       <LeadSection />
     </>
   );
