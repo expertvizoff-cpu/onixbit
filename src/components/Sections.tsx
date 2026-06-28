@@ -37,6 +37,7 @@ import {
 import {
   articles,
   bitrix24FaqItems,
+  sitesFaqItems,
   cases,
   company,
   directions,
@@ -756,6 +757,123 @@ function SitesServiceExperience({ direction, details }: { direction: Direction; 
           </div>
           <div className="ob-service-next-inline">
             <LeadButton>{direction.cta}</LeadButton>
+          </div>
+        </div>
+      </section>
+
+      <SitesConversionSections />
+    </>
+  );
+}
+
+function SitesConversionSections() {
+  const formats = [
+    {
+      icon: PanelTop,
+      title: "Корпоративный сайт",
+      text: "Подходит, когда нужно понятно объяснить услуги, усилить доверие и передавать заявки в CRM с контекстом.",
+      note: "итог: структура, страницы, формы и управляемый контент",
+    },
+    {
+      icon: ShoppingCart,
+      title: "Каталог или интернет-магазин",
+      text: "Проектируем разделы, фильтры, карточки, корзину, оформление заказа и связь с учётом.",
+      note: "итог: понятный путь от выбора до заказа",
+    },
+    {
+      icon: RefreshCw,
+      title: "Редизайн или миграция",
+      text: "Разбираем текущий сайт, сохраняем SEO-основу, переносим важный контент и убираем технический долг.",
+      note: "итог: аккуратный переход без хаоса в структуре",
+    },
+    {
+      icon: Cable,
+      title: "Интеграции и развитие",
+      text: "Связываем формы, заказы, статусы, CRM, 1С, аналитику и дорабатываем сайт по реальным сценариям.",
+      note: "итог: сайт работает как часть продаж",
+    },
+  ];
+
+  const deliverables = [
+    "карта страниц, разделов, типов заявок и точек доверия",
+    "структура каталога, карточек, фильтров и сценариев заказа",
+    "список интеграций с Битрикс24, 1С, оплатой и аналитикой",
+    "план запуска с рисками по контенту, SEO, скорости и поддержке",
+  ];
+
+  const boundaries = [
+    "не обещаем стоимость без структуры, каталога и интеграций",
+    "не переносим старую навигацию, если она мешает продажам и SEO",
+    "не запускаем формы без проверки, что менеджер получает нужный контекст",
+  ];
+
+  return (
+    <>
+      <section className="ob-section ob-section--tight">
+        <div className="ob-container ob-service-sites-formats">
+          <div className="ob-service-sites-formats__head">
+            <span className="ob-kicker">Форматы работ</span>
+            <h2>Можно начать с нового сайта, каталога, редизайна или отдельной интеграции</h2>
+            <p>
+              Сначала выбираем формат под бизнес-задачу: где сайт должен продавать, где обслуживать каталог,
+              а где важно сохранить SEO и аккуратно связать системы.
+            </p>
+          </div>
+          <div className="ob-service-sites-formats__grid">
+            {formats.map((item) => {
+              const Icon = item.icon;
+              return (
+                <article key={item.title}>
+                  <Icon size={24} aria-hidden="true" />
+                  <h3>{item.title}</h3>
+                  <p>{item.text}</p>
+                  <span>{item.note}</span>
+                </article>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      <section className="ob-section ob-section--tight">
+        <div className="ob-container ob-service-sites-delivery">
+          <div className="ob-service-sites-delivery__main">
+            <span className="ob-kicker">Результат первого этапа</span>
+            <h2>После разбора видно, какие страницы, данные и интеграции нужны для запуска</h2>
+            <p>
+              Первый этап нужен не для красивой презентации, а для управляемого решения: какие страницы делать,
+              какие заявки собирать, какие данные передавать и где могут сорваться сроки.
+            </p>
+            <div className="ob-service-sites-delivery__list" aria-label="Что получает клиент после первого этапа">
+              {deliverables.map((item) => <span key={item}><FileCheck2 size={17} aria-hidden="true" /> {item}</span>)}
+            </div>
+          </div>
+          <aside className="ob-service-sites-delivery__aside" aria-label="Честные ограничения разработки сайта">
+            <ReceiptText size={26} aria-hidden="true" />
+            <h3>Границы фиксируем до дизайна и разработки</h3>
+            <p>Это защищает бюджет, сроки, SEO и ожидания отдела продаж.</p>
+            {boundaries.map((item) => <span key={item}><ShieldCheck size={16} aria-hidden="true" /> {item}</span>)}
+            <LeadButton>Получить структуру сайта</LeadButton>
+          </aside>
+        </div>
+      </section>
+
+      <section className="ob-section ob-section--tight">
+        <div className="ob-container ob-service-sites-faq">
+          <div className="ob-service-sites-faq__head">
+            <span className="ob-kicker">Вопросы перед стартом</span>
+            <h2>Коротко о сроках, доработках, ASPRO, интеграциях и первичной оценке</h2>
+          </div>
+          <div className="ob-service-sites-faq__items">
+            {sitesFaqItems.map((item) => (
+              <article key={item.question}>
+                <HelpCircle size={22} aria-hidden="true" />
+                <div>
+                  <h3>{item.question}</h3>
+                  <p>{item.answer}</p>
+                </div>
+              </article>
+            ))}
           </div>
         </div>
       </section>
