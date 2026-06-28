@@ -36,6 +36,7 @@ import {
 } from "lucide-react";
 import {
   articles,
+  bitrix24FaqItems,
   cases,
   company,
   directions,
@@ -533,6 +534,123 @@ function Bitrix24ServiceExperience({ direction, details }: { direction: Directio
           </div>
           <div className="ob-service-next-inline">
             <LeadButton>{direction.cta}</LeadButton>
+          </div>
+        </div>
+      </section>
+
+      <Bitrix24ConversionSections />
+    </>
+  );
+}
+
+function Bitrix24ConversionSections() {
+  const formats = [
+    {
+      icon: ClipboardCheck,
+      title: "Аудит и карта внедрения",
+      text: "Подходит, если портал уже есть, но сделки зависают, отчёты спорные, а роботы мешают менеджерам.",
+      note: "итог: понятный список точек потерь и следующий этап",
+    },
+    {
+      icon: LayoutDashboard,
+      title: "Запуск отдела продаж",
+      text: "Настраиваем базовый CRM-контур: воронки, поля, роли, права, дела, напоминания и контроль руководителя.",
+      note: "итог: команда начинает вести сделки в единой логике",
+    },
+    {
+      icon: Workflow,
+      title: "Автоматизация и интеграции",
+      text: "Связываем сайт, телефонию, мессенджеры, 1С и внутренние сервисы с маршрутом сделки в Битрикс24.",
+      note: "итог: меньше ручного переноса и больше прозрачности",
+    },
+    {
+      icon: MonitorCheck,
+      title: "Развитие после запуска",
+      text: "Улучшаем отчёты, регламенты, пользовательский опыт и сценарии, которые проявились только в работе команды.",
+      note: "итог: CRM развивается вместе с процессом продаж",
+    },
+  ];
+
+  const deliverables = [
+    "карта воронок, этапов, ролей и ответственных",
+    "настроенные права, поля, дела, роботы и уведомления",
+    "контрольные отчёты по просрочкам, источникам и качеству обработки",
+    "тестовые сценарии и понятный регламент для менеджеров",
+  ];
+
+  const boundaries = [
+    "не навешиваем роботов без понятного условия и владельца",
+    "не обещаем бюджет без разбора интеграций, лицензий и объёма данных",
+    "не переносим хаос из текущего процесса в новую CRM",
+  ];
+
+  return (
+    <>
+      <section className="ob-section ob-section--tight">
+        <div className="ob-container ob-service-b24-formats">
+          <div className="ob-service-b24-formats__head">
+            <span className="ob-kicker">Форматы работ</span>
+            <h2>Можно начать с аудита, быстрого запуска или отдельной интеграции</h2>
+            <p>
+              Не каждый проект нужно сразу превращать в большое внедрение. Сначала выбираем формат,
+              который даёт управляемый результат и не ломает работу отдела продаж.
+            </p>
+          </div>
+          <div className="ob-service-b24-formats__grid">
+            {formats.map((item) => {
+              const Icon = item.icon;
+              return (
+                <article key={item.title}>
+                  <Icon size={24} aria-hidden="true" />
+                  <h3>{item.title}</h3>
+                  <p>{item.text}</p>
+                  <span>{item.note}</span>
+                </article>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      <section className="ob-section ob-section--tight">
+        <div className="ob-container ob-service-b24-delivery">
+          <div className="ob-service-b24-delivery__main">
+            <span className="ob-kicker">Результат первого этапа</span>
+            <h2>После разбора становится понятно, что внедрять сейчас, а что оставить на развитие</h2>
+            <p>
+              Клиент получает не абстрактную консультацию, а рабочую рамку проекта: что настроить,
+              кто отвечает, какие интеграции нужны и как проверить, что CRM действительно помогает продажам.
+            </p>
+            <div className="ob-service-b24-delivery__list" aria-label="Что получает клиент после первого этапа">
+              {deliverables.map((item) => <span key={item}><FileCheck2 size={17} aria-hidden="true" /> {item}</span>)}
+            </div>
+          </div>
+          <aside className="ob-service-b24-delivery__aside" aria-label="Честные ограничения внедрения">
+            <ReceiptText size={26} aria-hidden="true" />
+            <h3>Границы фиксируем до настройки</h3>
+            <p>Это защищает бюджет, сроки и ожидания команды.</p>
+            {boundaries.map((item) => <span key={item}><ShieldCheck size={16} aria-hidden="true" /> {item}</span>)}
+            <LeadButton>Получить план внедрения</LeadButton>
+          </aside>
+        </div>
+      </section>
+
+      <section className="ob-section ob-section--tight">
+        <div className="ob-container ob-service-b24-faq">
+          <div className="ob-service-b24-faq__head">
+            <span className="ob-kicker">Вопросы перед стартом</span>
+            <h2>Коротко о сроках, аудите, коробке, интеграциях и запуске команды</h2>
+          </div>
+          <div className="ob-service-b24-faq__items">
+            {bitrix24FaqItems.map((item) => (
+              <article key={item.question}>
+                <HelpCircle size={22} aria-hidden="true" />
+                <div>
+                  <h3>{item.question}</h3>
+                  <p>{item.answer}</p>
+                </div>
+              </article>
+            ))}
           </div>
         </div>
       </section>

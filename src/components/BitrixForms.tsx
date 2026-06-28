@@ -1,6 +1,8 @@
 "use client";
 
-import { CheckCircle2 } from "lucide-react";
+import { CheckCircle2, Mail, Phone } from "lucide-react";
+import { company } from "@/data/site";
+import { MessengerLinks } from "./Messengers";
 import { useEffect, useRef } from "react";
 
 const popupLoader =
@@ -38,6 +40,17 @@ export function LeadPopupBridge() {
 
       event.preventDefault();
       trigger.click();
+
+      const leadTarget = document.querySelector<HTMLElement>("#lead");
+      window.setTimeout(() => {
+        const hasVisiblePopup = Array.from(document.querySelectorAll<HTMLElement>("[class*=b24]")).some((element) => {
+          const rect = element.getBoundingClientRect();
+          const style = window.getComputedStyle(element);
+          return style.position === "fixed" && rect.width > 240 && rect.height > 180 && style.display !== "none" && style.visibility !== "hidden";
+        });
+
+        if (!hasVisiblePopup) leadTarget?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 900);
     };
 
     document.addEventListener("click", openLeadForm);
@@ -64,10 +77,36 @@ export function InlineBitrixForm({ className = "" }: { className?: string }) {
   useEffect(() => {
     const container = formRef.current;
     if (!container) return;
-    appendBitrixScript(container, "inline/24/73tsgu", inlineLoader);
+
+    const loadForm = () => {
+      container.dataset.obxB24Loaded = "true";
+      appendBitrixScript(container, "inline/24/73tsgu", inlineLoader);
+    };
+
+    if (!("IntersectionObserver" in window)) {
+      loadForm();
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (!entries.some((entry) => entry.isIntersecting)) return;
+        loadForm();
+        observer.disconnect();
+      },
+      { rootMargin: "420px 0px" },
+    );
+
+    const observeTarget = container.closest<HTMLElement>(".ob-lead-panel") ?? container;
+    observer.observe(observeTarget);
+    return () => observer.disconnect();
   }, []);
 
-  return <div ref={formRef} className={`ob-form-slot ${className}`} />;
+  return (
+    <div ref={formRef} className={"ob-form-slot " + className}>
+      <span className="ob-form-slot__placeholder">Форма загрузится здесь, когда вы дойдёте до заявки.</span>
+    </div>
+  );
 }
 
 export function LeadFormPanel({ className = "", id }: { className?: string; id?: string }) {
@@ -90,6 +129,21 @@ export function LeadFormPanel({ className = "", id }: { className?: string; id?:
 
       <div className="ob-lead-panel__frame">
         <InlineBitrixForm />
+      </div>
+
+      <div className="ob-lead-panel__fallback" aria-label="Резервные способы связи">
+        <p>Если форма не загрузилась, напишите напрямую — заявку всё равно заведём в CRM.</p>
+        <div className="ob-lead-panel__fallback-actions">
+          <a href={company.phoneHref}>
+            <Phone size={16} aria-hidden="true" />
+            <span>{company.phone}</span>
+          </a>
+          <a href={company.emailHref}>
+            <Mail size={16} aria-hidden="true" />
+            <span>{company.email}</span>
+          </a>
+        </div>
+        <MessengerLinks className="ob-lead-panel__fallback-messengers" />
       </div>
     </aside>
   );

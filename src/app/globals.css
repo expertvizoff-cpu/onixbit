@@ -2398,7 +2398,7 @@ textarea:focus-visible {
   font-family: var(--ob-font-display);
 }
 
-.ob-form-slot > *,
+.ob-form-slot > *:not(.ob-form-slot__placeholder),
 .ob-form-slot iframe {
   width: 100% !important;
   max-width: 100% !important;
@@ -2409,6 +2409,71 @@ textarea:focus-visible {
 
 .ob-form-slot iframe {
   min-height: 410px;
+}
+
+.ob-form-slot__placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 372px;
+  padding: 22px;
+  border: 1px dashed rgba(8, 8, 8, 0.16);
+  border-radius: 22px;
+  color: rgba(8, 8, 8, 0.58);
+  background: rgba(255, 255, 255, 0.56);
+  text-align: center;
+  font-size: 14px;
+  line-height: 1.45;
+  font-weight: 800;
+}
+
+.ob-form-slot[data-obx-b24-loaded="true"] .ob-form-slot__placeholder {
+  display: none;
+}
+
+.ob-lead-panel__fallback {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 10px;
+  padding: 12px 6px 4px;
+  color: rgba(8, 8, 8, 0.72);
+  font-size: 13px;
+  line-height: 1.45;
+  font-weight: 700;
+}
+
+.ob-lead-panel__fallback p {
+  margin: 0;
+}
+
+.ob-lead-panel__fallback-actions,
+.ob-lead-panel__fallback-messengers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.ob-lead-panel__fallback-actions a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 42px;
+  gap: 7px;
+  border: 1px solid rgba(8, 8, 8, 0.08);
+  border-radius: 14px;
+  padding: 10px 12px;
+  color: var(--ob-ink);
+  background: rgba(255, 255, 255, 0.66);
+  font-weight: 850;
+}
+
+.ob-lead-panel__fallback-actions svg {
+  color: var(--ob-red);
+}
+
+.ob-lead-panel__fallback-messengers .ob-messenger {
+  min-height: 40px;
+  border-radius: 14px;
 }
 
 .ob-form-slot .b24-form,
@@ -25096,6 +25161,195 @@ span.ob-pricing-estimate__client {
   justify-content: flex-end;
 }
 
+.ob-service-b24-formats,
+.ob-service-b24-delivery,
+.ob-service-b24-faq {
+  position: relative;
+  display: grid;
+  gap: clamp(20px, 3vw, 34px);
+  padding: clamp(22px, 3vw, 36px);
+  border: 1px solid rgba(255, 255, 255, 0.76);
+  border-radius: var(--ob-radius-xl);
+  background: rgba(255, 255, 255, 0.78);
+  box-shadow: 0 24px 76px rgba(8, 8, 8, 0.08);
+  backdrop-filter: blur(18px) saturate(145%);
+}
+
+.ob-service-b24-formats__head,
+.ob-service-b24-faq__head {
+  max-width: 940px;
+}
+
+.ob-service-b24-formats__head h2,
+.ob-service-b24-delivery h2,
+.ob-service-b24-faq__head h2 {
+  margin: 16px 0 0;
+  color: var(--ob-ink);
+  font-size: 44px;
+  line-height: 1.06;
+  font-weight: 940;
+  letter-spacing: 0;
+}
+
+.ob-service-b24-formats__head p,
+.ob-service-b24-delivery p,
+.ob-service-b24-faq__head p {
+  margin: 14px 0 0;
+  color: var(--ob-muted);
+  font-size: 17px;
+  line-height: 1.6;
+  font-weight: 560;
+}
+
+.ob-service-b24-formats__grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.ob-service-b24-formats__grid article {
+  display: flex;
+  flex-direction: column;
+  min-height: 278px;
+  padding: 18px;
+  border: 1px solid rgba(8, 8, 8, 0.08);
+  border-radius: 18px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.86), rgba(255, 248, 224, 0.62));
+  box-shadow: 0 12px 32px rgba(8, 8, 8, 0.055);
+}
+
+.ob-service-b24-formats__grid svg,
+.ob-service-b24-delivery__list svg,
+.ob-service-b24-delivery__aside > svg,
+.ob-service-b24-faq__items svg {
+  flex: 0 0 auto;
+  color: var(--ob-red);
+}
+
+.ob-service-b24-formats__grid h3,
+.ob-service-b24-delivery h3,
+.ob-service-b24-faq__items h3 {
+  margin: 14px 0 0;
+  color: var(--ob-ink);
+  font-size: 22px;
+  line-height: 1.16;
+  font-weight: 930;
+}
+
+.ob-service-b24-formats__grid p,
+.ob-service-b24-faq__items p {
+  margin-top: 11px;
+  color: var(--ob-muted);
+  font-size: 14.5px;
+  line-height: 1.52;
+  font-weight: 560;
+}
+
+.ob-service-b24-formats__grid span {
+  margin-top: auto;
+  padding-top: 16px;
+  color: var(--ob-red-deep);
+  font-size: 12px;
+  line-height: 1.35;
+  font-weight: 900;
+}
+
+.ob-service-b24-delivery {
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 0.48fr);
+  align-items: stretch;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 248, 224, 0.68)),
+    linear-gradient(90deg, rgba(237, 28, 36, 0.055) 1px, transparent 1px);
+  background-size: auto, 38px 38px;
+}
+
+.ob-service-b24-delivery__list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 22px;
+}
+
+.ob-service-b24-delivery__list span,
+.ob-service-b24-delivery__aside span {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  padding: 12px 13px;
+  border: 1px solid rgba(8, 8, 8, 0.075);
+  border-radius: 14px;
+  color: var(--ob-ink);
+  background: rgba(255, 255, 255, 0.74);
+  box-shadow: 0 12px 30px rgba(8, 8, 8, 0.055);
+  font-size: 14px;
+  line-height: 1.42;
+  font-weight: 760;
+}
+
+.ob-service-b24-delivery__aside {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px;
+  border-radius: 22px;
+  color: #fff;
+  background:
+    radial-gradient(circle at 88% 16%, rgba(255, 212, 90, 0.22), transparent 34%),
+    linear-gradient(135deg, #101010, #2a0d10 58%, #ed1c24);
+  box-shadow: 0 20px 56px rgba(8, 8, 8, 0.14);
+}
+
+.ob-service-b24-delivery__aside h3 {
+  color: #fff;
+}
+
+.ob-service-b24-delivery__aside p {
+  color: rgba(255, 255, 255, 0.74);
+}
+
+.ob-service-b24-delivery__aside span {
+  border-color: rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: none;
+}
+
+.ob-service-b24-delivery__aside span svg,
+.ob-service-b24-delivery__aside > svg {
+  color: #ffd45a;
+}
+
+.ob-service-b24-delivery__aside .ob-btn {
+  width: 100%;
+  margin-top: auto;
+}
+
+.ob-service-b24-faq {
+  grid-template-columns: minmax(300px, 0.42fr) minmax(0, 1fr);
+  align-items: start;
+}
+
+.ob-service-b24-faq__items {
+  display: grid;
+  gap: 12px;
+}
+
+.ob-service-b24-faq__items article {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 12px;
+  padding: 18px;
+  border: 1px solid rgba(8, 8, 8, 0.08);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.78);
+  box-shadow: 0 12px 32px rgba(8, 8, 8, 0.055);
+}
+
+.ob-service-b24-faq__items h3 {
+  margin: 0;
+  font-size: 18px;
+}
+
 .ob-service-sites-blueprint {
   grid-template-columns: minmax(420px, 1.1fr) minmax(300px, 0.9fr);
   background:
@@ -25692,5 +25946,114 @@ span.ob-pricing-estimate__client {
     grid-column: 2;
     width: fit-content;
     white-space: normal;
+  }
+}
+
+
+/* Bitrix24 conversion polish 2026-06-28 */
+@media (max-width: 1180px) {
+  .ob-service-b24-formats__head h2,
+  .ob-service-b24-delivery h2,
+  .ob-service-b24-faq__head h2 {
+    font-size: 38px;
+  }
+
+  .ob-service-b24-formats__grid,
+  .ob-service-b24-delivery__list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .ob-service-b24-delivery,
+  .ob-service-b24-faq {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 760px) {
+  .ob-service-page--bitrix24 .ob-service-hero h1 {
+    font-size: 40px;
+    line-height: 1.04;
+  }
+
+  .ob-service-page--bitrix24 .ob-service-hero .ob-actions {
+    order: 2;
+    margin-top: 18px;
+  }
+
+  .ob-service-page--bitrix24 .ob-service-hero__bullets {
+    order: 3;
+    margin-top: 14px;
+  }
+
+  .ob-service-page--bitrix24 .ob-crm-proof {
+    order: 4;
+    margin-top: 16px;
+  }
+
+  .ob-service-page--bitrix24 .ob-stat-row {
+    order: 5;
+    margin-top: 18px;
+  }
+
+  .ob-service-page--bitrix24 .ob-service-hero__bullets span {
+    min-height: 34px;
+    padding: 8px 10px;
+  }
+
+  .ob-service-b24-formats__head h2,
+  .ob-service-b24-delivery h2,
+  .ob-service-b24-faq__head h2 {
+    font-size: 30px;
+    line-height: 1.12;
+  }
+
+  .ob-service-b24-formats__head p,
+  .ob-service-b24-delivery p,
+  .ob-service-b24-faq__head p {
+    font-size: 16px;
+    line-height: 1.55;
+  }
+
+  .ob-service-b24-formats__grid h3,
+  .ob-service-b24-delivery h3 {
+    font-size: 20px;
+  }
+
+  .ob-service-b24-formats,
+  .ob-service-b24-delivery,
+  .ob-service-b24-faq {
+    padding: 18px;
+    border-radius: 22px;
+  }
+
+  .ob-service-b24-formats__grid,
+  .ob-service-b24-delivery__list,
+  .ob-service-b24-faq__items {
+    grid-template-columns: 1fr;
+  }
+
+  .ob-service-b24-formats__grid article {
+    min-height: 0;
+  }
+
+  .ob-service-b24-delivery__aside {
+    padding: 18px;
+    border-radius: 18px;
+  }
+
+  .ob-service-b24-faq__items article {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    padding: 16px;
+  }
+
+  .ob-lead-panel__fallback-actions,
+  .ob-lead-panel__fallback-messengers {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .ob-lead-panel__fallback-messengers .ob-messenger {
+    width: 100%;
   }
 }

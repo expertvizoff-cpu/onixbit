@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ArrowRight, Award, BarChart3, CheckCircle2, ExternalLink, ShieldCheck, X } from "lucide-react";
 
 type BitrixCrmProofProps = {
@@ -12,23 +12,62 @@ const CRM_RESEARCH_URL = "https://crm1.bitrix24.ru/research-2026/?p=10553488";
 
 export function BitrixCrmProof({ variant = "hero", className = "" }: BitrixCrmProofProps) {
   const [open, setOpen] = useState(false);
+  const triggerRef = useRef<HTMLButtonElement | null>(null);
+  const panelRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if (!open) return;
+
+    const triggerButton = triggerRef.current;
+
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setOpen(false);
+      if (event.key === "Escape") {
+        setOpen(false);
+        return;
+      }
+
+      if (event.key !== "Tab") return;
+
+      const panel = panelRef.current;
+      if (!panel) return;
+
+      const focusable = Array.from(
+        panel.querySelectorAll<HTMLElement>(
+          `a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])`,
+        ),
+      ).filter((element) => !element.hasAttribute("aria-hidden"));
+
+      if (!focusable.length) return;
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
     };
+
     document.body.classList.add("ob-modal-open");
     window.addEventListener("keydown", onKeyDown);
+    window.setTimeout(() => {
+      panelRef.current?.querySelector<HTMLButtonElement>(".ob-crm-modal__close")?.focus();
+    }, 0);
+
     return () => {
       document.body.classList.remove("ob-modal-open");
       window.removeEventListener("keydown", onKeyDown);
+      triggerButton?.focus();
     };
   }, [open]);
 
   return (
     <>
       <button
+        ref={triggerRef}
         className={`ob-crm-proof ob-crm-proof--${variant} ${className}`}
         onClick={() => setOpen(true)}
         type="button"
@@ -55,6 +94,7 @@ export function BitrixCrmProof({ variant = "hero", className = "" }: BitrixCrmPr
             aria-labelledby="ob-crm-modal-title"
             aria-modal="true"
             className="ob-crm-modal__panel"
+            ref={panelRef}
             role="dialog"
           >
             <button className="ob-crm-modal__close" onClick={() => setOpen(false)} type="button">
