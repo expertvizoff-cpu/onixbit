@@ -5803,9 +5803,303 @@ a:hover .lucide-mail polyline {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
+.ob-cert-hero .ob-container {
+  max-width: 1040px;
+}
+
+.ob-page-hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.ob-cert-hero__signals {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  max-width: 980px;
+  margin-top: 22px;
+}
+
+.ob-cert-hero__signals span {
+  min-height: 86px;
+  border: 1px solid rgba(237, 28, 36, 0.12);
+  border-radius: 18px;
+  padding: 16px;
+  color: var(--ob-muted);
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow: 0 16px 44px rgba(8, 8, 8, 0.06);
+}
+
+.ob-cert-hero__signals strong {
+  display: block;
+  margin-bottom: 5px;
+  color: var(--ob-red);
+  font-weight: 950;
+}
+
+.obx-certs__assurance {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(370px, 0.72fr);
+  gap: clamp(18px, 3vw, 44px);
+  align-items: stretch;
+  margin-bottom: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: var(--ob-radius-xl);
+  padding: clamp(22px, 3vw, 34px);
+  overflow: hidden;
+  color: #fff;
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(145deg, #151515 0%, #331115 58%, #e11924 135%);
+  background-size: 38px 38px, 38px 38px, auto;
+  box-shadow: 0 28px 88px rgba(8, 8, 8, 0.16);
+}
+
+.obx-certs__assurance::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(115deg, rgba(255, 212, 90, 0.18), transparent 42%, rgba(255, 255, 255, 0.08));
+  pointer-events: none;
+}
+
+.obx-certs__assurance > * {
+  position: relative;
+  z-index: 1;
+}
+
+.obx-certs__assurance-copy h2 {
+  max-width: 720px;
+  margin: 16px 0 0;
+  font-size: clamp(28px, 2.35vw, 44px);
+  line-height: 1.08;
+  font-weight: 950;
+  letter-spacing: 0;
+}
+
+.obx-certs__assurance-copy p {
+  max-width: 700px;
+  margin: 14px 0 0;
+  color: rgba(255, 255, 255, 0.74);
+  line-height: 1.6;
+  font-weight: 600;
+}
+
+.obx-certs__assurance .obx-certs__badge {
+  border-color: rgba(255, 212, 90, 0.42);
+  color: #2b2100;
+  background: var(--ob-yellow);
+  box-shadow: 0 12px 34px rgba(255, 212, 90, 0.22);
+}
+
+.obx-certs__assurance-tabs {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 22px;
+}
+
+.obx-certs__assurance-tabs button {
+  min-height: 74px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 16px;
+  padding: 12px;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.08);
+  text-align: left;
+  transition: transform 0.2s var(--ob-ease), border-color 0.2s var(--ob-ease), background 0.2s var(--ob-ease), box-shadow 0.2s var(--ob-ease);
+}
+
+.obx-certs__assurance-tabs button:hover,
+.obx-certs__assurance-tabs button.is-active {
+  transform: translateY(-2px);
+  border-color: rgba(255, 212, 90, 0.66);
+  background: rgba(255, 212, 90, 0.14);
+  box-shadow: 0 16px 38px rgba(0, 0, 0, 0.16);
+}
+
+.obx-certs__assurance-tabs span,
+.obx-certs__assurance-tabs small {
+  display: block;
+}
+
+.obx-certs__assurance-tabs span {
+  font-size: 18px;
+  font-weight: 950;
+}
+
+.obx-certs__assurance-tabs small {
+  margin-top: 5px;
+  color: rgba(255, 255, 255, 0.68);
+  font-size: 12px;
+  font-weight: 750;
+  line-height: 1.25;
+}
+
+.obx-certs__assurance-stage {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-height: 334px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 22px;
+  padding: 18px;
+  background: rgba(255, 255, 255, 0.09);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(16px) saturate(140%);
+}
+
+.obx-certs__risk-flow {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  min-height: 98px;
+  padding: 16px 12px 20px;
+}
+
+.obx-certs__risk-flow span {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  min-height: 48px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 14px;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.08);
+  font-size: 12px;
+  font-weight: 900;
+  text-align: center;
+}
+
+.obx-certs__risk-flow i {
+  position: absolute;
+  left: 46px;
+  right: 46px;
+  top: 41px;
+  height: 2px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--ob-yellow), rgba(255, 255, 255, 0.34));
+}
+
+.obx-certs__flow-cursor {
+  position: absolute;
+  left: 34px;
+  top: 35px;
+  z-index: 3;
+  width: 30px;
+  height: 14px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--ob-yellow), #fff4a6);
+  box-shadow: 0 0 0 6px rgba(255, 212, 90, 0.14), 0 0 26px rgba(255, 212, 90, 0.5);
+}
+
+.obx-certs__scenario-panel {
+  flex: 1;
+  border-radius: 18px;
+  padding: 18px;
+  color: var(--ob-ink);
+  background: rgba(255, 255, 255, 0.93);
+  box-shadow: 0 18px 52px rgba(0, 0, 0, 0.16);
+}
+
+.obx-certs__scenario-panel > span {
+  display: inline-flex;
+  border-radius: 999px;
+  padding: 6px 9px;
+  color: var(--ob-red);
+  background: rgba(237, 28, 36, 0.08);
+  font-size: 12px;
+  font-weight: 950;
+}
+
+.obx-certs__scenario-panel strong {
+  display: block;
+  margin-top: 12px;
+  font-size: clamp(20px, 1.4vw, 26px);
+  line-height: 1.18;
+  font-weight: 950;
+}
+
+.obx-certs__scenario-panel p {
+  margin: 10px 0 0;
+  color: var(--ob-muted);
+  line-height: 1.55;
+}
+
+.obx-certs__scenario-proof {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.obx-certs__scenario-proof em,
+.obx-certs__scenario-metric {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  border-radius: 999px;
+  padding: 8px 10px;
+  font-style: normal;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.obx-certs__scenario-proof em {
+  color: var(--ob-ink);
+  background: rgba(8, 8, 8, 0.06);
+}
+
+.obx-certs__scenario-metric {
+  width: fit-content;
+  margin-top: 14px;
+  color: #1f3d12;
+  background: rgba(74, 191, 50, 0.14);
+}
+
+.obx-certs__proof-strip {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.obx-certs__proof-strip article {
+  min-height: 120px;
+  border: 1px solid rgba(8, 8, 8, 0.07);
+  border-radius: 18px;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow: 0 16px 48px rgba(8, 8, 8, 0.06);
+}
+
+.obx-certs__proof-strip strong,
+.obx-certs__proof-strip span {
+  display: block;
+}
+
+.obx-certs__proof-strip strong {
+  color: var(--ob-ink);
+  font-weight: 950;
+}
+
+.obx-certs__proof-strip span {
+  margin-top: 8px;
+  color: var(--ob-muted);
+  font-size: 14px;
+  line-height: 1.45;
+}
+
 .obx-certs__layout {
   display: grid;
   grid-template-columns: minmax(330px, 0.38fr) minmax(0, 1fr);
+  align-items: start;
   gap: 18px;
 }
 
@@ -5815,6 +6109,9 @@ a:hover .lucide-mail polyline {
 }
 
 .obx-certs__partner {
+  position: sticky;
+  top: 104px;
+  align-self: start;
   border-radius: var(--ob-radius-xl);
   padding: 24px;
 }
@@ -5826,21 +6123,27 @@ a:hover .lucide-mail polyline {
   padding: 0;
   background: transparent;
   text-align: left;
+  cursor: pointer;
 }
 
 .obx-certs__showcase-frame,
 .obx-certs__frame {
-  display: block;
+  display: grid;
+  place-items: center;
   border: 1px solid rgba(8, 8, 8, 0.09);
   border-radius: 18px;
   overflow: hidden;
   background: #fff;
 }
 
+.obx-certs__showcase-frame {
+  aspect-ratio: 1608 / 1137;
+}
+
 .obx-certs__showcase-image,
 .obx-certs__image {
   width: 100%;
-  height: auto;
+  height: 100%;
   object-fit: contain;
 }
 
@@ -5895,11 +6198,33 @@ a:hover .lucide-mail polyline {
   line-height: 1.35;
 }
 
+.obx-certs__catalog-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.obx-certs__filter-count {
+  display: inline-flex;
+  align-items: center;
+  min-height: 38px;
+  border: 1px solid rgba(8, 8, 8, 0.08);
+  border-radius: 999px;
+  padding: 8px 12px;
+  color: var(--ob-muted);
+  background: rgba(255, 255, 255, 0.7);
+  font-size: 13px;
+  font-weight: 850;
+  white-space: nowrap;
+}
+
 .obx-certs__filters {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  margin-bottom: 14px;
+  margin-bottom: 0;
   padding: 10px;
   border-radius: 18px;
 }
@@ -5920,7 +6245,7 @@ a:hover .lucide-mail polyline {
   display: grid;
   grid-template-columns: 176px 1fr;
   gap: 16px;
-  min-height: 190px;
+  min-height: 216px;
   border-radius: 22px;
   padding: 16px;
   overflow: hidden;
@@ -5937,20 +6262,25 @@ a:hover .lucide-mail polyline {
 .obx-certs__frame {
   grid-row: 1 / span 4;
   align-self: stretch;
-  min-height: 142px;
+  height: 184px;
+  min-height: 0;
 }
 
 .obx-certs__preview {
+  display: grid;
+  place-items: center;
+  box-sizing: border-box;
   width: 100%;
   height: 100%;
   border: 0;
-  padding: 0;
+  padding: 10px;
   background: #fff;
+  cursor: pointer;
 }
 
 .obx-certs__image {
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 .obx-certs__card-title {
@@ -6020,6 +6350,12 @@ a:hover .lucide-mail polyline {
   border: 0;
   border-radius: 999px;
   background: var(--ob-red);
+  cursor: pointer;
+}
+
+.obx-certs__modal-close:focus-visible {
+  outline: 3px solid var(--ob-yellow);
+  outline-offset: 3px;
 }
 
 .obx-certs__modal-close::before,
@@ -6039,6 +6375,7 @@ a:hover .lucide-mail polyline {
 
 .obx-certs__modal-image {
   width: 100%;
+  height: auto;
   max-height: calc(92vh - 88px);
   object-fit: contain;
   border-radius: 14px;
@@ -6050,6 +6387,14 @@ a:hover .lucide-mail polyline {
   font-weight: 900;
 }
 
+
+@media (prefers-reduced-motion: reduce) {
+  .obx-certs__flow-cursor,
+  .obx-certs__assurance-tabs button,
+  .obx-certs__filters button {
+    transition: none;
+  }
+}
 
 /* Rich content pages: cases, articles, certificates and tariffs */
 .ob-rich-hero,
@@ -7018,6 +7363,15 @@ a:hover .lucide-mail polyline {
     margin-left: 0;
   }
 
+  .obx-certs__partner {
+    position: relative;
+    top: auto;
+  }
+
+  .obx-certs__assurance {
+    grid-template-columns: 1fr;
+  }
+
   .obx-certs__grid {
     grid-template-columns: 1fr;
   }
@@ -7253,6 +7607,50 @@ a:hover .lucide-mail polyline {
     min-height: auto;
   }
 
+  .ob-page-hero__actions,
+  .ob-cert-hero__signals,
+  .obx-certs__assurance-tabs,
+  .obx-certs__proof-strip,
+  .obx-certs__catalog-top {
+    grid-template-columns: 1fr;
+  }
+
+  .ob-page-hero__actions {
+    display: grid;
+  }
+
+  .ob-page-hero__actions .ob-btn {
+    width: 100%;
+  }
+
+  .ob-cert-hero__signals {
+    display: grid;
+  }
+
+  .obx-certs__assurance {
+    padding: 20px;
+  }
+
+  .obx-certs__risk-flow {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    min-height: auto;
+    padding: 0;
+  }
+
+  .obx-certs__risk-flow i,
+  .obx-certs__flow-cursor {
+    display: none;
+  }
+
+  .obx-certs__catalog-top {
+    display: grid;
+    align-items: stretch;
+  }
+
+  .obx-certs__filter-count {
+    justify-content: center;
+  }
+
   .obx-certs__card {
     grid-template-columns: 1fr;
   }
@@ -7263,6 +7661,10 @@ a:hover .lucide-mail polyline {
   .obx-certs__frame {
     grid-column: auto;
     grid-row: auto;
+  }
+
+  .obx-certs__frame {
+    height: 238px;
   }
 
   .ob-footer__nav,
