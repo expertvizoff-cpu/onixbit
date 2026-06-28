@@ -5,17 +5,34 @@ import {
   BookOpen,
   Building2,
   CalendarClock,
+  Cable,
+  ChartNoAxesCombined,
   CheckCircle2,
   ClipboardCheck,
+  DatabaseZap,
   FileCheck2,
+  FileStack,
+  Gauge,
   HelpCircle,
+  LayoutDashboard,
   Mail,
   MessageSquareText,
+  MonitorCheck,
+  MousePointerClick,
+  PackageCheck,
+  PanelTop,
   Phone,
   ReceiptText,
+  RefreshCw,
   Route,
+  SearchCheck,
+  ServerCog,
   ShieldCheck,
+  ShoppingCart,
+  SlidersHorizontal,
   Sparkles,
+  UsersRound,
+  Workflow,
 } from "lucide-react";
 import {
   articles,
@@ -293,18 +310,20 @@ export function LicenseGrid() {
 }
 
 
-const servicePageDetails: Record<Direction["id"], {
+type ServiceDetail = {
   decisionTitle: string;
   decisionText: string;
   signals: string[];
   outcomes: Array<{ title: string; text: string }>;
   risks: string[];
   firstStep: string;
-}> = {
+};
+
+const servicePageDetails: Record<Direction["id"], ServiceDetail> = {
   bitrix24: {
     decisionTitle: "Когда Битрикс24 нужен не формально, а как система управления продажами",
     decisionText:
-      "Страница должна быстро отвечать руководителю: что изменится в продажах, где появится контроль и как не превратить CRM в склад полей.",
+      "Руководителю важно быстро понять: где будут фиксироваться заявки, как менеджеры увидят следующий шаг, кто контролирует просрочки и какие данные попадут в отчёты.",
     signals: [
       "заявки приходят из разных каналов и теряются между менеджерами",
       "руководитель не видит причины зависших сделок и ручных переносов",
@@ -335,7 +354,7 @@ const servicePageDetails: Record<Direction["id"], {
   sites: {
     decisionTitle: "Когда сайт на 1С-Битрикс должен продавать и передавать данные дальше",
     decisionText:
-      "Для клиента важны не только дизайн и CMS, а понятная структура, заявки, каталог, скорость, SEO-основа и связка с CRM/1С.",
+      "Сайт должен не только выглядеть современно, но и вести клиента к заявке, отдавать менеджеру контекст, поддерживать каталог и не ломать SEO-рост после запуска.",
     signals: [
       "сайт не объясняет услугу или товар так, чтобы заявка дошла до менеджера",
       "каталог, формы и корзина живут отдельно от CRM и учёта",
@@ -396,20 +415,351 @@ const servicePageDetails: Record<Direction["id"], {
   },
 };
 
+function ServiceHeroBullets({ direction }: { direction: Direction }) {
+  return (
+    <div className="ob-service-hero__bullets" aria-label="Ключевые задачи направления">
+      {direction.bullets.map((item) => (
+        <span key={item}><CheckCircle2 size={15} aria-hidden="true" /> {item}</span>
+      ))}
+    </div>
+  );
+}
+
+function ServicePageExperience({ direction, details }: { direction: Direction; details: ServiceDetail }) {
+  if (direction.id === "bitrix24") return <Bitrix24ServiceExperience direction={direction} details={details} />;
+  if (direction.id === "sites") return <SitesServiceExperience direction={direction} details={details} />;
+  return <OneCServiceExperience direction={direction} details={details} />;
+}
+
+function Bitrix24ServiceExperience({ direction, details }: { direction: Direction; details: ServiceDetail }) {
+  const commandTiles = [
+    { icon: MousePointerClick, title: "Входящие", text: "форма, звонок, мессенджер и повторное обращение попадают в один контур" },
+    { icon: UsersRound, title: "Роли", text: "менеджер, руководитель и администратор видят свой уровень ответственности" },
+    { icon: Workflow, title: "Роботы", text: "задачи, уведомления и документы появляются по понятному условию" },
+    { icon: ChartNoAxesCombined, title: "Контроль", text: "отчёты показывают узкие места, просрочки и качество обработки" },
+  ];
+
+  const automationRows = [
+    { if: "новая заявка без ответственного", then: "назначить менеджера и поставить дело", control: "SLA первого касания" },
+    { if: "сделка ждёт КП", then: "создать задачу и напомнить о сроке", control: "просрочки в отчёте" },
+    { if: "клиент оплатил", then: "передать проект в работу", control: "статус и ответственный" },
+  ];
+
+  return (
+    <>
+      <section className="ob-section ob-section--tight">
+        <div className="ob-container ob-service-b24-command">
+          <div className="ob-service-b24-command__copy">
+            <span className="ob-kicker">CRM как рабочий пульт</span>
+            <h2>{details.decisionTitle}</h2>
+            <p>{details.decisionText}</p>
+            <div className="ob-service-b24-signals" aria-label="Сигналы для внедрения Битрикс24">
+              {details.signals.map((signal) => (
+                <span key={signal}><ShieldCheck size={16} aria-hidden="true" /> {signal}</span>
+              ))}
+            </div>
+          </div>
+          <div className="ob-service-b24-console" aria-label="Схема CRM-контура Битрикс24">
+            <div className="ob-service-b24-console__bar">
+              <LayoutDashboard size={20} aria-hidden="true" />
+              <strong>Центр продаж</strong>
+              <span>заявки → сделки → контроль</span>
+            </div>
+            <div className="ob-service-b24-console__grid">
+              {commandTiles.map((tile) => {
+                const Icon = tile.icon;
+                return (
+                  <article key={tile.title}>
+                    <Icon size={22} aria-hidden="true" />
+                    <strong>{tile.title}</strong>
+                    <p>{tile.text}</p>
+                  </article>
+                );
+              })}
+            </div>
+            <div className="ob-service-b24-console__route" aria-hidden="true">
+              <span>сайт</span><i /><span>Битрикс24</span><i /><span>1С</span><i /><span>отчёт</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="ob-section" id="scope">
+        <div className="ob-container ob-service-b24-workflow" id="service-plan">
+          <div className="ob-service-b24-workflow__head">
+            <span className="ob-kicker">Проектирование внедрения</span>
+            <h2>Собираем не набор настроек, а маршрут сделки</h2>
+            <p>Воронки, права, роботы и коммуникации связываются с реальным путём клиента. Поэтому менеджеру понятно, что делать, а руководителю понятно, где теряются деньги и время.</p>
+          </div>
+          <div className="ob-service-b24-workflow__lanes">
+            {direction.process.map((step, index) => (
+              <article key={step.title}>
+                <span>{index === 0 ? "аудит" : index === 1 ? "карта" : index === 2 ? "запуск" : "рост"}</span>
+                <h3>{step.title}</h3>
+                <p>{step.text}</p>
+              </article>
+            ))}
+          </div>
+          <div className="ob-service-b24-outcomes">
+            {details.outcomes.map((item) => (
+              <article key={item.title}>
+                <ClipboardCheck size={22} aria-hidden="true" />
+                <strong>{item.title}</strong>
+                <p>{item.text}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="ob-section ob-section--tight">
+        <div className="ob-container ob-service-b24-automation">
+          <div>
+            <span className="ob-kicker">Автоматизация без хаоса</span>
+            <h2>Каждый робот получает условие, действие и точку контроля</h2>
+            <p>{details.firstStep}</p>
+          </div>
+          <div className="ob-service-b24-automation__table" aria-label="Примеры автоматизации Битрикс24">
+            {automationRows.map((row) => (
+              <article key={row.if}>
+                <span>если</span><p>{row.if}</p>
+                <span>то</span><p>{row.then}</p>
+                <span>контроль</span><p>{row.control}</p>
+              </article>
+            ))}
+          </div>
+          <div className="ob-service-b24-automation__chips" aria-label="Интеграции Битрикс24">
+            {direction.integrations.map((item) => <span key={item}>{item}</span>)}
+          </div>
+          <div className="ob-service-next-inline">
+            <LeadButton>{direction.cta}</LeadButton>
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}
+
+function SitesServiceExperience({ direction, details }: { direction: Direction; details: ServiceDetail }) {
+  const blueprint = [
+    { icon: PanelTop, title: "Структура", text: "главная, услуги, каталог, карточки, статьи и точки доверия" },
+    { icon: ShoppingCart, title: "Каталог", text: "товары, фильтры, корзина, формы и сценарии заказа" },
+    { icon: SearchCheck, title: "SEO-основа", text: "чистые посадочные страницы, метаданные и управляемый контент" },
+    { icon: Gauge, title: "Скорость", text: "адаптив, лёгкие блоки, понятная админка и проверка перед запуском" },
+  ];
+
+  const conversionSteps = [
+    "клиент понимает предложение без звонка",
+    "форма передаёт менеджеру контекст, а не пустое имя",
+    "каталог и заявки связаны с CRM и учётом",
+  ];
+
+  return (
+    <>
+      <section className="ob-section ob-section--tight">
+        <div className="ob-container ob-service-sites-blueprint">
+          <div className="ob-service-sites-browser" aria-label="Схема сайта на 1С-Битрикс">
+            <div className="ob-service-sites-browser__top">
+              <span /><span /><span />
+              <strong>site.ru / каталог / заявка</strong>
+            </div>
+            <div className="ob-service-sites-browser__hero">
+              <em>первый экран</em>
+              <strong>понятное предложение</strong>
+              <p>сервис, каталог, форма и доказательства рядом</p>
+            </div>
+            <div className="ob-service-sites-browser__grid">
+              <span>услуги</span><span>каталог</span><span>кейсы</span><span>форма</span>
+            </div>
+            <div className="ob-service-sites-browser__flow">
+              <i>SEO</i><i>контент</i><i>CRM</i><i>1С</i>
+            </div>
+          </div>
+          <div className="ob-service-sites-blueprint__copy">
+            <span className="ob-kicker">Сайт как часть продаж</span>
+            <h2>{details.decisionTitle}</h2>
+            <p>{details.decisionText}</p>
+            <div className="ob-service-sites-blueprint__signals">
+              {details.signals.map((signal) => (
+                <article key={signal}><MousePointerClick size={18} aria-hidden="true" /><span>{signal}</span></article>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="ob-section" id="scope">
+        <div className="ob-container ob-service-sites-lab" id="service-plan">
+          <div className="ob-service-sites-lab__head">
+            <span className="ob-kicker">Архитектура запуска</span>
+            <h2>Разводим по полкам контент, каталог, заявки и обмены</h2>
+            <p>На странице должно быть видно, что сайт проектируется как рабочая система: клиенту удобно выбрать, менеджеру понятно обработать, владельцу понятно развивать.</p>
+          </div>
+          <div className="ob-service-sites-lab__cards">
+            {blueprint.map((item) => {
+              const Icon = item.icon;
+              return (
+                <article key={item.title}>
+                  <Icon size={25} aria-hidden="true" />
+                  <h3>{item.title}</h3>
+                  <p>{item.text}</p>
+                </article>
+              );
+            })}
+          </div>
+          <div className="ob-service-sites-lab__scope" aria-label="Что входит в разработку сайта">
+            {direction.scope.map((item) => <span key={item}><CheckCircle2 size={16} aria-hidden="true" /> {item}</span>)}
+          </div>
+        </div>
+      </section>
+
+      <section className="ob-section ob-section--tight">
+        <div className="ob-container ob-service-sites-release">
+          <div className="ob-service-sites-release__copy">
+            <span className="ob-kicker">От макета до заявки</span>
+            <h2>Запуск проверяется по пользовательскому сценарию, а не по факту “страницы открываются”</h2>
+            <p>{details.firstStep}</p>
+            <div className="ob-service-sites-release__steps">
+              {conversionSteps.map((step) => <span key={step}><FileStack size={16} aria-hidden="true" /> {step}</span>)}
+            </div>
+          </div>
+          <div className="ob-service-sites-release__board">
+            <div className="ob-service-sites-release__outcomes">
+              {details.outcomes.map((item) => (
+                <article key={item.title}>
+                  <strong>{item.title}</strong>
+                  <p>{item.text}</p>
+                </article>
+              ))}
+            </div>
+            <div className="ob-service-sites-release__risks" aria-label="Риски запуска сайта">
+              {details.risks.map((risk) => <span key={risk}><ShieldCheck size={16} aria-hidden="true" /> {risk}</span>)}
+            </div>
+          </div>
+          <div className="ob-service-next-inline">
+            <LeadButton>{direction.cta}</LeadButton>
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}
+
+function OneCServiceExperience({ direction, details }: { direction: Direction; details: ServiceDetail }) {
+  const packets = ["заказы", "остатки", "цены", "статусы"];
+  const responsibility = [
+    { title: "Ониксбит", text: "интеграционный сценарий, связка с Битрикс24 и сайтом, контроль обменов", icon: Cable },
+    { title: "Scloud / 1С-эксперт", text: "глубокая 1С-логика, конфигурации, сложные доработки и консультации", icon: ServerCog },
+    { title: "Клиент", text: "правила учёта, владельцы данных, тестовые примеры и согласование регламента", icon: UsersRound },
+  ];
+
+  const monitorRows = [
+    { name: "Заказы с сайта", state: "контролируем статус", meta: "сайт → 1С → CRM" },
+    { name: "Остатки и цены", state: "проверяем расхождения", meta: "1С → сайт" },
+    { name: "Ошибки обмена", state: "фиксируем владельца", meta: "лог → задача" },
+  ];
+
+  return (
+    <>
+      <section className="ob-section ob-section--tight">
+        <div className="ob-container ob-service-onec-hub">
+          <div className="ob-service-onec-hub__copy">
+            <span className="ob-kicker">Данные без ручного дубляжа</span>
+            <h2>{details.decisionTitle}</h2>
+            <p>{details.decisionText}</p>
+            <div className="ob-service-onec-hub__signals">
+              {details.signals.map((signal) => <span key={signal}><DatabaseZap size={16} aria-hidden="true" /> {signal}</span>)}
+            </div>
+          </div>
+          <div className="ob-service-onec-diagram" aria-label="Схема обмена 1С с CRM и сайтом">
+            <div className="ob-service-onec-diagram__node is-core"><DatabaseZap size={32} aria-hidden="true" /><strong>1С</strong><span>источник учёта</span></div>
+            <div className="ob-service-onec-diagram__node is-crm"><LayoutDashboard size={24} aria-hidden="true" /><strong>Битрикс24</strong><span>сделки и задачи</span></div>
+            <div className="ob-service-onec-diagram__node is-site"><ShoppingCart size={24} aria-hidden="true" /><strong>Сайт</strong><span>каталог и заказ</span></div>
+            <div className="ob-service-onec-diagram__node is-support"><MonitorCheck size={24} aria-hidden="true" /><strong>Контроль</strong><span>ошибки и регламент</span></div>
+            <div className="ob-service-onec-diagram__packets" aria-hidden="true">
+              {packets.map((packet) => <span key={packet}>{packet}</span>)}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="ob-section" id="scope">
+        <div className="ob-container ob-service-onec-boundary" id="service-plan">
+          <div className="ob-service-onec-boundary__head">
+            <span className="ob-kicker">Честные границы работ</span>
+            <h2>Сначала определяем, где интеграция, а где нужна профильная 1С-разработка</h2>
+            <p>Так задача не превращается в бесконечный спор между сайтом, CRM и учётом. У каждого участка появляется владелец, тестовый пример и понятный результат.</p>
+          </div>
+          <div className="ob-service-onec-boundary__grid">
+            {responsibility.map((item) => {
+              const Icon = item.icon;
+              return (
+                <article key={item.title}>
+                  <Icon size={25} aria-hidden="true" />
+                  <h3>{item.title}</h3>
+                  <p>{item.text}</p>
+                </article>
+              );
+            })}
+          </div>
+          <div className="ob-service-onec-boundary__scope" aria-label="Зона работ по 1С">
+            {direction.scope.map((item) => <span key={item}><PackageCheck size={16} aria-hidden="true" /> {item}</span>)}
+          </div>
+        </div>
+      </section>
+
+      <section className="ob-section ob-section--tight">
+        <div className="ob-container ob-service-onec-monitor">
+          <div>
+            <span className="ob-kicker">Контроль обменов</span>
+            <h2>После настройки остаётся не магия, а регламент: что проверять и кто реагирует</h2>
+            <p>{details.firstStep}</p>
+          </div>
+          <div className="ob-service-onec-monitor__panel" aria-label="Монитор обменов 1С">
+            {monitorRows.map((row) => (
+              <article key={row.name}>
+                <RefreshCw size={19} aria-hidden="true" />
+                <div><strong>{row.name}</strong><span>{row.meta}</span></div>
+                <em>{row.state}</em>
+              </article>
+            ))}
+          </div>
+          <div className="ob-service-onec-monitor__outcomes">
+            {details.outcomes.map((item) => (
+              <article key={item.title}>
+                <SlidersHorizontal size={20} aria-hidden="true" />
+                <strong>{item.title}</strong>
+                <p>{item.text}</p>
+              </article>
+            ))}
+          </div>
+          <div className="ob-service-onec-monitor__risks" aria-label="Риски интеграции 1С">
+            {details.risks.map((risk) => <span key={risk}><ShieldCheck size={16} aria-hidden="true" /> {risk}</span>)}
+          </div>
+          <div className="ob-service-next-inline">
+            <LeadButton>{direction.cta}</LeadButton>
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}
+
 export function ServicePage({ direction }: { direction: Direction }) {
   const details = servicePageDetails[direction.id];
 
   return (
     <>
-      <section className="ob-service-hero ob-section">
+      <section className={"ob-service-hero ob-section ob-service-page ob-service-page--" + direction.id}>
         <div className="ob-container ob-service-hero__grid">
           <div>
             <span className="ob-kicker">{direction.badge}</span>
             <h1>{direction.headline}</h1>
             <p>{direction.description}</p>
+            <ServiceHeroBullets direction={direction} />
             <div className="ob-actions">
               <LeadButton>{direction.cta}</LeadButton>
-              <a className="ob-btn ob-btn--secondary" href="#scope">
+              <a className="ob-btn ob-btn--secondary" href="#service-plan">
                 <span>{direction.secondaryCta}</span>
               </a>
             </div>
@@ -427,125 +777,7 @@ export function ServicePage({ direction }: { direction: Direction }) {
         </div>
       </section>
 
-      <section className="ob-section ob-section--tight">
-        <div className="ob-container ob-service-decision">
-          <div className="ob-service-decision__intro">
-            <span className="ob-kicker">Когда обращаться</span>
-            <h2>{details.decisionTitle}</h2>
-            <p>{details.decisionText}</p>
-          </div>
-          <div className="ob-service-decision__signals" aria-label="Сигналы для обращения">
-            {details.signals.map((signal) => (
-              <article key={signal}>
-                <CheckCircle2 size={20} aria-hidden="true" />
-                <span>{signal}</span>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="ob-section ob-section--tight" id="scope">
-        <div className="ob-container ob-split">
-          <div>
-            <SectionIntro
-              kicker="Зона работ"
-              title="Что берём в работу"
-              text="Без размытого «сделаем всё». Фиксируем понятную область ответственности и показываем, где нужна партнёрская экспертиза."
-            />
-          </div>
-          <div className="ob-check-list">
-            {direction.scope.map((item) => (
-              <div key={item}>
-                <CheckCircle2 size={20} />
-                <span>{item}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="ob-section">
-        <div className="ob-container">
-          <SectionIntro
-            kicker="Процесс"
-            title="Как движется проект"
-            text="Делаем так, чтобы решение можно было объяснить команде, развивать и поддерживать после запуска."
-          />
-          <div className="ob-card-grid ob-card-grid--4">
-            {direction.process.map((step) => (
-              <article className="ob-process-card" key={step.title}>
-                <span aria-hidden="true"><CheckCircle2 size={20} /></span>
-                <h3>{step.title}</h3>
-                <p>{step.text}</p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="ob-section ob-section--tight">
-        <div className="ob-container ob-service-outcomes">
-          <div className="ob-service-outcomes__head">
-            <span className="ob-kicker">На выходе</span>
-            <h2>Что получает клиент после проекта</h2>
-            <p>Формулируем результат как рабочие артефакты и настройки, которые можно принять, проверить и развивать.</p>
-          </div>
-          <div className="ob-service-outcomes__grid">
-            {details.outcomes.map((item) => (
-              <article key={item.title}>
-                <ClipboardCheck size={24} aria-hidden="true" />
-                <h3>{item.title}</h3>
-                <p>{item.text}</p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="ob-section ob-section--tight">
-        <div className="ob-container ob-service-risk-band">
-          <div>
-            <span className="ob-kicker">Риски</span>
-            <h2>Что закрываем до старта разработки</h2>
-            <p>{details.firstStep}</p>
-          </div>
-          <div className="ob-service-risk-band__list">
-            {details.risks.map((risk) => (
-              <span key={risk}><ShieldCheck size={17} aria-hidden="true" /> {risk}</span>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="ob-section ob-section--tight">
-        <div className="ob-container ob-integrations">
-          <div>
-            <ShieldCheck size={28} />
-            <h2>Интеграции и партнёрства</h2>
-            <p>
-              Подключаем нужные сервисы без лишней витрины технологий. Важен
-              рабочий сценарий, данные и ответственность за поддержку.
-            </p>
-          </div>
-          <div>
-            {direction.integrations.map((item) => (
-              <span key={item}>{item}</span>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="ob-section ob-section--tight">
-        <div className="ob-container ob-service-next-step">
-          <div>
-            <span className="ob-kicker">Первый шаг</span>
-            <h2>Начнём с диагностики, а не с продажи пакета</h2>
-            <p>{details.firstStep}</p>
-          </div>
-          <LeadButton>{direction.cta}</LeadButton>
-        </div>
-      </section>
+      <ServicePageExperience direction={direction} details={details} />
 
       <LeadSection />
     </>

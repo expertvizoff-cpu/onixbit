@@ -24659,3 +24659,1038 @@ span.ob-pricing-estimate__client {
     min-height: 0;
   }
 }
+
+
+/* Service pages differentiated experience pass 2026-06-28 */
+.ob-service-hero__bullets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  width: min(100%, 760px);
+  margin-top: clamp(18px, 1.8vw, 26px);
+}
+
+.ob-service-hero__bullets span {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  max-width: 100%;
+  min-height: 36px;
+  padding: 8px 11px;
+  border: 1px solid rgba(237, 28, 36, 0.12);
+  border-radius: 999px;
+  color: var(--ob-graphite);
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow: 0 10px 26px rgba(8, 8, 8, 0.055);
+  font-size: 13px;
+  line-height: 1.22;
+  font-weight: 780;
+}
+
+.ob-service-hero__bullets svg {
+  flex: 0 0 auto;
+  color: var(--ob-red);
+}
+
+.ob-service-b24-command h2,
+.ob-service-b24-workflow h2,
+.ob-service-b24-automation h2,
+.ob-service-sites-blueprint h2,
+.ob-service-sites-lab h2,
+.ob-service-sites-release h2,
+.ob-service-onec-hub h2,
+.ob-service-onec-boundary h2,
+.ob-service-onec-monitor h2 {
+  margin: 16px 0 0;
+  color: var(--ob-ink);
+  font-size: clamp(31px, 2.55vw, 52px);
+  line-height: 1.06;
+  font-weight: 940;
+  letter-spacing: 0;
+}
+
+.ob-service-b24-command p,
+.ob-service-b24-workflow p,
+.ob-service-b24-automation p,
+.ob-service-sites-blueprint p,
+.ob-service-sites-lab p,
+.ob-service-sites-release p,
+.ob-service-onec-hub p,
+.ob-service-onec-boundary p,
+.ob-service-onec-monitor p {
+  margin: 14px 0 0;
+  color: var(--ob-muted);
+  font-size: clamp(15.5px, 0.98vw, 18px);
+  line-height: 1.6;
+  font-weight: 560;
+}
+
+.ob-service-b24-command,
+.ob-service-sites-blueprint,
+.ob-service-onec-hub,
+.ob-service-b24-workflow,
+.ob-service-sites-lab,
+.ob-service-onec-boundary,
+.ob-service-b24-automation,
+.ob-service-sites-release,
+.ob-service-onec-monitor {
+  position: relative;
+}
+
+.ob-service-b24-command,
+.ob-service-sites-blueprint,
+.ob-service-onec-hub {
+  display: grid;
+  grid-template-columns: minmax(320px, 0.82fr) minmax(0, 1.18fr);
+  gap: clamp(22px, 4vw, 58px);
+  align-items: stretch;
+  padding: clamp(22px, 3vw, 36px);
+  border: 1px solid rgba(255, 255, 255, 0.76);
+  border-radius: var(--ob-radius-xl);
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 248, 224, 0.68)),
+    linear-gradient(90deg, rgba(237, 28, 36, 0.055) 1px, transparent 1px);
+  background-size: auto, 38px 38px;
+  box-shadow: 0 24px 76px rgba(8, 8, 8, 0.08);
+}
+
+.ob-service-b24-command__copy,
+.ob-service-sites-blueprint__copy,
+.ob-service-onec-hub__copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
+}
+
+.ob-service-b24-signals,
+.ob-service-sites-blueprint__signals,
+.ob-service-onec-hub__signals {
+  display: grid;
+  gap: 10px;
+  margin-top: auto;
+  padding-top: clamp(18px, 2vw, 28px);
+}
+
+.ob-service-b24-signals span,
+.ob-service-onec-hub__signals span,
+.ob-service-sites-blueprint__signals article,
+.ob-service-sites-lab__scope span,
+.ob-service-sites-release__steps span,
+.ob-service-sites-release__risks span,
+.ob-service-onec-boundary__scope span,
+.ob-service-onec-monitor__risks span,
+.ob-service-b24-automation__chips span {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  padding: 12px 13px;
+  border: 1px solid rgba(8, 8, 8, 0.075);
+  border-radius: 14px;
+  color: var(--ob-ink);
+  background: rgba(255, 255, 255, 0.74);
+  box-shadow: 0 12px 30px rgba(8, 8, 8, 0.055);
+  font-size: 14px;
+  line-height: 1.42;
+  font-weight: 760;
+}
+
+.ob-service-b24-signals svg,
+.ob-service-sites-blueprint__signals svg,
+.ob-service-sites-lab__scope svg,
+.ob-service-sites-release__steps svg,
+.ob-service-sites-release__risks svg,
+.ob-service-onec-hub__signals svg,
+.ob-service-onec-boundary__scope svg,
+.ob-service-onec-monitor__risks svg,
+.ob-service-b24-outcomes svg,
+.ob-service-onec-monitor__outcomes svg {
+  flex: 0 0 auto;
+  color: var(--ob-red);
+}
+
+.ob-service-b24-console {
+  display: flex;
+  flex-direction: column;
+  min-height: 460px;
+  padding: clamp(18px, 2.2vw, 28px);
+  border: 1px solid rgba(255, 212, 90, 0.12);
+  border-radius: var(--ob-radius-xl);
+  color: #fff;
+  background:
+    radial-gradient(circle at 82% 12%, rgba(255, 212, 90, 0.22), transparent 32%),
+    linear-gradient(135deg, #111111, #230c0f 58%, #3a0f13);
+  box-shadow: 0 28px 84px rgba(8, 8, 8, 0.18);
+  overflow: hidden;
+}
+
+.ob-service-b24-console__bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 48px;
+  padding: 10px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.ob-service-b24-console__bar svg {
+  color: #ffd45a;
+}
+
+.ob-service-b24-console__bar strong {
+  font-size: 15px;
+  font-weight: 920;
+}
+
+.ob-service-b24-console__bar span {
+  margin-left: auto;
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 12px;
+  font-weight: 760;
+}
+
+.ob-service-b24-console__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.ob-service-b24-console__grid article {
+  min-height: 144px;
+  padding: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.075);
+}
+
+.ob-service-b24-console__grid svg {
+  color: #ffd45a;
+}
+
+.ob-service-b24-console__grid strong,
+.ob-service-b24-outcomes strong,
+.ob-service-onec-monitor__outcomes strong {
+  display: block;
+  margin-top: 12px;
+  font-size: 19px;
+  line-height: 1.16;
+  font-weight: 920;
+}
+
+.ob-service-b24-console__grid p {
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 13.5px;
+  line-height: 1.45;
+}
+
+.ob-service-b24-console__route {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: auto;
+  padding-top: 18px;
+}
+
+.ob-service-b24-console__route span {
+  flex: 0 0 auto;
+  padding: 9px 10px;
+  border: 1px solid rgba(255, 212, 90, 0.18);
+  border-radius: 999px;
+  background: rgba(255, 212, 90, 0.1);
+  font-size: 12px;
+  font-weight: 880;
+}
+
+.ob-service-b24-console__route i {
+  height: 2px;
+  flex: 1 1 auto;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--ob-red), var(--ob-yellow));
+}
+
+.ob-service-b24-workflow,
+.ob-service-sites-lab,
+.ob-service-onec-boundary {
+  display: grid;
+  gap: clamp(20px, 3vw, 34px);
+  padding: clamp(22px, 3vw, 36px);
+  border: 1px solid rgba(255, 255, 255, 0.76);
+  border-radius: var(--ob-radius-xl);
+  background: rgba(255, 255, 255, 0.78);
+  box-shadow: 0 24px 76px rgba(8, 8, 8, 0.08);
+  backdrop-filter: blur(18px) saturate(145%);
+}
+
+.ob-service-b24-workflow__head,
+.ob-service-sites-lab__head,
+.ob-service-onec-boundary__head {
+  max-width: 920px;
+}
+
+.ob-service-b24-workflow__lanes {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.ob-service-b24-workflow__lanes::before {
+  content: "";
+  position: absolute;
+  left: 42px;
+  right: 42px;
+  top: 25px;
+  height: 3px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--ob-red), var(--ob-yellow), var(--ob-red));
+  opacity: 0.74;
+}
+
+.ob-service-b24-workflow__lanes article {
+  position: relative;
+  min-height: 238px;
+  padding: 20px;
+  border: 1px solid rgba(237, 28, 36, 0.1);
+  border-radius: 20px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.86), rgba(255, 248, 224, 0.68));
+  box-shadow: 0 14px 38px rgba(8, 8, 8, 0.055);
+}
+
+.ob-service-b24-workflow__lanes article span {
+  display: inline-grid;
+  min-width: 62px;
+  min-height: 50px;
+  place-items: center;
+  margin-bottom: 18px;
+  border-radius: 15px;
+  color: #fff;
+  background: linear-gradient(135deg, var(--ob-red), var(--ob-red-deep));
+  font-size: 11px;
+  font-weight: 920;
+  text-transform: uppercase;
+}
+
+.ob-service-b24-workflow__lanes h3,
+.ob-service-sites-lab__cards h3,
+.ob-service-onec-boundary__grid h3 {
+  margin: 0;
+  color: var(--ob-ink);
+  font-size: clamp(20px, 1.35vw, 26px);
+  line-height: 1.16;
+  font-weight: 930;
+}
+
+.ob-service-b24-workflow__lanes p,
+.ob-service-sites-lab__cards p,
+.ob-service-onec-boundary__grid p {
+  margin-top: 12px;
+  font-size: 14.5px;
+  line-height: 1.52;
+}
+
+.ob-service-b24-outcomes {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.ob-service-b24-outcomes article,
+.ob-service-sites-lab__cards article,
+.ob-service-onec-boundary__grid article,
+.ob-service-onec-monitor__outcomes article {
+  padding: 18px;
+  border: 1px solid rgba(8, 8, 8, 0.08);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.78);
+  box-shadow: 0 12px 32px rgba(8, 8, 8, 0.055);
+}
+
+.ob-service-b24-outcomes strong {
+  color: var(--ob-ink);
+}
+
+.ob-service-b24-outcomes p,
+.ob-service-onec-monitor__outcomes p {
+  margin-top: 9px;
+  font-size: 14px;
+}
+
+.ob-service-b24-automation,
+.ob-service-sites-release,
+.ob-service-onec-monitor {
+  display: grid;
+  grid-template-columns: minmax(310px, 0.72fr) minmax(0, 1fr);
+  gap: clamp(18px, 3vw, 38px);
+  align-items: start;
+  padding: clamp(22px, 3vw, 36px);
+  border-radius: var(--ob-radius-xl);
+  box-shadow: 0 24px 76px rgba(8, 8, 8, 0.08);
+}
+
+.ob-service-b24-automation {
+  color: #fff;
+  background:
+    radial-gradient(circle at 88% 16%, rgba(255, 212, 90, 0.22), transparent 34%),
+    linear-gradient(135deg, #101010, #2a0d10 58%, #ed1c24);
+}
+
+.ob-service-b24-automation .ob-kicker,
+.ob-service-b24-automation h2,
+.ob-service-b24-automation p {
+  color: #fff;
+}
+
+.ob-service-b24-automation p {
+  color: rgba(255, 255, 255, 0.76);
+}
+
+.ob-service-b24-automation__table {
+  display: grid;
+  gap: 10px;
+}
+
+.ob-service-b24-automation__table article {
+  display: grid;
+  grid-template-columns: 82px minmax(0, 1fr);
+  gap: 8px 12px;
+  padding: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 17px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.ob-service-b24-automation__table span {
+  color: #ffd45a;
+  font-size: 11px;
+  font-weight: 920;
+  text-transform: uppercase;
+}
+
+.ob-service-b24-automation__table p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.88);
+  font-size: 14px;
+}
+
+.ob-service-b24-automation__chips,
+.ob-service-onec-monitor__risks {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+}
+
+.ob-service-b24-automation__chips span {
+  border-color: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: none;
+}
+
+.ob-service-next-inline {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.ob-service-sites-blueprint {
+  grid-template-columns: minmax(420px, 1.1fr) minmax(300px, 0.9fr);
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(247, 251, 255, 0.76)),
+    linear-gradient(0deg, rgba(237, 28, 36, 0.045) 1px, transparent 1px);
+  background-size: auto, 34px 34px;
+}
+
+.ob-service-sites-browser {
+  display: grid;
+  gap: 14px;
+  min-height: 456px;
+  padding: 18px;
+  border: 1px solid rgba(8, 8, 8, 0.08);
+  border-radius: var(--ob-radius-xl);
+  background: linear-gradient(180deg, #fff, rgba(255, 248, 224, 0.72));
+  box-shadow: 0 24px 68px rgba(8, 8, 8, 0.1);
+}
+
+.ob-service-sites-browser__top {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 42px;
+  padding: 9px 11px;
+  border-radius: 14px;
+  background: #171717;
+  color: #fff;
+}
+
+.ob-service-sites-browser__top span {
+  width: 9px;
+  height: 9px;
+  border-radius: 999px;
+  background: #ffd45a;
+}
+
+.ob-service-sites-browser__top span:nth-child(2) {
+  background: var(--ob-red);
+}
+
+.ob-service-sites-browser__top span:nth-child(3) {
+  background: #ffffff;
+}
+
+.ob-service-sites-browser__top strong {
+  margin-left: 8px;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.ob-service-sites-browser__hero {
+  min-height: 156px;
+  padding: 20px;
+  border-radius: 20px;
+  color: #fff;
+  background:
+    linear-gradient(135deg, rgba(8, 8, 8, 0.9), rgba(237, 28, 36, 0.78)),
+    linear-gradient(90deg, rgba(255, 212, 90, 0.18) 1px, transparent 1px);
+  background-size: auto, 28px 28px;
+}
+
+.ob-service-sites-browser__hero em,
+.ob-service-sites-browser__flow i {
+  font-style: normal;
+}
+
+.ob-service-sites-browser__hero em {
+  color: #ffd45a;
+  font-size: 11px;
+  font-weight: 930;
+  text-transform: uppercase;
+}
+
+.ob-service-sites-browser__hero strong {
+  display: block;
+  margin-top: 10px;
+  font-size: clamp(28px, 2vw, 42px);
+  line-height: 1;
+  font-weight: 940;
+}
+
+.ob-service-sites-browser__hero p {
+  max-width: 420px;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.ob-service-sites-browser__grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 9px;
+}
+
+.ob-service-sites-browser__grid span {
+  min-height: 78px;
+  padding: 12px;
+  border: 1px solid rgba(237, 28, 36, 0.1);
+  border-radius: 15px;
+  background: rgba(255, 255, 255, 0.78);
+  font-size: 13px;
+  font-weight: 850;
+}
+
+.ob-service-sites-browser__flow {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 9px;
+  margin-top: auto;
+}
+
+.ob-service-sites-browser__flow i {
+  padding: 10px;
+  border-radius: 999px;
+  color: var(--ob-red-deep);
+  background: rgba(255, 212, 90, 0.34);
+  text-align: center;
+  font-size: 12px;
+  font-weight: 920;
+}
+
+.ob-service-sites-blueprint__signals {
+  display: grid;
+  gap: 10px;
+  margin-top: clamp(18px, 2vw, 28px);
+}
+
+.ob-service-sites-lab {
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 0.42fr);
+}
+
+.ob-service-sites-lab__head {
+  grid-column: 1 / -1;
+}
+
+.ob-service-sites-lab__cards {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.ob-service-sites-lab__cards svg,
+.ob-service-onec-boundary__grid svg {
+  margin-bottom: 18px;
+  color: var(--ob-red);
+}
+
+.ob-service-sites-lab__scope {
+  display: grid;
+  align-content: start;
+  gap: 9px;
+}
+
+.ob-service-sites-release {
+  border: 1px solid rgba(237, 28, 36, 0.12);
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.92), rgba(255, 245, 214, 0.7)),
+    radial-gradient(circle at 90% 10%, rgba(237, 28, 36, 0.12), transparent 30%);
+}
+
+.ob-service-sites-release__steps,
+.ob-service-sites-release__risks {
+  display: grid;
+  gap: 9px;
+  margin-top: 18px;
+}
+
+.ob-service-sites-release__board {
+  display: grid;
+  gap: 12px;
+}
+
+.ob-service-sites-release__outcomes {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.ob-service-sites-release__outcomes article {
+  min-height: 170px;
+  padding: 17px;
+  border: 1px solid rgba(8, 8, 8, 0.08);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.78);
+  box-shadow: 0 12px 32px rgba(8, 8, 8, 0.055);
+}
+
+.ob-service-sites-release__outcomes strong {
+  display: block;
+  color: var(--ob-ink);
+  font-size: 20px;
+  line-height: 1.16;
+  font-weight: 920;
+}
+
+.ob-service-sites-release__outcomes p {
+  font-size: 14px;
+}
+
+.ob-service-onec-hub {
+  color: #fff;
+  background:
+    radial-gradient(circle at 84% 16%, rgba(255, 212, 90, 0.2), transparent 34%),
+    linear-gradient(135deg, #111111, #181818 54%, #3a0f13);
+}
+
+.ob-service-onec-hub .ob-kicker,
+.ob-service-onec-hub h2,
+.ob-service-onec-hub p {
+  color: #fff;
+}
+
+.ob-service-onec-hub p {
+  color: rgba(255, 255, 255, 0.76);
+}
+
+.ob-service-onec-hub__signals span {
+  border-color: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: none;
+}
+
+.ob-service-onec-hub__signals svg {
+  color: #ffd45a;
+}
+
+.ob-service-onec-diagram {
+  position: relative;
+  min-height: 470px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--ob-radius-xl);
+  overflow: hidden;
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.055) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+    rgba(255, 255, 255, 0.055);
+  background-size: 34px 34px;
+}
+
+.ob-service-onec-diagram::before,
+.ob-service-onec-diagram::after {
+  content: "";
+  position: absolute;
+  left: 18%;
+  right: 18%;
+  top: 50%;
+  height: 3px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--ob-red), var(--ob-yellow), var(--ob-red));
+  opacity: 0.78;
+}
+
+.ob-service-onec-diagram::after {
+  left: 50%;
+  right: auto;
+  top: 16%;
+  bottom: 18%;
+  width: 3px;
+  height: auto;
+  background: linear-gradient(180deg, var(--ob-yellow), var(--ob-red));
+}
+
+.ob-service-onec-diagram__node {
+  position: absolute;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  gap: 6px;
+  width: 152px;
+  min-height: 132px;
+  padding: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 18px 54px rgba(0, 0, 0, 0.18);
+  text-align: center;
+}
+
+.ob-service-onec-diagram__node svg {
+  color: #ffd45a;
+}
+
+.ob-service-onec-diagram__node strong {
+  font-size: 20px;
+  font-weight: 940;
+}
+
+.ob-service-onec-diagram__node span {
+  color: rgba(255, 255, 255, 0.68);
+  font-size: 12px;
+  line-height: 1.32;
+  font-weight: 720;
+}
+
+.ob-service-onec-diagram__node.is-core {
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 172px;
+  min-height: 152px;
+  border-color: rgba(255, 212, 90, 0.25);
+  background: linear-gradient(135deg, rgba(237, 28, 36, 0.26), rgba(255, 212, 90, 0.14));
+}
+
+.ob-service-onec-diagram__node.is-crm { left: 7%; top: 14%; }
+.ob-service-onec-diagram__node.is-site { right: 7%; top: 14%; }
+.ob-service-onec-diagram__node.is-support { left: 50%; bottom: 8%; transform: translateX(-50%); }
+
+.ob-service-onec-diagram__packets {
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  bottom: 18px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: space-between;
+}
+
+.ob-service-onec-diagram__packets span {
+  padding: 8px 10px;
+  border: 1px solid rgba(255, 212, 90, 0.18);
+  border-radius: 999px;
+  color: #ffd45a;
+  background: rgba(255, 255, 255, 0.08);
+  font-size: 12px;
+  font-weight: 890;
+}
+
+.ob-service-onec-boundary {
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 0.42fr);
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.86), rgba(255, 248, 224, 0.68)),
+    linear-gradient(90deg, rgba(237, 28, 36, 0.052) 1px, transparent 1px);
+  background-size: auto, 38px 38px;
+}
+
+.ob-service-onec-boundary__head {
+  grid-column: 1 / -1;
+}
+
+.ob-service-onec-boundary__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.ob-service-onec-boundary__scope {
+  display: grid;
+  align-content: start;
+  gap: 9px;
+}
+
+.ob-service-onec-monitor {
+  color: #fff;
+  background:
+    radial-gradient(circle at 12% 86%, rgba(255, 212, 90, 0.2), transparent 32%),
+    linear-gradient(135deg, #101010, #241113 58%, #151515);
+}
+
+.ob-service-onec-monitor .ob-kicker,
+.ob-service-onec-monitor h2,
+.ob-service-onec-monitor p {
+  color: #fff;
+}
+
+.ob-service-onec-monitor p {
+  color: rgba(255, 255, 255, 0.76);
+}
+
+.ob-service-onec-monitor__panel {
+  display: grid;
+  gap: 10px;
+}
+
+.ob-service-onec-monitor__panel article {
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+  padding: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 17px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.ob-service-onec-monitor__panel svg {
+  color: #ffd45a;
+}
+
+.ob-service-onec-monitor__panel strong {
+  display: block;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 920;
+}
+
+.ob-service-onec-monitor__panel span {
+  display: block;
+  margin-top: 3px;
+  color: rgba(255, 255, 255, 0.58);
+  font-size: 12px;
+  font-weight: 720;
+}
+
+.ob-service-onec-monitor__panel em {
+  padding: 8px 10px;
+  border-radius: 999px;
+  color: #ffd45a;
+  background: rgba(255, 212, 90, 0.12);
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 870;
+  white-space: nowrap;
+}
+
+.ob-service-onec-monitor__outcomes {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.ob-service-onec-monitor__outcomes article {
+  border-color: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: none;
+}
+
+.ob-service-onec-monitor__outcomes p {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.ob-service-onec-monitor__risks span {
+  border-color: rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: none;
+}
+
+.ob-service-onec-monitor__risks svg {
+  color: #ffd45a;
+}
+
+@media (max-width: 1180px) {
+  .ob-service-b24-command,
+  .ob-service-sites-blueprint,
+  .ob-service-onec-hub,
+  .ob-service-b24-automation,
+  .ob-service-sites-release,
+  .ob-service-onec-monitor,
+  .ob-service-sites-lab,
+  .ob-service-onec-boundary {
+    grid-template-columns: 1fr;
+  }
+
+  .ob-service-b24-workflow__lanes,
+  .ob-service-sites-lab__cards,
+  .ob-service-sites-release__outcomes,
+  .ob-service-onec-boundary__grid,
+  .ob-service-onec-monitor__outcomes {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .ob-service-sites-lab__head,
+  .ob-service-onec-boundary__head,
+  .ob-service-b24-automation__chips,
+  .ob-service-onec-monitor__outcomes,
+  .ob-service-onec-monitor__risks,
+  .ob-service-next-inline {
+    grid-column: auto;
+  }
+}
+
+@media (max-width: 760px) {
+  .ob-service-hero__bullets {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .ob-service-b24-command,
+  .ob-service-sites-blueprint,
+  .ob-service-onec-hub,
+  .ob-service-b24-workflow,
+  .ob-service-sites-lab,
+  .ob-service-onec-boundary,
+  .ob-service-b24-automation,
+  .ob-service-sites-release,
+  .ob-service-onec-monitor {
+    padding: 18px;
+    border-radius: 22px;
+  }
+
+  .ob-service-b24-console,
+  .ob-service-sites-browser,
+  .ob-service-onec-diagram {
+    min-height: 0;
+    border-radius: 20px;
+  }
+
+  .ob-service-b24-console__grid,
+  .ob-service-b24-workflow__lanes,
+  .ob-service-b24-outcomes,
+  .ob-service-sites-lab__cards,
+  .ob-service-sites-release__outcomes,
+  .ob-service-onec-boundary__grid,
+  .ob-service-onec-monitor__outcomes,
+  .ob-service-sites-browser__grid,
+  .ob-service-sites-browser__flow {
+    grid-template-columns: 1fr;
+  }
+
+  .ob-service-b24-workflow__lanes::before {
+    left: 26px;
+    right: auto;
+    top: 28px;
+    bottom: 28px;
+    width: 3px;
+    height: auto;
+    background: linear-gradient(180deg, var(--ob-red), var(--ob-yellow), var(--ob-red));
+  }
+
+  .ob-service-b24-workflow__lanes article {
+    min-height: 0;
+  }
+
+  .ob-service-b24-console__bar {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .ob-service-b24-console__bar span {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .ob-service-b24-console__route {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .ob-service-b24-console__route i {
+    width: 2px;
+    min-height: 16px;
+    flex: 0 0 auto;
+    margin-left: 18px;
+  }
+
+  .ob-service-b24-automation__table article {
+    grid-template-columns: 1fr;
+  }
+
+  .ob-service-next-inline {
+    justify-content: stretch;
+  }
+
+  .ob-service-next-inline .ob-btn {
+    width: 100%;
+  }
+
+  .ob-service-onec-diagram {
+    display: grid;
+    gap: 10px;
+    padding: 14px;
+  }
+
+  .ob-service-onec-diagram::before,
+  .ob-service-onec-diagram::after {
+    display: none;
+  }
+
+  .ob-service-onec-diagram__node,
+  .ob-service-onec-diagram__node.is-core,
+  .ob-service-onec-diagram__node.is-crm,
+  .ob-service-onec-diagram__node.is-site,
+  .ob-service-onec-diagram__node.is-support,
+  .ob-service-onec-diagram__packets {
+    position: static;
+    width: 100%;
+    min-height: 0;
+    transform: none;
+  }
+
+  .ob-service-onec-diagram__packets {
+    justify-content: flex-start;
+  }
+
+  .ob-service-onec-monitor__panel article {
+    grid-template-columns: 36px minmax(0, 1fr);
+  }
+
+  .ob-service-onec-monitor__panel em {
+    grid-column: 2;
+    width: fit-content;
+    white-space: normal;
+  }
+}
