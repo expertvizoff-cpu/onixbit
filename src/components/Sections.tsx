@@ -38,6 +38,7 @@ import {
   articles,
   bitrix24FaqItems,
   sitesFaqItems,
+  onecFaqItems,
   cases,
   company,
   directions,
@@ -974,6 +975,123 @@ function OneCServiceExperience({ direction, details }: { direction: Direction; d
           </div>
           <div className="ob-service-next-inline">
             <LeadButton>{direction.cta}</LeadButton>
+          </div>
+        </div>
+      </section>
+
+      <OneCConversionSections />
+    </>
+  );
+}
+
+function OneCConversionSections() {
+  const formats = [
+    {
+      icon: Route,
+      title: "Интеграция сайта и 1С",
+      text: "Разбираем поток товаров, цен, остатков, заказов и статусов между интернет-магазином и учётной системой.",
+      note: "итог: понятная схема обмена и тестовые сценарии",
+    },
+    {
+      icon: LayoutDashboard,
+      title: "Связка Битрикс24 и 1С",
+      text: "Настраиваем передачу заказов, статусов, контрагентов и служебных данных так, чтобы менеджер видел контекст сделки.",
+      note: "итог: меньше ручного переноса и спорных данных",
+    },
+    {
+      icon: SearchCheck,
+      title: "Разбор ошибок обмена",
+      text: "Смотрим логи, расписания, модули, тестовые заказы и места, где обмен ломается без понятного владельца.",
+      note: "итог: список причин, владельцев и следующих шагов",
+    },
+    {
+      icon: ServerCog,
+      title: "Scloud и 1С-экспертиза",
+      text: "Если задача уходит в конфигурацию, методологию учёта или сложную 1С-логику, заранее отделяем эту часть.",
+      note: "итог: честная зона ответственности без подмены работ",
+    },
+  ];
+
+  const deliverables = [
+    "карта потоков данных: товары, цены, остатки, заказы и статусы",
+    "источники истины, владельцы данных и точки ручной обработки",
+    "тестовые сценарии обмена и список проверок перед запуском",
+    "маршрут подключения Scloud или профильного 1С-эксперта",
+  ];
+
+  const boundaries = [
+    "не обещаем переписать конфигурацию без отдельного 1С-разбора",
+    "не смешиваем интеграцию, учётную методологию и поддержку пользователей",
+    "не запускаем обмен без тестовых заказов, товаров, цен и статусов",
+  ];
+
+  return (
+    <>
+      <section className="ob-section ob-section--tight">
+        <div className="ob-container ob-service-onec-formats">
+          <div className="ob-service-onec-formats__head">
+            <span className="ob-kicker">Форматы работ</span>
+            <h2>Берём интеграции и обмены, а сложную 1С-логику отделяем заранее</h2>
+            <p>
+              Клиенту важно понимать границы до старта: где достаточно настроить обмен, где нужна диагностика,
+              а где без профильной 1С-экспертизы будет риск для учёта.
+            </p>
+          </div>
+          <div className="ob-service-onec-formats__grid">
+            {formats.map((item) => {
+              const Icon = item.icon;
+              return (
+                <article key={item.title}>
+                  <Icon size={24} aria-hidden="true" />
+                  <h3>{item.title}</h3>
+                  <p>{item.text}</p>
+                  <span>{item.note}</span>
+                </article>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      <section className="ob-section ob-section--tight">
+        <div className="ob-container ob-service-onec-diagnostics">
+          <div className="ob-service-onec-diagnostics__main">
+            <span className="ob-kicker">Результат диагностики</span>
+            <h2>После первого разбора видно, какие данные передавать и кто отвечает за каждый участок</h2>
+            <p>
+              Диагностика нужна, чтобы не лечить обмен вслепую. Мы фиксируем источники данных,
+              примеры ошибок, тестовые сценарии и границу между интеграцией и 1С-разработкой.
+            </p>
+            <div className="ob-service-onec-diagnostics__list" aria-label="Что получает клиент после диагностики 1С">
+              {deliverables.map((item) => <span key={item}><FileCheck2 size={17} aria-hidden="true" /> {item}</span>)}
+            </div>
+          </div>
+          <aside className="ob-service-onec-diagnostics__aside" aria-label="Честные ограничения работ по 1С">
+            <ReceiptText size={26} aria-hidden="true" />
+            <h3>Границы фиксируем до оценки</h3>
+            <p>Это защищает учёт, сроки и ожидания команды, которая работает с данными каждый день.</p>
+            {boundaries.map((item) => <span key={item}><ShieldCheck size={16} aria-hidden="true" /> {item}</span>)}
+            <LeadButton>Проверить обмен 1С</LeadButton>
+          </aside>
+        </div>
+      </section>
+
+      <section className="ob-section ob-section--tight">
+        <div className="ob-container ob-service-onec-faq">
+          <div className="ob-service-onec-faq__head">
+            <span className="ob-kicker">Вопросы перед стартом</span>
+            <h2>Коротко о зоне работ, 1С-разработке, обменах, диагностике и Scloud</h2>
+          </div>
+          <div className="ob-service-onec-faq__items">
+            {onecFaqItems.map((item) => (
+              <article key={item.question}>
+                <HelpCircle size={22} aria-hidden="true" />
+                <div>
+                  <h3>{item.question}</h3>
+                  <p>{item.answer}</p>
+                </div>
+              </article>
+            ))}
           </div>
         </div>
       </section>

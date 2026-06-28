@@ -24,6 +24,15 @@ const nextConfig: NextConfig = {
         ],
       },
       {
+        source: "/raboty-po-1c-predpriyatie",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=0, must-revalidate",
+          },
+        ],
+      },
+      {
         source: "/_next/static/chunks/:path*",
         headers: [
           {

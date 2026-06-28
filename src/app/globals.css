@@ -26354,3 +26354,300 @@ span.ob-pricing-estimate__client {
     padding: 16px;
   }
 }
+
+
+/* 1C integrations conversion polish 2026-06-28 */
+.ob-service-onec-formats,
+.ob-service-onec-diagnostics,
+.ob-service-onec-faq {
+  position: relative;
+  display: grid;
+  gap: clamp(20px, 3vw, 34px);
+  padding: clamp(22px, 3vw, 36px);
+  border: 1px solid rgba(255, 255, 255, 0.76);
+  border-radius: var(--ob-radius-xl);
+  background: rgba(255, 255, 255, 0.78);
+  box-shadow: 0 24px 76px rgba(8, 8, 8, 0.08);
+  backdrop-filter: blur(18px) saturate(145%);
+}
+
+.ob-service-onec-formats__head,
+.ob-service-onec-faq__head {
+  max-width: 940px;
+}
+
+.ob-service-onec-formats__head h2,
+.ob-service-onec-diagnostics h2,
+.ob-service-onec-faq__head h2 {
+  margin: 16px 0 0;
+  color: var(--ob-ink);
+  font-size: 44px;
+  line-height: 1.06;
+  font-weight: 940;
+  letter-spacing: 0;
+}
+
+.ob-service-onec-formats__head p,
+.ob-service-onec-diagnostics p,
+.ob-service-onec-faq__head p {
+  margin: 14px 0 0;
+  color: var(--ob-muted);
+  font-size: 17px;
+  line-height: 1.6;
+  font-weight: 560;
+}
+
+.ob-service-onec-formats__grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.ob-service-onec-formats__grid article {
+  display: flex;
+  flex-direction: column;
+  min-height: 278px;
+  padding: 18px;
+  border: 1px solid rgba(8, 8, 8, 0.08);
+  border-radius: 18px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.86), rgba(255, 248, 224, 0.66));
+  box-shadow: 0 12px 32px rgba(8, 8, 8, 0.055);
+}
+
+.ob-service-onec-formats__grid svg,
+.ob-service-onec-diagnostics__list svg,
+.ob-service-onec-diagnostics__aside > svg,
+.ob-service-onec-faq__items svg {
+  flex: 0 0 auto;
+  color: var(--ob-red);
+}
+
+.ob-service-onec-formats__grid h3,
+.ob-service-onec-diagnostics h3,
+.ob-service-onec-faq__items h3 {
+  margin: 14px 0 0;
+  color: var(--ob-ink);
+  font-size: 22px;
+  line-height: 1.16;
+  font-weight: 930;
+}
+
+.ob-service-onec-formats__grid p,
+.ob-service-onec-faq__items p {
+  margin-top: 11px;
+  color: var(--ob-muted);
+  font-size: 14.5px;
+  line-height: 1.52;
+  font-weight: 560;
+}
+
+.ob-service-onec-formats__grid span {
+  margin-top: auto;
+  padding-top: 16px;
+  color: var(--ob-red-deep);
+  font-size: 12px;
+  line-height: 1.35;
+  font-weight: 900;
+}
+
+.ob-service-onec-diagnostics {
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 0.48fr);
+  align-items: stretch;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.92), rgba(255, 248, 224, 0.7)),
+    linear-gradient(90deg, rgba(237, 28, 36, 0.052) 1px, transparent 1px);
+  background-size: auto, 38px 38px;
+}
+
+.ob-service-onec-diagnostics__list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 22px;
+}
+
+.ob-service-onec-diagnostics__list span,
+.ob-service-onec-diagnostics__aside span {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  padding: 12px 13px;
+  border: 1px solid rgba(8, 8, 8, 0.075);
+  border-radius: 14px;
+  color: var(--ob-ink);
+  background: rgba(255, 255, 255, 0.74);
+  box-shadow: 0 12px 30px rgba(8, 8, 8, 0.055);
+  font-size: 14px;
+  line-height: 1.42;
+  font-weight: 760;
+}
+
+.ob-service-onec-diagnostics__aside {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px;
+  border-radius: 22px;
+  color: #fff;
+  background:
+    radial-gradient(circle at 88% 16%, rgba(255, 212, 90, 0.22), transparent 34%),
+    linear-gradient(135deg, #101010, #221113 58%, #ed1c24);
+  box-shadow: 0 20px 56px rgba(8, 8, 8, 0.14);
+}
+
+.ob-service-onec-diagnostics__aside h3 {
+  color: #fff;
+}
+
+.ob-service-onec-diagnostics__aside p {
+  color: rgba(255, 255, 255, 0.74);
+}
+
+.ob-service-onec-diagnostics__aside span {
+  border-color: rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: none;
+}
+
+.ob-service-onec-diagnostics__aside span svg,
+.ob-service-onec-diagnostics__aside > svg {
+  color: #ffd45a;
+}
+
+.ob-service-onec-diagnostics__aside .ob-btn {
+  width: 100%;
+  margin-top: auto;
+}
+
+.ob-service-onec-faq {
+  grid-template-columns: minmax(300px, 0.42fr) minmax(0, 1fr);
+  align-items: start;
+}
+
+.ob-service-onec-faq__items {
+  display: grid;
+  gap: 12px;
+}
+
+.ob-service-onec-faq__items article {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 12px;
+  padding: 18px;
+  border: 1px solid rgba(8, 8, 8, 0.08);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.78);
+  box-shadow: 0 12px 32px rgba(8, 8, 8, 0.055);
+}
+
+.ob-service-onec-faq__items h3 {
+  margin: 0;
+  font-size: 18px;
+}
+
+@media (max-width: 1180px) {
+  .ob-service-onec-formats__head h2,
+  .ob-service-onec-diagnostics h2,
+  .ob-service-onec-faq__head h2 {
+    font-size: 38px;
+  }
+
+  .ob-service-onec-formats__grid,
+  .ob-service-onec-diagnostics__list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .ob-service-onec-diagnostics,
+  .ob-service-onec-faq {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 760px) {
+  .ob-service-hero.ob-service-page--onec {
+    padding-top: 30px;
+    padding-bottom: 34px;
+  }
+
+  .ob-service-hero.ob-service-page--onec .ob-service-hero__grid {
+    gap: 22px;
+  }
+
+  .ob-service-hero.ob-service-page--onec h1 {
+    font-size: 38px;
+    line-height: 1.04;
+  }
+
+  .ob-service-hero.ob-service-page--onec p {
+    margin-top: 12px;
+    line-height: 1.46;
+  }
+
+  .ob-service-hero.ob-service-page--onec .ob-actions {
+    order: 2;
+    margin-top: 18px;
+  }
+
+  .ob-service-hero.ob-service-page--onec .ob-service-hero__bullets {
+    order: 3;
+    margin-top: 14px;
+  }
+
+  .ob-service-hero.ob-service-page--onec .ob-stat-row {
+    order: 4;
+    margin-top: 18px;
+  }
+
+  .ob-service-hero.ob-service-page--onec .ob-service-hero__bullets span {
+    min-height: 34px;
+    padding: 8px 10px;
+  }
+
+  .ob-service-onec-formats__head h2,
+  .ob-service-onec-diagnostics h2,
+  .ob-service-onec-faq__head h2 {
+    font-size: 30px;
+    line-height: 1.12;
+  }
+
+  .ob-service-onec-formats__head p,
+  .ob-service-onec-diagnostics p,
+  .ob-service-onec-faq__head p {
+    font-size: 16px;
+    line-height: 1.55;
+  }
+
+  .ob-service-onec-formats__grid h3,
+  .ob-service-onec-diagnostics h3 {
+    font-size: 20px;
+  }
+
+  .ob-service-onec-formats,
+  .ob-service-onec-diagnostics,
+  .ob-service-onec-faq {
+    padding: 18px;
+    border-radius: 22px;
+  }
+
+  .ob-service-onec-formats__grid,
+  .ob-service-onec-diagnostics__list,
+  .ob-service-onec-faq__items {
+    grid-template-columns: 1fr;
+  }
+
+  .ob-service-onec-formats__grid article {
+    min-height: 0;
+  }
+
+  .ob-service-onec-diagnostics__aside {
+    padding: 18px;
+    border-radius: 18px;
+  }
+
+  .ob-service-onec-faq__items article {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    padding: 16px;
+  }
+}
