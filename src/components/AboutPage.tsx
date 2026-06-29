@@ -220,15 +220,15 @@ const yandexMapUrl = (query: string) =>
 const certificatePreview = [
   {
     title: "Золотой партнёр Битрикс24",
-    image: "/media/certificates/Золотой партнёр Битрикс24.jpg",
+    image: "/media/certificates/Битрикс24 сертификаты/Золотой партнёр Битрикс24.jpg",
   },
   {
     title: "Золотой партнёр 1С-Битрикс",
-    image: "/media/certificates/Золотой партнёр 1С-Битрикс.jpg",
+    image: "/media/certificates/1С-Битрикс сертификаты/Золотой партнёр 1С-Битрикс.jpg",
   },
   {
     title: "Интеграция с 1С",
-    image: "/media/certificates/Компетенция Интеграция с 1С.jpg",
+    image: "/media/certificates/Битрикс24 компетенции/Компетенция Интеграция с 1С.jpg",
   },
 ];
 

@@ -19582,19 +19582,19 @@ button.ob-home-trust__cert,
 }
 
 .ob-home-trust__badges span.is-bitrix24::after {
-  background-image: url("/media/certificates/Золотой%20партнёр%20Битрикс24.jpg");
+  background-image: url("/media/certificates/Битрикс24 сертификаты/Золотой партнёр Битрикс24.jpg");
 }
 
 .ob-home-trust__badges span.is-bitrix::after {
-  background-image: url("/media/certificates/Золотой%20партнёр%201С-Битрикс.jpg");
+  background-image: url("/media/certificates/1С-Битрикс сертификаты/Золотой партнёр 1С-Битрикс.jpg");
 }
 
 .ob-home-trust__badges span.is-integration::after {
-  background-image: url("/media/certificates/Компетенция%20Интеграция%20с%201С.jpg");
+  background-image: url("/media/certificates/Битрикс24 компетенции/Компетенция Интеграция с 1С.jpg");
 }
 
 .ob-home-trust__badges span.is-quality::after {
-  background-image: url("/media/certificates/Участник%20Программы%20мониторинга%20качества%20внедрений.jpg");
+  background-image: url("/media/certificates/Битрикс24 сертификаты/Участник Программы мониторинга качества внедрений.jpg");
 }
 
 @media (max-width: 1180px) {

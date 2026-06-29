@@ -287,21 +287,21 @@ const trustCertificates = [
   {
     label: "Битрикс24",
     title: "Золотой партнёр",
-    image: "/media/certificates/Золотой%20партнёр%20Битрикс24.jpg",
+    image: "/media/certificates/Битрикс24 сертификаты/Золотой партнёр Битрикс24.jpg",
     orientation: "landscape",
     className: "is-main",
   },
   {
     label: "1С-Битрикс",
     title: "Золотой партнёр",
-    image: "/media/certificates/Золотой%20партнёр%201С-Битрикс.jpg",
+    image: "/media/certificates/1С-Битрикс сертификаты/Золотой партнёр 1С-Битрикс.jpg",
     orientation: "landscape",
     className: "is-second",
   },
   {
     label: "Интеграция с 1С",
     title: "Компетенция",
-    image: "/media/certificates/Компетенция%20Интеграция%20с%201С.jpg",
+    image: "/media/certificates/Битрикс24 компетенции/Компетенция Интеграция с 1С.jpg",
     orientation: "portrait",
     className: "is-third",
   },
@@ -784,7 +784,7 @@ export function HomeTrustSection() {
             <div className="ob-home-trust__badges" aria-label="Подтверждения компетенций">
               <article className="is-bitrix24">
                 <span className="ob-home-trust__badge-cert" aria-hidden="true">
-                  <Image src="/media/certificates/Золотой%20партнёр%20Битрикс24.jpg" alt="" width={96} height={68} sizes="96px" />
+                  <Image src="/media/certificates/Битрикс24 сертификаты/Золотой партнёр Битрикс24.jpg" alt="" width={96} height={68} sizes="96px" />
                 </span>
                 <div>
                   <strong><BadgeCheck size={18} aria-hidden="true" /> партнёр Битрикс24</strong>
@@ -793,7 +793,7 @@ export function HomeTrustSection() {
               </article>
               <article className="is-bitrix">
                 <span className="ob-home-trust__badge-cert" aria-hidden="true">
-                  <Image src="/media/certificates/Золотой%20партнёр%201С-Битрикс.jpg" alt="" width={96} height={68} sizes="96px" />
+                  <Image src="/media/certificates/1С-Битрикс сертификаты/Золотой партнёр 1С-Битрикс.jpg" alt="" width={96} height={68} sizes="96px" />
                 </span>
                 <div>
                   <strong><BadgeCheck size={18} aria-hidden="true" /> партнёр 1С-Битрикс</strong>
@@ -802,7 +802,7 @@ export function HomeTrustSection() {
               </article>
               <article className="is-integration">
                 <span className="ob-home-trust__badge-cert" aria-hidden="true">
-                  <Image src="/media/certificates/Компетенция%20Интеграция%20с%201С.jpg" alt="" width={78} height={108} sizes="78px" />
+                  <Image src="/media/certificates/Битрикс24 компетенции/Компетенция Интеграция с 1С.jpg" alt="" width={78} height={108} sizes="78px" />
                 </span>
                 <div>
                   <strong><ShieldCheck size={18} aria-hidden="true" /> интеграция с 1С</strong>

@@ -627,14 +627,17 @@
 }
 
 .obx-certs__modal-dialog {
+  display: flex;
   width: min(94vw, 940px);
   height: min(90vh, 860px);
+  flex-direction: column;
+  gap: 10px;
 }
 
 .obx-certs__modal-media {
   position: relative;
   width: 100%;
-  min-height: 0;
+  min-height: 260px;
   flex: 1 1 auto;
 }
 

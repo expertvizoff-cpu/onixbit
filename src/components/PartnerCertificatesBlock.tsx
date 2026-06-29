@@ -28,7 +28,22 @@ type TrustScenario = {
 };
 
 const certificateBase = "/media/certificates";
-const cert = (name: string) => encodeURI(certificateBase + "/" + name + ".jpg");
+const certificateFolders: Record<string, string> = {
+  "Авторизационное письмо 1С-Битрикс": "Битрикс24 сертификаты",
+  "Бизнес-партнёр Битрикс24": "Битрикс24 сертификаты",
+  "Золотой партнёр Битрикс24": "Битрикс24 сертификаты",
+  "Сертификат Внедрение Битрикс24 Основные настройки системы": "Битрикс24 сертификаты",
+  "Участник Программы мониторинга качества внедрений": "Битрикс24 сертификаты",
+  "Компетенция CRM": "Битрикс24 компетенции",
+  "Компетенция Бизнес-процессы": "Битрикс24 компетенции",
+  "Компетенция Интеграция с 1С": "Битрикс24 компетенции",
+  "Компетенция Коробочная версия": "Битрикс24 компетенции",
+  "Золотой партнёр 1С-Битрикс": "1С-Битрикс сертификаты",
+};
+const cert = (name: string) => {
+  const folder = certificateFolders[name];
+  return folder ? certificateBase + "/" + folder + "/" + name + ".jpg" : certificateBase + "/" + name + ".jpg";
+};
 const partnerImage = cert("Золотой партнёр Битрикс24");
 const bitrixGoldImage = cert("Золотой партнёр 1С-Битрикс");
 
