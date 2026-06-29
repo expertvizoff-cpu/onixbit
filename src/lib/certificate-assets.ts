@@ -167,17 +167,34 @@ function listFiles(group: RealCertificateGroup, manifest: Record<string, Generat
     });
 }
 
+const groupWeight: Record<Exclude<CertificateGroupId, "all">, number> = {
+  "bitrix24-status": 0,
+  "bitrix24-competency": 10,
+  "bitrix24-extra": 20,
+  "bitrix-status": 30,
+  "bitrix-competency": 40,
+  "bitrix-extra": 50,
+  onec: 60,
+  training: 70,
+};
+
 function itemWeight(item: CertificateAsset) {
   const title = item.title.toLowerCase();
-  if (title.includes("золотой")) return 0;
-  if (title.includes("scloud")) return 1;
-  if (title.includes("wazzup")) return 2;
-  if (title.includes("aspro") || title.includes("аспро")) return 3;
-  if (title.includes("crm")) return 4;
-  if (title.includes("интеграци")) return 5;
-  if (title.includes("бизнес-процес")) return 6;
-  if (title.includes("базовый курс")) return 7;
-  return 20;
+  const base = groupWeight[item.group] ?? 90;
+
+  if (title.includes("золотой")) return base;
+  if (title.includes("crm")) return base + 1;
+  if (title.includes("интеграци")) return base + 2;
+  if (title.includes("бизнес-процес")) return base + 3;
+  if (title.includes("коробоч")) return base + 4;
+  if (title.includes("wazzup")) return base + 5;
+  if (title.includes("chatapp")) return base + 6;
+  if (title.includes("aspro") || title.includes("аспро")) return base + 7;
+  if (title.includes("концепт")) return base + 8;
+  if (title.includes("scloud")) return base + 9;
+  if (title.includes("базовый курс")) return base + 10;
+
+  return base + 20;
 }
 
 export function getCertificateDashboard(): CertificateDashboard {

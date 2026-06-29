@@ -40,7 +40,7 @@ test.describe("Onixbit pages", () => {
 
 test.describe("Onixbit accessibility", () => {
   test("key pages have no critical or serious automated accessibility violations", async ({ page }) => {
-    const keyRoutes = ["/", "/contacts", "/vnedrenie-bitrix24", "/o-kompanii"];
+    const keyRoutes = ["/", "/contacts", "/vnedrenie-bitrix24", "/o-kompanii", "/certificates"];
 
     for (const route of keyRoutes) {
       await page.goto(route);

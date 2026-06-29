@@ -1,16 +1,20 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import {
   BookOpenCheck,
   Cable,
   CheckCircle2,
+  ChevronDown,
   FileCheck2,
   FolderCheck,
   Layers3,
   MessageCircle,
+  PauseCircle,
+  PlayCircle,
   ScanLine,
   ShieldCheck,
   Sparkles,
@@ -65,6 +69,71 @@ const ecosystemAreas: EcosystemArea[] = [
 ];
 
 const proofIcons = [ShieldCheck, Workflow, FileCheck2, BookOpenCheck] as const;
+
+const projectEvidence = [
+  {
+    href: "/vnedrenie-bitrix24",
+    label: "CRM и продажи",
+    title: "Когда выбираете интегратора Битрикс24",
+    text: "Смотрите партнёрство, CRM-компетенции, коробку, бизнес-процессы и связку с мессенджерами.",
+    icon: MessageCircle,
+  },
+  {
+    href: "/razrabotka-saitov-na-1c-bitrix",
+    label: "Сайт и e-commerce",
+    title: "Когда нужен сайт на 1С-Битрикс",
+    text: "Важны партнёрский статус, компетенции по композиту, интеграции с 1С и проверенные шаблонные решения.",
+    icon: Layers3,
+  },
+  {
+    href: "/raboty-po-1c-predpriyatie",
+    label: "Учёт и обмены",
+    title: "Когда проект цепляется за 1С",
+    text: "Ищите подтверждения по 1С-направлению, облаку, обменам и ответственности за данные между системами.",
+    icon: Cable,
+  },
+] as const;
+
+const verificationSteps = [
+  {
+    title: "Понять контур проекта",
+    text: "CRM, сайт, 1С и коммуникации проверяются разными документами. Важна связка, а не один красивый статус.",
+    icon: Workflow,
+  },
+  {
+    title: "Сверить официальный след",
+    text: "Если у документа есть QR-код или партнёрская проверка, статус можно подтвердить отдельно перед договором.",
+    icon: ScanLine,
+  },
+  {
+    title: "Спросить про практику",
+    text: "Сертификат полезен, когда рядом есть сценарий: что именно команда будет делать в CRM, сайте, 1С или мессенджерах.",
+    icon: ShieldCheck,
+  },
+] as const;
+
+const certificateFaqItems = [
+  {
+    question: "Что подтверждают сертификаты Ониксбит?",
+    answer:
+      "Они показывают партнёрские статусы, компетенции и обучение по Битрикс24, 1С-Битрикс, 1С и смежным сервисам, которые участвуют в проектах клиентов.",
+  },
+  {
+    question: "Зачем на странице есть Wazzup, ChatApp, АСПРО, КОНЦЕПТ и Scloud?",
+    answer:
+      "Это партнёры и сервисы, которые усиливают отдельные части проектов: мессенджеры в Битрикс24, шаблоны и решения для сайтов, облачную инфраструктуру и задачи вокруг 1С.",
+  },
+  {
+    question: "Как проверить актуальность документа?",
+    answer:
+      "Перед стартом проекта можно запросить у менеджера подтверждение по конкретному документу. Если у сертификата есть QR-код или партнёрская проверка, используем официальный канал проверки.",
+  },
+  {
+    question: "Нужны ли сертификаты обучения основателя?",
+    answer:
+      "Да, они помогают показать, что экспертиза поддерживается не только партнёрскими статусами, но и регулярным обучением по продуктам и сценариям Битрикс24.",
+  },
+] as const;
 
 function filterTitle(id: CertificateGroupId) {
   if (id === "all") return "Все";
@@ -149,7 +218,8 @@ export function CertificatesExperience({ dashboard }: CertificatesExperienceProp
   const [activeArea, setActiveArea] = useState<EcosystemArea["id"]>("bitrix24");
   const [filter, setFilter] = useState<CertificateGroupId>("all");
   const [modal, setModal] = useState<CertificateAsset | null>(null);
-  const [paused, setPaused] = useState(false);
+  const [manualPaused, setManualPaused] = useState(false);
+  const [interactionPaused, setInteractionPaused] = useState(false);
   const shouldReduceMotion = useReducedMotion();
   const lastTriggerRef = useRef<HTMLButtonElement | null>(null);
   const activeEcosystem = ecosystemAreas.find((area) => area.id === activeArea) ?? ecosystemAreas[0];
@@ -163,7 +233,7 @@ export function CertificatesExperience({ dashboard }: CertificatesExperienceProp
   const { panelRef, closeRef } = useModalFocus(modal, closeModal);
 
   useEffect(() => {
-    if (paused || shouldReduceMotion) return;
+    if (manualPaused || interactionPaused || shouldReduceMotion) return;
 
     const timer = window.setInterval(() => {
       setActiveArea((current) => {
@@ -173,7 +243,7 @@ export function CertificatesExperience({ dashboard }: CertificatesExperienceProp
     }, 6200);
 
     return () => window.clearInterval(timer);
-  }, [paused, shouldReduceMotion]);
+  }, [manualPaused, interactionPaused, shouldReduceMotion]);
 
   const activeItems = useMemo(
     () => dashboard.items.filter((item) => item.area === activeArea).slice(0, 5),
@@ -192,8 +262,16 @@ export function CertificatesExperience({ dashboard }: CertificatesExperienceProp
     <>
       <section
         className="ob-section ob-cert-command"
-        onMouseEnter={() => setPaused(true)}
-        onMouseLeave={() => setPaused(false)}
+        onBlurCapture={(event) => {
+          const nextFocus = event.relatedTarget;
+
+          if (!(nextFocus instanceof Node) || !event.currentTarget.contains(nextFocus)) {
+            setInteractionPaused(false);
+          }
+        }}
+        onFocusCapture={() => setInteractionPaused(true)}
+        onMouseEnter={() => setInteractionPaused(true)}
+        onMouseLeave={() => setInteractionPaused(false)}
       >
         <div className="ob-container ob-cert-command__grid">
           <div className="ob-cert-command__copy">
@@ -206,6 +284,13 @@ export function CertificatesExperience({ dashboard }: CertificatesExperienceProp
             <div className="ob-page-hero__actions">
               <LeadButton>Обсудить проект</LeadButton>
               <ButtonLink href="#certificates" variant="secondary">Смотреть документы</ButtonLink>
+            </div>
+            <div className="ob-cert-command__answer">
+              <ShieldCheck size={20} aria-hidden="true" />
+              <div>
+                <strong>Сертификаты здесь работают как карта доверия.</strong>
+                <span>Они показывают, какие части проекта команда закрывает сама, а где подключает проверенные партнёрские сервисы.</span>
+              </div>
             </div>
             <div className="ob-cert-command__stats" aria-label="Сколько подтверждений собрано">
               <span><strong>{dashboard.stats.total}</strong>документов и сертификатов</span>
@@ -221,8 +306,10 @@ export function CertificatesExperience({ dashboard }: CertificatesExperienceProp
                 const Icon = area.icon;
                 return (
                   <button
+                    aria-controls={"cert-area-panel-" + area.id}
                     aria-selected={activeArea === area.id}
                     className={activeArea === area.id ? "is-active" : ""}
+                    id={"cert-area-tab-" + area.id}
                     key={area.id}
                     onClick={() => setActiveArea(area.id)}
                     role="tab"
@@ -234,6 +321,15 @@ export function CertificatesExperience({ dashboard }: CertificatesExperienceProp
                 );
               })}
             </div>
+            <button
+              aria-pressed={manualPaused}
+              className="ob-cert-command__pause"
+              onClick={() => setManualPaused((value) => !value)}
+              type="button"
+            >
+              {manualPaused ? <PlayCircle size={18} aria-hidden="true" /> : <PauseCircle size={18} aria-hidden="true" />}
+              <span>{manualPaused ? "Продолжить" : "Пауза"}</span>
+            </button>
 
             <div className="ob-cert-command__map">
               <div className="ob-cert-command__core">
@@ -244,10 +340,13 @@ export function CertificatesExperience({ dashboard }: CertificatesExperienceProp
               <AnimatePresence mode="wait">
                 <motion.div
                   animate={{ opacity: 1, y: 0 }}
+                  aria-labelledby={"cert-area-tab-" + activeEcosystem.id}
                   className="ob-cert-command__detail"
                   exit={{ opacity: 0, y: shouldReduceMotion ? 0 : -12 }}
+                  id={"cert-area-panel-" + activeEcosystem.id}
                   initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 14 }}
                   key={activeEcosystem.id}
+                  role="tabpanel"
                   transition={{ duration: 0.28, ease: "easeOut" }}
                 >
                   <span>{activeEcosystem.label}</span>
@@ -298,7 +397,7 @@ export function CertificatesExperience({ dashboard }: CertificatesExperienceProp
             </div>
             <p className="obx-certs__lead">
               Сертификаты сгруппированы так же, как живёт проект: CRM, сайт, 1С, смежные партнёры и обучение основателя.
-              Новые документы можно добавлять в папки, а страница подхватит их при сборке.
+              Так проще понять, какие подтверждения важны именно для вашей задачи.
             </p>
           </div>
 
@@ -313,6 +412,48 @@ export function CertificatesExperience({ dashboard }: CertificatesExperienceProp
               <strong>Обучение основателя</strong>
               <span>Подтверждает постоянную практику в продуктах и сценариях Битрикс24.</span>
             </article>
+          </div>
+
+          <section className="obx-certs__decision" aria-labelledby="obx-certs-decision-title">
+            <div className="obx-certs__decision-copy">
+              <span className="obx-certs__badge">Как читать документы</span>
+              <h2 id="obx-certs-decision-title">Сертификат полезен, когда понятно, какой риск он закрывает</h2>
+              <p>
+                Для руководителя это не коллекция дипломов, а способ быстро проверить: команда понимает платформу,
+                умеет связать её с процессом и не оставит смежные сервисы без ответственности.
+              </p>
+              <LeadButton>Запросить подтверждения под проект</LeadButton>
+            </div>
+            <div className="obx-certs__decision-steps">
+              {verificationSteps.map((step) => {
+                const Icon = step.icon;
+
+                return (
+                  <article key={step.title}>
+                    <Icon size={20} aria-hidden="true" />
+                    <strong>{step.title}</strong>
+                    <span>{step.text}</span>
+                  </article>
+                );
+              })}
+            </div>
+          </section>
+
+          <div className="obx-certs__routes" aria-label="Какие сертификаты важны для разных задач">
+            {projectEvidence.map((item) => {
+              const Icon = item.icon;
+
+              return (
+                <Link className="obx-certs__route" href={item.href} key={item.href}>
+                  <span>
+                    <Icon size={18} aria-hidden="true" />
+                    {item.label}
+                  </span>
+                  <strong>{item.title}</strong>
+                  <em>{item.text}</em>
+                </Link>
+              );
+            })}
           </div>
 
           <div className="obx-certs__catalog-top">
@@ -370,11 +511,29 @@ export function CertificatesExperience({ dashboard }: CertificatesExperienceProp
             </AnimatePresence>
           </motion.div>
 
+          <section className="obx-certs__faq" aria-labelledby="obx-certs-faq-title">
+            <div>
+              <span className="obx-certs__badge">Вопросы перед выбором подрядчика</span>
+              <h2 id="obx-certs-faq-title">Что важно понять по сертификатам</h2>
+            </div>
+            <div className="obx-certs__faq-list">
+              {certificateFaqItems.map((item) => (
+                <details key={item.question}>
+                  <summary>
+                    <span>{item.question}</span>
+                    <ChevronDown size={18} aria-hidden="true" />
+                  </summary>
+                  <p>{item.answer}</p>
+                </details>
+              ))}
+            </div>
+          </section>
+
           <div className="obx-certs__note">
             <FolderCheck size={18} aria-hidden="true" />
             <span>
-              <strong>Структура пополняемая:</strong> новые сертификаты можно добавлять в соответствующие папки,
-              а PDF-превью перегенерировать командой <code>node scripts/generate-certificate-previews.mjs</code>.
+              <strong>Страница пополняется:</strong> новые документы появляются в своих направлениях,
+              а для проверки конкретного статуса можно запросить официальный способ подтверждения перед стартом проекта.
             </span>
           </div>
         </div>
