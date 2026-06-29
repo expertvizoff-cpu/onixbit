@@ -65,6 +65,7 @@ www.onixbit.ru -> CNAME -> onixbit.ru
 6. Симлинк `/opt/onixbit-site/current` переключается на новый релиз.
 7. Выполняется `docker compose up -d --build --remove-orphans`.
 8. Caddy выдаёт HTTPS и проксирует запросы в Next.js.
+9. Docker build cache, старые неиспользуемые images и лишние релизы чистятся.
 
 ## Откат
 

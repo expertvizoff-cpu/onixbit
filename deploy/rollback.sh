@@ -24,4 +24,6 @@ cd "$APP_DIR/current"
 
 docker compose -p "$APP_NAME" --env-file .env up -d --build --remove-orphans
 docker compose -p "$APP_NAME" --env-file .env up -d --force-recreate caddy
+docker builder prune -af
+docker image prune -af
 echo "Откат выполнен на релиз $RELEASE_SHA"
