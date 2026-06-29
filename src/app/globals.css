@@ -916,7 +916,6 @@ textarea:focus-visible {
   margin-top: clamp(12px, 1.5vw, 18px);
 }
 
-
 .ob-main-tabs button {
   position: relative;
   display: inline-flex;
@@ -4919,7 +4918,6 @@ a:hover .lucide-mail polyline {
   box-shadow: 0 22px 62px rgba(8, 8, 8, 0.1);
 }
 
-
 /* About company refinements */
 .ob-system-logo,
 .ob-system-logo--cloud,
@@ -5173,7 +5171,6 @@ a:hover .lucide-mail polyline {
 .ob-about-requisites__grid div:hover {
   background: rgba(255, 255, 255, 0.96);
 }
-
 
 .ob-footer {
   position: relative;
@@ -6387,7 +6384,6 @@ a:hover .lucide-mail polyline {
   font-weight: 900;
 }
 
-
 @media (prefers-reduced-motion: reduce) {
   .obx-certs__flow-cursor,
   .obx-certs__assurance-tabs button,
@@ -6866,7 +6862,6 @@ a:hover .lucide-mail polyline {
     height: 340px;
   }
 }
-
 
 @media (max-width: 760px) {
   .ob-page-hero .ob-rich-hero,
@@ -7533,8 +7528,6 @@ a:hover .lucide-mail polyline {
     font-size: 11px;
   }
 
-
-
   .ob-contacts-hero__content h1,
   .ob-contacts-direct__intro h2,
   .ob-contact-routes__head h2,
@@ -7770,7 +7763,6 @@ a:hover .lucide-mail polyline {
   }
 }
 
-
 @media (max-width: 1180px) {
   .ob-about-work,
   .ob-about-cert-lite,
@@ -7919,7 +7911,6 @@ a:hover .lucide-mail polyline {
   }
 }
 
-
 @media (max-width: 1180px) {
   .ob-about-competency-stage,
   .ob-about-cert-lite__visual {
@@ -7980,7 +7971,6 @@ a:hover .lucide-mail polyline {
   }
 }
 
-
 @media (max-width: 760px) {
   .ob-about-work__screen,
   .ob-about-competency-visual__head h3,
@@ -8012,7 +8002,6 @@ a:hover .lucide-mail polyline {
     height: 220px;
   }
 }
-
 
 /* Final responsive overrides for rich content pages */
 .ob-about-public__grid h3 {
@@ -9382,7 +9371,6 @@ a:hover .lucide-mail polyline {
   }
 }
 
-
 /* Tariffs final polish 2026-06-20 */
 .ob-page-hero--tariffs.ob-section {
   padding-block: clamp(28px, 4vw, 52px);
@@ -9778,7 +9766,6 @@ a:hover .lucide-mail polyline {
     width: 100%;
   }
 }
-
 
 /* Bitrix24 CRM proof badge */
 .ob-modal-open {
@@ -10274,7 +10261,6 @@ a:hover .lucide-mail polyline {
   box-shadow: none;
 }
 
-
 /* Tariffs UX polish 2026-06-21 */
 .obx-price-line__catalog[data-obx-panel="cloud"] .obx-price-line__card--enterprise .obx-price-line__price {
   border-color: rgba(255, 255, 255, 0.16);
@@ -10429,7 +10415,6 @@ a:hover .lucide-mail polyline {
   }
 }
 
-
 /* Tariffs interaction fixes 2026-06-21 */
 .obx-tariffs__decision {
   display: grid;
@@ -10552,7 +10537,6 @@ a:hover .lucide-mail polyline {
   }
 }
 
-
 /* Tariffs content refinements 2026-06-21 */
 .obx-price-line__storage-badge {
   display: inline-flex;
@@ -10601,7 +10585,6 @@ a:hover .lucide-mail polyline {
   align-self: flex-start;
   white-space: nowrap;
 }
-
 
 /* Tariffs refinements 2026-06-21 */
 .ob-license-route p {
@@ -11304,8 +11287,6 @@ a:hover .lucide-mail polyline {
   box-shadow: 0 18px 48px rgba(8, 8, 8, 0.07);
 }
 
-
-
 .ob-contact-final {
   position: relative;
   display: grid;
@@ -11818,7 +11799,6 @@ a:hover .lucide-mail polyline {
     width: 100%;
   }
 }
-
 
 /* Home experience redesign */
 .ob-home-pain__grid,
@@ -12561,7 +12541,6 @@ a:hover .lucide-mail polyline {
   }
 }
 
-
 @media (max-width: 760px) {
   .ob-hero {
     padding-top: 26px;
@@ -12675,7 +12654,6 @@ a:hover .lucide-mail polyline {
     align-items: flex-start;
   }
 }
-
 
 /* Problem and solution contrast pass */
 .ob-home-pain,
@@ -13077,7 +13055,6 @@ a:hover .lucide-mail polyline {
     padding: 14px;
   }
 }
-
 
 /* Homepage problem-solution-benefit polish */
 .ob-home-pain__grid {
@@ -13533,7 +13510,6 @@ a:hover .lucide-mail polyline {
     animation: none;
   }
 }
-
 
 /* Homepage diversity recovery pass */
 .ob-main-tabs {
@@ -15049,8 +15025,6 @@ a:hover .lucide-mail polyline {
   }
 }
 
-
-
 /* Homepage requested refinement pass */
 .ob-main-tabs {
   display: grid;
@@ -16031,7 +16005,6 @@ a:hover .lucide-mail polyline {
   }
 }
 
-
 /* Homepage solution responsive correction */
 @media (max-width: 1180px) {
   .ob-home-system__grid {
@@ -16092,7 +16065,6 @@ a:hover .lucide-mail polyline {
   }
 }
 
-
 /* Homepage pricing lane correction */
 .ob-home-pricing__cards article > svg {
   grid-column: 1;
@@ -16126,7 +16098,6 @@ a:hover .lucide-mail polyline {
     align-self: auto;
   }
 }
-
 
 /* Homepage premium trust and content refinement */
 .ob-home-benefits__accent {
@@ -17139,7 +17110,6 @@ a:hover .lucide-mail polyline {
   }
 }
 
-
 /* Homepage premium mobile density correction */
 @media (max-width: 760px) {
   .ob-home-case-card,
@@ -17194,7 +17164,6 @@ a:hover .lucide-mail polyline {
     font-size: clamp(23px, 6.6vw, 30px);
   }
 }
-
 
 /* Homepage precision refinement pass */
 .ob-system-route__node i {
@@ -17820,7 +17789,6 @@ a:hover .lucide-mail polyline {
   }
 }
 
-
 /* Homepage article visual balance pass */
 @media (min-width: 1181px) {
   .ob-home-articles__layout {
@@ -17868,7 +17836,6 @@ a:hover .lucide-mail polyline {
     background: linear-gradient(180deg, transparent 44%, rgba(8, 8, 8, 0.48));
   }
 }
-
 
 /* Homepage action interaction pass */
 .ob-home-direction-tile {
@@ -18899,7 +18866,6 @@ button.ob-home-trust__cert {
   }
 }
 
-
 /* Homepage action animation override fixes */
 .ob-system-route__station.is-active .ob-system-route__node .ob-system-action-icon i,
 .ob-system-route__station:hover .ob-system-route__node .ob-system-action-icon i,
@@ -18929,7 +18895,6 @@ button.ob-home-trust__cert {
   animation: none !important;
 }
 
-
 /* Homepage certificate click stability */
 .ob-home-trust__cert.is-main,
 .ob-home-trust__cert.is-second,
@@ -18940,7 +18905,6 @@ button.ob-home-trust__cert {
 .ob-home-trust__vault::before {
   animation: none !important;
 }
-
 
 /* Homepage modal viewport and action priority fixes */
 .ob-home-cert-frame,
@@ -18970,7 +18934,6 @@ button.ob-home-trust__cert {
   animation: ob-action-analytics-bar 1.55s ease-in-out infinite !important;
 }
 
-
 /* Homepage certificate frame width containment */
 .ob-home-cert-frame {
   width: auto;
@@ -18995,7 +18958,6 @@ button.ob-home-trust__cert {
     max-width: 100%;
   }
 }
-
 
 /* Homepage requested interaction refinement */
 .ob-home-direction-tile__logo.is-bitrix {
@@ -19657,8 +19619,6 @@ button.ob-home-trust__cert,
     animation: none !important;
   }
 }
-
-
 
 /* Homepage user correction pass: proof, pricing, benefits, cases */
 .ob-home-direction-tile {
@@ -20419,7 +20379,6 @@ button.ob-home-trust__cert::after {
   }
 }
 
-
 /* Homepage cases equal editorial correction */
 .ob-home-cases__layout {
   grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
@@ -20480,7 +20439,6 @@ button.ob-home-trust__cert::after {
   }
 }
 
-
 /* Homepage cases compact height correction */
 .ob-home-case-card,
 .ob-home-case-card.is-featured,
@@ -20506,7 +20464,6 @@ button.ob-home-trust__cert::after {
     min-height: 194px !important;
   }
 }
-
 
 /* Homepage proof certificate correction */
 .ob-home-trust__board {
@@ -20833,7 +20790,6 @@ button.ob-home-trust__cert,
     transform: rotate(6deg) !important;
   }
 }
-
 
 /* Homepage requested correction pass 2026-06-27 */
 .ob-solution-mark__cart,
@@ -21653,7 +21609,6 @@ span.ob-pricing-estimate__client {
   }
 }
 
-
 /* Homepage trust compact badge correction */
 .ob-home-trust__badges span {
   min-height: 62px !important;
@@ -21678,7 +21633,6 @@ span.ob-pricing-estimate__client {
     min-height: 326px !important;
   }
 }
-
 
 /* Homepage trust composition correction */
 @media (min-width: 1181px) {
@@ -21722,7 +21676,6 @@ span.ob-pricing-estimate__client {
   }
 }
 
-
 /* Homepage mobile case equalization */
 @media (max-width: 760px) {
   .ob-home-case-card,
@@ -21736,7 +21689,6 @@ span.ob-pricing-estimate__client {
     min-height: 0 !important;
   }
 }
-
 
 /* Homepage correction pass 2026-06-27 round 2 */
 .ob-home-system__tabs .ob-system-action-icon,
@@ -21993,7 +21945,6 @@ span.ob-pricing-estimate__client {
   }
 }
 
-
 /* Homepage article meta baseline fix */
 .ob-home-article-card__meta span {
   width: auto !important;
@@ -22005,7 +21956,6 @@ span.ob-pricing-estimate__client {
 .ob-home-article-card__meta em {
   align-self: center !important;
 }
-
 
 /* Homepage budget storyboard animation 2026-06-27 */
 .ob-home-pricing__formula-note.ob-pricing-principle,
@@ -22522,7 +22472,6 @@ span.ob-pricing-estimate__client {
   }
 }
 
-
 /* Homepage budget storyboard specificity lock 2026-06-27 */
 .ob-home-pricing__formula-visual.ob-pricing-estimate .ob-pricing-estimate__steps .is-license {
   left: 3% !important;
@@ -22562,7 +22511,6 @@ span.ob-pricing-estimate__client {
   .ob-home-pricing__formula-visual.ob-pricing-estimate .ob-pricing-estimate__steps .is-integration { left: 50% !important; }
   .ob-home-pricing__formula-visual.ob-pricing-estimate .ob-pricing-estimate__steps .is-training { left: 74.5% !important; }
 }
-
 
 /* Homepage budget formula polish 2026-06-27 */
 .ob-home-pricing__calculation {
@@ -22952,7 +22900,6 @@ span.ob-pricing-estimate__client {
   }
 }
 
-
 /* Homepage budget animation glow and envelope lock 2026-06-27 */
 .ob-home-pricing__formula-visual.ob-pricing-estimate .ob-pricing-estimate__steps span {
   border-color: var(--ob-budget-step-border, rgba(255, 212, 90, 0.22)) !important;
@@ -22993,7 +22940,6 @@ span.ob-pricing-estimate__client {
   animation: ob-budget-mail-flap-story var(--budget-cycle) ease-in-out infinite !important;
 }
 
-
 /* Homepage budget compact route lock 2026-06-27 */
 .ob-home-pricing__calculation .ob-home-pricing__route {
   grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
@@ -23024,7 +22970,6 @@ span.ob-pricing-estimate__client {
     font-size: 11px !important;
   }
 }
-
 
 /* Homepage budget documents and trust confirmation polish 2026-06-27 */
 .ob-home-pricing__formula-head {
@@ -23603,7 +23548,6 @@ span.ob-pricing-estimate__client {
   }
 }
 
-
 /* Homepage budget formula final correction 2026-06-27 */
 .ob-home-pricing__intro-row {
   display: grid;
@@ -24044,7 +23988,6 @@ span.ob-pricing-estimate__client {
     animation: none !important;
   }
 }
-
 
 /* Homepage budget envelope flight transform fix 2026-06-27 */
 @keyframes ob-budget-mail-story {
@@ -24502,7 +24445,6 @@ span.ob-pricing-estimate__client {
   }
 }
 
-
 /* Audit polish: homepage routing and about conversion block */
 .ob-hero__quick-routes {
   display: grid;
@@ -24667,7 +24609,6 @@ span.ob-pricing-estimate__client {
   }
 }
 
-
 @media (max-width: 760px) {
   .ob-hero__quick-routes {
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -24693,7 +24634,6 @@ span.ob-pricing-estimate__client {
     display: none;
   }
 }
-
 
 @media (max-width: 760px) {
   .ob-hero__cta-cluster {
@@ -24723,7 +24663,6 @@ span.ob-pricing-estimate__client {
   }
 }
 
-
 @media (max-width: 760px) {
   .ob-about-hero__content .ob-actions {
     display: grid;
@@ -24747,7 +24686,6 @@ span.ob-pricing-estimate__client {
     flex: 0 0 auto;
   }
 }
-
 
 /* Services, map and number cleanup polish 2026-06-28 */
 .ob-service-decision,
@@ -25100,7 +25038,6 @@ span.ob-pricing-estimate__client {
     min-height: 0;
   }
 }
-
 
 /* Service pages differentiated experience pass 2026-06-28 */
 .ob-service-hero__bullets {
@@ -26325,7 +26262,6 @@ span.ob-pricing-estimate__client {
   }
 }
 
-
 /* Bitrix24 conversion polish 2026-06-28 */
 @media (max-width: 1180px) {
   .ob-service-b24-formats__head h2,
@@ -26423,7 +26359,6 @@ span.ob-pricing-estimate__client {
     padding: 16px;
   }
 }
-
 
 /* 1C-Bitrix sites conversion polish 2026-06-28 */
 .ob-service-sites-formats,
@@ -26721,7 +26656,6 @@ span.ob-pricing-estimate__client {
   }
 }
 
-
 /* 1C integrations conversion polish 2026-06-28 */
 .ob-service-onec-formats,
 .ob-service-onec-diagnostics,
@@ -27015,5 +26949,111 @@ span.ob-pricing-estimate__client {
     grid-template-columns: 1fr;
     gap: 10px;
     padding: 16px;
+  }
+}
+
+/* Homepage hero lean test 2026-06-29 */
+.ob-hero {
+  --ob-hero-height: clamp(520px, calc(100svh - 330px), 640px);
+  padding-top: clamp(2px, 0.45vw, 12px);
+  padding-bottom: clamp(28px, 3vw, 58px);
+}
+
+.ob-hero__copy {
+  padding-top: clamp(42px, calc(1.8vw + 18px), 54px);
+}
+
+.ob-hero__title {
+  max-width: 760px;
+  font-size: clamp(44px, 3.78vw, 68px);
+}
+
+.ob-hero__lead {
+  max-width: 700px;
+  margin-top: clamp(22px, 1.35vw, 28px);
+  color: rgba(47, 47, 47, 0.82);
+}
+
+.ob-hero__trust-line {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  width: min(100%, 720px);
+  margin-top: clamp(22px, 1.7vw, 30px);
+}
+
+.ob-hero__trust-line span {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  column-gap: 9px;
+  row-gap: 3px;
+  align-items: center;
+  min-height: 64px;
+  padding: 12px 13px;
+  border: 1px solid rgba(8, 8, 8, 0.08);
+  border-radius: var(--ob-radius-sm);
+  background: rgba(255, 255, 255, 0.62);
+}
+
+.ob-hero__trust-line svg {
+  grid-row: 1 / span 2;
+  color: var(--ob-red);
+}
+
+.ob-hero__trust-line b {
+  color: var(--ob-ink);
+  font-size: 12.5px;
+  line-height: 1.16;
+  font-weight: 920;
+}
+
+.ob-hero__trust-line small {
+  color: var(--ob-muted);
+  font-size: 11.5px;
+  line-height: 1.22;
+  font-weight: 640;
+}
+
+.ob-hero__cta-cluster {
+  align-items: flex-start;
+  margin-top: auto;
+  padding-top: clamp(54px, 7vh, 110px);
+}
+
+.ob-hero__cta-cluster .ob-actions {
+  justify-content: flex-start;
+}
+
+@media (max-width: 1180px) {
+  .ob-hero__trust-line {
+    grid-template-columns: 1fr;
+  }
+
+  .ob-hero__trust-line span {
+    min-height: 0;
+  }
+
+  .ob-hero__cta-cluster {
+    margin-top: clamp(28px, 4vw, 46px);
+    padding-top: 0;
+  }
+}
+
+@media (max-width: 760px) {
+  .ob-hero {
+    --ob-hero-height: auto;
+    padding-top: 22px;
+  }
+
+  .ob-hero__title {
+    font-size: clamp(34px, 10vw, 43px);
+  }
+
+  .ob-hero__lead {
+    margin-top: 16px;
+  }
+
+  .ob-hero__trust-line {
+    margin-top: 16px;
   }
 }

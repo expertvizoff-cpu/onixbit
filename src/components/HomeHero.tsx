@@ -2,76 +2,38 @@
 
 import { useEffect, useState } from "react";
 import {
-  BarChart3,
-  Clock3,
-  Database,
-  Gauge,
-  LayoutTemplate,
-  Link2,
   RefreshCw,
   ShieldCheck,
   Workflow,
 } from "lucide-react";
 import { directions } from "@/data/site";
 import { ButtonLink, LeadButton } from "./Buttons";
-import { BitrixCrmProof } from "./BitrixCrmProof";
 import { ProductScene } from "./ProductScene";
 
 const rotateMs = 7400;
 
-const heroFactIcons = [
-  [Clock3, Workflow, ShieldCheck],
-  [LayoutTemplate, Gauge, Link2],
-  [Database, RefreshCw, BarChart3],
+const heroTrustSignals = [
+  {
+    icon: ShieldCheck,
+    value: "Партнёрские статусы",
+    label: "Битрикс24 и 1С-Битрикс",
+  },
+  {
+    icon: Workflow,
+    value: "Одна ответственность",
+    label: "CRM, сайт, 1С и обмены",
+  },
+  {
+    icon: RefreshCw,
+    value: "Поддержка после запуска",
+    label: "чтобы система не развалилась",
+  },
 ] as const;
-
-const heroSlides = [
-  {
-    focusLabel: "CRM и продажи",
-    title: ["Внедрение CRM", "на Битрикс24", "для продаж"],
-    text: [
-      "Настраиваем воронки, роботов и задачи без потери заявок.",
-      "Подключаем 1С, сайты, телефонию и понятные правила.",
-    ],
-    facts: [
-      { value: "10-50 дней", label: "до первого управляемого контура" },
-      { value: "CRM + 1С", label: "заявки, обмены и контроль в одной логике" },
-      { value: "30 дней", label: "поддержки после запуска без провала" },
-    ],
-  },
-  {
-    focusLabel: "Сайт и заявки",
-    title: ["Разработка сайтов", "на 1С-Битрикс", "для заявок"],
-    text: [
-      "Проектируем структуру, каталог и формы под путь клиента.",
-      "Связываем сайт с CRM, 1С, аналитикой и контентом.",
-    ],
-    facts: [
-      { value: "Каталог", label: "структура и формы сразу ведут в CRM" },
-      { value: "SEO + скорость", label: "техническая база без лишней тяжести" },
-      { value: "Интеграции", label: "сайт передаёт данные без ручных копий" },
-    ],
-  },
-  {
-    focusLabel: "Учёт и обмены",
-    title: ["Работы по 1С", "и обменам", "для учёта"],
-    text: [
-      "Наводим порядок в правах, документах, обменах и отчётах.",
-      "Убираем ручные ошибки, дубли данных и слепые зоны учёта.",
-    ],
-    facts: [
-      { value: "Роли", label: "права, документы и зоны ответственности" },
-      { value: "Обмены", label: "CRM, сайт и учёт синхронизированы" },
-      { value: "Контроль", label: "ошибки видны до ручной сверки" },
-    ],
-  },
-];
 
 export function HomeHero() {
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
   const direction = directions[active];
-  const slide = heroSlides[active];
 
   useEffect(() => {
     if (paused) return;
@@ -88,42 +50,33 @@ export function HomeHero() {
           <span className="ob-kicker">Ониксбит для продаж, сайта и учёта</span>
           <h1 className="ob-hero__title">
             <span>CRM, сайт и 1С</span>{" "}
-            <span>работают как</span>{" "}
-            <span>одна система</span>
+            <span>в одной рабочей</span>{" "}
+            <span>системе</span>
           </h1>
           <p className="ob-hero__lead">
-            Ониксбит внедряет Битрикс24, разрабатывает сайты на 1С-Битрикс и связывает заявки, учёт,
-            коммуникации и отчёты в понятный рабочий контур.
+            Внедряем Битрикс24, развиваем сайты на 1С-Битрикс и связываем их с 1С, чтобы заявки,
+            заказы и отчёты не распадались между отделами.
           </p>
-          <div className="ob-hero__focus">
-            <span>{slide.focusLabel}</span>
-            <strong>{slide.title.join(" ")}</strong>
-            <p>
-              {slide.text.map((line) => (
-                <span key={line}>{line}</span>
-              ))}
-            </p>
-          </div>
-          <div className="ob-hero__cta-cluster">
-            <div className="ob-actions">
-              <LeadButton>{direction.cta}</LeadButton>
-              <ButtonLink href={direction.href} variant="secondary">
-                Смотреть направление
-              </ButtonLink>
-            </div>
-            <BitrixCrmProof variant="compact" className={direction.id === "bitrix24" ? "" : "is-hidden"} />
-          </div>
-          <div className="ob-hero__facts">
-            {slide.facts.map((fact, index) => {
-              const Icon = heroFactIcons[active][index];
+          <div className="ob-hero__trust-line" aria-label="Почему Ониксбит можно рассматривать для проекта">
+            {heroTrustSignals.map((item) => {
+              const Icon = item.icon;
+
               return (
-                <span key={fact.value}>
-                  <Icon size={22} strokeWidth={2.2} aria-hidden="true" />
-                  <b>{fact.value}</b>
-                  <small>{fact.label}</small>
+                <span key={item.value}>
+                  <Icon size={18} strokeWidth={2.2} aria-hidden="true" />
+                  <b>{item.value}</b>
+                  <small>{item.label}</small>
                 </span>
               );
             })}
+          </div>
+          <div className="ob-hero__cta-cluster">
+            <div className="ob-actions">
+              <LeadButton>Обсудить задачу</LeadButton>
+              <ButtonLink href="#solution" variant="secondary">
+                Как это работает
+              </ButtonLink>
+            </div>
           </div>
         </div>
 
