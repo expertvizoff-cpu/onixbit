@@ -147,7 +147,6 @@ function buildKnowledgeBaseJsonLd() {
 
 export default function ArticlesPage() {
   const featuredArticle = knowledgeBaseArticles[0];
-  const featuredVisual = getArticleVisual(featuredArticle);
   const jsonLd = buildKnowledgeBaseJsonLd();
   const seriesGroups = articleSeries.map((series) => ({
     series,
@@ -165,41 +164,85 @@ export default function ArticlesPage() {
       />
 
       <section className="ob-page-hero ob-section ob-page-hero--articles">
-        <div className="ob-container ob-kb-hero">
+        <div className="ob-container ob-kb-hero ob-kb-hero--live">
           <div className="ob-kb-hero__copy">
             <span className="ob-kicker">База знаний</span>
-            <h1>Инструкции по Битрикс24, CRM и интеграциям для руководителя и команды</h1>
+            <h1>Разборы по Битрикс24, которые помогают найти потерянный контроль</h1>
             <p>
-              Проверки, сценарии и разборы: как не терять заявки, сроки, ответственных и данные между сайтом, CRM,
-              1С и каналами коммуникаций.
+              Откройте рабочую ситуацию: заявка с сайта, сделка, задача, робот, права или обмен с 1С. Внутри -
+              что проверить, где чаще всего ломается процесс и какой шаг сделать дальше.
             </p>
             <div className="ob-kb-hero__actions" aria-label="Основные действия">
               <Link className="ob-btn ob-btn--primary" href={`/articles/${featuredArticle.slug}`}>
-                <span>Проверить CRM по чек-листу</span>
+                <span>Начать с диагностики CRM</span>
                 <ArrowRight size={18} aria-hidden="true" />
               </Link>
               <Link className="ob-btn ob-btn--secondary" href="#series-map">
-                <span>Выбрать задачу</span>
+                <span>Найти свою ситуацию</span>
               </Link>
             </div>
+            <dl className="ob-kb-hero__proof" aria-label="Что уже есть в базе знаний">
+              <div>
+                <dt>{knowledgeBaseArticles.length}</dt>
+                <dd>готовых разборов</dd>
+              </div>
+              <div>
+                <dt>{articleSeries.length}</dt>
+                <dd>рабочих рубрик</dd>
+              </div>
+              <div>
+                <dt>CRM + 1С</dt>
+                <dd>в одном контуре</dd>
+              </div>
+            </dl>
           </div>
 
-          <Link className="ob-kb-hero__featured" href={`/articles/${featuredArticle.slug}`} aria-label={`Открыть статью: ${featuredArticle.title}`}>
-            <span className="ob-kb-hero__featured-media">
-              <Image
-                src={featuredVisual.src}
-                alt={featuredVisual.alt}
-                width={1200}
-                height={760}
-                preload
-              />
-            </span>
-            <span className="ob-kb-hero__featured-meta">Начните с диагностики</span>
-            <strong>{featuredArticle.title}</strong>
-            <small>
-              {featuredArticle.readingTime} · {getArticleSeries(featuredArticle.seriesId).title}
-            </small>
-          </Link>
+          <div className="ob-kb-hero__motion" aria-label="Анимированная схема: заявка проходит через CRM, задачи, интеграции и контроль руководителя">
+            <div className="ob-kb-hero__motion-head">
+              <span>Живой контур знаний</span>
+              <strong>от заявки до управленческого контроля</strong>
+            </div>
+            <div className="ob-kb-flow" aria-hidden="true">
+              <span className="ob-kb-flow__track ob-kb-flow__track--main" />
+              <span className="ob-kb-flow__track ob-kb-flow__track--side" />
+              <span className="ob-kb-flow__pulse ob-kb-flow__pulse--one" />
+              <span className="ob-kb-flow__pulse ob-kb-flow__pulse--two" />
+              <span className="ob-kb-flow__pulse ob-kb-flow__pulse--three" />
+              <div className="ob-kb-flow__node ob-kb-flow__node--request">
+                <MessageCircleQuestion size={22} />
+                <span>Заявка</span>
+                <strong>источник, контакт, первый ответ</strong>
+              </div>
+              <div className="ob-kb-flow__node ob-kb-flow__node--crm">
+                <Route size={22} />
+                <span>CRM</span>
+                <strong>лид, сделка, стадия, ответственный</strong>
+              </div>
+              <div className="ob-kb-flow__node ob-kb-flow__node--task">
+                <ListChecks size={22} />
+                <span>Задача</span>
+                <strong>срок, результат, наблюдатели</strong>
+              </div>
+              <div className="ob-kb-flow__node ob-kb-flow__node--integration">
+                <Settings2 size={22} />
+                <span>Интеграции</span>
+                <strong>сайт, 1С, телефония, чаты</strong>
+              </div>
+              <div className="ob-kb-flow__node ob-kb-flow__node--control">
+                <Lightbulb size={22} />
+                <span>Контроль</span>
+                <strong>что видит руководитель</strong>
+              </div>
+            </div>
+            <Link className="ob-kb-hero__diagnostic" href={`/articles/${featuredArticle.slug}`} aria-label={`Открыть статью: ${featuredArticle.title}`}>
+              <span>Первый разбор</span>
+              <strong>{featuredArticle.title}</strong>
+              <em>
+                {featuredArticle.readingTime} · {getArticleSeries(featuredArticle.seriesId).title}
+              </em>
+              <ArrowRight size={18} aria-hidden="true" />
+            </Link>
+          </div>
         </div>
       </section>
 
