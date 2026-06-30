@@ -1,0 +1,1011 @@
+.page {
+  --concept-ink: #f8fafc;
+  --concept-muted: rgba(248, 250, 252, 0.72);
+  --concept-soft: rgba(248, 250, 252, 0.1);
+  --concept-line: rgba(248, 250, 252, 0.16);
+  --concept-red: #ed1c24;
+  --concept-yellow: #ffd45a;
+  --concept-cyan: #6ee7f9;
+  --tilt-x: 0px;
+  --tilt-y: 0px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 15% 8%, rgba(237, 28, 36, 0.22), transparent 31%),
+    radial-gradient(circle at 86% 12%, rgba(255, 212, 90, 0.18), transparent 24%),
+    radial-gradient(circle at 50% 70%, rgba(110, 231, 249, 0.11), transparent 30%),
+    linear-gradient(180deg, #080808 0%, #111 42%, #17100f 100%);
+  color: var(--concept-ink);
+}
+
+.hero,
+.story,
+.principles,
+.routes,
+.finalCta {
+  width: min(1720px, calc(100% - 48px));
+  margin-inline: auto;
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 0.82fr) minmax(520px, 1fr);
+  gap: clamp(28px, 5vw, 76px);
+  align-items: center;
+  min-height: calc(100dvh - 86px);
+  padding: clamp(64px, 8vw, 118px) 0 clamp(56px, 7vw, 94px);
+}
+
+.heroCopy {
+  display: grid;
+  gap: 24px;
+  min-width: 0;
+}
+
+.kicker {
+  display: inline-flex;
+  width: fit-content;
+  border: 1px solid rgba(255, 212, 90, 0.28);
+  border-radius: 999px;
+  padding: 9px 12px;
+  color: var(--concept-yellow);
+  background: rgba(255, 212, 90, 0.08);
+  font-size: 12px;
+  font-weight: 950;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.hero h1,
+.sectionHead h2,
+.routes h2,
+.finalCta h2 {
+  margin: 0;
+  color: #fff;
+  font-family: var(--ob-font-display);
+  font-weight: 950;
+  letter-spacing: 0;
+}
+
+.hero h1 {
+  max-width: 900px;
+  font-size: clamp(44px, 5.5vw, 94px);
+  line-height: 0.98;
+  text-wrap: balance;
+}
+
+.hero p,
+.sectionHead p,
+.routes p,
+.finalCta p {
+  max-width: 760px;
+  margin: 0;
+  color: var(--concept-muted);
+  font-size: clamp(17px, 1.25vw, 21px);
+  line-height: 1.65;
+  font-weight: 560;
+}
+
+.heroActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+
+.primaryAction,
+.secondaryAction {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  border-radius: 999px;
+  padding: 14px 18px;
+  font-size: 14px;
+  font-weight: 900;
+  line-height: 1;
+  text-decoration: none;
+  transition: transform 0.24s var(--ob-ease), border-color 0.24s var(--ob-ease), background 0.24s var(--ob-ease);
+}
+
+.primaryAction {
+  gap: 10px;
+  border: 1px solid rgba(255, 212, 90, 0.54);
+  color: #17110a;
+  background: linear-gradient(135deg, var(--concept-yellow), #fff4b8);
+  box-shadow: 0 20px 60px rgba(255, 212, 90, 0.2);
+}
+
+.secondaryAction {
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: #fff;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.primaryAction:hover,
+.primaryAction:focus-visible,
+.secondaryAction:hover,
+.secondaryAction:focus-visible {
+  transform: translateY(-2px);
+}
+
+.primaryAction:focus-visible,
+.secondaryAction:focus-visible,
+.node:focus-visible,
+.scenarioTabs button:focus-visible,
+.routeCard:focus-visible {
+  outline: 3px solid rgba(255, 212, 90, 0.7);
+  outline-offset: 4px;
+}
+
+.signalGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  width: min(100%, 820px);
+  margin: 8px 0 0;
+  padding: 0;
+}
+
+.signalGrid div {
+  min-width: 0;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 18px;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.signalGrid dt {
+  color: #fff;
+  font-family: var(--ob-font-display);
+  font-size: clamp(22px, 1.8vw, 32px);
+  line-height: 1;
+  font-weight: 950;
+}
+
+.signalGrid dd {
+  margin: 8px 0 0;
+  color: rgba(255, 255, 255, 0.64);
+  font-size: 12px;
+  line-height: 1.35;
+  font-weight: 760;
+}
+
+.stage {
+  position: relative;
+  min-width: 0;
+  min-height: clamp(560px, 48vw, 760px);
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 28px;
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.035)),
+    rgba(255, 255, 255, 0.045);
+  background-size: 42px 42px, 42px 42px, 100% 100%, 100% 100%;
+  box-shadow: 0 34px 120px rgba(0, 0, 0, 0.4);
+  transform: translate3d(var(--tilt-x), var(--tilt-y), 0);
+  transition: transform 0.18s var(--ob-ease);
+}
+
+.stage::before {
+  content: "";
+  position: absolute;
+  inset: -20%;
+  background:
+    conic-gradient(from 110deg, transparent, rgba(255, 212, 90, 0.16), transparent 30%),
+    radial-gradient(circle, rgba(237, 28, 36, 0.18), transparent 48%);
+  animation: concept-rotate 18s linear infinite;
+}
+
+.stage::after {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 38%;
+  background: linear-gradient(90deg, transparent, rgba(110, 231, 249, 0.16), transparent);
+  transform: translate3d(-120%, 0, 0);
+  animation: concept-scan 6.4s var(--ob-ease) infinite;
+}
+
+.stageChrome,
+.networkSvg,
+.packet,
+.core,
+.nodeLayer,
+.nodeDetails {
+  position: absolute;
+  z-index: 1;
+}
+
+.stageChrome {
+  top: 18px;
+  left: 18px;
+  right: 18px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+  padding: 9px 12px;
+  background: rgba(0, 0, 0, 0.22);
+  backdrop-filter: blur(12px);
+}
+
+.stageChrome span {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.36);
+}
+
+.stageChrome span:first-child {
+  background: var(--concept-red);
+}
+
+.stageChrome span:nth-child(2) {
+  background: var(--concept-yellow);
+}
+
+.stageChrome strong {
+  margin-left: 6px;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 12px;
+  line-height: 1;
+  font-weight: 880;
+}
+
+.networkSvg {
+  inset: 12% 6% 14%;
+  z-index: 0;
+  width: 88%;
+  height: 74%;
+  overflow: visible;
+}
+
+.networkLine,
+.networkLineStrong {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.26);
+  stroke-width: 0.55;
+  stroke-linecap: round;
+  stroke-dasharray: 4 5;
+  animation: concept-dash 10s linear infinite;
+}
+
+.networkLineStrong {
+  stroke: rgba(255, 212, 90, 0.62);
+  stroke-width: 0.7;
+  animation-duration: 6s;
+}
+
+.packet {
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.94);
+  border-radius: 5px;
+  background: var(--concept-yellow);
+  box-shadow: 0 0 0 8px rgba(255, 212, 90, 0.14), 0 0 30px rgba(255, 212, 90, 0.48);
+}
+
+.packetOne {
+  left: 14%;
+  top: 41%;
+  animation: concept-packet-one 5s var(--ob-ease) infinite;
+}
+
+.packetTwo {
+  left: 42%;
+  top: 27%;
+  background: var(--concept-cyan);
+  animation: concept-packet-two 5.8s var(--ob-ease) 0.8s infinite;
+}
+
+.packetThree {
+  left: 29%;
+  top: 74%;
+  background: var(--concept-red);
+  animation: concept-packet-three 5.4s var(--ob-ease) 1.35s infinite;
+}
+
+.core {
+  top: 45%;
+  left: 50%;
+  display: grid;
+  place-items: center;
+  width: clamp(126px, 11vw, 164px);
+  height: clamp(126px, 11vw, 164px);
+  border: 1px solid rgba(255, 212, 90, 0.42);
+  border-radius: 50%;
+  color: #fff;
+  background:
+    radial-gradient(circle, rgba(255, 212, 90, 0.22), rgba(237, 28, 36, 0.2) 48%, rgba(0, 0, 0, 0.48)),
+    rgba(255, 255, 255, 0.08);
+  box-shadow: 0 0 70px rgba(237, 28, 36, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.16);
+  transform: translate(-50%, -50%);
+  animation: concept-core 5.8s var(--ob-ease) infinite;
+}
+
+.core svg {
+  color: var(--concept-yellow);
+}
+
+.core span,
+.core strong {
+  display: block;
+  text-align: center;
+}
+
+.core span {
+  font-family: var(--ob-font-display);
+  font-size: 20px;
+  font-weight: 950;
+}
+
+.core strong {
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 11px;
+  font-weight: 820;
+  text-transform: uppercase;
+}
+
+.nodeLayer {
+  inset: 0;
+}
+
+.node {
+  position: absolute;
+  left: var(--node-x);
+  top: var(--node-y);
+  display: grid;
+  grid-template-columns: 38px minmax(0, 1fr);
+  gap: 4px 10px;
+  align-items: center;
+  width: clamp(174px, 13vw, 218px);
+  min-height: 82px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 18px;
+  padding: 13px;
+  color: #fff;
+  background: rgba(12, 12, 12, 0.68);
+  box-shadow: 0 18px 54px rgba(0, 0, 0, 0.24), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(14px);
+  cursor: pointer;
+  transform: translate(-50%, -50%);
+  transition: transform 0.24s var(--ob-ease), border-color 0.24s var(--ob-ease), background 0.24s var(--ob-ease);
+}
+
+.node:hover,
+.node.activeNode {
+  border-color: rgba(255, 212, 90, 0.56);
+  background: rgba(36, 26, 21, 0.78);
+  transform: translate(-50%, -50%) translateY(-4px);
+}
+
+.node svg {
+  grid-row: 1 / span 2;
+  width: 38px;
+  height: 38px;
+  border-radius: 13px;
+  padding: 8px;
+  color: var(--concept-yellow);
+  background: rgba(255, 212, 90, 0.12);
+}
+
+.node span {
+  color: #fff;
+  font-size: 14px;
+  line-height: 1.1;
+  font-weight: 950;
+  text-align: left;
+}
+
+.node small {
+  color: rgba(255, 255, 255, 0.64);
+  font-size: 12px;
+  line-height: 1.25;
+  font-weight: 720;
+  text-align: left;
+}
+
+.nodeDetails {
+  right: 18px;
+  bottom: 18px;
+  display: grid;
+  gap: 9px;
+  width: min(390px, calc(100% - 36px));
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 22px;
+  padding: 18px;
+  background: rgba(0, 0, 0, 0.42);
+  backdrop-filter: blur(16px);
+}
+
+.detailLabel {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  color: var(--concept-yellow);
+  font-size: 12px;
+  font-weight: 950;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.nodeDetails strong {
+  color: #fff;
+  font-family: var(--ob-font-display);
+  font-size: clamp(22px, 2vw, 30px);
+  line-height: 1.05;
+  font-weight: 950;
+}
+
+.nodeDetails p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 14px;
+  line-height: 1.55;
+  font-weight: 560;
+}
+
+.story,
+.principles,
+.routes,
+.finalCta {
+  padding: clamp(56px, 7vw, 98px) 0;
+}
+
+.sectionHead {
+  display: grid;
+  gap: 16px;
+  max-width: 980px;
+  margin-bottom: clamp(24px, 4vw, 46px);
+}
+
+.sectionHead h2,
+.routes h2,
+.finalCta h2 {
+  font-size: clamp(32px, 4vw, 62px);
+  line-height: 1.02;
+  text-wrap: balance;
+}
+
+.scenarioGrid {
+  display: grid;
+  grid-template-columns: minmax(280px, 0.45fr) minmax(0, 1fr);
+  gap: 18px;
+  align-items: stretch;
+}
+
+.scenarioTabs {
+  display: grid;
+  gap: 10px;
+}
+
+.scenarioTabs button,
+.scenarioPanel,
+.principleCard,
+.routeCard,
+.finalCta {
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  background: rgba(255, 255, 255, 0.07);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 22px 70px rgba(0, 0, 0, 0.16);
+}
+
+.scenarioTabs button {
+  display: grid;
+  gap: 8px;
+  min-height: 108px;
+  border-radius: 18px;
+  padding: 18px;
+  color: #fff;
+  cursor: pointer;
+  text-align: left;
+  transition: transform 0.22s var(--ob-ease), border-color 0.22s var(--ob-ease), background 0.22s var(--ob-ease);
+}
+
+.scenarioTabs button:hover,
+.scenarioTabs button.activeScenario {
+  border-color: rgba(255, 212, 90, 0.48);
+  background: rgba(255, 212, 90, 0.1);
+  transform: translateY(-2px);
+}
+
+.scenarioTabs span,
+.scenarioPanel > span {
+  color: var(--concept-yellow);
+  font-size: 12px;
+  font-weight: 950;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.scenarioTabs strong {
+  font-size: 17px;
+  line-height: 1.2;
+  font-weight: 920;
+}
+
+.scenarioPanel {
+  display: grid;
+  gap: 18px;
+  min-height: 100%;
+  border-radius: 24px;
+  padding: clamp(22px, 4vw, 42px);
+  background:
+    radial-gradient(circle at 16% 14%, rgba(255, 212, 90, 0.15), transparent 30%),
+    rgba(255, 255, 255, 0.07);
+}
+
+.scenarioPanel h3 {
+  margin: 0;
+  color: #fff;
+  font-family: var(--ob-font-display);
+  font-size: clamp(28px, 3.2vw, 48px);
+  line-height: 1.05;
+  font-weight: 950;
+}
+
+.scenarioPanel p {
+  max-width: 780px;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 17px;
+  line-height: 1.62;
+}
+
+.scenarioPanel ol {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: scenario-step;
+}
+
+.scenarioPanel li {
+  counter-increment: scenario-step;
+  min-width: 0;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 16px;
+  padding: 14px;
+  color: rgba(255, 255, 255, 0.78);
+  background: rgba(0, 0, 0, 0.2);
+  font-size: 13px;
+  line-height: 1.35;
+  font-weight: 760;
+}
+
+.scenarioPanel li::before {
+  content: counter(scenario-step, decimal-leading-zero);
+  display: block;
+  margin-bottom: 18px;
+  color: var(--concept-yellow);
+  font-family: var(--ob-font-display);
+  font-size: 22px;
+  font-weight: 950;
+}
+
+.resultBox {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  border: 1px solid rgba(255, 212, 90, 0.24);
+  border-radius: 18px;
+  padding: 16px;
+  color: #fff;
+  background: rgba(255, 212, 90, 0.1);
+}
+
+.resultBox svg {
+  flex: 0 0 auto;
+  color: var(--concept-yellow);
+}
+
+.resultBox strong {
+  font-size: 15px;
+  line-height: 1.45;
+  font-weight: 860;
+}
+
+.principleGrid,
+.routeCards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.principleCard,
+.routeCard {
+  min-width: 0;
+  border-radius: 22px;
+  padding: clamp(20px, 3vw, 30px);
+}
+
+.principleCard svg,
+.routeCard svg,
+.finalCta svg {
+  color: var(--concept-yellow);
+}
+
+.principleCard h3,
+.routeCard strong {
+  margin: 18px 0 0;
+  color: #fff;
+  font-family: var(--ob-font-display);
+  font-size: clamp(21px, 1.6vw, 28px);
+  line-height: 1.1;
+  font-weight: 950;
+}
+
+.principleCard p,
+.routeCard span {
+  display: block;
+  margin-top: 12px;
+  color: rgba(255, 255, 255, 0.68);
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+.routes {
+  display: grid;
+  grid-template-columns: minmax(0, 0.7fr) minmax(0, 1fr);
+  gap: clamp(22px, 5vw, 72px);
+  align-items: start;
+}
+
+.routes > div:first-child {
+  display: grid;
+  gap: 16px;
+}
+
+.routeCard {
+  color: #fff;
+  text-decoration: none;
+  transition: transform 0.22s var(--ob-ease), border-color 0.22s var(--ob-ease), background 0.22s var(--ob-ease);
+}
+
+.routeCard:hover,
+.routeCard:focus-visible {
+  border-color: rgba(255, 212, 90, 0.4);
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-3px);
+}
+
+.routeCard em {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  margin-top: 24px;
+  color: var(--concept-yellow);
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 920;
+}
+
+.finalCta {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: clamp(42px, 6vw, 76px);
+  border-radius: 28px;
+  padding: clamp(24px, 4vw, 42px);
+  background:
+    linear-gradient(135deg, rgba(237, 28, 36, 0.22), rgba(255, 212, 90, 0.12)),
+    rgba(255, 255, 255, 0.08);
+}
+
+.finalCta > div {
+  display: grid;
+  gap: 14px;
+  max-width: 980px;
+}
+
+@keyframes concept-rotate {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes concept-scan {
+  0%, 16% {
+    opacity: 0;
+    transform: translate3d(-120%, 0, 0);
+  }
+
+  38%, 72% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate3d(260%, 0, 0);
+  }
+}
+
+@keyframes concept-dash {
+  to {
+    stroke-dashoffset: -90;
+  }
+}
+
+@keyframes concept-core {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  50% {
+    transform: translate(-50%, -50%) scale(1.04);
+  }
+}
+
+@keyframes concept-packet-one {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 0, 0) scale(0.8);
+  }
+
+  14%, 76% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate3d(28vw, -11vw, 0) scale(1);
+  }
+}
+
+@keyframes concept-packet-two {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 0, 0) scale(0.8);
+  }
+
+  14%, 76% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate3d(18vw, 16vw, 0) scale(1);
+  }
+}
+
+@keyframes concept-packet-three {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 0, 0) scale(0.8);
+  }
+
+  14%, 76% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate3d(25vw, 0, 0) scale(1);
+  }
+}
+
+@media (max-width: 1220px) {
+  .hero,
+  .routes {
+    grid-template-columns: 1fr;
+  }
+
+  .stage {
+    min-height: 660px;
+  }
+}
+
+@media (max-width: 900px) {
+  .hero,
+  .story,
+  .principles,
+  .routes,
+  .finalCta {
+    width: min(100% - 32px, 1720px);
+  }
+
+  .hero {
+    padding-top: 42px;
+  }
+
+  .signalGrid,
+  .principleGrid,
+  .routeCards,
+  .scenarioPanel ol {
+    grid-template-columns: 1fr;
+  }
+
+  .scenarioGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .finalCta {
+    display: grid;
+  }
+}
+
+@media (max-width: 680px) {
+  .hero,
+  .story,
+  .principles,
+  .routes,
+  .finalCta {
+    width: min(100% - 24px, 1720px);
+  }
+
+  .hero {
+    min-height: 0;
+    padding-top: 32px;
+  }
+
+  .hero h1 {
+    font-size: clamp(38px, 12vw, 54px);
+    line-height: 1;
+  }
+
+  .heroActions,
+  .primaryAction,
+  .secondaryAction {
+    width: 100%;
+  }
+
+  .signalGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .signalGrid div {
+    border-radius: 14px;
+    padding: 11px;
+  }
+
+  .signalGrid dt {
+    font-size: 18px;
+  }
+
+  .signalGrid dd {
+    font-size: 10.5px;
+  }
+
+  .stage {
+    display: grid;
+    gap: 14px;
+    min-height: 0;
+    border-radius: 22px;
+    padding: 62px 12px 12px;
+    transform: none;
+  }
+
+  .stageChrome {
+    top: 12px;
+    left: 12px;
+    right: 12px;
+  }
+
+  .networkSvg,
+  .packet {
+    display: none;
+  }
+
+  .core,
+  .nodeLayer,
+  .nodeDetails {
+    position: relative;
+    inset: auto;
+  }
+
+  .core {
+    top: auto;
+    left: auto;
+    margin: 0 auto;
+    transform: none;
+    animation: concept-core-mobile 5.8s var(--ob-ease) infinite;
+  }
+
+  .nodeLayer {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .node {
+    position: relative;
+    left: auto;
+    top: auto;
+    width: 100%;
+    min-height: 0;
+    grid-template-columns: 1fr;
+    transform: none;
+    padding: 12px;
+  }
+
+  .node:hover,
+  .node.activeNode {
+    transform: translateY(-2px);
+  }
+
+  .node svg {
+    grid-row: auto;
+    width: 32px;
+    height: 32px;
+  }
+
+  .node span {
+    font-size: 12px;
+  }
+
+  .node small {
+    font-size: 11px;
+  }
+
+  .nodeDetails {
+    width: 100%;
+    padding: 16px;
+  }
+
+  .scenarioTabs button {
+    min-height: 0;
+  }
+}
+
+@keyframes concept-core-mobile {
+  0%, 100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.04);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stage,
+  .stage::before,
+  .stage::after,
+  .networkLine,
+  .networkLineStrong,
+  .packet,
+  .core {
+    animation: none;
+    transition: none;
+    transform: none;
+  }
+
+  .core {
+    transform: translate(-50%, -50%);
+  }
+
+  .primaryAction,
+  .secondaryAction,
+  .node,
+  .scenarioTabs button,
+  .routeCard {
+    transition: none;
+  }
+
+  .primaryAction:hover,
+  .primaryAction:focus-visible,
+  .secondaryAction:hover,
+  .secondaryAction:focus-visible,
+  .scenarioTabs button:hover,
+  .scenarioTabs button.activeScenario,
+  .routeCard:hover,
+  .routeCard:focus-visible {
+    transform: none;
+  }
+}
+
+@media (max-width: 680px) and (prefers-reduced-motion: reduce) {
+  .core {
+    transform: none;
+  }
+}
