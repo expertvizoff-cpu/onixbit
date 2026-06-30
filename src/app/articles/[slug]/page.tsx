@@ -357,9 +357,9 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                   <tbody>
                     {article.warningSigns.map((row) => (
                       <tr key={row.symptom}>
-                        <td>{row.symptom}</td>
-                        <td>{row.meaning}</td>
-                        <td>{row.firstCheck}</td>
+                        <td data-label="Симптом">{row.symptom}</td>
+                        <td data-label="Что это значит">{row.meaning}</td>
+                        <td data-label="Что проверить">{row.firstCheck}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -376,8 +376,8 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                 </div>
               </div>
               <p>
-                В текущей версии показываем собственную обезличенную схему под задачу статьи. Ее можно заменить реальным
-                скриншотом, GIF или видео из демо-портала, когда будет доступ к коробочному Битрикс24 или тестовому стенду.
+                Ниже показана рабочая схема ключевого шага. Она помогает понять процесс без персональных данных,
+                лишних полей и привязки к конкретному клиентскому порталу.
               </p>
               <figure className="ob-article-media-shot">
                 <Image src={articleVisual.src} alt={articleVisual.alt} width={1200} height={760} loading="lazy" />
@@ -414,9 +414,9 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                   <tbody>
                     {article.mistakes.map((row) => (
                       <tr key={row.problem}>
-                        <td>{row.problem}</td>
-                        <td>{row.cause}</td>
-                        <td>{row.check}</td>
+                        <td data-label="Ошибка">{row.problem}</td>
+                        <td data-label="Причина">{row.cause}</td>
+                        <td data-label="Что проверить">{row.check}</td>
                       </tr>
                     ))}
                   </tbody>

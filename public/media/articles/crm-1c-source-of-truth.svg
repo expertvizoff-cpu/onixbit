@@ -28,5 +28,5 @@
   <rect x="938" y="438" width="150" height="48" rx="14" fill="#FFFFFF"/>
   <text x="962" y="469" fill="#7A1216" font-family="Arial, sans-serif" font-size="17" font-weight="700">учет</text>
   <rect x="210" y="628" width="780" height="58" rx="22" fill="#FFFFFF" stroke="#E4DED2"/>
-  <text x="246" y="665" fill="#171717" font-family="Arial, sans-serif" font-size="21" font-weight="700">Перед обменом фиксируем владельца каждого поля и сценарии проверки</text>
+  <text x="246" y="665" fill="#171717" font-family="Arial, sans-serif" font-size="21" font-weight="700">Перед обменом фиксируем владельца поля и сценарии проверки</text>
 </svg>

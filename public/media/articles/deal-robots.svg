@@ -1,6 +1,6 @@
 <svg width="1200" height="760" viewBox="0 0 1200 760" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
   <title id="title">Схема роботов в сделках</title>
-  <desc id="desc">Обезличенная схема стадии, условия, действия и контроля результата при настройке роботов в Битрикс24.</desc>
+  <desc id="desc">Рабочая схема стадии, условия, действия и контроля результата при настройке роботов в Битрикс24.</desc>
   <rect width="1200" height="760" rx="36" fill="#F8F7F2"/>
   <text x="80" y="112" fill="#171717" font-family="Arial, sans-serif" font-size="42" font-weight="800">Робот = правило, а не магия</text>
   <text x="82" y="154" fill="#6F695F" font-family="Arial, sans-serif" font-size="22">Сначала сценарий, потом автоматизация</text>
@@ -24,5 +24,5 @@
   <rect x="900" y="390" width="156" height="58" rx="16" fill="#ED1C24"/>
   <text x="924" y="426" fill="#FFFFFF" font-family="Arial, sans-serif" font-size="18" font-weight="800">сделать</text>
   <rect x="194" y="594" width="812" height="62" rx="22" fill="#FFFFFF" stroke="#E4DED2"/>
-  <text x="230" y="634" fill="#171717" font-family="Arial, sans-serif" font-size="22" font-weight="700">После запуска проверяем результат: меньше просрочек или просто больше шума?</text>
+  <text x="230" y="634" fill="#171717" font-family="Arial, sans-serif" font-size="22" font-weight="700">Проверяем результат: меньше просрочек или больше шума?</text>
 </svg>
