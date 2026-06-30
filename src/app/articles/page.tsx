@@ -57,6 +57,21 @@ const pageHighlights = [
   "следующий шаг внутри каждой статьи",
 ] as const;
 
+const seriesActionLabels: Record<ArticleSeriesId, string> = {
+  "quick-start": "Освоить портал",
+  "crm-sales": "Разобрать продажи",
+  communications: "Связать каналы",
+  tasks: "Навести порядок",
+  automation: "Проверить роботов",
+  "access-problems": "Найти причину",
+  integrations: "Собрать обмен",
+  "manager-control": "Проверить управление",
+};
+
+function getSeriesThemeClass(seriesId: ArticleSeriesId) {
+  return `ob-series-theme--${seriesId}`;
+}
+
 function getLevelLabel(level: "start" | "normal" | "advanced") {
   if (level === "start") return "Старт";
   if (level === "advanced") return "Сложно";
@@ -146,7 +161,11 @@ export default function ArticlesPage() {
               const hasArticles = articles.length > 0;
 
               return (
-                <a href={`#series-${series.id}`} className={hasArticles ? "is-published" : undefined} key={series.id}>
+                <a
+                  href={`#series-${series.id}`}
+                  className={[hasArticles ? "is-published" : "", getSeriesThemeClass(series.id)].filter(Boolean).join(" ")}
+                  key={series.id}
+                >
                   <Icon size={22} aria-hidden="true" />
                   <span>
                     <strong>{series.title}</strong>
@@ -175,12 +194,18 @@ export default function ArticlesPage() {
               const Icon = seriesIcons[series.id];
 
               return (
-                <section className="ob-kb-series-block" id={`series-${series.id}`} key={series.id} aria-labelledby={`${series.id}-heading`}>
+                <section
+                  className={`ob-kb-series-block ${getSeriesThemeClass(series.id)}`}
+                  id={`series-${series.id}`}
+                  key={series.id}
+                  aria-labelledby={`${series.id}-heading`}
+                >
                   <div className="ob-kb-series-block__head">
                     <Icon size={24} aria-hidden="true" />
                     <div>
                       <span>{articles.length ? `${articles.length} материалов` : "Скоро"}</span>
                       <h3 id={`${series.id}-heading`}>{series.title}</h3>
+                      <strong>{seriesActionLabels[series.id]}</strong>
                       <p>{series.purpose}</p>
                     </div>
                   </div>
@@ -191,7 +216,11 @@ export default function ArticlesPage() {
                         const visual = getArticleVisual(article);
 
                         return (
-                          <Link className="ob-kb-article-card" href={`/articles/${article.slug}`} key={article.slug}>
+                          <Link
+                            className={`ob-kb-article-card ${getSeriesThemeClass(article.seriesId)}`}
+                            href={`/articles/${article.slug}`}
+                            key={article.slug}
+                          >
                             <span className="ob-kb-article-card__media">
                               <Image src={visual.src} alt={visual.alt} width={1200} height={760} loading="lazy" />
                             </span>
@@ -203,7 +232,7 @@ export default function ArticlesPage() {
                             <strong>{article.title}</strong>
                             <em>{article.summary}</em>
                             <span className="ob-kb-article-card__action">
-                              Читать статью <ArrowRight size={16} aria-hidden="true" />
+                              {seriesActionLabels[article.seriesId]} <ArrowRight size={16} aria-hidden="true" />
                             </span>
                           </Link>
                         );

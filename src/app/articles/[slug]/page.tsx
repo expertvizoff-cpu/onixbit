@@ -18,6 +18,7 @@ import {
   getArticleBySlug,
   getArticleSeries,
   knowledgeBaseArticles,
+  type ArticleSeriesId,
 } from "@/data/articles";
 import { getArticleVisual } from "@/data/article-visuals";
 
@@ -26,6 +27,21 @@ type ArticlePageProps = {
 };
 
 const baseUrl = "https://onixbit.ru";
+
+const articleIntentLabels: Record<ArticleSeriesId, string> = {
+  "quick-start": "ориентация в портале",
+  "crm-sales": "продажи и заявки",
+  communications: "коммуникации",
+  tasks: "задачи и ответственность",
+  automation: "автоматизация",
+  "access-problems": "доступ и диагностика",
+  integrations: "интеграции и обмены",
+  "manager-control": "управленческий контроль",
+};
+
+function getSeriesThemeClass(seriesId: ArticleSeriesId) {
+  return `ob-series-theme--${seriesId}`;
+}
 
 const defaultSectionTitles = {
   shortAnswer: "Как быстро отличить рабочую CRM от витрины настроек",
@@ -175,12 +191,13 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
   const previousArticle = seriesArticles[seriesPosition - 1] ?? knowledgeBaseArticles[articleIndex - 1];
   const nextArticle = seriesArticles[seriesPosition + 1] ?? knowledgeBaseArticles[articleIndex + 1];
   const articleVisual = getArticleVisual(article);
+  const seriesThemeClass = getSeriesThemeClass(article.seriesId);
   const jsonLd = buildArticleJsonLd(article);
   const updatedDate = formatDate(article.lastUpdated);
   const sectionTitles = { ...defaultSectionTitles, ...article.sectionTitles };
 
   return (
-    <article className="ob-knowledge-article">
+    <article className={`ob-knowledge-article ${seriesThemeClass}`}>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -189,13 +206,14 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
       />
 
       <section className="ob-page-hero ob-section ob-article-hero">
-        <div className="ob-container ob-article-hero__grid">
+        <div className={`ob-container ob-article-hero__grid ${seriesThemeClass}`}>
           <div className="ob-article-hero__content">
             <Link className="ob-article-back" href="/articles">
               <ArrowLeft size={17} aria-hidden="true" />
               База знаний
             </Link>
             <span className="ob-kicker">{series.title}</span>
+            <strong className="ob-article-context-label">{articleIntentLabels[article.seriesId]}</strong>
             <h1>{article.title}</h1>
             <p>{article.description}</p>
             <div className="ob-article-meta" aria-label="Метаданные статьи">
@@ -237,7 +255,12 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
           </nav>
 
           <div className="ob-article-body">
-            <section className="ob-article-panel ob-article-panel--lead" id="short-answer">
+            <div className="ob-article-main-flow" aria-label="Основная часть статьи">
+              <div className="ob-article-main-flow__label">
+                <span>Основная часть</span>
+                <strong>{series.title}</strong>
+              </div>
+              <section className="ob-article-panel ob-article-panel--lead" id="short-answer">
               <div className="ob-article-panel__head">
                 <BookOpen size={22} aria-hidden="true" />
                 <div>
@@ -431,9 +454,21 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
               </div>
             </section>
 
-            <section className="ob-article-panel">
-              <h2>Источники</h2>
-              <ul className="ob-article-sources">
+            </div>
+
+            <footer className="ob-article-afterword" aria-labelledby="article-afterword-heading">
+              <div className="ob-article-afterword__head">
+                <span>После инструкции</span>
+                <h2 id="article-afterword-heading">Источники, продолжение и помощь</h2>
+                <p>
+                  Основная инструкция выше закончилась. Ниже — проверяемые источники, следующий материал по серии,
+                  связанные разделы сайта и понятный вариант обращения в Ониксбит.
+                </p>
+              </div>
+
+              <section className="ob-article-panel ob-article-panel--sources">
+                <h2>Источники</h2>
+                <ul className="ob-article-sources">
                 {article.sources.map((source) => (
                   <li key={source.href}>
                     <a href={source.href} target="_blank" rel="noreferrer">
@@ -442,10 +477,10 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                     </a>
                   </li>
                 ))}
-              </ul>
-            </section>
+                </ul>
+              </section>
 
-            <section className="ob-article-series-next" id="series-next" aria-label="Навигация между статьями">
+              <section className="ob-article-series-next" id="series-next" aria-label="Навигация между статьями">
               <div>
                 <span>{series.title}</span>
                 <h2>Что читать дальше</h2>
@@ -471,10 +506,10 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                   </Link>
                 ) : null}
               </div>
-            </section>
+              </section>
 
-            <section className="ob-article-panel">
-              <h2>Связанные материалы и разделы</h2>
+              <section className="ob-article-panel ob-article-panel--related">
+                <h2>Связанные материалы и разделы</h2>
               <div className="ob-article-related">
                 {article.relatedLinks.map((link) => (
                   <Link href={link.href} key={link.href}>
@@ -484,9 +519,9 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                   </Link>
                 ))}
               </div>
-            </section>
+              </section>
 
-            <section className="ob-article-cta" id="article-cta">
+              <section className="ob-article-cta" id="article-cta">
               <div>
                 <span>Что можно сделать с Ониксбит</span>
                 <h2>{article.cta.title}</h2>
@@ -496,7 +531,8 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                 <span>{article.cta.label}</span>
                 <ArrowRight size={18} aria-hidden="true" />
               </a>
-            </section>
+              </section>
+            </footer>
           </div>
         </div>
       </section>
