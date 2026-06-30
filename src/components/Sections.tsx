@@ -274,7 +274,7 @@ export function ArticlesPreview({ full = false }: { full?: boolean }) {
         />
         <div className="ob-home-articles__layout">
           {articles.map((article, index) => (
-            <Link className={"ob-article-card ob-home-article-card is-visual-" + index + (index === 0 ? " is-featured" : "")} href="/articles" key={article.title}>
+            <Link className={"ob-article-card ob-home-article-card is-visual-" + index + (index === 0 ? " is-featured" : "")} href={article.href} key={article.title}>
               <div className="ob-home-article-card__visual">
                 <Image src={articleCovers[index] ?? articleCovers[0]} alt={"Обложка статьи: " + article.title} fill sizes="(max-width: 760px) 100vw, (max-width: 1180px) 92vw, 48vw" />
                 <span aria-hidden="true" />
@@ -287,7 +287,7 @@ export function ArticlesPreview({ full = false }: { full?: boolean }) {
               <h3>{article.title}</h3>
               <p>{article.text}</p>
               <span className="ob-home-article-card__cta">
-                Читать статью
+                {article.status === "published" ? "Читать статью" : "В карте материалов"}
                 <ArrowUpRight size={17} aria-hidden="true" />
               </span>
               <span className="ob-home-article-card__line" aria-hidden="true" />

@@ -1,3 +1,5 @@
+import { articleRoadmap, knowledgeBaseArticles } from "./articles";
+
 export type DirectionId = "bitrix24" | "sites" | "onec";
 
 export type Direction = {
@@ -380,24 +382,22 @@ export const certificates = [
 ];
 
 export const articles = [
-  {
-    title: "Как понять, что Битрикс24 внедрён поверхностно",
-    category: "CRM-разбор",
-    minutes: "6 мин",
-    text: "Разбор признаков, по которым руководитель видит: CRM формально есть, но заявки, контроль и ответственность всё ещё расходятся по чатам и таблицам.",
-  },
-  {
-    title: "Что заложить в ТЗ на сайт на 1С-Битрикс",
-    category: "Сайты",
-    minutes: "8 мин",
-    text: "Практичный чек-лист для старта: структура, контент, каталог, интеграции, формы и сценарии заявок до начала разработки.",
-  },
-  {
-    title: "Обмен 1С, сайта и CRM: где чаще всего ломается логика",
-    category: "Интеграции",
-    minutes: "7 мин",
-    text: "Объясняем, почему недостаточно просто включить модуль обмена и как заранее описать статусы, товары, заказы и ответственных.",
-  },
+  ...knowledgeBaseArticles.slice(0, 1).map((article) => ({
+    title: article.title,
+    category: article.category,
+    minutes: article.readingTime,
+    text: article.summary,
+    href: "/articles/" + article.slug,
+    status: "published" as const,
+  })),
+  ...articleRoadmap.slice(0, 2).map((article) => ({
+    title: article.title,
+    category: article.category,
+    minutes: article.readingTime,
+    text: article.summary,
+    href: "/articles#roadmap",
+    status: "planned" as const,
+  })),
 ];
 
 export const licenseGroups = [

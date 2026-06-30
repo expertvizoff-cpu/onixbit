@@ -222,6 +222,7 @@ export function CertificatesExperience({ dashboard }: CertificatesExperienceProp
   const [interactionPaused, setInteractionPaused] = useState(false);
   const shouldReduceMotion = useReducedMotion();
   const lastTriggerRef = useRef<HTMLButtonElement | null>(null);
+  const catalogRef = useRef<HTMLElement | null>(null);
   const activeEcosystem = ecosystemAreas.find((area) => area.id === activeArea) ?? ecosystemAreas[0];
 
   const closeModal = useCallback(() => {
@@ -231,6 +232,10 @@ export function CertificatesExperience({ dashboard }: CertificatesExperienceProp
     }, 0);
   }, []);
   const { panelRef, closeRef } = useModalFocus(modal, closeModal);
+
+  useEffect(() => {
+    catalogRef.current?.setAttribute("data-hydrated", "true");
+  }, []);
 
   useEffect(() => {
     if (manualPaused || interactionPaused || shouldReduceMotion) return;
@@ -388,7 +393,7 @@ export function CertificatesExperience({ dashboard }: CertificatesExperienceProp
         </div>
       </section>
 
-      <section className="obx-certs" id="certificates">
+      <section className="obx-certs" data-hydrated="false" id="certificates" ref={catalogRef}>
         <div className="obx-certs__inner">
           <div className="obx-certs__head">
             <div>
@@ -493,6 +498,7 @@ export function CertificatesExperience({ dashboard }: CertificatesExperienceProp
                       aria-label={"Открыть сертификат: " + item.title}
                       className="obx-certs__preview"
                       onClick={(event) => openCertificate(item, event.currentTarget)}
+                      onPointerDown={(event) => openCertificate(item, event.currentTarget)}
                       type="button"
                     >
                       <Image

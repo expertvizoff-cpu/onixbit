@@ -1,0 +1,28 @@
+<svg width="1200" height="760" viewBox="0 0 1200 760" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Схема роботов в сделках</title>
+  <desc id="desc">Обезличенная схема стадии, условия, действия и контроля результата при настройке роботов в Битрикс24.</desc>
+  <rect width="1200" height="760" rx="36" fill="#F8F7F2"/>
+  <text x="80" y="112" fill="#171717" font-family="Arial, sans-serif" font-size="42" font-weight="800">Робот = правило, а не магия</text>
+  <text x="82" y="154" fill="#6F695F" font-family="Arial, sans-serif" font-size="22">Сначала сценарий, потом автоматизация</text>
+  <rect x="82" y="230" width="250" height="280" rx="26" fill="#FFFFFF" stroke="#E4DED2"/>
+  <text x="116" y="286" fill="#171717" font-family="Arial, sans-serif" font-size="28" font-weight="800">Стадия</text>
+  <text x="116" y="334" fill="#6F695F" font-family="Arial, sans-serif" font-size="19">КП отправлено</text>
+  <rect x="116" y="390" width="156" height="58" rx="16" fill="#FFF8E4"/>
+  <text x="140" y="426" fill="#7A1216" font-family="Arial, sans-serif" font-size="18" font-weight="700">триггер</text>
+  <path d="M354 370H450" stroke="#ED1C24" stroke-width="6" stroke-linecap="round"/>
+  <path d="M430 350L452 370L430 390" stroke="#ED1C24" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="474" y="230" width="250" height="280" rx="26" fill="#171717"/>
+  <text x="508" y="286" fill="#FFD45A" font-family="Arial, sans-serif" font-size="28" font-weight="800">Условие</text>
+  <text x="508" y="334" fill="#FFFFFF" opacity=".78" font-family="Arial, sans-serif" font-size="19">нет ответа 2 дня</text>
+  <rect x="508" y="390" width="156" height="58" rx="16" fill="#2D2D2D"/>
+  <text x="532" y="426" fill="#FFFFFF" font-family="Arial, sans-serif" font-size="18" font-weight="700">если...</text>
+  <path d="M746 370H842" stroke="#ED1C24" stroke-width="6" stroke-linecap="round"/>
+  <path d="M822 350L844 370L822 390" stroke="#ED1C24" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="866" y="230" width="250" height="280" rx="26" fill="#FFF8E4" stroke="#F0DFA8"/>
+  <text x="900" y="286" fill="#7A1216" font-family="Arial, sans-serif" font-size="28" font-weight="800">Действие</text>
+  <text x="900" y="334" fill="#6F695F" font-family="Arial, sans-serif" font-size="19">поставить задачу</text>
+  <rect x="900" y="390" width="156" height="58" rx="16" fill="#ED1C24"/>
+  <text x="924" y="426" fill="#FFFFFF" font-family="Arial, sans-serif" font-size="18" font-weight="800">сделать</text>
+  <rect x="194" y="594" width="812" height="62" rx="22" fill="#FFFFFF" stroke="#E4DED2"/>
+  <text x="230" y="634" fill="#171717" font-family="Arial, sans-serif" font-size="22" font-weight="700">После запуска проверяем результат: меньше просрочек или просто больше шума?</text>
+</svg>

@@ -1,0 +1,35 @@
+<svg width="1200" height="760" viewBox="0 0 1200 760" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Маршрут заявки с сайта в CRM</title>
+  <desc id="desc">Схема прохождения заявки от формы на сайте до ответственного и первого действия в Битрикс24.</desc>
+  <rect width="1200" height="760" rx="36" fill="#F7F7F4"/>
+  <rect x="70" y="92" width="292" height="520" rx="28" fill="#FFFFFF" stroke="#E3DED4"/>
+  <rect x="96" y="132" width="240" height="46" rx="14" fill="#171717"/>
+  <text x="126" y="162" fill="#FFFFFF" font-family="Arial, sans-serif" font-size="18" font-weight="700">Форма на сайте</text>
+  <rect x="104" y="226" width="224" height="46" rx="12" fill="#F5F5F2"/>
+  <rect x="104" y="294" width="224" height="46" rx="12" fill="#F5F5F2"/>
+  <rect x="104" y="362" width="224" height="90" rx="12" fill="#F5F5F2"/>
+  <rect x="104" y="492" width="224" height="58" rx="16" fill="#ED1C24"/>
+  <text x="150" y="529" fill="#FFFFFF" font-family="Arial, sans-serif" font-size="19" font-weight="800">Отправить</text>
+  <path d="M390 352H510" stroke="#ED1C24" stroke-width="6" stroke-linecap="round"/>
+  <path d="M490 332L512 352L490 372" stroke="#ED1C24" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="534" y="92" width="292" height="520" rx="28" fill="#FFF8E4" stroke="#F0DFA8"/>
+  <text x="572" y="148" fill="#7A1216" font-family="Arial, sans-serif" font-size="30" font-weight="800">CRM-карточка</text>
+  <rect x="572" y="208" width="216" height="54" rx="16" fill="#FFFFFF"/>
+  <text x="594" y="242" fill="#171717" font-family="Arial, sans-serif" font-size="18" font-weight="700">Источник: сайт</text>
+  <rect x="572" y="290" width="216" height="54" rx="16" fill="#FFFFFF"/>
+  <text x="594" y="324" fill="#171717" font-family="Arial, sans-serif" font-size="18" font-weight="700">Форма: аудит</text>
+  <rect x="572" y="372" width="216" height="54" rx="16" fill="#FFFFFF"/>
+  <text x="594" y="406" fill="#171717" font-family="Arial, sans-serif" font-size="18" font-weight="700">Ответственный</text>
+  <rect x="572" y="454" width="216" height="72" rx="16" fill="#171717"/>
+  <text x="596" y="488" fill="#FFD45A" font-family="Arial, sans-serif" font-size="18" font-weight="800">Дело</text>
+  <text x="596" y="514" fill="#FFFFFF" opacity=".82" font-family="Arial, sans-serif" font-size="16">позвонить до 16:00</text>
+  <path d="M854 352H974" stroke="#ED1C24" stroke-width="6" stroke-linecap="round"/>
+  <path d="M954 332L976 352L954 372" stroke="#ED1C24" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="996" y="162" width="116" height="380" rx="28" fill="#171717"/>
+  <circle cx="1054" cy="232" r="34" fill="#FFD45A"/>
+  <rect x="1026" y="304" width="58" height="112" rx="22" fill="#ED1C24"/>
+  <text x="1019" y="472" fill="#FFFFFF" font-family="Arial, sans-serif" font-size="18" font-weight="700">реакция</text>
+  <text x="1029" y="500" fill="#FFFFFF" opacity=".72" font-family="Arial, sans-serif" font-size="16">без чата</text>
+  <rect x="138" y="650" width="924" height="58" rx="22" fill="#FFFFFF" stroke="#E3DED4"/>
+  <text x="176" y="687" fill="#171717" font-family="Arial, sans-serif" font-size="21" font-weight="700">Проверяем не отправку формы, а путь до первого действия менеджера</text>
+</svg>

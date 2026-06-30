@@ -10,6 +10,13 @@ const routes = [
   "/cases",
   "/certificates",
   "/articles",
+  "/articles/poverhnostnoe-vnedrenie-bitrix24",
+  "/articles/lidy-sdelki-kontakty-kompanii-bitrix24",
+  "/articles/obrabotat-zayavku-s-saita-v-bitrix24",
+  "/articles/menedzher-ne-vidit-sdelku-bitrix24",
+  "/articles/sozdat-zadachu-i-otvetstvennost-bitrix24",
+  "/articles/roboty-v-sdelkah-bitrix24",
+  "/articles/sait-crm-1c-istochnik-istiny",
   "/o-kompanii",
   "/contacts",
   "/privacy",
@@ -62,6 +69,8 @@ test.describe("Onixbit certificate media", () => {
   test("certificate modal keeps visible media area on mobile", async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto("/certificates");
+
+    await expect(page.locator(".obx-certs[data-hydrated='true']")).toBeVisible();
 
     const trigger = page.getByRole("button", { name: /Открыть сертификат: Золотой партнёр Битрикс24/ }).first();
     await trigger.scrollIntoViewIfNeeded();

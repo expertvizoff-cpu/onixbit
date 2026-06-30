@@ -1,0 +1,32 @@
+<svg width="1200" height="760" viewBox="0 0 1200 760" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Источник истины между сайтом, CRM и 1С</title>
+  <desc id="desc">Карта распределения данных между сайтом, CRM Битрикс24 и 1С.</desc>
+  <rect width="1200" height="760" rx="36" fill="#F7F7F4"/>
+  <text x="78" y="108" fill="#171717" font-family="Arial, sans-serif" font-size="42" font-weight="800">Где источник истины?</text>
+  <text x="80" y="150" fill="#6F695F" font-family="Arial, sans-serif" font-size="22">Сайт, CRM и 1С должны отвечать за разные данные</text>
+  <rect x="92" y="240" width="260" height="300" rx="28" fill="#FFFFFF" stroke="#E4DED2"/>
+  <text x="130" y="302" fill="#171717" font-family="Arial, sans-serif" font-size="32" font-weight="800">Сайт</text>
+  <text x="130" y="352" fill="#6F695F" font-family="Arial, sans-serif" font-size="20">форма, каталог,</text>
+  <text x="130" y="382" fill="#6F695F" font-family="Arial, sans-serif" font-size="20">личный кабинет</text>
+  <rect x="130" y="438" width="150" height="48" rx="14" fill="#FFF8E4"/>
+  <text x="154" y="469" fill="#7A1216" font-family="Arial, sans-serif" font-size="17" font-weight="700">витрина</text>
+  <path d="M376 390H470" stroke="#ED1C24" stroke-width="6" stroke-linecap="round"/>
+  <path d="M450 370L472 390L450 410" stroke="#ED1C24" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="496" y="200" width="260" height="380" rx="28" fill="#171717"/>
+  <text x="534" y="262" fill="#FFD45A" font-family="Arial, sans-serif" font-size="32" font-weight="800">CRM</text>
+  <text x="534" y="312" fill="#FFFFFF" opacity=".8" font-family="Arial, sans-serif" font-size="20">клиент, сделка,</text>
+  <text x="534" y="342" fill="#FFFFFF" opacity=".8" font-family="Arial, sans-serif" font-size="20">коммуникации,</text>
+  <text x="534" y="372" fill="#FFFFFF" opacity=".8" font-family="Arial, sans-serif" font-size="20">следующий шаг</text>
+  <rect x="534" y="438" width="150" height="48" rx="14" fill="#2D2D2D"/>
+  <text x="558" y="469" fill="#FFFFFF" font-family="Arial, sans-serif" font-size="17" font-weight="700">процесс</text>
+  <path d="M780 390H874" stroke="#ED1C24" stroke-width="6" stroke-linecap="round"/>
+  <path d="M854 370L876 390L854 410" stroke="#ED1C24" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="900" y="240" width="260" height="300" rx="28" fill="#FFF8E4" stroke="#F0DFA8"/>
+  <text x="938" y="302" fill="#7A1216" font-family="Arial, sans-serif" font-size="32" font-weight="800">1С</text>
+  <text x="938" y="352" fill="#6F695F" font-family="Arial, sans-serif" font-size="20">учет, товары,</text>
+  <text x="938" y="382" fill="#6F695F" font-family="Arial, sans-serif" font-size="20">остатки, оплаты</text>
+  <rect x="938" y="438" width="150" height="48" rx="14" fill="#FFFFFF"/>
+  <text x="962" y="469" fill="#7A1216" font-family="Arial, sans-serif" font-size="17" font-weight="700">учет</text>
+  <rect x="210" y="628" width="780" height="58" rx="22" fill="#FFFFFF" stroke="#E4DED2"/>
+  <text x="246" y="665" fill="#171717" font-family="Arial, sans-serif" font-size="21" font-weight="700">Перед обменом фиксируем владельца каждого поля и сценарии проверки</text>
+</svg>

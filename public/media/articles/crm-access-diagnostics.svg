@@ -1,0 +1,27 @@
+<svg width="1200" height="760" viewBox="0 0 1200 760" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Диагностика доступа к сделке</title>
+  <desc id="desc">Схема проверки фильтров, направления, ответственного и прав CRM.</desc>
+  <rect width="1200" height="760" rx="36" fill="#F8F7F2"/>
+  <rect x="66" y="78" width="1068" height="604" rx="30" fill="#FFFFFF" stroke="#E4DED2"/>
+  <text x="108" y="142" fill="#171717" font-family="Arial, sans-serif" font-size="38" font-weight="800">Почему сделка не видна?</text>
+  <text x="110" y="184" fill="#6F695F" font-family="Arial, sans-serif" font-size="21">Идем от простого к опасному: фильтр, направление, ответственный, права</text>
+  <rect x="110" y="242" width="230" height="308" rx="24" fill="#FFF8E4" stroke="#F0DFA8"/>
+  <text x="142" y="296" fill="#7A1216" font-family="Arial, sans-serif" font-size="28" font-weight="800">01 Фильтр</text>
+  <rect x="142" y="346" width="166" height="42" rx="12" fill="#FFFFFF"/>
+  <rect x="142" y="414" width="118" height="42" rx="12" fill="#FFFFFF"/>
+  <text x="142" y="504" fill="#6F695F" font-family="Arial, sans-serif" font-size="18">очистить список</text>
+  <path d="M360 396H444" stroke="#ED1C24" stroke-width="6" stroke-linecap="round"/>
+  <rect x="464" y="242" width="230" height="308" rx="24" fill="#F5F5F2" stroke="#E4DED2"/>
+  <text x="496" y="296" fill="#171717" font-family="Arial, sans-serif" font-size="28" font-weight="800">02 Воронка</text>
+  <rect x="496" y="346" width="154" height="42" rx="12" fill="#FFFFFF"/>
+  <rect x="496" y="414" width="116" height="42" rx="12" fill="#FEF1F2"/>
+  <text x="496" y="504" fill="#6F695F" font-family="Arial, sans-serif" font-size="18">не тот раздел</text>
+  <path d="M714 396H798" stroke="#ED1C24" stroke-width="6" stroke-linecap="round"/>
+  <rect x="818" y="242" width="230" height="308" rx="24" fill="#171717"/>
+  <text x="850" y="296" fill="#FFD45A" font-family="Arial, sans-serif" font-size="28" font-weight="800">03 Права</text>
+  <rect x="850" y="346" width="154" height="42" rx="12" fill="#2D2D2D"/>
+  <rect x="850" y="414" width="116" height="42" rx="12" fill="#ED1C24"/>
+  <text x="850" y="504" fill="#FFFFFF" opacity=".78" font-family="Arial, sans-serif" font-size="18">менять точечно</text>
+  <rect x="212" y="594" width="776" height="48" rx="18" fill="#FFFFFF" stroke="#E4DED2"/>
+  <text x="246" y="625" fill="#171717" font-family="Arial, sans-serif" font-size="20" font-weight="700">Не открываем всем все, пока не воспроизведен конкретный пример</text>
+</svg>

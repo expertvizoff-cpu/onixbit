@@ -1,0 +1,28 @@
+<svg width="1200" height="760" viewBox="0 0 1200 760" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Каркас управляемой задачи</title>
+  <desc id="desc">Пример задачи с ответственным, сроком, результатом, чек-листом и связью с CRM.</desc>
+  <rect width="1200" height="760" rx="36" fill="#F7F7F4"/>
+  <rect x="128" y="88" width="944" height="584" rx="30" fill="#FFFFFF" stroke="#E4DED2"/>
+  <rect x="128" y="88" width="944" height="82" rx="30" fill="#171717"/>
+  <text x="176" y="139" fill="#FFFFFF" font-family="Arial, sans-serif" font-size="30" font-weight="800">Задача: согласовать следующий шаг по сделке</text>
+  <rect x="176" y="222" width="244" height="124" rx="22" fill="#FFF8E4" stroke="#F0DFA8"/>
+  <text x="206" y="268" fill="#7A1216" font-family="Arial, sans-serif" font-size="21" font-weight="800">Ответственный</text>
+  <text x="206" y="304" fill="#6F695F" font-family="Arial, sans-serif" font-size="19">один владелец</text>
+  <rect x="478" y="222" width="244" height="124" rx="22" fill="#F5F5F2" stroke="#E4DED2"/>
+  <text x="508" y="268" fill="#171717" font-family="Arial, sans-serif" font-size="21" font-weight="800">Срок</text>
+  <text x="508" y="304" fill="#6F695F" font-family="Arial, sans-serif" font-size="19">или дата контроля</text>
+  <rect x="780" y="222" width="244" height="124" rx="22" fill="#FEF1F2" stroke="#F2C2C5"/>
+  <text x="810" y="268" fill="#7A1216" font-family="Arial, sans-serif" font-size="21" font-weight="800">Результат</text>
+  <text x="810" y="304" fill="#7A1216" font-family="Arial, sans-serif" font-size="19">что считается готово</text>
+  <rect x="176" y="400" width="392" height="178" rx="24" fill="#F8F8F5" stroke="#E4DED2"/>
+  <text x="210" y="448" fill="#171717" font-family="Arial, sans-serif" font-size="24" font-weight="800">Чек-лист</text>
+  <circle cx="218" cy="496" r="10" fill="#ED1C24"/>
+  <text x="244" y="504" fill="#6F695F" font-family="Arial, sans-serif" font-size="18">позвонить клиенту</text>
+  <circle cx="218" cy="538" r="10" fill="#FFD45A"/>
+  <text x="244" y="546" fill="#6F695F" font-family="Arial, sans-serif" font-size="18">зафиксировать итог</text>
+  <rect x="632" y="400" width="392" height="178" rx="24" fill="#171717"/>
+  <text x="666" y="448" fill="#FFD45A" font-family="Arial, sans-serif" font-size="24" font-weight="800">Связь с CRM</text>
+  <rect x="666" y="486" width="254" height="50" rx="14" fill="#2D2D2D"/>
+  <text x="692" y="518" fill="#FFFFFF" font-family="Arial, sans-serif" font-size="18" font-weight="700">Сделка: внедрение CRM</text>
+  <text x="666" y="568" fill="#FFFFFF" opacity=".72" font-family="Arial, sans-serif" font-size="18">видно в карточке клиента</text>
+</svg>
