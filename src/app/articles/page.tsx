@@ -24,17 +24,19 @@ import {
 import { getArticleVisual } from "@/data/article-visuals";
 import { LeadSection } from "@/components/Sections";
 
+const baseUrl = "https://onixbit.ru";
+
 export const metadata: Metadata = {
-  title: "База знаний Ониксбит по Битрикс24, CRM и интеграциям",
+  title: "Инструкции по Битрикс24, CRM и интеграциям",
   description:
-    "Практическая база знаний Ониксбит: руководительские разборы, инструкции и серии статей по Битрикс24, CRM, задачам, автоматизации, коммуникациям и интеграциям.",
+    "Клиентская база знаний Ониксбит: проверки, инструкции и разборы по Битрикс24, CRM, задачам, автоматизации, сайту, 1С и интеграциям.",
   alternates: {
     canonical: "/articles",
   },
   openGraph: {
-    title: "База знаний Ониксбит",
+    title: "Инструкции Ониксбит по Битрикс24 и CRM",
     description:
-      "Статьи в формате практической книги интегратора: как проверять CRM, запускать процессы и не терять заявки, сроки и ответственность.",
+      "Практические материалы для руководителя и команды: как проверять CRM, обрабатывать заявки, ставить задачи, настраивать роботов и контролировать интеграции.",
     url: "/articles",
     type: "website",
   },
@@ -52,9 +54,9 @@ const seriesIcons: Record<ArticleSeriesId, typeof BookOpen> = {
 };
 
 const pageHighlights = [
-  "серии вместо разрозненного блога",
-  "обложки и схемы без чужих клиентских данных",
-  "следующий шаг внутри каждой статьи",
+  "проверки для руководителя",
+  "инструкции для команды",
+  "разборы ошибок и интеграций",
 ] as const;
 
 const seriesActionLabels: Record<ArticleSeriesId, string> = {
@@ -78,9 +80,75 @@ function getLevelLabel(level: "start" | "normal" | "advanced") {
   return "Практика";
 }
 
+function buildKnowledgeBaseJsonLd() {
+  const articlesListId = `${baseUrl}/articles#articles-list`;
+
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "CollectionPage",
+        "@id": `${baseUrl}/articles#collection`,
+        url: `${baseUrl}/articles`,
+        name: "Инструкции Ониксбит по Битрикс24, CRM и интеграциям",
+        description:
+          "База знаний для руководителей, маркетологов, менеджеров и администраторов: как проверять CRM, обрабатывать заявки, работать с задачами, роботами и интеграциями.",
+        inLanguage: "ru-RU",
+        isPartOf: {
+          "@type": "WebSite",
+          name: "Ониксбит",
+          url: baseUrl,
+        },
+        publisher: {
+          "@type": "Organization",
+          name: "Ониксбит",
+          url: baseUrl,
+        },
+        mainEntity: {
+          "@id": articlesListId,
+        },
+      },
+      {
+        "@type": "ItemList",
+        "@id": articlesListId,
+        name: "Опубликованные статьи Ониксбит",
+        numberOfItems: knowledgeBaseArticles.length,
+        itemListElement: knowledgeBaseArticles.map((article, index) => ({
+          "@type": "ListItem",
+          position: index + 1,
+          item: {
+            "@type": "Article",
+            headline: article.title,
+            description: article.description,
+            url: `${baseUrl}/articles/${article.slug}`,
+          },
+        })),
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Ониксбит",
+            item: baseUrl,
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "База знаний",
+            item: `${baseUrl}/articles`,
+          },
+        ],
+      },
+    ],
+  };
+}
+
 export default function ArticlesPage() {
   const featuredArticle = knowledgeBaseArticles[0];
   const featuredVisual = getArticleVisual(featuredArticle);
+  const jsonLd = buildKnowledgeBaseJsonLd();
   const seriesGroups = articleSeries.map((series) => ({
     series,
     articles: knowledgeBaseArticles.filter((article) => article.seriesId === series.id),
@@ -89,22 +157,29 @@ export default function ArticlesPage() {
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c"),
+        }}
+      />
+
       <section className="ob-page-hero ob-section ob-page-hero--articles">
         <div className="ob-container ob-kb-hero">
           <div className="ob-kb-hero__copy">
             <span className="ob-kicker">База знаний</span>
-            <h1>Практическая книга Ониксбит по Битрикс24, CRM и интеграциям</h1>
+            <h1>Инструкции по Битрикс24, CRM и интеграциям для руководителя и команды</h1>
             <p>
-              Здесь статьи собраны как обучающие серии: выбираете тему, открываете конкретный сценарий и сразу видите,
-              что нажать дальше. Без разрозненного блога и без скриншотов с чужими данными.
+              Проверки, сценарии и разборы: как не терять заявки, сроки, ответственных и данные между сайтом, CRM,
+              1С и каналами коммуникаций.
             </p>
             <div className="ob-kb-hero__actions" aria-label="Основные действия">
               <Link className="ob-btn ob-btn--primary" href={`/articles/${featuredArticle.slug}`}>
-                <span>Начать с первой статьи</span>
+                <span>Проверить CRM по чек-листу</span>
                 <ArrowRight size={18} aria-hidden="true" />
               </Link>
               <Link className="ob-btn ob-btn--secondary" href="#series-map">
-                <span>Выбрать рубрику</span>
+                <span>Выбрать задачу</span>
               </Link>
             </div>
           </div>
@@ -119,7 +194,7 @@ export default function ArticlesPage() {
                 preload
               />
             </span>
-            <span className="ob-kb-hero__featured-meta">Рекомендуем начать</span>
+            <span className="ob-kb-hero__featured-meta">Начните с диагностики</span>
             <strong>{featuredArticle.title}</strong>
             <small>
               {featuredArticle.readingTime} · {getArticleSeries(featuredArticle.seriesId).title}
@@ -133,8 +208,8 @@ export default function ArticlesPage() {
           <UserRound size={22} aria-hidden="true" />
           <div>
             <p>
-              Иллюстрации в статьях сделаны как редакционные рабочие схемы: они показывают логику процесса без персональных
-              данных, лишних полей и клиентских карточек.
+              Схемы в статьях показывают логику рабочих процессов: где возникает заявка, кто отвечает за следующий шаг,
+              какие данные должны попасть в CRM и где обычно теряется контроль.
             </p>
             <ul>
               {pageHighlights.map((item) => (
@@ -149,14 +224,14 @@ export default function ArticlesPage() {
         <div className="ob-container ob-kb-map">
           <div className="ob-page-section-head">
             <span className="ob-kicker">Навигация</span>
-            <h2 id="series-heading">Выберите рубрику</h2>
+            <h2 id="series-heading">Найдите задачу по теме</h2>
             <p>
-              Рубрики работают как серии обучающих материалов. У опубликованных серий есть кнопка перехода к статьям, у будущих -
-              понятная очередь тем.
+              Рубрики собраны по рабочим ситуациям: продажи, задачи, автоматизация, права, интеграции и управленческий
+              контроль. Откройте тему, которая ближе к вашей проблеме.
             </p>
           </div>
           <nav className="ob-kb-series-rail" aria-label="Рубрики базы знаний">
-            {seriesGroups.map(({ series, articles, planned }) => {
+            {seriesGroups.map(({ series, articles }) => {
               const Icon = seriesIcons[series.id];
               const hasArticles = articles.length > 0;
 
@@ -169,7 +244,7 @@ export default function ArticlesPage() {
                   <Icon size={22} aria-hidden="true" />
                   <span>
                     <strong>{series.title}</strong>
-                    <small>{hasArticles ? `${articles.length} опубликовано` : `${planned.length || series.examples.length} в плане`}</small>
+                    <small>{hasArticles ? `${articles.length} опубликовано` : "Готовится"}</small>
                   </span>
                 </a>
               );
@@ -182,10 +257,10 @@ export default function ArticlesPage() {
         <div className="ob-container ob-kb-library">
           <div className="ob-page-section-head">
             <span className="ob-kicker">Статьи</span>
-            <h2 id="published-heading">Материалы по рубрикам</h2>
+            <h2 id="published-heading">Готовые инструкции и разборы</h2>
             <p>
-              Карточка целиком кликабельна: обложка, заголовок и кнопка ведут в статью. Так быстрее сканировать базу и не думать,
-              где именно нажимать.
+              Каждый материал отвечает на конкретный вопрос: как проверить процесс, исправить частую ошибку или объяснить
+              команде порядок работы в Битрикс24.
             </p>
           </div>
 
@@ -203,7 +278,7 @@ export default function ArticlesPage() {
                   <div className="ob-kb-series-block__head">
                     <Icon size={24} aria-hidden="true" />
                     <div>
-                      <span>{articles.length ? `${articles.length} материалов` : "Скоро"}</span>
+                      <span>{articles.length ? `${articles.length} материалов` : "Готовим"}</span>
                       <h3 id={`${series.id}-heading`}>{series.title}</h3>
                       <strong>{seriesActionLabels[series.id]}</strong>
                       <p>{series.purpose}</p>
@@ -240,9 +315,9 @@ export default function ArticlesPage() {
                     </div>
                   ) : (
                     <div className="ob-kb-planned-list">
-                      {(planned.length ? planned : series.examples.map((example) => ({ title: example, summary: series.purpose, readingTime: "в плане" }))).map((item) => (
+                      {(planned.length ? planned : series.examples.map((example) => ({ title: example, summary: series.purpose, readingTime: "готовится" }))).map((item) => (
                         <article key={item.title}>
-                          <span>В плане</span>
+                          <span>Готовится</span>
                           <strong>{item.title}</strong>
                           <p>{item.summary}</p>
                         </article>
@@ -259,11 +334,11 @@ export default function ArticlesPage() {
       <section className="ob-section ob-section--tight" id="roadmap" aria-labelledby="roadmap-heading">
         <div className="ob-container ob-article-roadmap">
           <div className="ob-page-section-head">
-            <span className="ob-kicker">Следующие выпуски</span>
-            <h2 id="roadmap-heading">Что писать дальше</h2>
+            <span className="ob-kicker">Ближайшие темы</span>
+            <h2 id="roadmap-heading">Какие разборы появятся следующими</h2>
             <p>
-              Очередь следующих статей оставил на странице, но перенёс ее ниже опубликованных материалов, чтобы она не мешала
-              читателю выбирать уже готовые инструкции.
+              Готовим материалы по открытым линиям, правам CRM, задачам и обменам с 1С. Если похожая проблема уже есть
+              в вашей системе, можно описать ее на первичном разборе.
             </p>
           </div>
           <div className="ob-article-roadmap__grid">
@@ -288,14 +363,14 @@ export default function ArticlesPage() {
         <div className="ob-container ob-editorial-note">
           <HelpCircle size={28} aria-hidden="true" />
           <div>
-            <h2>Можно предложить вопрос для разбора</h2>
+            <h2>Не нашли свою ситуацию?</h2>
             <p>
-              Если есть задача по Битрикс24, сайту на 1С-Битрикс или обменам с 1С, ее можно превратить в будущую статью:
-              без раскрытия коммерческих деталей и с пользой для команды.
+              Опишите задачу по Битрикс24, сайту на 1С-Битрикс или обменам с 1С. Подскажем, где искать причину и какой
+              следующий шаг будет разумным.
             </p>
           </div>
           <Link className="ob-editorial-note__link" href="#lead">
-            Предложить тему <ArrowRight size={16} aria-hidden="true" />
+            Описать задачу <ArrowRight size={16} aria-hidden="true" />
           </Link>
         </div>
       </section>
