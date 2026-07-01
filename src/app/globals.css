@@ -27871,11 +27871,16 @@ span.ob-pricing-estimate__client {
 @media (max-width: 760px) {
   .ob-hero {
     --ob-hero-height: auto;
-    padding-top: 22px;
+    padding-top: 12px;
+  }
+
+  .ob-hero__copy {
+    padding-top: 42px;
   }
 
   .ob-hero__title {
-    font-size: clamp(34px, 10vw, 43px);
+    margin-top: 16px;
+    font-size: clamp(32px, 9.35vw, 40px);
   }
 
   .ob-hero__lead {
@@ -27883,22 +27888,35 @@ span.ob-pricing-estimate__client {
   }
 
   .ob-hero__direction {
-    margin-top: 16px;
-    padding: 16px;
+    margin-top: 12px;
+    padding: 13px 14px;
     border-left-width: 3px;
   }
 
+  .ob-hero__direction-label {
+    font-size: 10px;
+  }
+
   .ob-hero__direction strong {
-    font-size: clamp(19px, 5.8vw, 24px);
+    margin-top: 6px;
+    font-size: clamp(18px, 5.35vw, 22px);
   }
 
   .ob-hero__direction p {
-    font-size: 15px;
+    margin-top: 7px;
+    font-size: 14px;
+    line-height: 1.43;
   }
 
   .ob-hero__route {
-    margin-top: 12px;
-    padding-top: 12px;
+    gap: 6px;
+    margin-top: 10px;
+    padding-top: 10px;
+  }
+
+  .ob-hero__route span {
+    font-size: 12.5px;
+    line-height: 1.24;
   }
 
   .ob-hero__route span:nth-child(3) {
@@ -27907,18 +27925,18 @@ span.ob-pricing-estimate__client {
 
   .ob-hero__trust-line {
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 8px;
-    margin-top: 14px;
+    gap: 6px;
+    margin-top: 10px;
   }
 
   .ob-hero__trust-line span {
     display: flex;
-    min-height: 50px;
+    min-height: 42px;
     flex-direction: column;
     align-items: flex-start;
     justify-content: flex-start;
-    gap: 4px;
-    padding: 8px 6px 8px 9px;
+    gap: 3px;
+    padding: 6px 5px 6px 8px;
   }
 
   .ob-hero__trust-line svg {
@@ -27933,6 +27951,10 @@ span.ob-pricing-estimate__client {
 
   .ob-hero__trust-line small {
     display: none;
+  }
+
+  .ob-hero__cta-cluster {
+    margin-top: 14px;
   }
 }
 
