@@ -8,7 +8,6 @@ import {
   ArrowRight,
   BookOpen,
   CheckCircle2,
-  ExternalLink,
   HelpCircle,
   ListChecks,
   PlayCircle,
@@ -517,26 +516,12 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
             <footer className="ob-article-afterword" aria-labelledby="article-afterword-heading">
               <div className="ob-article-afterword__head">
                 <span>После инструкции</span>
-                <h2 id="article-afterword-heading">Источники, продолжение и помощь</h2>
+                <h2 id="article-afterword-heading">Продолжение и помощь</h2>
                 <p>
-                  Основная инструкция выше закончилась. Ниже — проверяемые источники, следующий материал по серии,
+                  Основная инструкция выше закончилась. Ниже — следующий материал по серии,
                   связанные разделы сайта и понятный вариант обращения в Ониксбит.
                 </p>
               </div>
-
-              <section className="ob-article-panel ob-article-panel--sources">
-                <h2>Источники</h2>
-                <ul className="ob-article-sources">
-                {article.sources.map((source) => (
-                  <li key={source.href}>
-                    <a href={source.href} target="_blank" rel="noreferrer">
-                      {source.title}
-                      <ExternalLink size={15} aria-hidden="true" />
-                    </a>
-                  </li>
-                ))}
-                </ul>
-              </section>
 
               <section className="ob-article-series-next" id="series-next" aria-label="Навигация между статьями">
               <div>

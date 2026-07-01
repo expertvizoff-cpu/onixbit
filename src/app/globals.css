@@ -7549,25 +7549,8 @@ a:hover .lucide-mail polyline {
 .ob-article-panel p,
 .ob-article-cta p,
 .ob-article-faq summary,
-.ob-article-faq p,
-.ob-article-sources a {
+.ob-article-faq p {
   overflow-wrap: anywhere;
-}
-
-.ob-article-sources {
-  display: grid;
-  gap: 10px;
-  margin: 20px 0 0;
-  padding: 0;
-  list-style: none;
-}
-
-.ob-article-sources a {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  color: var(--ob-red);
-  font-weight: 850;
 }
 
 .ob-article-related a {
@@ -28631,7 +28614,6 @@ span.ob-pricing-estimate__client {
   overflow: hidden;
 }
 
-.ob-article-sources a,
 .ob-article-related a,
 .ob-article-series-next__links a {
   overflow-wrap: anywhere;
@@ -28660,7 +28642,6 @@ span.ob-pricing-estimate__client {
 .ob-article-panel__head svg,
 .ob-integrator-note span,
 .ob-article-series-next span,
-.ob-article-sources a,
 .ob-article-related a svg {
   color: var(--series-accent, var(--ob-red));
 }
@@ -28740,11 +28721,6 @@ span.ob-pricing-estimate__client {
     linear-gradient(135deg, rgba(255, 255, 255, 0.94), var(--series-accent-wash, rgba(255, 248, 228, 0.9)));
 }
 
-.ob-article-panel--sources {
-  border-style: dashed;
-}
-
-.ob-article-panel--sources h2,
 .ob-article-panel--related h2 {
   margin-top: 0;
 }

@@ -1,21 +1,5 @@
 import type { KnowledgeArticle } from "./articles";
 
-const bitrixCoreSources = [
-  { title: "Битрикс24: CRM", href: "https://www.bitrix24.ru/features/crm/" },
-  { title: "Справочная база Битрикс24", href: "https://helpdesk.bitrix24.ru/" },
-] as const;
-
-const tasksSources = [
-  { title: "Битрикс24: Задачи и проекты", href: "https://www.bitrix24.ru/features/tasks.php" },
-  { title: "Справочная база Битрикс24", href: "https://helpdesk.bitrix24.ru/" },
-] as const;
-
-const communicationsSources = [
-  { title: "Битрикс24: Контакт-центр", href: "https://www.bitrix24.ru/features/crm/contact-center/" },
-  { title: "Битрикс24: CRM", href: "https://www.bitrix24.ru/features/crm/" },
-  { title: "Справочная база Битрикс24", href: "https://helpdesk.bitrix24.ru/" },
-] as const;
-
 const selectedAuthor = {
   name: "Александр",
   role: "Ониксбит, интегратор Битрикс24",
@@ -222,7 +206,6 @@ export const additionalKnowledgeBaseArticles: KnowledgeArticle[] = [
         answer: "Проверьте несколько телефонов и компаний через поиск. Если один клиент находится в разных карточках, сделки не связаны с контактами, а отчёты по заявкам не объясняют реальный поток, структуру нужно приводить к правилам.",
       },
     ],
-    sources: [...bitrixCoreSources],
     relatedLinks: [...relatedImplementation],
     cta: {
       title: "Нужно привести CRM-сущности к понятной логике?",
@@ -409,7 +392,6 @@ export const additionalKnowledgeBaseArticles: KnowledgeArticle[] = [
         answer: "Внутри компании можно проверять путь на реальных обращениях, если доступ ограничен. Для скриншотов, инструкций и передачи подрядчику используйте обезличенные данные: без телефонов, почты, имён, сумм и комментариев клиентов.",
       },
     ],
-    sources: [...communicationsSources],
     relatedLinks: [...relatedImplementation],
     cta: {
       title: "Хотите проверить путь заявки с сайта до CRM?",
@@ -604,7 +586,6 @@ export const additionalKnowledgeBaseArticles: KnowledgeArticle[] = [
         answer: "Проверьте правильность клиента, направление, закрытые сделки, период, дубли и историю создания. Возможно, карточка не была создана, создана по другому клиенту или находится в другом разделе CRM.",
       },
     ],
-    sources: [...bitrixCoreSources],
     relatedLinks: [...relatedImplementation],
     cta: {
       title: "Нужно безопасно разобрать права в CRM?",
@@ -791,7 +772,6 @@ export const additionalKnowledgeBaseArticles: KnowledgeArticle[] = [
         answer: "Не всегда. Но если звонок влияет на сделку, срок, обещание или следующий шаг, действие должно быть зафиксировано в CRM или задаче. Иначе управленческий след теряется.",
       },
     ],
-    sources: [...tasksSources],
     relatedLinks: [...relatedImplementation],
     cta: {
       title: "Хотите навести порядок в задачах и ответственности?",
@@ -978,7 +958,6 @@ export const additionalKnowledgeBaseArticles: KnowledgeArticle[] = [
         answer: "Не обязательно. Лучше составить список текущих роботов, понять их назначение, проверить дубли и отключать только те сценарии, которые вредят процессу или потеряли владельца.",
       },
     ],
-    sources: [...bitrixCoreSources],
     relatedLinks: [...relatedImplementation],
     cta: {
       title: "Хотите привести роботов в CRM к понятной логике?",
@@ -1169,7 +1148,6 @@ export const additionalKnowledgeBaseArticles: KnowledgeArticle[] = [
         answer: "Для простого обмена хватит 5-7 сценариев: новая заявка, новый заказ, изменение статуса, изменение цены или остатка, дубль клиента, ошибка передачи и отмена. Для сложных проектов список расширяют.",
       },
     ],
-    sources: [...bitrixCoreSources],
     relatedLinks: [
       {
         title: "Работы по 1С:Предприятие",

@@ -11,7 +11,7 @@ export const articleSeries = [
     id: "crm-sales",
     title: "CRM для продаж",
     purpose: "Показать, как принимать заявки, вести сделки, не терять контакты и видеть следующий шаг.",
-    examples: ["Лиды, сделки, контакты и компании", "Заявка с сайта", "Карточка сделки", "Источники обращений"],
+    examples: ["Лиды, сделки, контакты и компании", "Заявка с сайта", "Карточка сделки", "Каналы обращений"],
   },
   {
     id: "communications",
@@ -103,7 +103,6 @@ export type KnowledgeArticle = {
   mistakes: Array<{ problem: string; cause: string; check: string }>;
   integratorHelp: string[];
   faq: Array<{ question: string; answer: string }>;
-  sources: Array<{ title: string; href: string }>;
   relatedLinks: Array<{ title: string; href: string; text: string }>;
   cta: {
     title: string;
@@ -358,12 +357,6 @@ const publishedKnowledgeBaseArticles: KnowledgeArticle[] = [
         answer:
           "После запуска CRM полезно проверять систему еженедельно первый месяц. Затем достаточно возвращаться к чек-листу раз в месяц или после изменений в продажах, каналах заявок и автоматизации.",
       },
-    ],
-    sources: [
-      { title: "Битрикс24: CRM", href: "https://www.bitrix24.ru/features/crm/" },
-      { title: "Битрикс24: Задачи и проекты", href: "https://www.bitrix24.ru/features/tasks.php" },
-      { title: "Битрикс24: Контакт-центр", href: "https://www.bitrix24.ru/features/crm/contact-center/" },
-      { title: "Справочная база Битрикс24", href: "https://helpdesk.bitrix24.ru/" },
     ],
     relatedLinks: [
       {
