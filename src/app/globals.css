@@ -29920,3 +29920,260 @@ span.ob-pricing-estimate__client {
     transform: none;
   }
 }
+
+
+/* 1C exchange thin glow refinement */
+.ob-service-onec-diagram {
+  min-height: 500px;
+  isolation: isolate;
+  border-color: rgba(255, 212, 90, 0.16);
+  background:
+    radial-gradient(ellipse at 50% 48%, rgba(255, 212, 90, 0.13) 0%, rgba(237, 28, 36, 0.07) 36%, transparent 70%),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(255, 255, 255, 0.036) 1px, transparent 1px),
+    rgba(255, 255, 255, 0.055);
+  background-size: auto, 34px 34px, 34px 34px, auto;
+  box-shadow: inset 0 0 72px rgba(255, 212, 90, 0.07), 0 24px 72px rgba(0, 0, 0, 0.18);
+}
+
+.ob-service-onec-diagram::before,
+.ob-service-onec-diagram::after {
+  content: none !important;
+  display: none !important;
+}
+
+.ob-service-onec-diagram__glow {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.95;
+  pointer-events: none;
+}
+
+.ob-onec-warm-bloom {
+  fill: url(#obOnecWarmBloom);
+  opacity: 0.58;
+  transform-origin: 360px 240px;
+  animation: ob-onec-warm-breathe 4.8s ease-in-out infinite;
+}
+
+.ob-onec-link {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.ob-onec-link.is-aura {
+  stroke: rgba(255, 212, 90, 0.28);
+  stroke-width: 6;
+  opacity: 0.36;
+  filter: url(#obOnecWarmGlow);
+}
+
+.ob-onec-link.is-core {
+  stroke: rgba(255, 248, 224, 0.7);
+  stroke-width: 1.15;
+  opacity: 0.88;
+  filter: drop-shadow(0 0 5px rgba(255, 212, 90, 0.48));
+}
+
+.ob-onec-link.is-stream {
+  stroke-width: 1.8;
+  opacity: 0.95;
+  filter: url(#obOnecWarmGlow);
+  animation: ob-onec-stream-breathe 3.1s ease-in-out infinite;
+}
+
+.ob-onec-link.is-lower,
+.ob-onec-link.is-return {
+  animation-duration: 3.35s;
+}
+
+.ob-onec-link.is-control {
+  animation-duration: 3.2s;
+}
+
+.ob-onec-spark {
+  fill: rgba(255, 255, 255, 0.92);
+  opacity: 0.88;
+  filter: url(#obOnecSparkGlow) drop-shadow(0 0 16px rgba(255, 212, 90, 0.66));
+}
+
+.ob-onec-spark.is-return {
+  opacity: 0.78;
+}
+
+.ob-onec-spark.is-control {
+  opacity: 0.82;
+}
+
+@keyframes ob-onec-warm-breathe {
+  0%, 100% {
+    opacity: 0.42;
+    transform: scale(0.99);
+  }
+
+  50% {
+    opacity: 0.62;
+    transform: scale(1.02);
+  }
+}
+
+@keyframes ob-onec-stream-breathe {
+  0%, 100% {
+    opacity: 0.5;
+  }
+
+  24%, 78% {
+    opacity: 1;
+  }
+}
+
+.ob-service-onec-diagram__node {
+  z-index: 2;
+  gap: 7px;
+  width: 168px;
+  min-height: 142px;
+  padding: 14px;
+  border-color: rgba(255, 212, 90, 0.16);
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 18px 54px rgba(0, 0, 0, 0.18), inset 0 0 28px rgba(255, 212, 90, 0.04);
+  backdrop-filter: blur(12px) saturate(145%);
+}
+
+.ob-service-onec-diagram__node.is-crm {
+  left: 4.5%;
+  top: 18%;
+}
+
+.ob-service-onec-diagram__node.is-site {
+  right: 4.5%;
+  top: 18%;
+  width: 178px;
+}
+
+.ob-service-onec-diagram__node.is-core {
+  left: 50%;
+  top: 48%;
+  width: 150px;
+  min-height: 136px;
+  border-color: rgba(255, 212, 90, 0.28);
+  background: linear-gradient(135deg, rgba(237, 28, 36, 0.26), rgba(255, 212, 90, 0.14));
+  box-shadow: 0 0 0 1px rgba(255, 212, 90, 0.16), 0 0 40px rgba(255, 212, 90, 0.18), 0 20px 60px rgba(0, 0, 0, 0.22);
+}
+
+.ob-service-onec-diagram__node.is-support {
+  left: 50%;
+  bottom: 5.5%;
+  width: 178px;
+  min-height: 118px;
+}
+
+.ob-service-onec-diagram__node strong {
+  font-size: 18px;
+  line-height: 1.06;
+}
+
+.ob-service-onec-diagram__node span {
+  max-width: 132px;
+  font-size: 11.5px;
+}
+
+.ob-service-onec-diagram__node.is-site span,
+.ob-service-onec-diagram__node.is-support span {
+  max-width: 146px;
+}
+
+.ob-service-onec-diagram__mark {
+  display: inline-grid;
+  min-width: 58px;
+  min-height: 48px;
+  place-items: center;
+  align-content: center;
+  gap: 2px;
+  padding: 7px 9px;
+  border: 1px solid rgba(255, 212, 90, 0.2);
+  border-radius: 14px;
+  color: #ffd45a;
+  background: rgba(255, 255, 255, 0.09);
+  box-shadow: inset 0 0 18px rgba(255, 212, 90, 0.05), 0 0 18px rgba(255, 212, 90, 0.08);
+  font-weight: 950;
+}
+
+.ob-service-onec-diagram__mark svg {
+  color: #ffd45a;
+  filter: drop-shadow(0 0 8px rgba(255, 212, 90, 0.38));
+}
+
+.ob-service-onec-diagram__mark span {
+  max-width: none;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 9px;
+  line-height: 1;
+  font-weight: 950;
+  letter-spacing: 0;
+}
+
+.ob-service-onec-diagram__mark.is-onec {
+  min-width: 62px;
+  color: #17120b;
+  background: linear-gradient(135deg, #ffd45a, #fff4c2);
+  font-size: 25px;
+  line-height: 1;
+  box-shadow: 0 0 22px rgba(255, 212, 90, 0.24);
+}
+
+.ob-service-onec-diagram__mark.is-crm,
+.ob-service-onec-diagram__mark.is-shop,
+.ob-service-onec-diagram__mark.is-control {
+  grid-template-rows: auto auto;
+}
+
+@media (max-width: 760px) {
+  .ob-service-onec-diagram__glow {
+    opacity: 0.22;
+    transform: scale(1.1);
+  }
+
+  .ob-onec-link.is-aura {
+    stroke-width: 4;
+  }
+
+  .ob-onec-link.is-stream {
+    stroke-width: 1.4;
+  }
+
+  .ob-service-onec-diagram__node,
+  .ob-service-onec-diagram__node.is-core,
+  .ob-service-onec-diagram__node.is-crm,
+  .ob-service-onec-diagram__node.is-site,
+  .ob-service-onec-diagram__node.is-support {
+    width: 100%;
+    min-height: 0;
+  }
+
+  .ob-service-onec-diagram__node span,
+  .ob-service-onec-diagram__node.is-site span,
+  .ob-service-onec-diagram__node.is-support span {
+    max-width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ob-onec-warm-bloom,
+  .ob-onec-link.is-stream {
+    animation: none;
+  }
+
+  .ob-onec-link.is-stream {
+    stroke: rgba(255, 232, 158, 0.42) !important;
+    opacity: 0.62;
+  }
+
+  .ob-onec-spark {
+    display: none;
+  }
+}

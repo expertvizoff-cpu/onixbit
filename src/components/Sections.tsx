@@ -883,7 +883,6 @@ function SitesConversionSections() {
 }
 
 function OneCServiceExperience({ direction, details }: { direction: Direction; details: ServiceDetail }) {
-  const packets = ["заказы", "остатки", "цены", "статусы"];
   const responsibility = [
     { title: "Ониксбит", text: "интеграционный сценарий, связка с Битрикс24 и сайтом, контроль обменов", icon: Cable },
     { title: "Scloud / 1С-эксперт", text: "глубокая 1С-логика, конфигурации, сложные доработки и консультации", icon: ServerCog },
@@ -908,13 +907,114 @@ function OneCServiceExperience({ direction, details }: { direction: Direction; d
               {details.signals.map((signal) => <span key={signal}><DatabaseZap size={16} aria-hidden="true" /> {signal}</span>)}
             </div>
           </div>
-          <div className="ob-service-onec-diagram" aria-label="Схема обмена 1С с CRM и сайтом">
-            <div className="ob-service-onec-diagram__node is-core"><DatabaseZap size={32} aria-hidden="true" /><strong>1С</strong><span>источник учёта</span></div>
-            <div className="ob-service-onec-diagram__node is-crm"><LayoutDashboard size={24} aria-hidden="true" /><strong>Битрикс24</strong><span>сделки и задачи</span></div>
-            <div className="ob-service-onec-diagram__node is-site"><ShoppingCart size={24} aria-hidden="true" /><strong>Сайт</strong><span>каталог и заказ</span></div>
-            <div className="ob-service-onec-diagram__node is-support"><MonitorCheck size={24} aria-hidden="true" /><strong>Контроль</strong><span>ошибки и регламент</span></div>
-            <div className="ob-service-onec-diagram__packets" aria-hidden="true">
-              {packets.map((packet) => <span key={packet}>{packet}</span>)}
+          <div className="ob-service-onec-diagram" aria-label="Схема обмена 1С с Битрикс24 и 1С-Битрикс">
+            <svg className="ob-service-onec-diagram__glow" viewBox="0 0 720 470" aria-hidden="true" focusable="false">
+              <defs>
+                <filter id="obOnecWarmGlow" x="-65%" y="-80%" width="230%" height="260%">
+                  <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="wide" />
+                  <feGaussianBlur in="SourceGraphic" stdDeviation="1.8" result="soft" />
+                  <feMerge>
+                    <feMergeNode in="wide" />
+                    <feMergeNode in="soft" />
+                    <feMergeNode in="SourceGraphic" />
+                  </feMerge>
+                </filter>
+                <filter id="obOnecSparkGlow" x="-130%" y="-130%" width="360%" height="360%">
+                  <feGaussianBlur in="SourceGraphic" stdDeviation="8" result="spark" />
+                  <feMerge>
+                    <feMergeNode in="spark" />
+                    <feMergeNode in="SourceGraphic" />
+                  </feMerge>
+                </filter>
+                <radialGradient id="obOnecWarmBloom" cx="50%" cy="52%" r="56%">
+                  <stop offset="0%" stopColor="rgba(255, 247, 210, 0.42)" />
+                  <stop offset="18%" stopColor="rgba(255, 212, 90, 0.2)" />
+                  <stop offset="48%" stopColor="rgba(237, 28, 36, 0.07)" />
+                  <stop offset="100%" stopColor="rgba(237, 28, 36, 0)" />
+                </radialGradient>
+                <linearGradient id="obOnecWarmSweep" gradientUnits="userSpaceOnUse" x1="-260" y1="0" x2="980" y2="0">
+                  <stop offset="0%" stopColor="rgba(255, 212, 90, 0)" />
+                  <stop offset="43%" stopColor="rgba(255, 212, 90, 0)" />
+                  <stop offset="50%" stopColor="rgba(255, 255, 255, 0.96)" />
+                  <stop offset="58%" stopColor="rgba(255, 212, 90, 0.74)" />
+                  <stop offset="74%" stopColor="rgba(237, 28, 36, 0)" />
+                  <stop offset="100%" stopColor="rgba(237, 28, 36, 0)" />
+                  <animateTransform attributeName="gradientTransform" type="translate" values="-430 0; 430 0" dur="3.1s" repeatCount="indefinite" />
+                </linearGradient>
+                <linearGradient id="obOnecWarmReturn" gradientUnits="userSpaceOnUse" x1="-260" y1="0" x2="980" y2="0">
+                  <stop offset="0%" stopColor="rgba(255, 212, 90, 0)" />
+                  <stop offset="40%" stopColor="rgba(237, 28, 36, 0)" />
+                  <stop offset="50%" stopColor="rgba(255, 250, 226, 0.9)" />
+                  <stop offset="62%" stopColor="rgba(255, 212, 90, 0.62)" />
+                  <stop offset="100%" stopColor="rgba(255, 212, 90, 0)" />
+                  <animateTransform attributeName="gradientTransform" type="translate" values="430 0; -430 0" dur="3.35s" repeatCount="indefinite" />
+                </linearGradient>
+                <linearGradient id="obOnecWarmDown" gradientUnits="userSpaceOnUse" x1="0" y1="-180" x2="0" y2="660">
+                  <stop offset="0%" stopColor="rgba(255, 212, 90, 0)" />
+                  <stop offset="42%" stopColor="rgba(255, 212, 90, 0)" />
+                  <stop offset="52%" stopColor="rgba(255, 255, 255, 0.9)" />
+                  <stop offset="64%" stopColor="rgba(255, 212, 90, 0.66)" />
+                  <stop offset="100%" stopColor="rgba(237, 28, 36, 0)" />
+                  <animateTransform attributeName="gradientTransform" type="translate" values="0 -240; 0 280" dur="3.2s" repeatCount="indefinite" />
+                </linearGradient>
+              </defs>
+              <ellipse className="ob-onec-warm-bloom" cx="360" cy="240" rx="184" ry="124" />
+              <path className="ob-onec-link is-aura" d="M164 156 C228 128 286 166 318 214" />
+              <path className="ob-onec-link is-aura" d="M318 260 C260 318 216 244 164 198" />
+              <path className="ob-onec-link is-aura" d="M402 214 C434 166 492 128 556 156" />
+              <path className="ob-onec-link is-aura" d="M556 198 C504 244 460 318 402 260" />
+              <path className="ob-onec-link is-aura" d="M350 304 C346 336 346 362 350 392" />
+              <path className="ob-onec-link is-aura" d="M370 392 C374 362 374 336 370 304" />
+              <path className="ob-onec-link is-core" d="M164 156 C228 128 286 166 318 214" />
+              <path className="ob-onec-link is-core" d="M318 260 C260 318 216 244 164 198" />
+              <path className="ob-onec-link is-core" d="M402 214 C434 166 492 128 556 156" />
+              <path className="ob-onec-link is-core" d="M556 198 C504 244 460 318 402 260" />
+              <path className="ob-onec-link is-core" d="M350 304 C346 336 346 362 350 392" />
+              <path className="ob-onec-link is-core" d="M370 392 C374 362 374 336 370 304" />
+              <path className="ob-onec-link is-stream is-upper" d="M164 156 C228 128 286 166 318 214" pathLength={1} stroke="url(#obOnecWarmSweep)" />
+              <path className="ob-onec-link is-stream is-lower" d="M318 260 C260 318 216 244 164 198" pathLength={1} stroke="url(#obOnecWarmReturn)" />
+              <path className="ob-onec-link is-stream is-upper" d="M402 214 C434 166 492 128 556 156" pathLength={1} stroke="url(#obOnecWarmSweep)" />
+              <path className="ob-onec-link is-stream is-lower" d="M556 198 C504 244 460 318 402 260" pathLength={1} stroke="url(#obOnecWarmReturn)" />
+              <path className="ob-onec-link is-stream is-control" d="M350 304 C346 336 346 362 350 392" pathLength={1} stroke="url(#obOnecWarmDown)" />
+              <path className="ob-onec-link is-stream is-control is-return" d="M370 392 C374 362 374 336 370 304" pathLength={1} stroke="url(#obOnecWarmDown)" />
+              <circle className="ob-onec-spark" r="4">
+                <animateMotion dur="3.1s" repeatCount="indefinite" path="M164 156 C228 128 286 166 318 214" />
+              </circle>
+              <circle className="ob-onec-spark is-return" r="4">
+                <animateMotion dur="3.35s" repeatCount="indefinite" path="M318 260 C260 318 216 244 164 198" />
+              </circle>
+              <circle className="ob-onec-spark" r="4">
+                <animateMotion dur="3.1s" repeatCount="indefinite" path="M402 214 C434 166 492 128 556 156" />
+              </circle>
+              <circle className="ob-onec-spark is-return" r="4">
+                <animateMotion dur="3.35s" repeatCount="indefinite" path="M556 198 C504 244 460 318 402 260" />
+              </circle>
+              <circle className="ob-onec-spark is-control" r="3.8">
+                <animateMotion dur="3.2s" repeatCount="indefinite" path="M350 304 C346 336 346 362 350 392" />
+              </circle>
+              <circle className="ob-onec-spark is-control is-return" r="3.8">
+                <animateMotion dur="3.45s" repeatCount="indefinite" path="M370 392 C374 362 374 336 370 304" />
+              </circle>
+            </svg>
+            <div className="ob-service-onec-diagram__node is-core">
+              <div className="ob-service-onec-diagram__mark is-onec">1С</div>
+              <strong>Учётная база</strong>
+              <span>остатки, цены, статусы</span>
+            </div>
+            <div className="ob-service-onec-diagram__node is-crm">
+              <div className="ob-service-onec-diagram__mark is-crm"><LayoutDashboard size={24} aria-hidden="true" /><span>CRM</span></div>
+              <strong>Битрикс24</strong>
+              <span>сделки, задачи, клиенты</span>
+            </div>
+            <div className="ob-service-onec-diagram__node is-site">
+              <div className="ob-service-onec-diagram__mark is-shop"><ShoppingCart size={24} aria-hidden="true" /><span>SHOP</span></div>
+              <strong>1С-Битрикс</strong>
+              <span>интернет-магазин: каталог и заказы</span>
+            </div>
+            <div className="ob-service-onec-diagram__node is-support">
+              <div className="ob-service-onec-diagram__mark is-control"><MonitorCheck size={24} aria-hidden="true" /><span>LOG</span></div>
+              <strong>Контроль</strong>
+              <span>ошибки обмена и регламент</span>
             </div>
           </div>
         </div>
