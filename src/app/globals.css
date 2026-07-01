@@ -28640,8 +28640,21 @@ span.ob-pricing-estimate__client {
 
 .ob-article-panel--lead {
   border-color: rgba(var(--series-accent-rgb, 237, 28, 36), 0.2);
+  color: var(--ob-ink);
   background:
     linear-gradient(135deg, rgba(255, 255, 255, 0.9), var(--series-accent-wash, rgba(255, 248, 228, 0.78)));
+}
+
+.ob-article-panel--lead .ob-article-panel__head span {
+  color: var(--series-ink, var(--ob-red-deep));
+}
+
+.ob-article-panel--lead h2 {
+  color: var(--ob-ink);
+}
+
+.ob-article-panel--lead p {
+  color: var(--ob-graphite);
 }
 
 .ob-article-panel__head svg,
@@ -28656,6 +28669,20 @@ span.ob-pricing-estimate__client {
   border-color: rgba(var(--series-accent-rgb, 237, 28, 36), 0.18);
   background:
     linear-gradient(135deg, rgba(var(--series-accent-rgb, 237, 28, 36), 0.1), rgba(255, 255, 255, 0.78));
+}
+
+.ob-article-panel--lead .ob-article-panel__head svg,
+.ob-integrator-note span,
+.ob-article-cta span {
+  color: var(--series-ink, var(--ob-red-deep));
+}
+
+.ob-integrator-note {
+  color: var(--ob-ink);
+}
+
+.ob-integrator-note p {
+  color: var(--ob-graphite);
 }
 
 .ob-article-afterword {
@@ -29525,7 +29552,7 @@ span.ob-pricing-estimate__client {
 .ob-article-hero__diagnostic span,
 .ob-article-diagnostic-card__head span,
 .ob-article-diagnostic-card article span {
-  color: var(--series-accent, var(--ob-red));
+  color: var(--series-ink, var(--ob-red-deep));
   font-size: 12px;
   line-height: 1;
   font-weight: 950;

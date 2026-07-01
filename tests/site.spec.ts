@@ -90,7 +90,17 @@ test.describe("Onixbit certificate media", () => {
 
 test.describe("Onixbit accessibility", () => {
   test("key pages have no critical or serious automated accessibility violations", async ({ page }) => {
-    const keyRoutes = ["/", "/contacts", "/vnedrenie-bitrix24", "/o-kompanii", "/certificates"];
+    test.setTimeout(60_000);
+
+    const keyRoutes = [
+      "/",
+      "/contacts",
+      "/vnedrenie-bitrix24",
+      "/o-kompanii",
+      "/certificates",
+      "/articles",
+      "/articles/poverhnostnoe-vnedrenie-bitrix24",
+    ];
 
     for (const route of keyRoutes) {
       await page.goto(route);
