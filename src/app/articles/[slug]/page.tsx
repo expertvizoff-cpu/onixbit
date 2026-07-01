@@ -195,6 +195,20 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
   const jsonLd = buildArticleJsonLd(article);
   const updatedDate = formatDate(article.lastUpdated);
   const sectionTitles = { ...defaultSectionTitles, ...article.sectionTitles };
+  const firstWarning = article.warningSigns[0] ?? {
+    symptom: "Симптом не указан",
+    meaning: article.primaryIntent,
+    firstCheck: "Начните с короткого ответа и первой проверки.",
+  };
+  const firstCheck = article.keyChecks[0] ?? {
+    title: "Первая проверка",
+    text: article.primaryIntent,
+  };
+  const firstStep = article.steps[0] ?? {
+    title: "Первый шаг",
+    text: article.primaryIntent,
+    result: "Появляется понятная точка старта.",
+  };
 
   return (
     <article className={`ob-knowledge-article ${seriesThemeClass}`}>
@@ -221,6 +235,20 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
               <span>{article.readingTime}</span>
               <time dateTime={article.lastUpdated}>Обновлено: {updatedDate}</time>
             </div>
+            <div className="ob-article-hero__diagnostic" aria-label="Короткая диагностическая карточка статьи">
+              <div>
+                <span>Симптом</span>
+                <strong>{firstWarning.symptom}</strong>
+              </div>
+              <div>
+                <span>Первая проверка</span>
+                <strong>{firstCheck.title}</strong>
+              </div>
+              <div>
+                <span>Результат</span>
+                <strong>{firstStep.result}</strong>
+              </div>
+            </div>
           </div>
 
           <aside className="ob-article-hero__side" aria-label="Визуальная обложка и автор статьи">
@@ -245,6 +273,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
         <div className="ob-container ob-article-shell">
           <nav className="ob-article-toc" aria-label="Навигация по статье">
             <strong>В статье</strong>
+            <a href="#diagnostic-card">Диагностическая карточка</a>
             <a href="#short-answer">Короткий ответ</a>
             <a href="#checks">{sectionTitles.tocChecks}</a>
             <a href="#steps">{sectionTitles.tocSteps}</a>
@@ -257,9 +286,38 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
           <div className="ob-article-body">
             <div className="ob-article-main-flow" aria-label="Основная часть статьи">
               <div className="ob-article-main-flow__label">
-                <span>Основная часть</span>
+                <span>Записка интегратора</span>
                 <strong>{series.title}</strong>
               </div>
+              <section className="ob-article-panel ob-article-diagnostic-card" id="diagnostic-card">
+                <div className="ob-article-diagnostic-card__head">
+                  <div>
+                    <span>Диагностическая карточка</span>
+                    <h2>С чего начать разбор</h2>
+                  </div>
+                  <strong>{articleIntentLabels[article.seriesId]}</strong>
+                </div>
+                <div className="ob-article-diagnostic-card__grid">
+                  <article>
+                    <AlertTriangle size={21} aria-hidden="true" />
+                    <span>Что болит</span>
+                    <h3>{firstWarning.symptom}</h3>
+                    <p>{firstWarning.meaning}</p>
+                  </article>
+                  <article>
+                    <ListChecks size={21} aria-hidden="true" />
+                    <span>Где смотреть</span>
+                    <h3>{firstCheck.title}</h3>
+                    <p>{firstCheck.text}</p>
+                  </article>
+                  <article>
+                    <CheckCircle2 size={21} aria-hidden="true" />
+                    <span>Первый шаг</span>
+                    <h3>{firstStep.title}</h3>
+                    <p>{firstStep.text}</p>
+                  </article>
+                </div>
+              </section>
               <section className="ob-article-panel ob-article-panel--lead" id="short-answer">
               <div className="ob-article-panel__head">
                 <BookOpen size={22} aria-hidden="true" />

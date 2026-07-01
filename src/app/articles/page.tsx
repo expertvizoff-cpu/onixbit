@@ -20,6 +20,7 @@ import {
   getArticleSeries,
   knowledgeBaseArticles,
   type ArticleSeriesId,
+  type KnowledgeArticle,
 } from "@/data/articles";
 import { getArticleVisual } from "@/data/article-visuals";
 import { LeadSection } from "@/components/Sections";
@@ -27,16 +28,16 @@ import { LeadSection } from "@/components/Sections";
 const baseUrl = "https://onixbit.ru";
 
 export const metadata: Metadata = {
-  title: "Инструкции по Битрикс24, CRM и интеграциям",
+  title: "Карта проблем Битрикс24, CRM, сайта и 1С",
   description:
-    "Клиентская база знаний Ониксбит: проверки, инструкции и разборы по Битрикс24, CRM, задачам, автоматизации, сайту, 1С и интеграциям.",
+    "База знаний Ониксбит как карта рабочих проблем: заявки с сайта, CRM, задачи, роботы, права, 1С и интеграции. Симптомы, проверки и полевые записки интегратора.",
   alternates: {
     canonical: "/articles",
   },
   openGraph: {
-    title: "Инструкции Ониксбит по Битрикс24 и CRM",
+    title: "Карта проблем Ониксбит по Битрикс24, CRM и 1С",
     description:
-      "Практические материалы для руководителя и команды: как проверять CRM, обрабатывать заявки, ставить задачи, настраивать роботов и контролировать интеграции.",
+      "Практические разборы по участкам системы: заявки, CRM, задачи, роботы, права, сайт, 1С и интеграции.",
     url: "/articles",
     type: "website",
   },
@@ -57,6 +58,51 @@ const pageHighlights = [
   "проверки для руководителя",
   "инструкции для команды",
   "разборы ошибок и интеграций",
+] as const;
+
+const systemMapStages = [
+  {
+    title: "Сайт и входящий поток",
+    signal: "форма, источник, первый ответ",
+    symptom: "заявка пришла, но в CRM нет владельца процесса",
+    articleSlug: "obrabotat-zayavku-s-saita-v-bitrix24",
+    icon: MessageCircleQuestion,
+  },
+  {
+    title: "CRM и продажи",
+    signal: "лид, сделка, контакт, компания",
+    symptom: "клиенты и продажи смешались в случайных карточках",
+    articleSlug: "lidy-sdelki-kontakty-kompanii-bitrix24",
+    icon: Route,
+  },
+  {
+    title: "Доступ и видимость",
+    signal: "фильтры, роли, направления",
+    symptom: "менеджер не видит сделку или видит лишнее",
+    articleSlug: "menedzher-ne-vidit-sdelku-bitrix24",
+    icon: ShieldCheck,
+  },
+  {
+    title: "Задачи и ответственность",
+    signal: "срок, ответственный, результат",
+    symptom: "все договорились, но никто не отвечает за следующий шаг",
+    articleSlug: "sozdat-zadachu-i-otvetstvennost-bitrix24",
+    icon: ListChecks,
+  },
+  {
+    title: "Роботы и регламент",
+    signal: "стадия, условие, действие",
+    symptom: "автоматизация шумит, но не помогает контролю",
+    articleSlug: "roboty-v-sdelkah-bitrix24",
+    icon: Workflow,
+  },
+  {
+    title: "Сайт, CRM и 1С",
+    signal: "клиент, заказ, товар, статус",
+    symptom: "непонятно, где правда по данным и кто их меняет",
+    articleSlug: "sait-crm-1c-istochnik-istiny",
+    icon: Settings2,
+  },
 ] as const;
 
 const seriesActionLabels: Record<ArticleSeriesId, string> = {
@@ -90,9 +136,9 @@ function buildKnowledgeBaseJsonLd() {
         "@type": "CollectionPage",
         "@id": `${baseUrl}/articles#collection`,
         url: `${baseUrl}/articles`,
-        name: "Инструкции Ониксбит по Битрикс24, CRM и интеграциям",
+        name: "Карта проблем Ониксбит по Битрикс24, CRM, сайту и 1С",
         description:
-          "База знаний для руководителей, маркетологов, менеджеров и администраторов: как проверять CRM, обрабатывать заявки, работать с задачами, роботами и интеграциями.",
+          "База знаний для руководителей, маркетологов, менеджеров и администраторов: симптомы, проверки и разборы по CRM, заявкам, задачам, роботам, правам и интеграциям.",
         inLanguage: "ru-RU",
         isPartOf: {
           "@type": "WebSite",
@@ -153,6 +199,10 @@ export default function ArticlesPage() {
     articles: knowledgeBaseArticles.filter((article) => article.seriesId === series.id),
     planned: articleRoadmap.filter((article) => article.seriesId === series.id),
   }));
+  const systemStages: Array<(typeof systemMapStages)[number] & { article: KnowledgeArticle }> = systemMapStages.flatMap((stage) => {
+    const article = knowledgeBaseArticles.find((item) => item.slug === stage.articleSlug);
+    return article ? [{ ...stage, article }] : [];
+  });
 
   return (
     <>
@@ -167,18 +217,18 @@ export default function ArticlesPage() {
         <div className="ob-container ob-kb-hero ob-kb-hero--live">
           <div className="ob-kb-hero__copy">
             <span className="ob-kicker">База знаний</span>
-            <h1>Разборы по Битрикс24, которые помогают найти потерянный контроль</h1>
+            <h1>Карта проблем Битрикс24, сайта, задач и 1С</h1>
             <p>
-              Откройте рабочую ситуацию: заявка с сайта, сделка, задача, робот, права или обмен с 1С. Внутри -
-              что проверить, где чаще всего ломается процесс и какой шаг сделать дальше.
+              Материалы собраны не по датам публикации, а по рабочим участкам вашей системы: где появляется заявка,
+              кто отвечает за следующий шаг и где расходятся данные. Откройте узел и получите полевую записку интегратора.
             </p>
             <div className="ob-kb-hero__actions" aria-label="Основные действия">
               <Link className="ob-btn ob-btn--primary" href={`/articles/${featuredArticle.slug}`}>
-                <span>Начать с диагностики CRM</span>
+                <span>Начать с руководительской проверки</span>
                 <ArrowRight size={18} aria-hidden="true" />
               </Link>
               <Link className="ob-btn ob-btn--secondary" href="#series-map">
-                <span>Найти свою ситуацию</span>
+                <span>Открыть карту системы</span>
               </Link>
             </div>
             <dl className="ob-kb-hero__proof" aria-label="Что уже есть в базе знаний">
@@ -199,8 +249,8 @@ export default function ArticlesPage() {
 
           <div className="ob-kb-hero__motion" aria-label="Анимированная схема: заявка проходит через CRM, задачи, интеграции и контроль руководителя">
             <div className="ob-kb-hero__motion-head">
-              <span>Живой контур знаний</span>
-              <strong>от заявки до управленческого контроля</strong>
+              <span>Карта системы</span>
+              <strong>где теряется заявка, ответственность или данные</strong>
             </div>
             <div className="ob-kb-flow" aria-hidden="true">
               <span className="ob-kb-flow__track ob-kb-flow__track--main" />
@@ -264,14 +314,44 @@ export default function ArticlesPage() {
       </section>
 
       <section className="ob-section ob-section--tight" id="series-map" aria-labelledby="series-heading">
-        <div className="ob-container ob-kb-map">
+        <div className="ob-container ob-kb-system-map">
           <div className="ob-page-section-head">
-            <span className="ob-kicker">Навигация</span>
-            <h2 id="series-heading">Найдите задачу по теме</h2>
+            <span className="ob-kicker">Карта системы клиента</span>
+            <h2 id="series-heading">Выберите место, где процесс начинает сыпаться</h2>
             <p>
-              Рубрики собраны по рабочим ситуациям: продажи, задачи, автоматизация, права, интеграции и управленческий
-              контроль. Откройте тему, которая ближе к вашей проблеме.
+              Обычно сначала виден симптом: заявки зависают, менеджеры спорят за ответственного, робот создаёт шум,
+              1С и CRM показывают разную картину. Поэтому навигация начинается с процесса, а не с рубрики.
             </p>
+          </div>
+          <div className="ob-kb-system-board" aria-label="Карта рабочих участков: сайт, CRM, доступ, задачи, роботы и 1С">
+            <span className="ob-kb-system-board__line" aria-hidden="true" />
+            {systemStages.map((stage, index) => {
+              const Icon = stage.icon;
+              const visual = getArticleVisual(stage.article);
+
+              return (
+                <Link
+                  className={`ob-kb-system-stage ${getSeriesThemeClass(stage.article.seriesId)}`}
+                  href={`/articles/${stage.article.slug}`}
+                  key={stage.article.slug}
+                >
+                  <span className="ob-kb-system-stage__number">{String(index + 1).padStart(2, "0")}</span>
+                  <span className="ob-kb-system-stage__icon">
+                    <Icon size={24} aria-hidden="true" />
+                  </span>
+                  <span className="ob-kb-system-stage__copy">
+                    <small>{stage.signal}</small>
+                    <strong>{stage.title}</strong>
+                    <em>{stage.symptom}</em>
+                    <b>{stage.article.title}</b>
+                  </span>
+                  <span className="ob-kb-system-stage__media" aria-hidden="true">
+                    <Image src={visual.src} alt="" width={280} height={178} loading="lazy" />
+                  </span>
+                  <ArrowRight size={18} aria-hidden="true" />
+                </Link>
+              );
+            })}
           </div>
           <nav className="ob-kb-series-rail" aria-label="Рубрики базы знаний">
             {seriesGroups.map(({ series, articles }) => {
@@ -299,11 +379,11 @@ export default function ArticlesPage() {
       <section className="ob-section" id="published" aria-labelledby="published-heading">
         <div className="ob-container ob-kb-library">
           <div className="ob-page-section-head">
-            <span className="ob-kicker">Статьи</span>
-            <h2 id="published-heading">Готовые инструкции и разборы</h2>
+            <span className="ob-kicker">Полевые записки интегратора</span>
+            <h2 id="published-heading">Разборы, которые начинаются с рабочей боли</h2>
             <p>
-              Каждый материал отвечает на конкретный вопрос: как проверить процесс, исправить частую ошибку или объяснить
-              команде порядок работы в Битрикс24.
+              Внутри не теория ради теории, а диагностическая логика: что болит, где проверить первым, что считается
+              нормой и когда уже нужна настройка, а не очередное обсуждение в чате.
             </p>
           </div>
 
@@ -349,6 +429,10 @@ export default function ArticlesPage() {
                             </span>
                             <strong>{article.title}</strong>
                             <em>{article.summary}</em>
+                            <span className="ob-kb-article-card__intent">
+                              <span>Ситуация</span>
+                              <b>{article.primaryIntent}</b>
+                            </span>
                             <span className="ob-kb-article-card__action">
                               {seriesActionLabels[article.seriesId]} <ArrowRight size={16} aria-hidden="true" />
                             </span>
@@ -377,11 +461,11 @@ export default function ArticlesPage() {
       <section className="ob-section ob-section--tight" id="roadmap" aria-labelledby="roadmap-heading">
         <div className="ob-container ob-article-roadmap">
           <div className="ob-page-section-head">
-            <span className="ob-kicker">Ближайшие темы</span>
-            <h2 id="roadmap-heading">Какие разборы появятся следующими</h2>
+            <span className="ob-kicker">Очередь разборов</span>
+            <h2 id="roadmap-heading">Какие участки системы закроем следующими</h2>
             <p>
-              Готовим материалы по открытым линиям, правам CRM, задачам и обменам с 1С. Если похожая проблема уже есть
-              в вашей системе, можно описать ее на первичном разборе.
+              Следующие материалы закроют участки, где часто теряется управление: открытые линии, права CRM,
+              задачи, шаблоны ответов и подготовка обменов с 1С.
             </p>
           </div>
           <div className="ob-article-roadmap__grid">
