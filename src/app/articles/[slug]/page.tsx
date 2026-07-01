@@ -52,7 +52,7 @@ const defaultSectionTitles = {
   tocSteps: "Пошаговая диагностика",
   healthy: "Что считается здоровым поведением CRM",
   warnings: "Тревожные сигналы",
-  media: "Какие медиа стоит добавить к статье",
+  media: "Как читать рабочую схему",
   mistakesKicker: "Где обычно ломается",
   mistakes: "Частые ошибки при проверке внедрения",
   tocMistakes: "Ошибки",
@@ -277,7 +277,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
             <a href="#short-answer">Короткий ответ</a>
             <a href="#checks">{sectionTitles.tocChecks}</a>
             <a href="#steps">{sectionTitles.tocSteps}</a>
-            <a href="#media">Медиа</a>
+            <a href="#media">Схема</a>
             <a href="#mistakes">{sectionTitles.tocMistakes}</a>
             <a href="#faq">FAQ</a>
             <a href="#series-next">Что дальше</a>
@@ -429,13 +429,13 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
               <div className="ob-article-panel__head">
                 <PlayCircle size={22} aria-hidden="true" />
                 <div>
-                  <span>Скриншоты, GIF и видео</span>
+                  <span>Рабочая схема</span>
                   <h2>{sectionTitles.media}</h2>
                 </div>
               </div>
               <p>
-                Ниже показана рабочая схема ключевого шага. Она помогает понять процесс без персональных данных,
-                лишних полей и привязки к конкретному клиентскому порталу.
+                Ниже показан ключевой участок процесса. Сверьте его с тем, как это устроено у вас:
+                где появляется карточка, кто отвечает за следующий шаг и где может потеряться контроль.
               </p>
               <figure className="ob-article-media-shot">
                 <Image src={articleVisual.src} alt={articleVisual.alt} width={1200} height={760} loading="lazy" />
