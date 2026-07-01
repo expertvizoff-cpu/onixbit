@@ -26,7 +26,7 @@ export const articleVisuals: Record<string, ArticleVisual> = {
   "obrabotat-zayavku-s-saita-v-bitrix24": {
     src: "/media/articles/website-request-route.svg",
     alt: "Маршрут заявки с сайта в Битрикс24: форма, источник, CRM-карточка, ответственный и первое действие",
-    caption: "Путь заявки от формы до первого действия менеджера без персональных данных и реальных клиентских карточек.",
+    caption: "Путь заявки от формы до первого действия менеджера: источник, карточка CRM, ответственный и контроль реакции.",
   },
   "menedzher-ne-vidit-sdelku-bitrix24": {
     src: "/media/articles/crm-access-diagnostics.svg",
