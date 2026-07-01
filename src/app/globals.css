@@ -27757,6 +27757,7 @@ span.ob-pricing-estimate__client {
   font-size: clamp(20px, 1.38vw, 26px);
   line-height: 1.18;
   font-weight: 920;
+  white-space: pre-line;
 }
 
 .ob-hero__direction p {
@@ -27766,6 +27767,7 @@ span.ob-pricing-estimate__client {
   font-size: clamp(15px, 0.92vw, 17px);
   line-height: 1.56;
   font-weight: 560;
+  white-space: pre-line;
 }
 
 .ob-hero__route {
