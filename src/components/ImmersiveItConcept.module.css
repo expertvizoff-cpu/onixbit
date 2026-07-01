@@ -1,64 +1,190 @@
-.page {
-  --concept-ink: #f8fafc;
-  --concept-muted: rgba(248, 250, 252, 0.72);
-  --concept-soft: rgba(248, 250, 252, 0.1);
-  --concept-line: rgba(248, 250, 252, 0.16);
-  --concept-red: #ed1c24;
-  --concept-yellow: #ffd45a;
-  --concept-cyan: #6ee7f9;
-  --tilt-x: 0px;
-  --tilt-y: 0px;
-  overflow: hidden;
+:global(body:has(.obx-it-exhibit) .ob-header),
+:global(body:has(.obx-it-exhibit) .ob-footer),
+:global(body:has(.obx-it-exhibit) .ob-mobile-dock),
+:global(body:has(.obx-it-exhibit) .ob-scroll-top) {
+  display: none !important;
+}
+
+:global(body:has(.obx-it-exhibit)) {
+  background: #020306;
+}
+
+:global(body:has(.obx-it-exhibit) main) {
+  overflow: clip;
+}
+
+.shell {
+  --pointer-x: 0;
+  --pointer-y: 0;
+  --surface: rgba(7, 12, 18, 0.54);
+  --surface-strong: rgba(10, 17, 24, 0.78);
+  --line: rgba(225, 244, 255, 0.18);
+  --line-strong: rgba(225, 244, 255, 0.34);
+  --ink: #f7fbff;
+  --muted: rgba(222, 234, 242, 0.72);
+  --soft: rgba(222, 234, 242, 0.52);
+  --cyan: #65f0ff;
+  --acid: #a7ff83;
+  --warm: #f8f2a4;
+  --alert: #ff6f61;
+  position: relative;
+  min-height: 100dvh;
+  overflow: clip;
+  background: #020306;
+  color: var(--ink);
+  isolation: isolate;
+}
+
+.canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  display: block;
+  width: 100%;
+  height: 100dvh;
+  background: #020306;
+}
+
+.texture {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
   background:
-    radial-gradient(circle at 15% 8%, rgba(237, 28, 36, 0.22), transparent 31%),
-    radial-gradient(circle at 86% 12%, rgba(255, 212, 90, 0.18), transparent 24%),
-    radial-gradient(circle at 50% 70%, rgba(110, 231, 249, 0.11), transparent 30%),
-    linear-gradient(180deg, #080808 0%, #111 42%, #17100f 100%);
-  color: var(--concept-ink);
+    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(255, 255, 255, 0.018) 1px, transparent 1px),
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.026) 0 1px, transparent 1px 4px);
+  background-size: 74px 74px, 74px 74px, 100% 4px;
+  mix-blend-mode: screen;
+  opacity: 0.44;
 }
 
-.hero,
-.story,
-.principles,
-.routes,
-.finalCta {
-  width: min(1720px, calc(100% - 48px));
-  margin-inline: auto;
-}
-
-.hero {
-  display: grid;
-  grid-template-columns: minmax(0, 0.82fr) minmax(520px, 1fr);
-  gap: clamp(28px, 5vw, 76px);
+.topbar {
+  position: fixed;
+  z-index: 6;
+  top: max(18px, env(safe-area-inset-top));
+  left: clamp(16px, 3vw, 34px);
+  right: clamp(16px, 3vw, 34px);
+  display: flex;
   align-items: center;
-  min-height: calc(100dvh - 86px);
-  padding: clamp(64px, 8vw, 118px) 0 clamp(56px, 7vw, 94px);
+  justify-content: space-between;
+  gap: 18px;
+  min-height: 54px;
+  border: 1px solid rgba(222, 244, 255, 0.14);
+  padding: 8px 10px 8px 16px;
+  background: rgba(2, 4, 7, 0.52);
+  backdrop-filter: blur(18px) saturate(145%);
+  box-shadow: 0 18px 70px rgba(0, 0, 0, 0.28);
+  clip-path: polygon(0 0, calc(100% - 22px) 0, 100% 22px, 100% 100%, 22px 100%, 0 calc(100% - 22px));
 }
 
-.heroCopy {
-  display: grid;
-  gap: 24px;
+.brand,
+.topnav a,
+.primaryAction,
+.routeLink {
+  color: inherit;
+  text-decoration: none;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 10px;
   min-width: 0;
+}
+
+.brand span {
+  font-family: var(--ob-font-display);
+  font-size: 16px;
+  font-weight: 950;
+  line-height: 1;
+  color: #fff;
+}
+
+.brand strong {
+  color: var(--soft);
+  font-size: 11px;
+  font-weight: 760;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.topnav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.topnav a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 38px;
+  border: 1px solid rgba(222, 244, 255, 0.12);
+  padding: 8px 12px;
+  color: rgba(247, 251, 255, 0.84);
+  background: rgba(255, 255, 255, 0.045);
+  font-size: 12px;
+  font-weight: 860;
+  line-height: 1;
+  clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+  transition: transform 0.22s var(--ob-ease), border-color 0.22s var(--ob-ease), background 0.22s var(--ob-ease);
+}
+
+.topnav a:hover,
+.topnav a:focus-visible {
+  transform: translateY(-1px);
+  border-color: rgba(101, 240, 255, 0.46);
+  background: rgba(101, 240, 255, 0.09);
+}
+
+.exhibit {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: minmax(260px, 0.78fr) minmax(420px, 1.15fr) minmax(260px, 0.78fr);
+  grid-template-rows: minmax(560px, 1fr) auto;
+  gap: clamp(18px, 2vw, 34px);
+  min-height: 100dvh;
+  padding: clamp(96px, 12vh, 124px) clamp(18px, 4vw, 64px) clamp(20px, 5vh, 46px);
+}
+
+.intro,
+.readout,
+.modePanel,
+.routeRail,
+.statusStack {
+  position: relative;
+  z-index: 2;
+}
+
+.intro {
+  align-self: center;
+  display: grid;
+  gap: 22px;
+  min-width: 0;
+  transform: translate3d(calc(var(--pointer-x) * -8px), calc(var(--pointer-y) * -5px), 0);
+  transition: transform 0.16s linear;
 }
 
 .kicker {
   display: inline-flex;
   width: fit-content;
-  border: 1px solid rgba(255, 212, 90, 0.28);
-  border-radius: 999px;
-  padding: 9px 12px;
-  color: var(--concept-yellow);
-  background: rgba(255, 212, 90, 0.08);
-  font-size: 12px;
-  font-weight: 950;
+  border: 1px solid rgba(101, 240, 255, 0.34);
+  padding: 8px 11px;
+  color: var(--cyan);
+  background: rgba(101, 240, 255, 0.065);
+  font-family: var(--ob-font-display);
+  font-size: 11px;
+  font-weight: 880;
   line-height: 1;
   text-transform: uppercase;
+  clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
 }
 
-.hero h1,
-.sectionHead h2,
-.routes h2,
-.finalCta h2 {
+.intro h1,
+.readout h2,
+.modePanel h2 {
   margin: 0;
   color: #fff;
   font-family: var(--ob-font-display);
@@ -66,946 +192,716 @@
   letter-spacing: 0;
 }
 
-.hero h1 {
-  max-width: 900px;
-  font-size: clamp(44px, 5.5vw, 94px);
-  line-height: 0.98;
+.intro h1 {
+  max-width: 760px;
+  font-size: 76px;
+  line-height: 0.94;
   text-wrap: balance;
 }
 
-.hero p,
-.sectionHead p,
-.routes p,
-.finalCta p {
-  max-width: 760px;
+.intro p,
+.readout p,
+.modePanel p {
   margin: 0;
-  color: var(--concept-muted);
-  font-size: clamp(17px, 1.25vw, 21px);
-  line-height: 1.65;
+  color: var(--muted);
+  font-size: 17px;
   font-weight: 560;
+  line-height: 1.62;
 }
 
-.heroActions {
+.intentLine {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
   align-items: center;
+  gap: 10px;
+  color: rgba(247, 251, 255, 0.84);
+  font-family: var(--ob-font-display);
+  font-size: 12px;
+  font-weight: 920;
+  line-height: 1;
+  text-transform: uppercase;
 }
 
-.primaryAction,
-.secondaryAction {
-  display: inline-flex;
+.intentLine i {
+  width: 28px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+}
+
+.modeSwitch {
+  display: grid;
+  gap: 8px;
+  width: min(100%, 360px);
+}
+
+.modeButton {
+  display: grid;
+  grid-template-columns: 42px 1fr;
   align-items: center;
-  justify-content: center;
-  min-height: 48px;
-  border-radius: 999px;
-  padding: 14px 18px;
+  min-height: 52px;
+  border: 1px solid rgba(222, 244, 255, 0.13);
+  padding: 8px 14px;
+  color: rgba(247, 251, 255, 0.82);
+  background: rgba(2, 6, 10, 0.42);
+  text-align: left;
+  cursor: pointer;
+  clip-path: polygon(0 0, calc(100% - 13px) 0, 100% 13px, 100% 100%, 13px 100%, 0 calc(100% - 13px));
+  transition: transform 0.22s var(--ob-ease), border-color 0.22s var(--ob-ease), background 0.22s var(--ob-ease), color 0.22s var(--ob-ease);
+}
+
+.modeButton span {
+  color: rgba(167, 255, 131, 0.78);
+  font-size: 12px;
+  font-weight: 950;
+  line-height: 1;
+}
+
+.modeButton strong {
+  min-width: 0;
   font-size: 14px;
   font-weight: 900;
-  line-height: 1;
-  text-decoration: none;
-  transition: transform 0.24s var(--ob-ease), border-color 0.24s var(--ob-ease), background 0.24s var(--ob-ease);
+  line-height: 1.12;
 }
 
-.primaryAction {
-  gap: 10px;
-  border: 1px solid rgba(255, 212, 90, 0.54);
-  color: #17110a;
-  background: linear-gradient(135deg, var(--concept-yellow), #fff4b8);
-  box-shadow: 0 20px 60px rgba(255, 212, 90, 0.2);
-}
-
-.secondaryAction {
-  border: 1px solid rgba(255, 255, 255, 0.18);
+.modeButton:hover,
+.modeButton:focus-visible,
+.modeButton[data-active="true"] {
+  transform: translateX(3px);
+  border-color: rgba(167, 255, 131, 0.42);
   color: #fff;
-  background: rgba(255, 255, 255, 0.08);
-}
-
-.primaryAction:hover,
-.primaryAction:focus-visible,
-.secondaryAction:hover,
-.secondaryAction:focus-visible {
-  transform: translateY(-2px);
-}
-
-.primaryAction:focus-visible,
-.secondaryAction:focus-visible,
-.node:focus-visible,
-.scenarioTabs button:focus-visible,
-.routeCard:focus-visible {
-  outline: 3px solid rgba(255, 212, 90, 0.7);
-  outline-offset: 4px;
-}
-
-.signalGrid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 10px;
-  width: min(100%, 820px);
-  margin: 8px 0 0;
-  padding: 0;
-}
-
-.signalGrid div {
-  min-width: 0;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 18px;
-  padding: 16px;
-  background: rgba(255, 255, 255, 0.07);
-}
-
-.signalGrid dt {
-  color: #fff;
-  font-family: var(--ob-font-display);
-  font-size: clamp(22px, 1.8vw, 32px);
-  line-height: 1;
-  font-weight: 950;
-}
-
-.signalGrid dd {
-  margin: 8px 0 0;
-  color: rgba(255, 255, 255, 0.64);
-  font-size: 12px;
-  line-height: 1.35;
-  font-weight: 760;
+  background: linear-gradient(90deg, rgba(167, 255, 131, 0.16), rgba(101, 240, 255, 0.08));
 }
 
 .stage {
   position: relative;
+  align-self: stretch;
   min-width: 0;
-  min-height: clamp(560px, 48vw, 760px);
-  overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  border-radius: 28px;
-  background:
-    linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px),
-    linear-gradient(0deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px),
-    linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.035)),
-    rgba(255, 255, 255, 0.045);
-  background-size: 42px 42px, 42px 42px, 100% 100%, 100% 100%;
-  box-shadow: 0 34px 120px rgba(0, 0, 0, 0.4);
-  transform: translate3d(var(--tilt-x), var(--tilt-y), 0);
-  transition: transform 0.18s var(--ob-ease);
+  min-height: 560px;
+  transform: translate3d(calc(var(--pointer-x) * 12px), calc(var(--pointer-y) * 8px), 0);
+  transition: transform 0.16s linear;
 }
 
-.stage::before {
-  content: "";
-  position: absolute;
-  inset: -20%;
-  background:
-    conic-gradient(from 110deg, transparent, rgba(255, 212, 90, 0.16), transparent 30%),
-    radial-gradient(circle, rgba(237, 28, 36, 0.18), transparent 48%);
-  animation: concept-rotate 18s linear infinite;
-}
-
+.stage::before,
 .stage::after {
   content: "";
   position: absolute;
-  inset: 0 auto 0 0;
-  width: 38%;
-  background: linear-gradient(90deg, transparent, rgba(110, 231, 249, 0.16), transparent);
-  transform: translate3d(-120%, 0, 0);
-  animation: concept-scan 6.4s var(--ob-ease) infinite;
+  inset: 8% 10%;
+  border: 1px solid rgba(222, 244, 255, 0.12);
+  pointer-events: none;
+  clip-path: polygon(16% 0, 84% 0, 100% 16%, 100% 84%, 84% 100%, 16% 100%, 0 84%, 0 16%);
 }
 
-.stageChrome,
-.networkSvg,
-.packet,
-.core,
-.nodeLayer,
-.nodeDetails {
-  position: absolute;
-  z-index: 1;
-}
-
-.stageChrome {
-  top: 18px;
-  left: 18px;
-  right: 18px;
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 999px;
-  padding: 9px 12px;
-  background: rgba(0, 0, 0, 0.22);
-  backdrop-filter: blur(12px);
-}
-
-.stageChrome span {
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.36);
-}
-
-.stageChrome span:first-child {
-  background: var(--concept-red);
-}
-
-.stageChrome span:nth-child(2) {
-  background: var(--concept-yellow);
-}
-
-.stageChrome strong {
-  margin-left: 6px;
-  color: rgba(255, 255, 255, 0.72);
-  font-size: 12px;
-  line-height: 1;
-  font-weight: 880;
-}
-
-.networkSvg {
-  inset: 12% 6% 14%;
-  z-index: 0;
-  width: 88%;
-  height: 74%;
-  overflow: visible;
-}
-
-.networkLine,
-.networkLineStrong {
-  fill: none;
-  stroke: rgba(255, 255, 255, 0.26);
-  stroke-width: 0.55;
-  stroke-linecap: round;
-  stroke-dasharray: 4 5;
-  animation: concept-dash 10s linear infinite;
-}
-
-.networkLineStrong {
-  stroke: rgba(255, 212, 90, 0.62);
-  stroke-width: 0.7;
-  animation-duration: 6s;
-}
-
-.packet {
-  width: 14px;
-  height: 14px;
-  border: 2px solid rgba(255, 255, 255, 0.94);
-  border-radius: 5px;
-  background: var(--concept-yellow);
-  box-shadow: 0 0 0 8px rgba(255, 212, 90, 0.14), 0 0 30px rgba(255, 212, 90, 0.48);
-}
-
-.packetOne {
-  left: 14%;
-  top: 41%;
-  animation: concept-packet-one 5s var(--ob-ease) infinite;
-}
-
-.packetTwo {
-  left: 42%;
-  top: 27%;
-  background: var(--concept-cyan);
-  animation: concept-packet-two 5.8s var(--ob-ease) 0.8s infinite;
-}
-
-.packetThree {
-  left: 29%;
-  top: 74%;
-  background: var(--concept-red);
-  animation: concept-packet-three 5.4s var(--ob-ease) 1.35s infinite;
+.stage::after {
+  inset: 18% 21%;
+  border-color: rgba(248, 242, 164, 0.16);
+  transform: rotate(18deg);
 }
 
 .core {
-  top: 45%;
+  position: absolute;
+  z-index: 2;
+  top: 52%;
   left: 50%;
   display: grid;
   place-items: center;
-  width: clamp(126px, 11vw, 164px);
-  height: clamp(126px, 11vw, 164px);
-  border: 1px solid rgba(255, 212, 90, 0.42);
-  border-radius: 50%;
+  width: 154px;
+  height: 154px;
+  margin: -77px 0 0 -77px;
+  border: 1px solid rgba(248, 242, 164, 0.34);
   color: #fff;
-  background:
-    radial-gradient(circle, rgba(255, 212, 90, 0.22), rgba(237, 28, 36, 0.2) 48%, rgba(0, 0, 0, 0.48)),
-    rgba(255, 255, 255, 0.08);
-  box-shadow: 0 0 70px rgba(237, 28, 36, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.16);
-  transform: translate(-50%, -50%);
-  animation: concept-core 5.8s var(--ob-ease) infinite;
+  background: rgba(3, 6, 9, 0.66);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.06) inset, 0 0 70px rgba(248, 242, 164, 0.13);
+  backdrop-filter: blur(18px);
+  border-radius: 50%;
+}
+
+.core::before,
+.core::after {
+  content: "";
+  position: absolute;
+  inset: -24px;
+  border: 1px dashed rgba(101, 240, 255, 0.22);
+  border-radius: 50%;
+  animation: exhibit-spin 18s linear infinite;
+}
+
+.core::after {
+  inset: -48px;
+  border-color: rgba(167, 255, 131, 0.16);
+  animation-duration: 28s;
+  animation-direction: reverse;
 }
 
 .core svg {
-  color: var(--concept-yellow);
-}
-
-.core span,
-.core strong {
-  display: block;
-  text-align: center;
+  position: relative;
+  z-index: 1;
+  color: var(--warm);
 }
 
 .core span {
-  font-family: var(--ob-font-display);
-  font-size: 20px;
+  position: relative;
+  z-index: 1;
+  margin-top: -20px;
+  color: rgba(247, 251, 255, 0.78);
+  font-size: 12px;
   font-weight: 950;
-}
-
-.core strong {
-  color: rgba(255, 255, 255, 0.72);
-  font-size: 11px;
-  font-weight: 820;
+  line-height: 1;
   text-transform: uppercase;
 }
 
 .nodeLayer {
-  inset: 0;
-}
-
-.node {
   position: absolute;
-  left: var(--node-x);
+  inset: 0;
+  z-index: 3;
+}
+
+.nodeButton {
+  position: absolute;
   top: var(--node-y);
+  left: clamp(92px, var(--node-x), calc(100% - 92px));
   display: grid;
-  grid-template-columns: 38px minmax(0, 1fr);
-  gap: 4px 10px;
+  grid-template-columns: 22px 1fr;
+  grid-template-areas:
+    "icon title"
+    "icon text";
   align-items: center;
-  width: clamp(174px, 13vw, 218px);
-  min-height: 82px;
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  border-radius: 18px;
-  padding: 13px;
-  color: #fff;
-  background: rgba(12, 12, 12, 0.68);
-  box-shadow: 0 18px 54px rgba(0, 0, 0, 0.24), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(14px);
+  width: 184px;
+  min-height: 66px;
+  border: 1px solid rgba(222, 244, 255, 0.16);
+  padding: 10px 12px;
+  color: rgba(247, 251, 255, 0.86);
+  background: rgba(2, 6, 10, 0.58);
+  box-shadow: 0 18px 55px rgba(0, 0, 0, 0.2), 0 0 calc(var(--node-depth) * 34px) rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(16px) saturate(140%);
   cursor: pointer;
-  transform: translate(-50%, -50%);
-  transition: transform 0.24s var(--ob-ease), border-color 0.24s var(--ob-ease), background 0.24s var(--ob-ease);
+  transform: translate3d(-50%, -50%, 0) scale(calc(0.9 + var(--node-depth) * 0.12));
+  clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px));
+  transition: transform 0.24s var(--ob-ease), border-color 0.24s var(--ob-ease), background 0.24s var(--ob-ease), color 0.24s var(--ob-ease), box-shadow 0.24s var(--ob-ease);
 }
 
-.node:hover,
-.node.activeNode {
-  border-color: rgba(255, 212, 90, 0.56);
-  background: rgba(36, 26, 21, 0.78);
-  transform: translate(-50%, -50%) translateY(-4px);
+.nodeButton svg {
+  grid-area: icon;
+  color: var(--node-tone);
 }
 
-.node svg {
-  grid-row: 1 / span 2;
-  width: 38px;
-  height: 38px;
-  border-radius: 13px;
-  padding: 8px;
-  color: var(--concept-yellow);
-  background: rgba(255, 212, 90, 0.12);
-}
-
-.node span {
-  color: #fff;
-  font-size: 14px;
-  line-height: 1.1;
+.nodeButton span {
+  grid-area: title;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  font-family: var(--ob-font-display);
+  font-size: 15px;
   font-weight: 950;
-  text-align: left;
+  line-height: 1;
 }
 
-.node small {
-  color: rgba(255, 255, 255, 0.64);
-  font-size: 12px;
-  line-height: 1.25;
-  font-weight: 720;
-  text-align: left;
+.nodeButton small {
+  grid-area: text;
+  min-width: 0;
+  margin-top: 5px;
+  overflow-wrap: anywhere;
+  color: rgba(222, 234, 242, 0.66);
+  font-size: 11px;
+  font-weight: 740;
+  line-height: 1.16;
 }
 
-.nodeDetails {
-  right: 18px;
-  bottom: 18px;
+.nodeButton::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border: 1px solid var(--node-tone);
+  opacity: 0;
+  pointer-events: none;
+  clip-path: inherit;
+  transition: opacity 0.24s var(--ob-ease);
+}
+
+.nodeButton:hover,
+.nodeButton:focus-visible,
+.nodeButton[data-active="true"] {
+  transform: translate3d(-50%, -50%, 0) scale(calc(0.98 + var(--node-depth) * 0.16));
+  border-color: color-mix(in srgb, var(--node-tone), #ffffff 8%);
+  color: #fff;
+  background: rgba(8, 15, 21, 0.82);
+  box-shadow: 0 22px 80px rgba(0, 0, 0, 0.34), 0 0 42px color-mix(in srgb, var(--node-tone), transparent 76%);
+}
+
+.nodeButton:hover::after,
+.nodeButton:focus-visible::after,
+.nodeButton[data-active="true"]::after {
+  opacity: 0.48;
+}
+
+.readout,
+.modePanel {
+  align-self: center;
+  border: 1px solid rgba(222, 244, 255, 0.14);
+  background: var(--surface);
+  backdrop-filter: blur(20px) saturate(150%);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.24);
+  clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 24px 100%, 0 calc(100% - 24px));
+}
+
+.readout {
   display: grid;
+  gap: 15px;
+  padding: 22px;
+  transform: translate3d(calc(var(--pointer-x) * -10px), calc(var(--pointer-y) * 6px), 0);
+  transition: transform 0.16s linear;
+}
+
+.readoutHeader,
+.panelHeader,
+.routeLead {
+  display: flex;
+  align-items: center;
   gap: 9px;
-  width: min(390px, calc(100% - 36px));
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  border-radius: 22px;
-  padding: 18px;
-  background: rgba(0, 0, 0, 0.42);
-  backdrop-filter: blur(16px);
-}
-
-.detailLabel {
-  display: inline-flex;
-  gap: 8px;
-  align-items: center;
-  color: var(--concept-yellow);
-  font-size: 12px;
-  font-weight: 950;
-  line-height: 1;
-  text-transform: uppercase;
-}
-
-.nodeDetails strong {
-  color: #fff;
+  color: var(--cyan);
   font-family: var(--ob-font-display);
-  font-size: clamp(22px, 2vw, 30px);
-  line-height: 1.05;
-  font-weight: 950;
-}
-
-.nodeDetails p {
-  margin: 0;
-  color: rgba(255, 255, 255, 0.72);
-  font-size: 14px;
-  line-height: 1.55;
-  font-weight: 560;
-}
-
-.story,
-.principles,
-.routes,
-.finalCta {
-  padding: clamp(56px, 7vw, 98px) 0;
-}
-
-.sectionHead {
-  display: grid;
-  gap: 16px;
-  max-width: 980px;
-  margin-bottom: clamp(24px, 4vw, 46px);
-}
-
-.sectionHead h2,
-.routes h2,
-.finalCta h2 {
-  font-size: clamp(32px, 4vw, 62px);
-  line-height: 1.02;
-  text-wrap: balance;
-}
-
-.scenarioGrid {
-  display: grid;
-  grid-template-columns: minmax(280px, 0.45fr) minmax(0, 1fr);
-  gap: 18px;
-  align-items: stretch;
-}
-
-.scenarioTabs {
-  display: grid;
-  gap: 10px;
-}
-
-.scenarioTabs button,
-.scenarioPanel,
-.principleCard,
-.routeCard,
-.finalCta {
-  border: 1px solid rgba(255, 255, 255, 0.13);
-  background: rgba(255, 255, 255, 0.07);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 22px 70px rgba(0, 0, 0, 0.16);
-}
-
-.scenarioTabs button {
-  display: grid;
-  gap: 8px;
-  min-height: 108px;
-  border-radius: 18px;
-  padding: 18px;
-  color: #fff;
-  cursor: pointer;
-  text-align: left;
-  transition: transform 0.22s var(--ob-ease), border-color 0.22s var(--ob-ease), background 0.22s var(--ob-ease);
-}
-
-.scenarioTabs button:hover,
-.scenarioTabs button.activeScenario {
-  border-color: rgba(255, 212, 90, 0.48);
-  background: rgba(255, 212, 90, 0.1);
-  transform: translateY(-2px);
-}
-
-.scenarioTabs span,
-.scenarioPanel > span {
-  color: var(--concept-yellow);
-  font-size: 12px;
-  font-weight: 950;
-  line-height: 1;
-  text-transform: uppercase;
-}
-
-.scenarioTabs strong {
-  font-size: 17px;
+  font-size: 11px;
+  font-weight: 900;
   line-height: 1.2;
-  font-weight: 920;
+  text-transform: uppercase;
 }
 
-.scenarioPanel {
+.readout h2,
+.modePanel h2 {
+  font-size: 32px;
+  line-height: 1;
+}
+
+.readout strong,
+.modePanel strong {
+  display: block;
+  border-top: 1px solid rgba(222, 244, 255, 0.12);
+  padding-top: 14px;
+  color: var(--acid);
+  font-size: 13px;
+  font-weight: 900;
+  line-height: 1.35;
+}
+
+.modePanel {
+  grid-column: 1 / 3;
+  align-self: end;
   display: grid;
+  grid-template-columns: minmax(230px, 0.7fr) minmax(280px, 1fr) auto;
   gap: 18px;
-  min-height: 100%;
-  border-radius: 24px;
-  padding: clamp(22px, 4vw, 42px);
-  background:
-    radial-gradient(circle at 16% 14%, rgba(255, 212, 90, 0.15), transparent 30%),
-    rgba(255, 255, 255, 0.07);
+  align-items: center;
+  padding: 18px 20px;
 }
 
-.scenarioPanel h3 {
-  margin: 0;
-  color: #fff;
-  font-family: var(--ob-font-display);
-  font-size: clamp(28px, 3.2vw, 48px);
-  line-height: 1.05;
-  font-weight: 950;
+.modePanel p {
+  max-width: 740px;
+  font-size: 15px;
 }
 
-.scenarioPanel p {
-  max-width: 780px;
-  margin: 0;
-  color: rgba(255, 255, 255, 0.72);
-  font-size: 17px;
-  line-height: 1.62;
-}
-
-.scenarioPanel ol {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 10px;
+.modePanel ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
   margin: 0;
   padding: 0;
   list-style: none;
-  counter-reset: scenario-step;
 }
 
-.scenarioPanel li {
-  counter-increment: scenario-step;
-  min-width: 0;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 16px;
-  padding: 14px;
-  color: rgba(255, 255, 255, 0.78);
-  background: rgba(0, 0, 0, 0.2);
-  font-size: 13px;
-  line-height: 1.35;
-  font-weight: 760;
+.modePanel li {
+  border: 1px solid rgba(222, 244, 255, 0.12);
+  padding: 8px 10px;
+  color: rgba(247, 251, 255, 0.8);
+  background: rgba(255, 255, 255, 0.045);
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1;
 }
 
-.scenarioPanel li::before {
-  content: counter(scenario-step, decimal-leading-zero);
-  display: block;
-  margin-bottom: 18px;
-  color: var(--concept-yellow);
-  font-family: var(--ob-font-display);
-  font-size: 22px;
-  font-weight: 950;
+.modePanel strong {
+  max-width: 260px;
+  border-top: 0;
+  border-left: 1px solid rgba(222, 244, 255, 0.12);
+  padding: 0 0 0 16px;
 }
 
-.resultBox {
+.routeRail {
+  grid-column: 1 / 4;
+  display: grid;
+  grid-template-columns: auto repeat(3, minmax(170px, 1fr)) auto;
+  gap: 10px;
+  align-items: stretch;
+  border-top: 1px solid rgba(222, 244, 255, 0.13);
+  padding-top: 14px;
+}
+
+.routeLead,
+.routeLink,
+.primaryAction {
+  min-height: 58px;
+  border: 1px solid rgba(222, 244, 255, 0.12);
+  background: rgba(2, 6, 10, 0.42);
+  backdrop-filter: blur(14px);
+  clip-path: polygon(0 0, calc(100% - 13px) 0, 100% 13px, 100% 100%, 13px 100%, 0 calc(100% - 13px));
+}
+
+.routeLead {
+  justify-content: center;
+  padding: 12px 14px;
+  color: var(--warm);
+}
+
+.routeLink,
+.primaryAction {
   display: flex;
-  gap: 12px;
   align-items: center;
-  border: 1px solid rgba(255, 212, 90, 0.24);
-  border-radius: 18px;
-  padding: 16px;
-  color: #fff;
-  background: rgba(255, 212, 90, 0.1);
-}
-
-.resultBox svg {
-  flex: 0 0 auto;
-  color: var(--concept-yellow);
-}
-
-.resultBox strong {
-  font-size: 15px;
-  line-height: 1.45;
-  font-weight: 860;
-}
-
-.principleGrid,
-.routeCards {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 14px;
-}
-
-.principleCard,
-.routeCard {
-  min-width: 0;
-  border-radius: 22px;
-  padding: clamp(20px, 3vw, 30px);
-}
-
-.principleCard svg,
-.routeCard svg,
-.finalCta svg {
-  color: var(--concept-yellow);
-}
-
-.principleCard h3,
-.routeCard strong {
-  margin: 18px 0 0;
-  color: #fff;
-  font-family: var(--ob-font-display);
-  font-size: clamp(21px, 1.6vw, 28px);
-  line-height: 1.1;
-  font-weight: 950;
-}
-
-.principleCard p,
-.routeCard span {
-  display: block;
-  margin-top: 12px;
-  color: rgba(255, 255, 255, 0.68);
-  font-size: 15px;
-  line-height: 1.55;
-}
-
-.routes {
-  display: grid;
-  grid-template-columns: minmax(0, 0.7fr) minmax(0, 1fr);
-  gap: clamp(22px, 5vw, 72px);
-  align-items: start;
-}
-
-.routes > div:first-child {
-  display: grid;
-  gap: 16px;
-}
-
-.routeCard {
-  color: #fff;
-  text-decoration: none;
+  gap: 10px;
+  padding: 10px 12px;
   transition: transform 0.22s var(--ob-ease), border-color 0.22s var(--ob-ease), background 0.22s var(--ob-ease);
 }
 
-.routeCard:hover,
-.routeCard:focus-visible {
-  border-color: rgba(255, 212, 90, 0.4);
-  background: rgba(255, 255, 255, 0.1);
-  transform: translateY(-3px);
+.routeLink svg:first-child {
+  flex: 0 0 auto;
+  color: var(--cyan);
 }
 
-.routeCard em {
-  display: inline-flex;
-  gap: 8px;
-  align-items: center;
-  margin-top: 24px;
-  color: var(--concept-yellow);
-  font-size: 13px;
-  font-style: normal;
-  font-weight: 920;
+.routeLink svg:last-child {
+  flex: 0 0 auto;
+  margin-left: auto;
+  color: rgba(247, 251, 255, 0.64);
 }
 
-.finalCta {
-  display: flex;
-  gap: 24px;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: clamp(42px, 6vw, 76px);
-  border-radius: 28px;
-  padding: clamp(24px, 4vw, 42px);
-  background:
-    linear-gradient(135deg, rgba(237, 28, 36, 0.22), rgba(255, 212, 90, 0.12)),
-    rgba(255, 255, 255, 0.08);
-}
-
-.finalCta > div {
+.routeLink span {
   display: grid;
-  gap: 14px;
-  max-width: 980px;
+  gap: 4px;
+  min-width: 0;
 }
 
-@keyframes concept-rotate {
-  from {
-    transform: rotate(0deg);
-  }
+.routeLink strong {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 920;
+  line-height: 1.08;
+}
 
+.routeLink small {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  color: var(--soft);
+  font-size: 11px;
+  font-weight: 720;
+  line-height: 1.2;
+}
+
+.primaryAction {
+  justify-content: center;
+  color: #051008;
+  background: linear-gradient(135deg, var(--acid), var(--warm));
+  font-size: 13px;
+  font-weight: 950;
+  line-height: 1;
+}
+
+.routeLink:hover,
+.routeLink:focus-visible,
+.primaryAction:hover,
+.primaryAction:focus-visible {
+  transform: translateY(-2px);
+  border-color: rgba(101, 240, 255, 0.44);
+  background-color: rgba(101, 240, 255, 0.08);
+}
+
+.statusStack {
+  position: fixed;
+  right: clamp(16px, 3vw, 34px);
+  bottom: clamp(16px, 3vw, 28px);
+  z-index: 4;
+  display: grid;
+  gap: 6px;
+  color: rgba(247, 251, 255, 0.58);
+  font-size: 11px;
+  font-weight: 820;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.statusStack span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid rgba(222, 244, 255, 0.12);
+  padding: 7px 8px;
+  background: rgba(2, 6, 10, 0.46);
+  backdrop-filter: blur(12px);
+}
+
+.brand:focus-visible,
+.topnav a:focus-visible,
+.modeButton:focus-visible,
+.nodeButton:focus-visible,
+.routeLink:focus-visible,
+.primaryAction:focus-visible {
+  outline: 3px solid rgba(167, 255, 131, 0.72);
+  outline-offset: 4px;
+}
+
+@keyframes exhibit-spin {
   to {
     transform: rotate(360deg);
   }
 }
 
-@keyframes concept-scan {
-  0%, 16% {
-    opacity: 0;
-    transform: translate3d(-120%, 0, 0);
+@media (max-width: 1240px) {
+  .exhibit {
+    grid-template-columns: minmax(240px, 0.8fr) minmax(390px, 1fr);
+    grid-template-rows: auto minmax(520px, 1fr) auto auto;
   }
 
-  38%, 72% {
-    opacity: 1;
-  }
-
-  100% {
-    opacity: 0;
-    transform: translate3d(260%, 0, 0);
-  }
-}
-
-@keyframes concept-dash {
-  to {
-    stroke-dashoffset: -90;
-  }
-}
-
-@keyframes concept-core {
-  0%, 100% {
-    transform: translate(-50%, -50%) scale(1);
-  }
-
-  50% {
-    transform: translate(-50%, -50%) scale(1.04);
-  }
-}
-
-@keyframes concept-packet-one {
-  0% {
-    opacity: 0;
-    transform: translate3d(0, 0, 0) scale(0.8);
-  }
-
-  14%, 76% {
-    opacity: 1;
-  }
-
-  100% {
-    opacity: 0;
-    transform: translate3d(28vw, -11vw, 0) scale(1);
-  }
-}
-
-@keyframes concept-packet-two {
-  0% {
-    opacity: 0;
-    transform: translate3d(0, 0, 0) scale(0.8);
-  }
-
-  14%, 76% {
-    opacity: 1;
-  }
-
-  100% {
-    opacity: 0;
-    transform: translate3d(18vw, 16vw, 0) scale(1);
-  }
-}
-
-@keyframes concept-packet-three {
-  0% {
-    opacity: 0;
-    transform: translate3d(0, 0, 0) scale(0.8);
-  }
-
-  14%, 76% {
-    opacity: 1;
-  }
-
-  100% {
-    opacity: 0;
-    transform: translate3d(25vw, 0, 0) scale(1);
-  }
-}
-
-@media (max-width: 1220px) {
-  .hero,
-  .routes {
-    grid-template-columns: 1fr;
+  .intro {
+    grid-column: 1 / 2;
   }
 
   .stage {
-    min-height: 660px;
+    grid-column: 2 / 3;
+    grid-row: 1 / 3;
+  }
+
+  .readout {
+    grid-column: 1 / 2;
+  }
+
+  .modePanel,
+  .routeRail {
+    grid-column: 1 / 3;
+  }
+
+  .modePanel {
+    grid-template-columns: 1fr;
+  }
+
+  .modePanel strong {
+    max-width: none;
+    border-top: 1px solid rgba(222, 244, 255, 0.12);
+    border-left: 0;
+    padding: 14px 0 0;
+  }
+
+  .routeRail {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .routeLead,
+  .primaryAction {
+    grid-column: span 2;
   }
 }
 
 @media (max-width: 900px) {
-  .hero,
-  .story,
-  .principles,
-  .routes,
-  .finalCta {
-    width: min(100% - 32px, 1720px);
+  .shell {
+    overflow: visible;
   }
 
-  .hero {
-    padding-top: 42px;
+  :global(body:has(.obx-it-exhibit) main) {
+    overflow: visible;
   }
 
-  .signalGrid,
-  .principleGrid,
-  .routeCards,
-  .scenarioPanel ol {
-    grid-template-columns: 1fr;
+  .topbar {
+    position: absolute;
+    align-items: flex-start;
   }
 
-  .scenarioGrid {
-    grid-template-columns: 1fr;
-  }
-
-  .finalCta {
+  .brand {
     display: grid;
-  }
-}
-
-@media (max-width: 680px) {
-  .hero,
-  .story,
-  .principles,
-  .routes,
-  .finalCta {
-    width: min(100% - 24px, 1720px);
+    gap: 5px;
   }
 
-  .hero {
-    min-height: 0;
-    padding-top: 32px;
+  .topnav a {
+    padding-inline: 10px;
   }
 
-  .hero h1 {
-    font-size: clamp(38px, 12vw, 54px);
-    line-height: 1;
+  .exhibit {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto auto auto auto;
+    min-height: 100dvh;
+    padding: 98px 14px 24px;
   }
 
-  .heroActions,
-  .primaryAction,
-  .secondaryAction {
+  .intro,
+  .stage,
+  .readout,
+  .modePanel,
+  .routeRail {
+    grid-column: 1;
+  }
+
+  .intro {
+    transform: none;
+  }
+
+  .intro h1 {
+    font-size: 56px;
+  }
+
+  .intro p {
+    font-size: 16px;
+  }
+
+  .modeSwitch {
     width: 100%;
-  }
-
-  .signalGrid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 8px;
-  }
-
-  .signalGrid div {
-    border-radius: 14px;
-    padding: 11px;
-  }
-
-  .signalGrid dt {
-    font-size: 18px;
-  }
-
-  .signalGrid dd {
-    font-size: 10.5px;
   }
 
   .stage {
-    display: grid;
-    gap: 14px;
-    min-height: 0;
-    border-radius: 22px;
-    padding: 62px 12px 12px;
+    min-height: 620px;
     transform: none;
-  }
-
-  .stageChrome {
-    top: 12px;
-    left: 12px;
-    right: 12px;
-  }
-
-  .networkSvg,
-  .packet {
-    display: none;
-  }
-
-  .core,
-  .nodeLayer,
-  .nodeDetails {
-    position: relative;
-    inset: auto;
   }
 
   .core {
-    top: auto;
-    left: auto;
-    margin: 0 auto;
+    width: 132px;
+    height: 132px;
+    margin: -66px 0 0 -66px;
+  }
+
+  .nodeButton {
+    left: clamp(76px, var(--node-x), calc(100% - 76px));
+    width: 152px;
+    min-height: 62px;
+  }
+
+  .readout {
     transform: none;
-    animation: concept-core-mobile 5.8s var(--ob-ease) infinite;
   }
 
-  .nodeLayer {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 8px;
+  .routeRail {
+    grid-template-columns: minmax(0, 1fr);
   }
 
-  .node {
-    position: relative;
-    left: auto;
-    top: auto;
-    width: 100%;
-    min-height: 0;
-    grid-template-columns: 1fr;
-    transform: none;
-    padding: 12px;
+  .routeLead,
+  .primaryAction {
+    grid-column: auto;
   }
 
-  .node:hover,
-  .node.activeNode {
-    transform: translateY(-2px);
-  }
-
-  .node svg {
-    grid-row: auto;
-    width: 32px;
-    height: 32px;
-  }
-
-  .node span {
-    font-size: 12px;
-  }
-
-  .node small {
-    font-size: 11px;
-  }
-
-  .nodeDetails {
-    width: 100%;
-    padding: 16px;
-  }
-
-  .scenarioTabs button {
-    min-height: 0;
+  .statusStack {
+    display: none;
   }
 }
 
-@keyframes concept-core-mobile {
-  0%, 100% {
-    transform: scale(1);
+@media (max-width: 560px) {
+  .topbar {
+    left: 10px;
+    right: 10px;
+    min-height: 48px;
+    padding: 8px 9px 8px 12px;
   }
 
-  50% {
-    transform: scale(1.04);
+  .brand strong {
+    display: none;
+  }
+
+  .topnav {
+    gap: 5px;
+  }
+
+  .topnav a {
+    min-height: 34px;
+    padding: 7px 9px;
+    font-size: 11px;
+  }
+
+  .exhibit {
+    gap: 16px;
+    padding-top: 84px;
+  }
+
+  .kicker {
+    font-size: 10px;
+  }
+
+  .intro h1 {
+    font-size: 39px;
+    line-height: 0.98;
+  }
+
+  .intro p,
+  .readout p,
+  .modePanel p {
+    font-size: 15px;
+  }
+
+  .intentLine {
+    gap: 7px;
+    font-size: 11px;
+  }
+
+  .intentLine i {
+    width: 16px;
+  }
+
+  .modeButton {
+    grid-template-columns: 36px 1fr;
+  }
+
+  .stage {
+    min-height: 590px;
+  }
+
+  .stage::before {
+    inset: 4% 2%;
+  }
+
+  .stage::after {
+    inset: 20% 14%;
+  }
+
+  .core {
+    width: 108px;
+    height: 108px;
+    margin: -54px 0 0 -54px;
+  }
+
+  .core::before {
+    inset: -18px;
+  }
+
+  .core::after {
+    inset: -34px;
+  }
+
+  .core span {
+    font-size: 10px;
+  }
+
+  .nodeButton {
+    left: clamp(66px, var(--node-x), calc(100% - 66px));
+    width: 132px;
+    min-height: 60px;
+    padding: 9px 10px;
+  }
+
+  .nodeButton span {
+    font-size: 13px;
+  }
+
+  .nodeButton small {
+    font-size: 10px;
+  }
+
+  .readout,
+  .modePanel {
+    padding: 18px;
+  }
+
+  .readout h2,
+  .modePanel h2 {
+    font-size: 27px;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .stage,
-  .stage::before,
-  .stage::after,
-  .networkLine,
-  .networkLineStrong,
-  .packet,
-  .core {
-    animation: none;
-    transition: none;
-    transform: none;
-  }
-
-  .core {
-    transform: translate(-50%, -50%);
-  }
-
-  .primaryAction,
-  .secondaryAction,
-  .node,
-  .scenarioTabs button,
-  .routeCard {
-    transition: none;
-  }
-
-  .primaryAction:hover,
-  .primaryAction:focus-visible,
-  .secondaryAction:hover,
-  .secondaryAction:focus-visible,
-  .scenarioTabs button:hover,
-  .scenarioTabs button.activeScenario,
-  .routeCard:hover,
-  .routeCard:focus-visible {
-    transform: none;
-  }
-}
-
-@media (max-width: 680px) and (prefers-reduced-motion: reduce) {
-  .core {
-    transform: none;
+  .shell *,
+  .shell *::before,
+  .shell *::after {
+    animation: none !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
   }
 }
