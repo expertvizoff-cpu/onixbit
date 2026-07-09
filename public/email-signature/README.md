@@ -7,7 +7,8 @@
 - `aleksander-tuzhilkin-wow-fragment.html` - второй, более современный вариант фрагмента.
 - `aleksander-tuzhilkin-wow.html` - второй, более современный вариант для просмотра в браузере.
 - `onixbit-email-logo.png` - PNG-логотип для почтовиков.
-- `icon-telegram.png`, `icon-max.png`, `icon-vk.png`, `icon-site.png` - прозрачные PNG-значки без фоновых кнопок. Telegram и VK собраны из glyphs Simple Icons; MAX - из официального брендбука.
+- `icon-telegram.png`, `icon-max.png`, `icon-vk.png`, `icon-site.png` - прозрачные PNG-значки без фоновых кнопок для второго варианта. Telegram и VK собраны из glyphs Simple Icons; MAX - из официального брендбука.
+- `icon-telegram-plane.png`, `icon-vk-letters.png`, `icon-site-pill.png` - отдельные значки для первого варианта подписи: Telegram без круга, VK буквами, сайт как овальная ссылка.
 - `max-official-colored.png` - официальный цветной знак MAX из брендбука, источник для `icon-max.png`.
 - `b24-gold-clean.png` - очищенный от тени бейдж золотого партнёра Битрикс24 для подписи.
 - `b24-gold-2025.png` - исходный официальный бейдж золотого партнёра Битрикс24.
