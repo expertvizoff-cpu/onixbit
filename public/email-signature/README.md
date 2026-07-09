@@ -7,7 +7,7 @@
 - `aleksander-tuzhilkin-wow-fragment.html` - вариант 2: статусная подпись для первого контакта, КП и писем, где нужны доказательства компетенций.
 - `aleksander-tuzhilkin-wow.html` - вариант 2 для просмотра в браузере.
 - `onixbit-email-logo.png` - PNG-логотип для почтовиков.
-- `icon-telegram-mono.png`, `icon-max-mono.png`, `icon-vk-mono.png`, `icon-site-mono.png` - единый набор PNG-значков 28x28: белая плитка, графитовый знак, без hover-эффектов. Telegram/VK/сайт собраны в outline-стиле Tabler Icons; MAX нормализован из официального знака.
+- `icon-telegram-mono.png`, `icon-max-mono.png`, `icon-vk-mono.png`, `icon-site-mono.png` - единый набор PNG-значков 28x28 без фоновых плиток: Telegram plane, MAX, VK-буквы и фирменный знак сайта, нормализованные по холсту и оптическому размеру.
 - `icon-telegram.png`, `icon-max.png`, `icon-vk.png`, `icon-site.png`, `icon-telegram-plane.png`, `icon-vk-letters.png`, `icon-site-pill.png` - исходные/предыдущие значки, оставлены для истории и возможных вариантов.
 - `max-official-colored.png` - официальный цветной знак MAX из брендбука, источник для `icon-max.png`.
 - `b24-gold-clean.png` - очищенный от тени бейдж золотого партнёра Битрикс24 для подписи.
