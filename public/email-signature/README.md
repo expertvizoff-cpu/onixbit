@@ -4,22 +4,22 @@
 
 - `aleksander-tuzhilkin-fragment.html` - вариант 1: компактная деловая подпись для обычной переписки.
 - `aleksander-tuzhilkin.html` - вариант 1 для просмотра в браузере.
-- `aleksander-tuzhilkin-wow-fragment.html` - вариант 2: статусная подпись с доказательствами, но без перегруза.
+- `aleksander-tuzhilkin-wow-fragment.html` - вариант 2: статусная подпись для первого контакта, КП и писем, где нужны доказательства компетенций.
 - `aleksander-tuzhilkin-wow.html` - вариант 2 для просмотра в браузере.
 - `onixbit-email-logo.png` - PNG-логотип для почтовиков.
-- `icon-telegram.png`, `icon-max.png`, `icon-vk.png`, `icon-site.png` - прозрачные PNG-значки без фоновых кнопок для второго варианта. Telegram и VK собраны из glyphs Simple Icons; MAX - из официального брендбука.
-- `icon-telegram-plane.png`, `icon-vk-letters.png`, `icon-site-pill.png` - отдельные значки для первого варианта подписи: Telegram без круга, VK буквами, сайт как овальная ссылка.
+- `icon-telegram-mono.png`, `icon-max-mono.png`, `icon-vk-mono.png`, `icon-site-mono.png` - однотонные графитовые PNG-значки без hover-эффектов.
+- `icon-telegram.png`, `icon-max.png`, `icon-vk.png`, `icon-site.png`, `icon-telegram-plane.png`, `icon-vk-letters.png`, `icon-site-pill.png` - исходные/предыдущие значки, оставлены для истории и возможных вариантов.
 - `max-official-colored.png` - официальный цветной знак MAX из брендбука, источник для `icon-max.png`.
 - `b24-gold-clean.png` - очищенный от тени бейдж золотого партнёра Битрикс24 для подписи.
 - `b24-gold-2025.png` - исходный официальный бейдж золотого партнёра Битрикс24.
-- `b24-box-origin.png`, `b24-1c-origin.png`, `b24-crm.png`, `b24-automation.png` - бейджи компетенций Битрикс24.
+- `b24-box-origin.png`, `b24-1c-origin.png`, `b24-crm.png`, `b24-automation.png` - бейджи компетенций Битрикс24, оставлены как исходники; в текущей статусной подписи компетенции выведены текстом, чтобы не перегружать письмо.
 
 После публикации сайта assets доступны по HTTPS, например:
 
 ```text
 https://onixbit.ru/email-signature/onixbit-email-logo.png
-https://onixbit.ru/email-signature/icon-telegram.png
+https://onixbit.ru/email-signature/icon-telegram-mono.png
 https://onixbit.ru/email-signature/b24-gold-clean.png
 ```
 
-HTML-файлы используют публичные HTTPS-URL с домена `onixbit.ru`. У таблиц отключены видимые линии. Hover-эффекты добавлены через CSS для клиентов, которые их поддерживают; базовая кликабельность работает через обычные `href`: телефон открывает звонок, почта - почтовую программу, сайт и мессенджеры - ссылку.
+HTML-файлы используют публичные HTTPS-URL с домена `onixbit.ru`. У таблиц отключены видимые линии. Реакции при наведении убраны: в почтовиках остаётся обычная надёжная кликабельность через `href` — телефон открывает звонок, почта открывает почтовую программу, сайт и мессенджеры ведут по ссылке. Preview-страницы помечены `noindex, nofollow`, чтобы они не становились отдельными SEO-страницами.
