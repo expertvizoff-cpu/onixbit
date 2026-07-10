@@ -3,6 +3,16 @@ import { withSentryConfig } from "@sentry/nextjs";
 
 const nextConfig: NextConfig = {
   output: "standalone",
+  async redirects() {
+    return [
+      {
+        source: "/max",
+        destination:
+          "https://max.ru/u/f9LHodD0cOLKUnPeYPhOm53_bhpzOik5pDQLlBzjW8ZsbaCekC8Vlm0o6AA",
+        permanent: false,
+      },
+    ];
+  },
   async headers() {
     return [
       {
