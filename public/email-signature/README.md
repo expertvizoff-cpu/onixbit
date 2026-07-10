@@ -8,6 +8,7 @@
 - `aleksander-tuzhilkin-wow.html` - вариант 2 для просмотра в браузере.
 - `onixbit-email-logo.png` - PNG-логотип для почтовиков.
 - `icon-telegram-mono.png`, `icon-max-mono.png`, `icon-site-mono.png` - единый набор PNG-значков 28x28 без фоновых плиток.
+- `icon-telegram-brand.svg`, `icon-vk-brand.svg`, `max-official-colored.png` - брендовые цветные значки для компактной подписи без рамок и фоновых плашек.
 - `icon-vk-official.png` - локальная копия настоящей VK-иконки из Flaticon; в HTML используется опубликованный HTTPS-URL `https://onixbit.ru/email-signature/icon-vk-official.png`.
 - `icon-telegram.png`, `icon-max.png`, `icon-vk.png`, `icon-site.png`, `icon-telegram-plane.png`, `icon-vk-letters.png`, `icon-site-pill.png` - исходные/предыдущие значки, оставлены для истории и возможных вариантов.
 - `max-official-colored.png` - официальный цветной знак MAX из брендбука, источник для `icon-max.png`.
