@@ -6,6 +6,16 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
+        source: "/tg",
+        destination: "https://t.me/onixbitru",
+        permanent: false,
+      },
+      {
+        source: "/vk",
+        destination: "https://vk.com/onixbitru",
+        permanent: false,
+      },
+      {
         source: "/max",
         destination:
           "https://max.ru/u/f9LHodD0cOLKUnPeYPhOm53_bhpzOik5pDQLlBzjW8ZsbaCekC8Vlm0o6AA",
