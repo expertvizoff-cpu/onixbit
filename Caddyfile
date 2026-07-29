@@ -6,6 +6,11 @@ www.onixbit.ru {
   redir https://onixbit.ru{uri} permanent
 }
 
+media.{$DOMAIN:localhost} {
+  encode zstd gzip
+  reverse_proxy media-archive-player:8080
+}
+
 {$DOMAIN:localhost} {
   encode zstd gzip
 
