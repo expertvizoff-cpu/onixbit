@@ -48,7 +48,6 @@ import {
 } from "@/data/site";
 import { ButtonLink, LeadButton } from "./Buttons";
 import { BitrixPricingBlock } from "./BitrixPricingBlock";
-import { BitrixCrmProof } from "./BitrixCrmProof";
 import { PartnerCertificatesBlock } from "./PartnerCertificatesBlock";
 import { LeadFormPanel } from "./BitrixForms";
 import { ProductScene } from "./ProductScene";
@@ -74,6 +73,7 @@ export function SectionIntro({
 }
 
 const proofIcons = [CalendarClock, ShieldCheck, Route, Building2] as const;
+const serviceSlideStatIcons = [ShieldCheck, Workflow, RefreshCw] as const;
 
 const caseCovers = [
   "/media/home/case-crm-cover.png",
@@ -108,7 +108,7 @@ export function ProofStrip() {
 
 export function DirectionsSection() {
   return (
-    <section className="ob-section">
+    <section className="ob-section" id="directions">
       <div className="ob-container">
         <SectionIntro
           kicker="Направления"
@@ -417,16 +417,6 @@ const servicePageDetails: Record<Direction["id"], ServiceDetail> = {
       "Начинаем с проверки текущих обменов, источников данных, модулей, расписаний и ошибок. Затем честно определяем зону работ.",
   },
 };
-
-function ServiceHeroBullets({ direction }: { direction: Direction }) {
-  return (
-    <div className="ob-service-hero__bullets" aria-label="Ключевые задачи направления">
-      {direction.bullets.map((item) => (
-        <span key={item}><CheckCircle2 size={15} aria-hidden="true" /> {item}</span>
-      ))}
-    </div>
-  );
-}
 
 function ServicePageExperience({ direction, details }: { direction: Direction; details: ServiceDetail }) {
   if (direction.id === "bitrix24") return <Bitrix24ServiceExperience direction={direction} details={details} />;
@@ -1204,30 +1194,58 @@ export function ServicePage({ direction }: { direction: Direction }) {
 
   return (
     <>
-      <section className={"ob-service-hero ob-section ob-service-page ob-service-page--" + direction.id}>
-        <div className="ob-container ob-service-hero__grid">
-          <div>
-            <span className="ob-kicker">{direction.badge}</span>
-            <h1>{direction.headline}</h1>
-            <p>{direction.description}</p>
-            <ServiceHeroBullets direction={direction} />
-            <div className="ob-actions">
-              <LeadButton>{direction.cta}</LeadButton>
-              <a className="ob-btn ob-btn--secondary" href="#service-plan">
-                <span>{direction.secondaryCta}</span>
-              </a>
+      <section className={"ob-service-hero ob-service-hero--slide ob-section ob-service-page ob-service-page--" + direction.id}>
+        <div className="ob-container ob-service-hero__grid ob-service-slide__grid">
+          <div className="ob-service-slide__copy">
+            <span className="ob-kicker">Ониксбит · {direction.eyebrow}</span>
+            <h1 className="ob-hero__title ob-service-slide__title">
+              <span>CRM, сайт и 1С</span>{" "}
+              <span>в одной рабочей</span>{" "}
+              <span>системе</span>
+            </h1>
+
+            <div className="ob-hero__direction ob-service-slide__direction">
+              <span className="ob-hero__direction-label">Сейчас в фокусе</span>
+              <strong>{direction.headline}</strong>
+              <p>{direction.description}</p>
+
+              <div className="ob-hero__route" aria-label={"Что входит в направление: " + direction.title}>
+                {direction.scope.slice(0, 3).map((item) => (
+                  <span key={item}>
+                    <CheckCircle2 size={16} aria-hidden="true" />
+                    {item}
+                  </span>
+                ))}
+              </div>
             </div>
-            {direction.id === "bitrix24" && <BitrixCrmProof variant="hero" />}
-            <div className="ob-stat-row">
-              {direction.stats.map((stat) => (
-                <div key={stat.label}>
-                  <strong>{stat.value}</strong>
-                  <span>{stat.label}</span>
-                </div>
-              ))}
+
+            <div className="ob-hero__trust-line" aria-label={"Почему можно рассматривать направление: " + direction.title}>
+              {direction.stats.map((item, index) => {
+                const Icon = serviceSlideStatIcons[index] ?? ShieldCheck;
+
+                return (
+                  <span key={direction.id + "-" + item.value}>
+                    <Icon size={18} strokeWidth={2.2} aria-hidden="true" />
+                    <b>{item.value}</b>
+                    <small>{item.label}</small>
+                  </span>
+                );
+              })}
+            </div>
+
+            <div className="ob-hero__cta-cluster">
+              <div className="ob-actions">
+                <LeadButton>{direction.cta}</LeadButton>
+                <a className="ob-btn ob-btn--secondary" href="#service-plan">
+                  <span>{direction.secondaryCta}</span>
+                </a>
+              </div>
             </div>
           </div>
-          <ProductScene type={direction.scene} />
+
+          <div className="ob-service-slide__showcase">
+            <ProductScene type={direction.scene} />
+          </div>
         </div>
       </section>
 
