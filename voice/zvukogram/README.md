@@ -14,7 +14,7 @@
 
 ~~~env
 ZVUKOGRAM_EMAIL=you@example.com
-ZVUKOGRAM_TOKEN=your_api_token
+ZVUKOGRAM_TOKEN=
 ZVUKOGRAM_VOICE=название выбранного женского голоса
 ZVUKOGRAM_SPEED=0.92
 ZVUKOGRAM_PITCH=-1
