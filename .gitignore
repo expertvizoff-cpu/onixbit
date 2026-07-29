@@ -31,6 +31,7 @@ blob-report/
 *.pem
 .deploy_keys/
 source-materials/
+.secrets/
 
 # debug
 npm-debug.log*
@@ -48,3 +49,47 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+voice/zvukogram/output/
+
+# project-local tool state and scratch
+.work/
+
+# local agent, browser and memory state
+.agents/
+.playwright-cli/
+data/
+
+# private/local source material
+audio-inbox/
+author-reference-photos/*/*
+reference/*
+!reference/README.md
+security_server_audit_*.md
+skills-lock.json
+docs/1c-bitrix-*.md
+
+# generated previews and intermediate exports
+output/article-overflow-fix/
+output/article-polish-check/
+output/articles-audit-*/
+output/home-polish-check/
+output/imagegen/
+output/pdf/
+output/preview-onixbit-site/
+output/robot-bg-removal/
+output/screenshots/
+output/onixbit-*.png
+output/*.tar.gz
+output/brandbook/*.zip
+output/logos/*
+!output/logos/final/
+!output/logos/final/**
+output/requisites/
+output/vk-final-2026/
+
+# unused working variants; keep only assets referenced by source
+public/media/home/archive/
+public/media/home/onixbit-robot-dashboard-hero.png
+public/media/home/onixbit-robot-dashboard-hero-cutout.png
+public/media/home/onixbit-robot-dashboard-hero-transparent.png
+public/media/home/onixbit-robot-dashboard-robot.png
