@@ -13,6 +13,26 @@ Shared rules for handoff and live-site safety live in Astra Command:
 - `/home/aleksander/projects/astra-command/memory/recipes/project-state-handoff-lifecycle.md`
 - `/home/aleksander/projects/astra-command/memory/recipes/live-site-change-safety.md`
 
+## Current Git And Production
+
+- The last externally verified production baseline before this workflow-only
+  follow-up is `a5dc37662173d2edcf83704cc661f9e126d47dc6`; read the current exact
+  `main` SHA from Git/GitHub instead of copying it from this handoff.
+- CI run `30486065152` and deploy run `30486061795` completed successfully on
+  2026-07-29. Homepage, `/api/health`, robots, sitemap, canonical `www`
+  redirect and `https://media.onixbit.ru/healthz` passed external smoke.
+- Rollback target for this maintenance release is
+  `55d9328e5c89d52940551c643f67775e13dd2ade`.
+- The backup branch `astra/git-rollout-2026-07-29` remains at
+  `911b9781ad6ee4f625349cf9de7ead0547f47e77` and must not be merged wholesale.
+  Its production-facing hero failed the visual gate: the desktop asset contains
+  an `AI Generated` watermark and the mobile first screen is overloaded.
+- Production received only the reviewed maintenance subset; there is no
+  `src/` or `public/` diff from the prior live main.
+- Workflow maintenance now pins official Node.js 24 actions:
+  `actions/checkout@v7.0.1` and `actions/setup-node@v7.0.0`. Keep this change
+  separate from future feature or visual work.
+
 Recommended first message in a new chat:
 
 ```text
@@ -36,7 +56,7 @@ Do not use `onixbit-next`; the Next.js app was moved to the repository root.
 
 ## Stack
 
-- Next.js 16.2.9
+- Next.js 16.2.12
 - React 19.2.4
 - TypeScript
 - Tailwind CSS 4 / PostCSS
