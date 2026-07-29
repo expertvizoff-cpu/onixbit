@@ -1,0 +1,7 @@
+{
+  "name": "Onixbit Figma Setup",
+  "id": "onixbit-figma-setup",
+  "api": "1.0.0",
+  "main": "code.js",
+  "editorType": ["figma"]
+}

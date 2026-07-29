@@ -1,0 +1,991 @@
+.shell {
+  --bb-bg: #f5f5f2;
+  --bb-surface: #ffffff;
+  --bb-ink: #080808;
+  --bb-muted: #5f626a;
+  --bb-line: rgba(8, 8, 8, 0.1);
+  --bb-red: var(--ob-red, #ed1c24);
+  --bb-red-deep: var(--ob-red-deep, #b80f17);
+  --bb-yellow: var(--ob-yellow, #ffd45a);
+  --bb-amber: #f0a911;
+  --bb-blue: #2f86ff;
+  --bb-green: #36b97c;
+  --bb-night: #09090b;
+  --bb-cherry: #18070a;
+  background:
+    linear-gradient(90deg, rgba(237, 28, 36, 0.05) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(8, 8, 8, 0.035) 1px, transparent 1px),
+    linear-gradient(135deg, #ffffff 0%, #f6f6f3 42%, #eeeeea 100%);
+  background-size: 96px 96px, 96px 96px, auto;
+  color: var(--bb-ink);
+  font-family: var(--ob-font-sans);
+  margin-top: -70px;
+  min-height: 100svh;
+  overflow: clip;
+  padding: 86px clamp(14px, 3.5vw, 58px) 86px;
+  position: relative;
+  z-index: 90;
+}
+
+.shell *,
+.shell *::before,
+.shell *::after {
+  box-sizing: border-box;
+}
+
+.shell a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.topbar {
+  align-items: center;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(8, 8, 8, 0.09);
+  border-radius: 8px;
+  box-shadow: 0 18px 60px rgba(8, 8, 8, 0.08);
+  display: grid;
+  gap: 18px;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  margin: 0 auto;
+  max-width: var(--ob-container, 1700px);
+  min-height: 68px;
+  padding: 10px 12px 10px 16px;
+  position: sticky;
+  top: 12px;
+  z-index: 30;
+}
+
+.brand,
+.topCta,
+.topnav a,
+.heroActions a,
+.figmaButton {
+  align-items: center;
+  display: inline-flex;
+}
+
+.brand {
+  gap: 11px;
+  min-width: 0;
+}
+
+.brandMark {
+  align-items: center;
+  background: linear-gradient(135deg, var(--bb-red), var(--bb-yellow));
+  border-radius: 8px;
+  color: #190508;
+  display: inline-flex;
+  font-family: var(--ob-font-display);
+  font-weight: 900;
+  height: 42px;
+  justify-content: center;
+  width: 42px;
+}
+
+.brand strong,
+.brand small {
+  display: block;
+  line-height: 1.1;
+}
+
+.brand strong {
+  font-family: var(--ob-font-display);
+  font-size: 1rem;
+  font-weight: 900;
+}
+
+.brand small {
+  color: var(--bb-muted);
+  font-size: 0.78rem;
+  margin-top: 4px;
+}
+
+.topnav {
+  align-items: center;
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+  min-width: 0;
+}
+
+.topnav a {
+  border-radius: 8px;
+  color: #424745;
+  font-size: 0.9rem;
+  font-weight: 780;
+  min-height: 42px;
+  padding: 0 13px;
+  transition: background 170ms ease, color 170ms ease;
+  white-space: nowrap;
+}
+
+.topnav a:hover,
+.topnav a:focus-visible {
+  background: rgba(237, 28, 36, 0.08);
+  color: var(--bb-red-deep);
+}
+
+.topCta,
+.figmaButton {
+  background: #171413;
+  border-radius: 8px;
+  color: #fffaf0;
+  font-family: var(--ob-font-display);
+  font-size: 0.9rem;
+  font-weight: 850;
+  gap: 9px;
+  justify-content: center;
+  min-height: 46px;
+  padding: 0 16px;
+  transition: transform 170ms ease, background 170ms ease;
+  white-space: nowrap;
+}
+
+.topCta:hover,
+.topCta:focus-visible,
+.figmaButton:hover,
+.figmaButton:focus-visible {
+  background: var(--bb-red);
+  transform: translateY(-1px);
+}
+
+.hero,
+.dnaSection,
+.visualSection,
+.componentsSection,
+.voiceSection,
+.motionSection,
+.figmaSection {
+  margin: clamp(26px, 4vw, 58px) auto 0;
+  max-width: var(--ob-container, 1700px);
+}
+
+.hero {
+  align-items: stretch;
+  display: grid;
+  gap: clamp(16px, 2vw, 28px);
+  grid-template-columns: minmax(0, 1.05fr) minmax(420px, 0.82fr);
+}
+
+.heroCopy,
+.heroStage,
+.dnaCard,
+.modeCard,
+.colorCard,
+.typeGrid > article,
+.componentCard,
+.voiceCard,
+.motionCard,
+.figmaPanel {
+  border: 1px solid var(--bb-line);
+  border-radius: 8px;
+}
+
+.heroCopy {
+  background: rgba(255, 255, 255, 0.93);
+  min-width: 0;
+  padding: clamp(30px, 5vw, 72px);
+}
+
+.eyebrow,
+.sectionTitle p {
+  color: var(--bb-red-deep);
+  font-family: var(--ob-font-display);
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.heroCopy h1,
+.sectionTitle h2,
+.figmaPanel h2 {
+  font-family: var(--ob-font-display);
+  font-weight: 900;
+  letter-spacing: 0;
+  margin: 0;
+  text-wrap: balance;
+}
+
+.heroCopy h1 {
+  font-size: clamp(2.6rem, 5.8vw, 6.6rem);
+  line-height: 0.96;
+  margin-top: 14px;
+  max-width: 1040px;
+}
+
+.heroCopy > p:not(.eyebrow) {
+  color: var(--bb-muted);
+  font-size: clamp(1rem, 1.35vw, 1.22rem);
+  line-height: 1.68;
+  margin: 24px 0 0;
+  max-width: 860px;
+}
+
+.heroActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 30px;
+}
+
+.heroActions a {
+  border-radius: 8px;
+  font-family: var(--ob-font-display);
+  font-weight: 850;
+  gap: 9px;
+  justify-content: center;
+  min-height: 50px;
+  padding: 0 18px;
+}
+
+.heroActions a:first-child {
+  background: linear-gradient(135deg, var(--bb-red), var(--bb-red-deep));
+  color: #fff;
+  box-shadow: 0 18px 46px rgba(237, 28, 36, 0.22);
+}
+
+.heroActions a:last-child {
+  background: rgba(255, 255, 255, 0.86);
+  border: 1px solid rgba(8, 8, 8, 0.12);
+  color: #171413;
+}
+
+.stats {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-top: clamp(28px, 4vw, 54px);
+}
+
+.stats span {
+  background: #f0eee8;
+  border: 1px solid rgba(8, 8, 8, 0.07);
+  border-radius: 8px;
+  display: grid;
+  min-height: 84px;
+  padding: 14px;
+}
+
+.stats strong {
+  color: var(--bb-red-deep);
+  font-family: var(--ob-font-display);
+  font-size: clamp(1.18rem, 1.8vw, 1.75rem);
+  font-weight: 900;
+  line-height: 1;
+}
+
+.stats small {
+  align-self: end;
+  color: #575d59;
+  font-size: 0.84rem;
+  line-height: 1.28;
+}
+
+.heroStage {
+  background:
+    linear-gradient(135deg, rgba(237, 28, 36, 0.22), transparent 36%),
+    linear-gradient(215deg, rgba(255, 212, 90, 0.18), transparent 40%),
+    linear-gradient(155deg, #11090b 0%, #09090b 64%, #18070a 100%);
+  color: #fff7ea;
+  min-height: 620px;
+  overflow: hidden;
+  padding: clamp(24px, 3vw, 38px);
+  position: relative;
+}
+
+.heroStage::before {
+  background:
+    linear-gradient(90deg, rgba(255, 212, 90, 0.12) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(255, 255, 255, 0.07) 1px, transparent 1px);
+  background-size: 64px 64px;
+  content: "";
+  inset: 0;
+  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.8), transparent 78%);
+  position: absolute;
+}
+
+.stageHeader,
+.stageFooter,
+.coreOrbit {
+  position: relative;
+  z-index: 1;
+}
+
+.stageHeader {
+  align-items: start;
+  display: flex;
+  gap: 14px;
+  justify-content: space-between;
+}
+
+.stageHeader span {
+  color: var(--bb-yellow);
+  font-family: var(--ob-font-display);
+  font-size: 0.8rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.stageHeader strong {
+  color: rgba(255, 247, 234, 0.72);
+  font-size: 0.9rem;
+  text-align: right;
+}
+
+.coreOrbit {
+  height: min(58vw, 420px);
+  margin: clamp(42px, 8vw, 86px) auto 0;
+  max-height: 420px;
+  max-width: 520px;
+  min-height: 360px;
+}
+
+.core,
+.coreOrbit span {
+  align-items: center;
+  border-radius: 8px;
+  display: inline-flex;
+  font-family: var(--ob-font-display);
+  font-weight: 900;
+  justify-content: center;
+  position: absolute;
+}
+
+.core {
+  background: rgba(255, 255, 255, 0.94);
+  color: #150608;
+  height: 132px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 132px;
+  z-index: 4;
+}
+
+.coreOrbit span {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 212, 90, 0.44);
+  color: #fff7ea;
+  min-height: 58px;
+  padding: 0 18px;
+  z-index: 3;
+}
+
+.nodeSite { left: 0; top: 16%; }
+.nodeCrm { right: 0; top: 20%; }
+.nodeOnec { right: 6%; bottom: 9%; }
+.nodeControl { left: 5%; bottom: 10%; }
+
+.lineA,
+.lineB,
+.lineC,
+.lineD {
+  background: linear-gradient(90deg, rgba(237, 28, 36, 0.08), rgba(255, 212, 90, 0.82), rgba(47, 134, 255, 0.1));
+  border-radius: 999px;
+  height: 2px;
+  left: 50%;
+  position: absolute;
+  top: 50%;
+  transform-origin: left center;
+  width: 45%;
+  z-index: 2;
+}
+
+.lineA { transform: rotate(206deg); }
+.lineB { transform: rotate(326deg); }
+.lineC { transform: rotate(38deg); }
+.lineD { transform: rotate(144deg); }
+
+.stageFooter {
+  bottom: clamp(22px, 3vw, 34px);
+  display: grid;
+  gap: 10px;
+  left: clamp(24px, 3vw, 38px);
+  position: absolute;
+  right: clamp(24px, 3vw, 38px);
+}
+
+.stageFooter span {
+  align-items: center;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 246, 226, 0.13);
+  border-radius: 8px;
+  color: rgba(255, 247, 234, 0.84);
+  display: inline-flex;
+  gap: 8px;
+  min-height: 42px;
+  padding: 0 12px;
+}
+
+.sectionTitle {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 20px;
+  max-width: 1030px;
+}
+
+.sectionTitle h2,
+.figmaPanel h2 {
+  font-size: clamp(2rem, 4.2vw, 4.35rem);
+  line-height: 1;
+}
+
+.sectionTitle span,
+.figmaPanel p {
+  color: var(--bb-muted);
+  font-size: clamp(1rem, 1.25vw, 1.16rem);
+  line-height: 1.62;
+  max-width: 820px;
+}
+
+.dnaGrid,
+.modeGrid,
+.componentGrid,
+.voiceGrid,
+.motionGrid {
+  display: grid;
+  gap: 14px;
+}
+
+.dnaGrid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.dnaCard,
+.componentCard,
+.motionCard {
+  background: rgba(255, 255, 255, 0.9);
+  min-width: 0;
+  padding: clamp(20px, 2.4vw, 28px);
+}
+
+.dnaCard svg,
+.componentCard svg,
+.motionCard svg {
+  color: var(--bb-red);
+  margin-bottom: 18px;
+}
+
+.dnaCard h3,
+.modeCard h3,
+.componentCard h3,
+.voiceCard h3,
+.motionCard h3,
+.typeGrid h3 {
+  font-family: var(--ob-font-display);
+  font-size: 1.18rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  margin: 0;
+}
+
+.dnaCard p,
+.modeCard p,
+.componentCard p,
+.motionCard p,
+.voiceCard p,
+.typeGrid span {
+  color: var(--bb-muted);
+  font-size: 0.96rem;
+  line-height: 1.55;
+  margin: 12px 0 0;
+}
+
+.principles {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  margin-top: 14px;
+}
+
+.principles span {
+  align-items: center;
+  background: #171413;
+  border-radius: 8px;
+  color: #fff7ea;
+  display: flex;
+  font-size: 0.92rem;
+  font-weight: 760;
+  gap: 9px;
+  min-height: 74px;
+  padding: 12px;
+}
+
+.principles svg {
+  color: var(--bb-yellow);
+  flex: 0 0 auto;
+}
+
+.modeGrid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.modeCard {
+  min-height: 300px;
+  overflow: hidden;
+  padding: clamp(24px, 3vw, 38px);
+  position: relative;
+}
+
+.modeCard svg {
+  margin-bottom: 18px;
+}
+
+.modeCard div {
+  bottom: clamp(22px, 3vw, 34px);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  left: clamp(24px, 3vw, 38px);
+  position: absolute;
+  right: clamp(24px, 3vw, 38px);
+}
+
+.modeCard span {
+  border-radius: 999px;
+  display: inline-flex;
+  font-size: 0.82rem;
+  font-weight: 850;
+  min-height: 32px;
+  padding: 7px 11px;
+}
+
+.modeLight {
+  background: #ffffff;
+}
+
+.modeLight svg,
+.modeLight h3 {
+  color: var(--bb-red-deep);
+}
+
+.modeLight span {
+  background: #f0eee8;
+  color: #424745;
+}
+
+.modeDark {
+  background: linear-gradient(145deg, #09090b 0%, #18070a 100%);
+  color: #fff7ea;
+}
+
+.modeDark p {
+  color: rgba(255, 247, 234, 0.68);
+}
+
+.modeDark svg,
+.modeDark h3 {
+  color: var(--bb-yellow);
+}
+
+.modeDark span {
+  background: rgba(255, 255, 255, 0.09);
+  color: rgba(255, 247, 234, 0.86);
+}
+
+.colorGrid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-top: 14px;
+}
+
+.colorCard {
+  align-items: stretch;
+  background: rgba(255, 255, 255, 0.9);
+  display: grid;
+  grid-template-columns: 74px minmax(0, 1fr);
+  min-width: 0;
+  overflow: hidden;
+}
+
+.swatch {
+  display: block;
+  min-height: 148px;
+}
+
+.colorCard div {
+  min-width: 0;
+  padding: 18px;
+}
+
+.colorCard h3,
+.colorCard p,
+.colorCard strong,
+.colorCard small {
+  display: block;
+  overflow-wrap: anywhere;
+}
+
+.colorCard h3 {
+  font-family: var(--ob-font-display);
+  font-size: 1rem;
+  font-weight: 900;
+  margin: 0;
+}
+
+.colorCard p {
+  color: var(--bb-muted);
+  font-size: 0.82rem;
+  margin: 7px 0 0;
+}
+
+.colorCard strong {
+  color: var(--bb-red-deep);
+  font-family: var(--ob-font-display);
+  margin-top: 18px;
+}
+
+.colorCard small {
+  color: var(--bb-muted);
+  font-size: 0.82rem;
+  line-height: 1.35;
+  margin-top: 8px;
+}
+
+.typeGrid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: 1.2fr 1fr 0.8fr;
+  margin-top: 14px;
+}
+
+.typeGrid > article {
+  background: rgba(255, 255, 255, 0.9);
+  min-width: 0;
+  padding: clamp(20px, 2.5vw, 30px);
+}
+
+.typeGrid p {
+  color: var(--bb-red-deep);
+  font-family: var(--ob-font-display);
+  font-size: 0.78rem;
+  font-weight: 900;
+  margin: 0 0 14px;
+  text-transform: uppercase;
+}
+
+.typeGrid h3 {
+  font-size: clamp(1.55rem, 2.5vw, 2.7rem);
+  line-height: 1.08;
+}
+
+.typeGrid strong {
+  color: var(--bb-red-deep);
+  display: block;
+  font-family: var(--ob-font-display);
+  font-size: clamp(2.2rem, 4vw, 4.4rem);
+  font-weight: 900;
+  line-height: 1;
+}
+
+.componentGrid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.routeDemo {
+  align-items: center;
+  background: linear-gradient(135deg, #171413, #2a0d12);
+  border: 1px solid rgba(255, 212, 90, 0.3);
+  border-radius: 8px;
+  color: #fff7ea;
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  margin-top: 14px;
+  min-height: 130px;
+  padding: 18px;
+}
+
+.routeDemo span {
+  align-items: center;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 246, 226, 0.13);
+  border-radius: 8px;
+  display: flex;
+  font-family: var(--ob-font-display);
+  font-weight: 850;
+  gap: 10px;
+  min-height: 58px;
+  padding: 10px;
+  position: relative;
+}
+
+.routeDemo span:not(:last-child)::after {
+  background: linear-gradient(90deg, var(--bb-yellow), rgba(255, 212, 90, 0));
+  content: "";
+  height: 2px;
+  position: absolute;
+  right: -11px;
+  top: 50%;
+  width: 12px;
+}
+
+.routeDemo i {
+  align-items: center;
+  background: var(--bb-yellow);
+  border-radius: 999px;
+  color: #190508;
+  display: inline-flex;
+  font-style: normal;
+  height: 30px;
+  justify-content: center;
+  width: 30px;
+}
+
+.voiceGrid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.voiceCard {
+  background: rgba(255, 255, 255, 0.9);
+  display: grid;
+  gap: 12px;
+  min-width: 0;
+  padding: clamp(20px, 2.5vw, 30px);
+}
+
+.goodCopy,
+.badCopy {
+  align-items: start;
+  border-radius: 8px;
+  display: grid;
+  gap: 10px;
+  grid-template-columns: auto minmax(0, 1fr);
+  padding: 14px;
+}
+
+.goodCopy {
+  background: rgba(54, 185, 124, 0.1);
+  border: 1px solid rgba(54, 185, 124, 0.26);
+}
+
+.badCopy {
+  background: rgba(237, 28, 36, 0.07);
+  border: 1px solid rgba(237, 28, 36, 0.16);
+}
+
+.goodCopy svg {
+  color: var(--bb-green);
+}
+
+.badCopy svg {
+  color: var(--bb-red-deep);
+}
+
+.goodCopy p,
+.badCopy p {
+  margin: 0;
+}
+
+.motionGrid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.figmaPanel {
+  align-items: stretch;
+  background:
+    linear-gradient(135deg, rgba(237, 28, 36, 0.2), transparent 38%),
+    linear-gradient(145deg, #10090b, #080808);
+  color: #fff7ea;
+  display: grid;
+  gap: clamp(18px, 3vw, 34px);
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 0.66fr) auto;
+  padding: clamp(24px, 4vw, 54px);
+}
+
+.figmaPanel h2 {
+  font-size: clamp(1.8rem, 3.7vw, 4rem);
+  margin-top: 12px;
+}
+
+.figmaPanel p:not(.eyebrow) {
+  color: rgba(255, 247, 234, 0.68);
+  margin: 20px 0 0;
+}
+
+.figmaChecklist {
+  display: grid;
+  gap: 10px;
+}
+
+.figmaChecklist span {
+  align-items: center;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 246, 226, 0.13);
+  border-radius: 8px;
+  color: rgba(255, 247, 234, 0.84);
+  display: flex;
+  gap: 9px;
+  min-height: 48px;
+  padding: 10px 12px;
+}
+
+.figmaChecklist svg {
+  color: var(--bb-yellow);
+  flex: 0 0 auto;
+}
+
+.figmaButton {
+  align-self: end;
+  background: linear-gradient(135deg, var(--bb-red), var(--bb-red-deep));
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .heroStage,
+  .dnaCard,
+  .modeCard,
+  .componentCard,
+  .voiceCard,
+  .motionCard,
+  .figmaPanel {
+    animation: riseIn 520ms ease both;
+  }
+
+  .lineA,
+  .lineB,
+  .lineC,
+  .lineD {
+    animation: signalPulse 2.8s ease-in-out infinite;
+  }
+}
+
+@keyframes riseIn {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes signalPulse {
+  0%, 100% { opacity: 0.35; }
+  50% { opacity: 1; }
+}
+
+@media (max-width: 1180px) {
+  .topbar {
+    grid-template-columns: 1fr auto;
+  }
+
+  .topnav {
+    display: none;
+  }
+
+  .hero,
+  .figmaPanel {
+    grid-template-columns: 1fr;
+  }
+
+  .heroStage {
+    min-height: 560px;
+  }
+
+  .dnaGrid,
+  .colorGrid,
+  .componentGrid,
+  .principles {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .typeGrid,
+  .voiceGrid,
+  .motionGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .figmaButton {
+    justify-self: start;
+  }
+}
+
+@media (max-width: 760px) {
+  .shell {
+    margin-top: -64px;
+    padding: 78px 12px 62px;
+  }
+
+  .topbar {
+    grid-template-columns: 1fr;
+    padding: 12px;
+    position: relative;
+    top: auto;
+  }
+
+  .topCta,
+  .figmaButton {
+    width: 100%;
+  }
+
+  .heroCopy {
+    padding: 24px 18px;
+  }
+
+  .heroCopy h1 {
+    font-size: clamp(2.25rem, 14vw, 3.7rem);
+  }
+
+  .stats,
+  .dnaGrid,
+  .modeGrid,
+  .colorGrid,
+  .componentGrid,
+  .principles,
+  .routeDemo {
+    grid-template-columns: 1fr;
+  }
+
+  .heroStage {
+    min-height: 520px;
+    padding: 20px;
+  }
+
+  .stageHeader {
+    display: grid;
+  }
+
+  .stageHeader strong {
+    text-align: left;
+  }
+
+  .coreOrbit {
+    min-height: 310px;
+  }
+
+  .core {
+    height: 104px;
+    width: 104px;
+  }
+
+  .coreOrbit span {
+    font-size: 0.84rem;
+    min-height: 46px;
+    padding: 0 12px;
+  }
+
+  .nodeSite { left: 0; top: 7%; }
+  .nodeCrm { right: 0; top: 13%; }
+  .nodeOnec { right: 0; bottom: 11%; }
+  .nodeControl { left: 0; bottom: 7%; }
+
+  .colorCard {
+    grid-template-columns: 58px minmax(0, 1fr);
+  }
+
+  .swatch {
+    min-height: 124px;
+  }
+
+  .routeDemo span:not(:last-child)::after {
+    bottom: -11px;
+    height: 12px;
+    left: 24px;
+    right: auto;
+    top: auto;
+    width: 2px;
+  }
+
+  .figmaPanel {
+    padding: 22px 18px;
+  }
+}

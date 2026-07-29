@@ -1,7 +1,9 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { ShieldCheck, X } from "lucide-react";
+import { shouldHideGlobalChrome } from "./previewRoutes";
 import { useEffect, useState } from "react";
 
 const consentKey = "onixbitPrivacyConsent";
@@ -20,17 +22,21 @@ function saveConsent(value: PrivacyConsentValue) {
 }
 
 export function PrivacyConsent() {
+  const pathname = usePathname();
   const [visible, setVisible] = useState(false);
+  const hideGlobalChrome = shouldHideGlobalChrome(pathname);
 
   useEffect(() => {
+    if (hideGlobalChrome) return;
+
     const timer = window.setTimeout(() => {
       setVisible(!readPrivacyConsent());
     }, 900);
 
     return () => window.clearTimeout(timer);
-  }, []);
+  }, [hideGlobalChrome]);
 
-  if (!visible) return null;
+  if (hideGlobalChrome || !visible) return null;
 
   const accept = (value: PrivacyConsentValue) => {
     saveConsent(value);

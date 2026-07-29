@@ -1,9 +1,17 @@
+"use client";
+
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { directions, mainNav } from "@/data/site";
 import { MessengerLinks } from "./Messengers";
+import { shouldHideGlobalChrome } from "./previewRoutes";
 
 export function Footer() {
+  const pathname = usePathname();
+
+  if (shouldHideGlobalChrome(pathname)) return null;
+
   return (
     <footer className="ob-footer" id="contacts">
       <div className="ob-footer__inner">

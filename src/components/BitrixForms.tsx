@@ -1,7 +1,9 @@
 "use client";
 
 import { CheckCircle2 } from "lucide-react";
+import { usePathname } from "next/navigation";
 import { useEffect, useRef } from "react";
+import { shouldHideGlobalChrome } from "./previewRoutes";
 
 const popupLoader =
   "https://cdn-ru.bitrix24.ru/b28559462/crm/form/loader_28.js";
@@ -23,9 +25,13 @@ function appendBitrixScript(
 }
 
 export function LeadPopupBridge() {
+  const pathname = usePathname();
   const triggerRef = useRef<HTMLButtonElement | null>(null);
+  const hideGlobalChrome = shouldHideGlobalChrome(pathname);
 
   useEffect(() => {
+    if (hideGlobalChrome) return;
+
     const trigger = triggerRef.current;
     if (!trigger) return;
 
@@ -53,7 +59,9 @@ export function LeadPopupBridge() {
 
     document.addEventListener("click", openLeadForm);
     return () => document.removeEventListener("click", openLeadForm);
-  }, []);
+  }, [hideGlobalChrome]);
+
+  if (hideGlobalChrome) return null;
 
   return (
     <button

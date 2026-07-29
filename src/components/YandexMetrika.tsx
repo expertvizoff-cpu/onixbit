@@ -4,6 +4,7 @@ import Script from "next/script";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { readPrivacyConsent } from "./PrivacyConsent";
+import { shouldHideGlobalChrome } from "./previewRoutes";
 
 declare global {
   interface Window {
@@ -14,10 +15,13 @@ declare global {
 export function YandexMetrika({ counterId }: { counterId?: string }) {
   const pathname = usePathname();
   const numericId = Number(counterId);
+  const hideGlobalChrome = shouldHideGlobalChrome(pathname);
   const didSendInitialHit = useRef(false);
   const [allowed, setAllowed] = useState(false);
 
   useEffect(() => {
+    if (hideGlobalChrome) return;
+
     const syncConsent = () => setAllowed(readPrivacyConsent() === "accepted");
     syncConsent();
     window.addEventListener("onixbit:privacy-consent", syncConsent);
@@ -26,10 +30,10 @@ export function YandexMetrika({ counterId }: { counterId?: string }) {
       window.removeEventListener("onixbit:privacy-consent", syncConsent);
       window.removeEventListener("storage", syncConsent);
     };
-  }, []);
+  }, [hideGlobalChrome]);
 
   useEffect(() => {
-    if (!allowed || !Number.isFinite(numericId) || !window.ym) return;
+    if (hideGlobalChrome || !allowed || !Number.isFinite(numericId) || !window.ym) return;
 
     if (!didSendInitialHit.current) {
       didSendInitialHit.current = true;
@@ -37,9 +41,9 @@ export function YandexMetrika({ counterId }: { counterId?: string }) {
     }
 
     window.ym(numericId, "hit", pathname);
-  }, [allowed, numericId, pathname]);
+  }, [allowed, hideGlobalChrome, numericId, pathname]);
 
-  if (!allowed || !Number.isFinite(numericId) || numericId <= 0) return null;
+  if (hideGlobalChrome || !allowed || !Number.isFinite(numericId) || numericId <= 0) return null;
 
   return (
     <>

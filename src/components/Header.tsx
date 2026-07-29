@@ -8,6 +8,7 @@ import { type MouseEvent, useEffect, useState } from "react";
 import { company, directions, mainNav } from "@/data/site";
 import { LeadButton } from "./Buttons";
 import { MessengerLinks } from "./Messengers";
+import { shouldHideGlobalChrome } from "./previewRoutes";
 
 function isActivePath(pathname: string, href: string) {
   if (href === "/") return pathname === "/";
@@ -68,13 +69,18 @@ export function Header() {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const hideGlobalChrome = shouldHideGlobalChrome(pathname);
 
   useEffect(() => {
+    if (hideGlobalChrome) return;
+
     const sync = () => setIsScrolled(window.scrollY > 12);
     sync();
     window.addEventListener("scroll", sync, { passive: true });
     return () => window.removeEventListener("scroll", sync);
-  }, []);
+  }, [hideGlobalChrome]);
+
+  if (hideGlobalChrome) return null;
 
   const handleHeaderLinkClick = (event: MouseEvent<HTMLAnchorElement>, href: string) => {
     setIsOpen(false);

@@ -1,9 +1,15 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { BriefcaseBusiness, FileText, Home, LayoutGrid, Send } from "lucide-react";
+import { shouldHideGlobalChrome } from "./previewRoutes";
 
 export function MobileDock() {
+  const pathname = usePathname();
+
+  if (shouldHideGlobalChrome(pathname)) return null;
+
   return (
     <nav className="ob-mobile-dock" aria-label="Быстрая мобильная навигация">
       <Link href="/" aria-label="Главная">
