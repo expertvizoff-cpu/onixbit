@@ -17,7 +17,9 @@
     "test:visual:update": "npm run build && VISUAL=1 node scripts/run-with-local-browser-deps.mjs playwright test --grep @visual --update-snapshots",
     "lhci": "npm run build && node scripts/run-with-local-browser-deps.mjs node scripts/run-lhci.mjs",
     "test:e2e:built": "node scripts/run-with-local-browser-deps.mjs playwright test",
-    "browser:deps": "node scripts/prepare-browser-deps.mjs"
+    "browser:deps": "node scripts/prepare-browser-deps.mjs",
+    "figma:api": "node scripts/figma-api.mjs",
+    "voice:zvukogram": "node scripts/zvukogram-voice.mjs"
   },
   "dependencies": {
     "@fontsource/manrope": "^5.2.8",
@@ -25,7 +27,7 @@
     "@sentry/nextjs": "^10.60.0",
     "lucide-react": "^1.21.0",
     "motion": "^12.41.0",
-    "next": "16.2.9",
+    "next": "16.2.12",
     "react": "19.2.4",
     "react-dom": "19.2.4"
   },
@@ -38,12 +40,13 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
-    "eslint-config-next": "16.2.9",
+    "eslint-config-next": "16.2.12",
     "tailwindcss": "^4",
     "typescript": "^5"
   },
   "overrides": {
-    "postcss": "8.5.15",
+    "postcss": "8.5.25",
+    "sharp": "0.35.3",
     "tmp": "0.2.7",
     "uuid": "11.1.1",
     "js-yaml": "5.1.0"
