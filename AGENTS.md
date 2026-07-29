@@ -12,6 +12,6 @@ Shared hub: `/home/aleksander/projects/astra-command`
 - Shared handoff rules: `/home/aleksander/projects/astra-command/memory/recipes/project-state-handoff-lifecycle.md`
 - Shared live-site rules: `/home/aleksander/projects/astra-command/memory/recipes/live-site-change-safety.md`
 
-## Первое сообщение
+## Required Start / Первое сообщение
 
 При первом сообщении в этом проекте или контуре кратко скажи следующий безопасный шаг, который нужно сделать перед подключениями или изменениями.
