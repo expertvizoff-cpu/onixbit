@@ -44,7 +44,6 @@ export function Footer() {
         </span>
         <div className="ob-footer__legal-links">
           <a href="/docs/onixbit-company-card.pdf" download>Реквизиты PDF</a>
-          <a href="/docs/onixbit-company-card.docx" download>Реквизиты DOCX</a>
           <Link href="/privacy">Политика конфиденциальности</Link>
         </div>
       </div>

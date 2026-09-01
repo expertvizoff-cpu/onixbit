@@ -7,10 +7,11 @@ Shared hub: `/home/aleksander/projects/astra-command`
 ## Company Requisites Publication — 2026-09-01
 
 - Replaced the old public company-card PDF with the approved new Onixbit
-  requisites letterhead and added an editable DOCX copy.
-- Added direct PDF/DOCX download actions to the About page, Contacts page and
-  footer without changing routes, forms or the production information
-  architecture.
+  requisites letterhead.
+- Added direct PDF download actions to the About page, Contacts page and footer
+  without changing routes, forms or the production information architecture.
+- The briefly published editable DOCX and every public link to it were removed
+  on Aleksander's explicit request. The public document is PDF-only.
 - Pre-publication checks passed: `npm run lint`, `npm audit --omit=dev` and
   `npm run build` on Next.js 16.2.12. Browser automation was not run on the
   shared server under the project resource-hygiene rule; live static-file and
@@ -20,8 +21,8 @@ Shared hub: `/home/aleksander/projects/astra-command`
   `package-lock.json`; the production audit now reports zero vulnerabilities.
   The full development audit still reports the known `extract-zip` chain under
   Lighthouse/Puppeteer and requires a separate breaking tooling change.
-- Rollback target for this publication is public `origin/main` commit
-  `b38588ff299409b00b9a83b418b87c22e2ae3e24`.
+- Rollback target for the PDF-only follow-up is public `origin/main` commit
+  `6e26aa1`.
 
 ## Purpose
 

@@ -1479,9 +1479,6 @@ export function ContactsContent() {
               <a className="ob-btn ob-btn--primary" href="/docs/onixbit-company-card.pdf" download>
                 Карточка PDF <Download size={18} aria-hidden="true" />
               </a>
-              <a className="ob-btn ob-btn--secondary" href="/docs/onixbit-company-card.docx" download>
-                Редактируемый DOCX <FileStack size={18} aria-hidden="true" />
-              </a>
             </div>
           </div>
           <div className="ob-contact-docs__grid">
