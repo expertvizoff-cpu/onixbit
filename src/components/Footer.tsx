@@ -10,7 +10,7 @@ export function Footer() {
         <div className="ob-footer__brand">
           <Link className="ob-footer__logo" href="/" aria-label="Ониксбит">
             <Image
-              src="/brand/onixbit-logo-footer.png"
+              src="/brand/onixbit-lockup-inverse-red-v2.png"
               alt="Ониксбит"
               width={162}
               height={40}

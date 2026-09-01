@@ -12,7 +12,7 @@ export function JsonLd() {
     "@type": "Organization",
     name: company.name,
     url: baseUrl,
-    logo: `${baseUrl}/brand/onixbit-logo-header.png`,
+    logo: `${baseUrl}/brand/onixbit-lockup-primary-v2.png`,
     image: `${baseUrl}/brand/onixbit-og.png`,
     email: company.email,
     telephone: company.phone,

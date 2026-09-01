@@ -100,7 +100,7 @@ export function Header() {
           onClick={(event) => handleHeaderLinkClick(event, "/")}
         >
           <Image
-            src="/brand/onixbit-logo-header.png"
+            src="/brand/onixbit-lockup-primary-v2.png"
             alt="Ониксбит"
             width={162}
             height={40}

@@ -133,7 +133,7 @@ function buildArticleJsonLd(article: NonNullable<ReturnType<typeof getArticleByS
           url: baseUrl,
           logo: {
             "@type": "ImageObject",
-            url: `${baseUrl}/brand/onixbit-logo-header.png`,
+            url: `${baseUrl}/brand/onixbit-lockup-primary-v2.png`,
           },
         },
       },
