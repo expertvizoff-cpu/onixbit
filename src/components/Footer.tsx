@@ -12,8 +12,8 @@ export function Footer() {
             <Image
               src="/brand/onixbit-logo-footer.png"
               alt="Ониксбит"
-              width={150}
-              height={45}
+              width={162}
+              height={40}
             />
           </Link>
           <p>

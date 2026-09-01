@@ -102,8 +102,8 @@ export function Header() {
           <Image
             src="/brand/onixbit-logo-header.png"
             alt="Ониксбит"
-            width={150}
-            height={45}
+            width={162}
+            height={40}
             style={{ height: "auto" }}
             priority
           />
