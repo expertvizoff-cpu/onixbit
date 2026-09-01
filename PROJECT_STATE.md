@@ -1,8 +1,26 @@
 # Onixbit Project State
 
-Last updated: 2026-07-29
+Last updated: 2026-09-01
 
 Shared hub: `/home/aleksander/projects/astra-command`
+
+## Company Requisites Publication — 2026-09-01
+
+- Replaced the old public company-card PDF with the approved new Onixbit
+  requisites letterhead and added an editable DOCX copy.
+- Added direct PDF/DOCX download actions to the About page, Contacts page and
+  footer without changing routes, forms or the production information
+  architecture.
+- Pre-publication checks passed: `npm run lint` and `npm run build` on Next.js
+  16.2.12. Browser automation was not run on the shared server under the
+  project resource-hygiene rule; live static-file and page smoke checks are
+  required after deployment.
+- `npm audit --omit=dev` reports three pre-existing high-severity findings in
+  transitive packages (`brace-expansion`, `fast-uri`, `nanoid`). Dependency
+  updates were intentionally kept outside this document-only maintenance
+  release.
+- Rollback target for this publication is public `origin/main` commit
+  `b38588ff299409b00b9a83b418b87c22e2ae3e24`.
 
 ## Purpose
 

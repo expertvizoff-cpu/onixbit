@@ -675,6 +675,10 @@ export function AboutPageContent() {
                 <span>Скачать карточку PDF</span>
                 <Download size={18} aria-hidden="true" />
               </a>
+              <a className="ob-btn ob-btn--secondary" href="/docs/onixbit-company-card.docx" download>
+                <span>Скачать DOCX</span>
+                <FileText size={18} aria-hidden="true" />
+              </a>
               <a className="ob-btn ob-btn--secondary" href="/docs/onixbit-contact.vcf" download>
                 <span>Сохранить контакт</span>
                 <ContactRound size={18} aria-hidden="true" />

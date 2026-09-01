@@ -3009,6 +3009,13 @@ textarea:focus-visible {
   font-weight: 900;
 }
 
+.ob-contact-docs__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 24px;
+}
+
 .ob-contact-faq {
   display: grid;
   grid-template-columns: minmax(0, 0.48fr) minmax(0, 1fr);
@@ -5256,6 +5263,13 @@ a:hover .lucide-mail polyline {
 
 .ob-footer__bottom a:hover {
   color: var(--ob-yellow);
+}
+
+.ob-footer__legal-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 10px 18px;
 }
 
 .obx-tariffs__inner,
@@ -8418,6 +8432,10 @@ a:hover .lucide-mail polyline {
 
   .ob-footer__bottom {
     display: grid;
+  }
+
+  .ob-footer__legal-links {
+    justify-content: flex-start;
   }
 
   .ob-privacy-consent {

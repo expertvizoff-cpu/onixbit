@@ -10,6 +10,7 @@ import {
   CheckCircle2,
   ClipboardCheck,
   DatabaseZap,
+  Download,
   FileCheck2,
   FileStack,
   Gauge,
@@ -1473,6 +1474,14 @@ export function ContactsContent() {
               <span><ReceiptText size={16} /> возможны счета-оферты</span>
               <span><Building2 size={16} /> без НДС</span>
               <span><CalendarClock size={16} /> ЭДО по запросу</span>
+            </div>
+            <div className="ob-contact-docs__actions" aria-label="Скачать реквизиты Ониксбит">
+              <a className="ob-btn ob-btn--primary" href="/docs/onixbit-company-card.pdf" download>
+                Карточка PDF <Download size={18} aria-hidden="true" />
+              </a>
+              <a className="ob-btn ob-btn--secondary" href="/docs/onixbit-company-card.docx" download>
+                Редактируемый DOCX <FileStack size={18} aria-hidden="true" />
+              </a>
             </div>
           </div>
           <div className="ob-contact-docs__grid">
