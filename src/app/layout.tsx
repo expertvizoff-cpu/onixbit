@@ -69,7 +69,6 @@ export default function RootLayout({
     <html lang="ru">
       <head>
         <link rel="preconnect" href="https://cdn-ru.bitrix24.ru" crossOrigin="anonymous" />
-        <link rel="preconnect" href="https://onixlife.bitrix24.ru" crossOrigin="anonymous" />
       </head>
       <body>
         <JsonLd />

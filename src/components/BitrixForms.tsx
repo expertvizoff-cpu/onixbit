@@ -2,9 +2,8 @@
 
 import { CheckCircle2 } from "lucide-react";
 import { useEffect, useRef } from "react";
+export { LeadPopupBridge } from "./BrandedLeadModal";
 
-const popupLoader =
-  "https://cdn-ru.bitrix24.ru/b28559462/crm/form/loader_28.js";
 const inlineLoader =
   "https://cdn-ru.bitrix24.ru/b28559462/crm/form/loader_24.js";
 
@@ -25,53 +24,6 @@ function appendBitrixScript(
   // Bitrix24 binds click forms to the marker's next sibling, not its parent.
   if (clickForm) container.before(script);
   else container.appendChild(script);
-}
-
-export function LeadPopupBridge() {
-  const triggerRef = useRef<HTMLButtonElement | null>(null);
-
-  useEffect(() => {
-    const trigger = triggerRef.current;
-    if (!trigger) return;
-
-    appendBitrixScript(trigger, "click/28/bslxb8", popupLoader);
-
-    const openLeadForm = (event: MouseEvent) => {
-      const target = event.target as Element | null;
-      const opener = target?.closest("[data-obx-lead-open]");
-      if (!opener) return;
-
-      event.preventDefault();
-      trigger.click();
-
-      const leadTarget = document.querySelector<HTMLElement>("#lead");
-      window.setTimeout(() => {
-        const hasVisiblePopup = Array.from(document.querySelectorAll<HTMLElement>("[class*=b24]")).some((element) => {
-          const rect = element.getBoundingClientRect();
-          const style = window.getComputedStyle(element);
-          return style.position === "fixed" && rect.width > 240 && rect.height > 180 && style.display !== "none" && style.visibility !== "hidden";
-        });
-
-        if (!hasVisiblePopup) leadTarget?.scrollIntoView({ behavior: "smooth", block: "start" });
-      }, 900);
-    };
-
-    document.addEventListener("click", openLeadForm);
-    return () => document.removeEventListener("click", openLeadForm);
-  }, []);
-
-  return (
-    <button
-      ref={triggerRef}
-      className="ob-hidden-popup"
-      type="button"
-      data-obx-b24-popup-trigger
-      aria-hidden="true"
-      tabIndex={-1}
-    >
-      Открыть форму
-    </button>
-  );
 }
 
 export function InlineBitrixForm({ className = "" }: { className?: string }) {

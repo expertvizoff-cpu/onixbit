@@ -1,8 +1,32 @@
 # Onixbit Project State
 
-Last updated: 2026-09-01
+Last updated: 2026-09-16
 
 Shared hub: `/home/aleksander/projects/astra-command`
+
+## Branded Lead Modal Preview — 2026-09-16
+
+- Branch: `feature/branded-lead-modal-2026-09-16`, based on exact public
+  production `41b67a8`; no push, workflow dispatch, deploy or CRM write.
+- The public popup form 28 is not iframe-isolated, but its appearance depends
+  on externally loaded Bitrix24 markup, classes and CSS. Site-side overrides
+  would be possible but are not a stable integration contract.
+- Replaced only the popup path with a first-party Onixbit modal. The existing
+  lazy inline Bitrix24 form remains unchanged.
+- New `/api/leads` validates same-origin JSON, size, rate, honeypot, consent,
+  phone/e-mail and idempotency before a server-only Bitrix24 webhook call.
+  The browser never receives the webhook URL or token.
+- Preserved popup fields (name, surname, phone, e-mail, task description),
+  consent, source context and five UTM values. Contact duplicate lookup runs
+  before creating a contact; the deal is linked to that contact.
+- Fresh verification: ESLint, TypeScript and the standard Turbopack production
+  build passed; full Playwright passed 54/54 across desktop and mobile. Targeted
+  modal checks cover validation, source/UTM payload, same-origin rejection,
+  focus restoration, reduced motion, horizontal overflow and axe. Stable
+  desktop/mobile screenshots were visually reviewed; no CRM submission ran.
+- Production prerequisites: visual approval; configure repository/VPS secrets;
+  confirm source, funnel, stage and responsible IDs; run one separately approved
+  end-to-end CRM test. Production freeze remains active.
 
 ## Company Requisites Publication — 2026-09-01
 
