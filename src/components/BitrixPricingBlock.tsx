@@ -43,7 +43,7 @@ type MarketplacePlan = {
   usersLabel: string;
   storage?: string;
   price: number | Record<number, number> | string;
-  oldPrice?: number | Record<number, number>;
+  yearly?: number | Record<number, number>;
   description: string;
   features: string[];
   enterprise?: boolean;
@@ -51,21 +51,22 @@ type MarketplacePlan = {
 };
 
 const REGISTER_URL = "https://www.bitrix24.ru/create.php?p=10553488";
+const PRICE_REVIEW_DATE = "16.09.2026";
 
 const enterpriseUsers = [250, 500, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000];
 const enterpriseStorage: Record<number, string> = {
-  250: "3 ТБ диск",
-  500: "5 ТБ диск",
-  1000: "10 ТБ диск",
-  2000: "20 ТБ диск",
-  3000: "30 ТБ диск",
-  4000: "40 ТБ диск",
-  5000: "50 ТБ диск",
-  6000: "60 ТБ диск",
-  7000: "70 ТБ диск",
-  8000: "80 ТБ диск",
-  9000: "90 ТБ диск",
-  10000: "100 ТБ диск",
+  250: "15 ТБ диск",
+  500: "20 ТБ диск",
+  1000: "30 ТБ диск",
+  2000: "40 ТБ диск",
+  3000: "50 ТБ диск",
+  4000: "60 ТБ диск",
+  5000: "70 ТБ диск",
+  6000: "80 ТБ диск",
+  7000: "90 ТБ диск",
+  8000: "100 ТБ диск",
+  9000: "110 ТБ диск",
+  10000: "120 ТБ диск",
 };
 
 const comparisonRows: FeatureRow[] = [
@@ -99,9 +100,9 @@ const cloudPlans: CloudPlan[] = [
     title: "Базовый",
     description: "CRM для небольшого отдела продаж: лиды, сделки, задачи, простая коммуникация и стартовая автоматизация.",
     usersLabel: "5 пользователей",
-    storage: "24 ГБ диск",
+    storage: "1 ТБ диск",
     monthly: 2490,
-    yearly: 1743,
+    yearly: 1990,
     levels: {
       collab: 2, messenger: 2, collabs: 1, tasks: 1, crm: 2, gpt: 3, sign: 2, disk: 1, boards: 3,
       contact: 2, sites: 2, store: 2, booking: 1, marketing: 0, docs: 0, hrsign: 0, bi: 0, analytics: 0,
@@ -113,9 +114,9 @@ const cloudPlans: CloudPlan[] = [
     title: "Стандартный",
     description: "Для отдела продаж и рабочих групп: больше пользователей, совместная работа, документы и базовая аналитика.",
     usersLabel: "50 пользователей",
-    storage: "100 ГБ диск",
+    storage: "5 ТБ диск",
     monthly: 6990,
-    yearly: 4893,
+    yearly: 5590,
     featured: true,
     levels: {
       collab: 2, messenger: 3, collabs: 2, tasks: 2, crm: 2, gpt: 3, sign: 2, disk: 2, boards: 3,
@@ -128,9 +129,9 @@ const cloudPlans: CloudPlan[] = [
     title: "Профессиональный",
     description: "Для компании, где CRM уже должна управлять процессами, отчётами, автоматизацией и несколькими отделами.",
     usersLabel: "100 пользователей",
-    storage: "1 024 ГБ диск",
+    storage: "10 ТБ диск",
     monthly: 13990,
-    yearly: 9793,
+    yearly: 11190,
     popular: true,
     levels: {
       collab: 2, messenger: 3, collabs: 3, tasks: 3, crm: 3, gpt: 3, sign: 3, disk: 3, boards: 3,
@@ -143,15 +144,15 @@ const cloudPlans: CloudPlan[] = [
     title: "Энтерпрайз",
     description: "Для крупной компании: филиалы, повышенные лимиты, расширенное администрирование, HRM и масштабирование портала.",
     usersLabel: "250 пользователей",
-    storage: "3 ТБ диск",
+    storage: "15 ТБ диск",
     enterprise: true,
     monthly: {
       250: 33990, 500: 59990, 1000: 99990, 2000: 199990, 3000: 299990, 4000: 399990,
       5000: 499990, 6000: 599990, 7000: 699990, 8000: 799990, 9000: 899990, 10000: 999990,
     },
     yearly: {
-      250: 23793, 500: 41993, 1000: 69993, 2000: 139993, 3000: 209993, 4000: 279993,
-      5000: 349993, 6000: 419993, 7000: 489993, 8000: 559993, 9000: 629993, 10000: 699993,
+      250: 27190, 500: 47990, 1000: 79990, 2000: 159990, 3000: 239990, 4000: 319990,
+      5000: 399990, 6000: 479990, 7000: 559990, 8000: 639990, 9000: 719990, 10000: 799990,
     },
     levels: {
       collab: 3, messenger: 3, collabs: 3, tasks: 3, crm: 3, gpt: 3, sign: 3, disk: 3, boards: 3,
@@ -216,7 +217,7 @@ const navigatorCopy: Record<NavigatorPlan, { title: string; text: string; check:
   basic: {
     title: "Базовый",
     text: "Для небольшой команды, которой нужно быстро начать вести лиды и сделки без сложной архитектуры.",
-    check: "Проверяем, хватит ли 5 пользователей, 24 ГБ диска и базовых прав доступа.",
+    check: "Проверяем, хватит ли 5 пользователей, 1 ТБ диска и базовых прав доступа.",
   },
   standard: {
     title: "Стандартный",
@@ -260,9 +261,9 @@ const marketplaceCloudPlans: MarketplacePlan[] = [
     id: "basic",
     title: "Базовый",
     usersLabel: "5 пользователей",
-    storage: "24 ГБ диск",
-    oldPrice: 1000,
-    price: 500,
+    storage: "1 ТБ диск",
+    price: 1000,
+    yearly: 800,
     description: "Стартовая подписка для небольшого облачного портала.",
     features: ["приложения Маркетплейса", "BitrixGPT", "стоимость за всех пользователей"],
   },
@@ -270,9 +271,9 @@ const marketplaceCloudPlans: MarketplacePlan[] = [
     id: "standard",
     title: "Стандартный",
     usersLabel: "50 пользователей",
-    storage: "100 ГБ диск",
-    oldPrice: 3000,
-    price: 1500,
+    storage: "5 ТБ диск",
+    price: 3000,
+    yearly: 2400,
     description: "Для команды, где уже появляются приложения, виджеты и документы.",
     features: ["приложения Маркетплейса", "BitrixGPT", "стоимость за всех пользователей"],
   },
@@ -280,9 +281,9 @@ const marketplaceCloudPlans: MarketplacePlan[] = [
     id: "professional",
     title: "Профессиональный",
     usersLabel: "100 пользователей",
-    storage: "1 024 ГБ диск",
-    oldPrice: 6000,
-    price: 3000,
+    storage: "10 ТБ диск",
+    price: 6000,
+    yearly: 4800,
     description: "Для портала с автоматизацией, BI, телефонией и несколькими отделами.",
     features: ["приложения Маркетплейса", "BitrixGPT", "стоимость за всех пользователей"],
     popular: true,
@@ -291,14 +292,14 @@ const marketplaceCloudPlans: MarketplacePlan[] = [
     id: "enterprise",
     title: "Энтерпрайз",
     usersLabel: "250 пользователей",
-    storage: "3 ТБ диск",
-    oldPrice: {
+    storage: "15 ТБ диск",
+    price: {
       250: 13600, 500: 24000, 1000: 40000, 2000: 80000, 3000: 120000, 4000: 160000,
       5000: 200000, 6000: 240000, 7000: 280000, 8000: 320000, 9000: 360000, 10000: 400000,
     },
-    price: {
-      250: 6800, 500: 12000, 1000: 20000, 2000: 40000, 3000: 60000, 4000: 80000,
-      5000: 100000, 6000: 120000, 7000: 140000, 8000: 160000, 9000: 180000, 10000: 200000,
+    yearly: {
+      250: 10880, 500: 19200, 1000: 32000, 2000: 64000, 3000: 96000, 4000: 128000,
+      5000: 160000, 6000: 192000, 7000: 224000, 8000: 256000, 9000: 288000, 10000: 320000,
     },
     description: "Для крупного облачного портала с расширенной командой и приложениями.",
     features: ["приложения Маркетплейса", "BitrixGPT", "стоимость за всех пользователей"],
@@ -311,7 +312,7 @@ const marketplaceBoxPlans: MarketplacePlan[] = [
     id: "box-50",
     title: "Корпоративный портал - 50",
     usersLabel: "50 пользователей",
-    price: 73200,
+    price: 60000,
     description: "Подписка для коробочного портала на 50 пользователей: приложения Маркетплейса и BitrixGPT для собственного контура.",
     features: ["приложения Маркетплейса", "BitrixGPT", "стоимость для коробочной лицензии"],
   },
@@ -319,7 +320,7 @@ const marketplaceBoxPlans: MarketplacePlan[] = [
     id: "box-100",
     title: "Корпоративный портал - 100",
     usersLabel: "100 пользователей",
-    price: 97600,
+    price: 80000,
     description: "Для портала с несколькими отделами, ролями, регламентами и набором рабочих приложений.",
     features: ["приложения Маркетплейса", "BitrixGPT", "стоимость для коробочной лицензии"],
   },
@@ -327,7 +328,7 @@ const marketplaceBoxPlans: MarketplacePlan[] = [
     id: "box-250",
     title: "Корпоративный портал - 250",
     usersLabel: "250 пользователей",
-    price: 146400,
+    price: 120000,
     description: "Для крупного коробочного контура, где приложения и AI-сценарии подключаются к рабочим процессам.",
     features: ["приложения Маркетплейса", "BitrixGPT", "стоимость для коробочной лицензии"],
   },
@@ -335,8 +336,7 @@ const marketplaceBoxPlans: MarketplacePlan[] = [
     id: "box-500",
     title: "Корпоративный портал - 500",
     usersLabel: "500 пользователей",
-    oldPrice: 256200,
-    price: 128100,
+    price: 210000,
     description: "Для распределённой компании с большим порталом, приложениями, AI-сценариями и долгим циклом владения.",
     features: ["приложения Маркетплейса", "BitrixGPT", "стоимость для коробочной лицензии"],
   },
@@ -625,8 +625,11 @@ export function BitrixPricingBlock() {
             </div>
             <div className="obx-price-line__lead obx-price-line__lead--important">
               <p>
-                Цены и лимиты сверяем перед выставлением счёта. В таблице показываем ориентиры по официальной линейке Битрикс24.
+                Основная лицензия Битрикс24. Цены и лимиты проверены {PRICE_REVIEW_DATE}.
+                Битрикс24 не облагается НДС; внедрение, сервер и сопровождение считаются отдельно.
+                Перед счётом подтверждаем актуальные условия.
               </p>
+              <p><a href="https://www.bitrix24.ru/prices/" target="_blank" rel="noreferrer">Облачные тарифы вендора</a>{" · "}<a href="https://www.bitrix24.ru/prices/self-hosted.php" target="_blank" rel="noreferrer">Коробочные лицензии</a></p>
               <BitrixCrmProof variant="hero" className="ob-crm-proof--tariffs" />
             </div>
           </div>
@@ -659,7 +662,7 @@ export function BitrixPricingBlock() {
               <span className="obx-price-line__control-label">Срок лицензии</span>
               <div className="obx-price-line__periods" role="tablist" aria-label="Срок лицензии Битрикс24">
                 <button className={period === "month" ? "is-active" : ""} type="button" role="tab" aria-selected={period === "month"} onClick={() => mode === "cloud" && setPeriod("month")}>1 месяц</button>
-                <button className={period === "year" ? "is-active" : ""} type="button" role="tab" aria-selected={period === "year"} onClick={() => mode === "cloud" && setPeriod("year")}>12 месяцев <span>-30%</span></button>
+                <button className={period === "year" ? "is-active" : ""} type="button" role="tab" aria-selected={period === "year"} onClick={() => mode === "cloud" && setPeriod("year")}>12 месяцев <span>-20%</span></button>
               </div>
             </div>
             <div className="obx-price-line__control-note">
@@ -712,10 +715,11 @@ export function BitrixPricingBlock() {
                     <div className="obx-price-line__price">
                       <div className="obx-price-line__price-old-row">
                         {period === "year" && <small>{formatPrice(oldPrice)}</small>}
-                        {period === "year" && <span className="obx-price-line__discount">-30%</span>}
+                        {period === "year" && <span className="obx-price-line__discount">-20%</span>}
                       </div>
                       <strong>{formatPrice(currentPrice)}</strong>
                       <span>{period === "year" ? "за месяц при оплате за год" : "за месяц"}</span>
+                      {period === "year" && <span>{formatPrice(currentPrice * 12)} за 12 месяцев</span>}
                     </div>
                     <a className="obx-price-line__link" href="#lead" data-obx-lead-open data-obx-lead-title={leadTitle(plan.title)}>
                       Запросить счёт
@@ -778,9 +782,9 @@ export function BitrixPricingBlock() {
                 Это хороший способ посмотреть интерфейс и собрать первые вопросы перед внедрением. Для рабочего запуска затем выбираем тариф под реальные процессы.
               </p>
               <div className="obx-price-line__trial-points" aria-label="Параметры бесплатного тарифа">
-                <span>5 ГБ диск</span>
+                <span>25 ГБ диск</span>
                 <span>неограниченно пользователей</span>
-                <span>все с правами администратора</span>
+                <span>бесплатное знакомство с системой</span>
               </div>
             </div>
             <div className="obx-price-line__trial-actions">
@@ -796,9 +800,12 @@ export function BitrixPricingBlock() {
                 <span className="obx-price-line__trial-label">Дополнительно</span>
                 <h3>Подписка Маркетплейс + BitrixGPT</h3>
                 <p>
-                  Отдельно проверяем подписку на приложения Маркетплейса и возможности BitrixGPT. Для облака показываем
-                  официальную логику по тарифам, для коробки фиксируем расчётный контур перед счётом.
+                  Дополнительная подписка оплачивается отдельно от основной лицензии.
+                  Здесь указаны базовые цены без НДС на {PRICE_REVIEW_DATE}, без учёта акций.
+                  Для облака при оплате за год действует базовая скидка 20%; коробочная подписка рассчитана на 12 месяцев.
                 </p>
+                <p>Для подходящих порталов возможна акционная цена. Право на акцию, срок её действия и итоговую сумму с НДС проверяем перед счётом.</p>
+                <p><a href="https://www.bitrix24.ru/apps/subscribe_base.php" target="_blank" rel="noreferrer">Базовые цены</a>{" · "}<a href="https://www.bitrix24.ru/apps/subscribe.php" target="_blank" rel="noreferrer">Текущие акции и условия</a></p>
               </div>
               <div className="obx-marketplace-plus__controls">
                 <div className="obx-marketplace-plus__switch" role="tablist" aria-label="Тип подписки Маркетплейс и BitrixGPT">
@@ -839,8 +846,9 @@ export function BitrixPricingBlock() {
                 const isEnterprise = marketMode === "cloud" && plan.enterprise;
                 const isPickerOpen = isEnterprise && openPicker === "market-enterprise";
                 const users = isEnterprise ? marketEnterpriseUsers : undefined;
-                const price = resolveMaybePrice(plan.price, users);
-                const oldPrice = plan.oldPrice ? resolveMaybePrice(plan.oldPrice, users) : null;
+                const annual = marketMode === "cloud" && marketPeriod === "year";
+                const price = resolveMaybePrice(annual && plan.yearly !== undefined ? plan.yearly : plan.price, users);
+                const oldPrice = annual ? resolveMaybePrice(plan.price, users) : null;
                 const storage = isEnterprise ? enterpriseStorage[marketEnterpriseUsers] : plan.storage;
                 const discount = typeof oldPrice === "number" && typeof price === "number" ? Math.round((1 - price / oldPrice) * 100) : null;
 
@@ -877,7 +885,8 @@ export function BitrixPricingBlock() {
                         </div>
                       )}
                       <strong>{formatMaybePrice(price)}</strong>
-                      <span>{typeof price === "number" ? (marketMode === "cloud" ? (marketPeriod === "year" ? "в месяц при покупке на год" : "в месяц за всех пользователей") : "стоимость подписки") : "после проверки условий"}</span>
+                      <span>{typeof price === "number" ? (marketMode === "cloud" ? (annual ? "в месяц при оплате за год, без НДС" : "в месяц за всех пользователей, без НДС") : "за 12 месяцев, без НДС") : "после проверки условий"}</span>
+                      {annual && typeof price === "number" && <span>{formatPrice(price * 12)} за 12 месяцев, без НДС</span>}
                     </div>
                     <ul>
                       {plan.features.map((feature) => (
