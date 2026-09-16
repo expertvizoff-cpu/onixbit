@@ -30212,7 +30212,7 @@ span.ob-pricing-estimate__client {
 .ob-lead-modal {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(300px, 0.76fr) minmax(520px, 1.24fr);
+  grid-template-columns: minmax(360px, 0.85fr) minmax(0, 1.15fr);
   width: min(1060px, calc(100vw - 32px));
   max-height: calc(100dvh - 32px);
   border: 1px solid rgba(255, 255, 255, 0.34);
@@ -30298,7 +30298,7 @@ span.ob-pricing-estimate__client {
   max-width: none;
   margin: 0;
   color: #fff;
-  font-size: clamp(30px, 2.25vw, 32px);
+  font-size: clamp(28px, 2.1vw, 30px);
   line-height: 1.06;
   font-weight: 850;
   letter-spacing: -0.035em;
@@ -30307,7 +30307,7 @@ span.ob-pricing-estimate__client {
 
 .ob-lead-modal__intro h2 span {
   display: block;
-  white-space: nowrap;
+  white-space: normal;
 }
 
 .ob-lead-modal__intro > p {
@@ -30318,10 +30318,20 @@ span.ob-pricing-estimate__client {
   line-height: 1.6;
 }
 
+.ob-lead-modal__steps-label {
+  display: block;
+  margin-top: clamp(32px, 6vh, 60px);
+  color: var(--ob-yellow);
+  font-family: var(--ob-font-display);
+  font-size: 11px;
+  line-height: 1;
+  font-weight: 800;
+}
+
 .ob-lead-modal__steps {
   display: grid;
   gap: 11px;
-  margin: clamp(32px, 6vh, 60px) 0 0;
+  margin: 14px 0 0;
   padding: 0;
   list-style: none;
 }
@@ -30655,6 +30665,10 @@ span.ob-pricing-estimate__client {
   }
 
   .ob-lead-modal__steps {
+    display: none;
+  }
+
+  .ob-lead-modal__steps-label {
     display: none;
   }
 

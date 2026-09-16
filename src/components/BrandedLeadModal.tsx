@@ -240,19 +240,21 @@ export function LeadPopupBridge() {
             width={162}
             height={40}
           />
-          <span className="ob-lead-modal__eyebrow">Заявка в Ониксбит</span>
+          <span className="ob-lead-modal__eyebrow">Можно без готового ТЗ</span>
           <h2 id={titleId}>
-            <span>Разберём задачу.</span>{" "}
-            <span>Наметим шаги.</span>
+            <span>Опишите ситуацию.</span>{" "}
+            <span>Предложим первый этап.</span>
           </h2>
           <p id={descriptionId}>
-            Коротко опишите контекст. Мы уточним детали, границы проекта и подходящий формат работы.
+            Напишите своими словами, что нужно запустить, связать или исправить:
+            Битрикс24, сайт, 1С или интеграцию.
           </p>
 
+          <span className="ob-lead-modal__steps-label">После заявки</span>
           <ul className="ob-lead-modal__steps">
-            <li><CheckCircle2 size={17} aria-hidden="true" /> Уточним контекст</li>
-            <li><CheckCircle2 size={17} aria-hidden="true" /> Предложим ближайший шаг</li>
-            <li><CheckCircle2 size={17} aria-hidden="true" /> Обозначим границы проекта</li>
+            <li><CheckCircle2 size={17} aria-hidden="true" /> Уточним цель и текущую схему</li>
+            <li><CheckCircle2 size={17} aria-hidden="true" /> Выделим риски и зависимости</li>
+            <li><CheckCircle2 size={17} aria-hidden="true" /> Обозначим состав первого этапа</li>
           </ul>
         </section>
 
