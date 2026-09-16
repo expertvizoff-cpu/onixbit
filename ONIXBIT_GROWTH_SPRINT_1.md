@@ -10,10 +10,11 @@
 > работает уже настроенная CRM-форма 28. Поля, валидация, согласие, source/UTM,
 > воронка, стадия, ответственный и автоматизации остаются на стороне этой формы.
 > Отдельный `/api/leads`, webhook и новые секреты не используются.
-> Production freeze сохранён до отдельного выпуска.
+> Владелец разрешил отдельный production-выпуск этого пакета.
 > Локальная проверка: lint, TypeScript и production build пройдены; Playwright
-> 54/54 на desktop/mobile, включая axe, focus restore, reduced-motion,
-> валидацию, source/UTM payload и origin rejection. CRM-записей не создавалось.
+> 52/52 на desktop/mobile, включая axe, focus restore, reduced-motion и fallback.
+> Реальный loader формы 28 проверен без отправки: шесть контролов, повторное
+> открытие, один marker; внешние записывающие запросы блокировались.
 
 > 16.09.2026 popup опубликован отдельным минимальным релизом вместе с явно
 > разрешёнными security-обновлениями. Production main 41b67a8, audit 0.

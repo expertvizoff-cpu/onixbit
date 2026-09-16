@@ -15,13 +15,14 @@ Shared hub: `/home/aleksander/projects/astra-command`
   funnel, stage, responsible user and CRM automations. Site code changes only
   the surrounding modal layout and scoped visual presentation.
 - Fresh verification: ESLint, TypeScript and the standard Turbopack production
-  build passed; full Playwright passed 54/54 across desktop and mobile. Targeted
+  build passed; full Playwright passed 52/52 across desktop and mobile. Targeted
   modal checks cover the native form contract, loader failure fallback,
   focus restoration, reduced motion, horizontal overflow and axe. Stable
-  desktop/mobile screenshots were visually reviewed; no CRM submission ran.
-- Production prerequisites: exact production-baseline diff, successful CI/deploy
-  and a no-submit live opening check. Production freeze remains active until the
-  owner authorizes this release.
+  desktop/mobile screenshots were visually reviewed. A real-loader no-submit
+  check loaded six native controls, reopened the form with one marker and blocked
+  two external write requests; no CRM submission ran.
+- Owner authorized this release. Remaining gates: exact production-baseline diff,
+  successful CI/deploy and a no-submit live opening check.
 
 ## Company Requisites Publication — 2026-09-01
 
