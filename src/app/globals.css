@@ -30665,11 +30665,17 @@ span.ob-pricing-estimate__client {
   }
 
   .ob-lead-modal__steps {
-    display: none;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 8px;
+    margin-top: 12px;
   }
 
   .ob-lead-modal__steps-label {
-    display: none;
+    margin-top: 24px;
+  }
+
+  .ob-lead-modal__steps li {
+    font-size: 12px;
   }
 
   .ob-lead-modal__form {
