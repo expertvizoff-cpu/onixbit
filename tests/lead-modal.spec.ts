@@ -2,17 +2,36 @@ import AxeBuilder from "@axe-core/playwright";
 import { expect, test, type Page } from "@playwright/test";
 import { mkdir } from "node:fs/promises";
 
+const nativeFormAdapter = `(() => {
+  const marker = document.querySelector('script[data-b24-form="inline/28/bslxb8"]');
+  if (!marker || marker.parentElement.querySelector('.b24-form')) return;
+  const wrapper = document.createElement('div');
+  wrapper.className = 'b24-form b24-form-wrapper';
+  wrapper.innerHTML = '<form class="b24-form-content">'
+    + '<label class="b24-form-field"><span class="b24-form-field-title">Имя</span><input class="b24-form-control" name="CONTACT_NAME" autocomplete="given-name"></label>'
+    + '<label class="b24-form-field"><span class="b24-form-field-title">Фамилия</span><input class="b24-form-control" name="CONTACT_LAST_NAME" autocomplete="family-name"></label>'
+    + '<label class="b24-form-field"><span class="b24-form-field-title">Телефон</span><input class="b24-form-control" name="CONTACT_PHONE" type="tel" value="+7"></label>'
+    + '<label class="b24-form-field"><span class="b24-form-field-title">E-mail</span><input class="b24-form-control" name="CONTACT_EMAIL" type="email"></label>'
+    + '<label class="b24-form-field"><span class="b24-form-field-title">Короткое описание задачи</span><textarea class="b24-form-control" name="DEAL_COMMENTS"></textarea></label>'
+    + '<label class="b24-form-field-agreement"><input type="checkbox" checked> Я согласен на обработку персональных данных</label>'
+    + '<button class="b24-form-btn" type="button">Отправить</button>'
+    + '</form>';
+  marker.after(wrapper);
+})();`;
+
 test.beforeEach(async ({ page }) => {
   await page.addInitScript(() => {
     window.localStorage.setItem("onixbitPrivacyConsent", "essential");
   });
 });
 
+async function mockNativeForm(page: Page) {
+  await page.route("https://cdn-ru.bitrix24.ru/**/loader_28.js**", (route) =>
+    route.fulfill({ contentType: "application/javascript", body: nativeFormAdapter }),
+  );
+}
+
 async function openLeadModal(page: Page) {
-  const privacyBanner = page.getByRole("complementary", { name: "Согласие на обработку данных" });
-  if (await privacyBanner.isVisible()) {
-    await privacyBanner.getByRole("button", { name: "Только обязательные", exact: true }).click();
-  }
   const menu = page.getByRole("button", { name: "Открыть меню", exact: true });
   if (await menu.isVisible()) await menu.click();
   const opener = page.locator("[data-obx-lead-open]").filter({ visible: true }).first();
@@ -21,78 +40,39 @@ async function openLeadModal(page: Page) {
   return opener;
 }
 
-test("branded modal preserves fields, source and UTM through successful submission", async ({ page }) => {
-  let submitted: Record<string, unknown> | undefined;
-  await page.route("**/api/leads", async (route) => {
-    submitted = route.request().postDataJSON() as Record<string, unknown>;
-    await route.fulfill({ status: 201, contentType: "application/json", body: JSON.stringify({ ok: true }) });
-  });
-
-  await page.goto("/contacts?utm_source=search&utm_medium=cpc&utm_campaign=crm&utm_content=header&utm_term=bitrix24");
+test("branded modal embeds the configured Bitrix24 form 28", async ({ page }) => {
+  await mockNativeForm(page);
+  await page.goto("/contacts?utm_source=search&utm_medium=cpc&utm_campaign=crm");
   await openLeadModal(page);
   const dialog = page.getByRole("dialog", { name: /Опишите ситуацию/ });
 
+  await expect(page.locator('script[data-b24-form="inline/28/bslxb8"]')).toHaveCount(1);
+  await expect(page.locator('script[data-b24-form^="click/28/"]')).toHaveCount(0);
   await expect(dialog.getByLabel("Имя")).toBeVisible();
   await expect(dialog.getByLabel("Фамилия")).toBeVisible();
   await expect(dialog.getByLabel("Телефон")).toBeVisible();
   await expect(dialog.getByLabel("E-mail")).toBeVisible();
   await expect(dialog.getByLabel("Короткое описание задачи")).toBeVisible();
-  await expect(page.locator('script[data-b24-form^="click/28/"]')).toHaveCount(0);
-
-  await dialog.getByLabel("Имя").fill("Александр");
-  await dialog.getByLabel("Фамилия").fill("Тестовый");
-  await dialog.getByLabel("Телефон").fill("+7 920 000-00-00");
-  await dialog.getByLabel("E-mail").fill("qa@example.test");
-  await dialog.getByLabel("Короткое описание задачи").fill("Проверка branded modal без записи в CRM");
-  await dialog.getByLabel(/Я согласен на обработку/).check();
-  await dialog.getByRole("button", { name: /Отправить заявку/ }).click();
-
-  await expect(dialog.getByRole("heading", { name: "Заявка принята" })).toBeVisible();
-  expect(submitted).toMatchObject({
-    name: "Александр",
-    lastName: "Тестовый",
-    phone: "+7 920 000-00-00",
-    email: "qa@example.test",
-    comments: "Проверка branded modal без записи в CRM",
-    consent: true,
-    utm: {
-      utm_source: "search",
-      utm_medium: "cpc",
-      utm_campaign: "crm",
-      utm_content: "header",
-      utm_term: "bitrix24",
-    },
-  });
-  expect(String(submitted?.source)).toContain("Обсудить проект");
-  expect(String(submitted?.pageUrl)).toContain("utm_source=search");
+  await expect(dialog.getByLabel(/Я согласен на обработку/)).toBeChecked();
+  await expect(dialog.getByRole("button", { name: "Отправить", exact: true })).toBeVisible();
+  await expect(dialog.locator(".ob-form-slot")).toHaveAttribute("data-form-status", "ready");
 });
 
-test("modal validates contact and consent before sending", async ({ page }) => {
-  let apiCalls = 0;
-  await page.route("**/api/leads", async (route) => {
-    apiCalls += 1;
-    await route.fulfill({ status: 201, contentType: "application/json", body: JSON.stringify({ ok: true }) });
-  });
+test("failed native loader exposes direct contact fallback", async ({ page }) => {
+  await page.route("https://cdn-ru.bitrix24.ru/**/loader_28.js**", (route) => route.abort());
   await page.goto("/");
   await openLeadModal(page);
-  const dialog = page.getByRole("dialog", { name: /Опишите ситуацию/ });
-
-  await dialog.getByRole("button", { name: /Отправить заявку/ }).click();
-  await expect(dialog.getByText("Укажите телефон или e-mail, чтобы мы могли ответить.")).toBeVisible();
-  await expect(dialog.getByText("Подтвердите согласие на обработку персональных данных.")).toBeVisible();
-  expect(apiCalls).toBe(0);
-
-  await dialog.getByLabel("Телефон").fill("123");
-  await dialog.getByLabel(/Я согласен на обработку/).check();
-  await dialog.getByRole("button", { name: /Отправить заявку/ }).click();
-  await expect(dialog.getByText("Проверьте номер телефона.")).toBeVisible();
-  expect(apiCalls).toBe(0);
+  const alert = page.getByRole("dialog", { name: /Опишите ситуацию/ }).getByRole("alert");
+  await expect(alert).toContainText("Не удалось загрузить форму");
+  await expect(alert.getByRole("link", { name: "8 800 100-53-03" })).toHaveAttribute("href", "tel:+78001005303");
+  await expect(alert.getByRole("link", { name: "info@onixbit.ru" })).toHaveAttribute("href", "mailto:info@onixbit.ru");
 });
 
 test("modal traps keyboard focus, closes with Escape and restores the opener", async ({ page }) => {
+  await mockNativeForm(page);
   await page.goto("/");
   await openLeadModal(page);
-  await expect(page.getByLabel("Имя")).toBeFocused();
+  await expect(page.getByRole("button", { name: "Закрыть форму" })).toBeFocused();
   await expect(page.locator("body")).toHaveCSS("overflow", "hidden");
 
   await page.keyboard.press("Escape");
@@ -105,6 +85,7 @@ test("modal traps keyboard focus, closes with Escape and restores the opener", a
 });
 
 test("mobile modal has no horizontal overflow and respects reduced motion", async ({ page }) => {
+  await mockNativeForm(page);
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/");
   await openLeadModal(page);
@@ -112,6 +93,8 @@ test("mobile modal has no horizontal overflow and respects reduced motion", asyn
 
   expect(await dialog.evaluate((element) => element.scrollWidth <= element.clientWidth + 1)).toBe(true);
   await expect(dialog).toHaveCSS("animation-name", "none");
+  await expect(dialog.getByText("После заявки", { exact: true })).toBeVisible();
+  await expect(dialog.getByText("Обозначим состав первого этапа", { exact: true })).toBeVisible();
 
   const scan = await new AxeBuilder({ page })
     .include("[data-obx-lead-modal]")
@@ -121,55 +104,8 @@ test("mobile modal has no horizontal overflow and respects reduced motion", asyn
   expect(blocking).toEqual([]);
 });
 
-test("lead API rejects unsafe requests and hides server configuration errors", async ({ page }) => {
-  await page.goto("/");
-
-  const crossOrigin = await page.request.post("/api/leads", {
-    headers: { origin: "https://example.invalid", "content-type": "application/json" },
-    data: {},
-  });
-  expect(crossOrigin.status()).toBe(403);
-
-  const invalid = await page.evaluate(async () => {
-    const response = await fetch("/api/leads", {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({ requestId: "qa-invalid", consent: false }),
-    });
-    return { status: response.status, body: await response.json() as { ok?: boolean } };
-  });
-  expect(invalid.status).toBe(400);
-  expect(invalid.body).toMatchObject({ ok: false });
-
-  const unavailable = await page.evaluate(async () => {
-    const response = await fetch("/api/leads", {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({
-        name: "QA",
-        lastName: "",
-        phone: "+7 920 000-00-00",
-        email: "",
-        comments: "Проверка ответа без настроенного webhook",
-        consent: true,
-        website: "",
-        pageUrl: window.location.href,
-        pageTitle: document.title,
-        source: "QA preview",
-        requestId: `qa-unavailable-${Date.now()}`,
-        utm: {},
-      }),
-    });
-    return { status: response.status, body: await response.json() as { ok?: boolean; message?: string } };
-  });
-  expect(unavailable.status).toBe(502);
-  expect(unavailable.body).toEqual({
-    ok: false,
-    message: "Не удалось отправить заявку. Позвоните нам или попробуйте ещё раз.",
-  });
-});
-
-test("@visual captures branded lead modal for review", async ({ page }, testInfo) => {
+test("@visual captures branded native Bitrix24 form for review", async ({ page }, testInfo) => {
+  await mockNativeForm(page);
   await page.goto("/contacts");
   await openLeadModal(page);
   await mkdir(".work/branded-modal", { recursive: true });

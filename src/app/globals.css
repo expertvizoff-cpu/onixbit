@@ -2445,6 +2445,35 @@ textarea:focus-visible {
   display: none;
 }
 
+.ob-form-slot__mount:empty {
+  display: none;
+}
+
+.ob-form-slot__error {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 20px;
+  color: var(--ob-ink);
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.ob-form-slot__error p {
+  margin: 0;
+}
+
+.ob-form-slot__error a {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 32px;
+  overflow-wrap: anywhere;
+  color: var(--ob-red-deep);
+  text-decoration: underline;
+}
+
 .ob-form-slot .b24-form,
 .ob-form-slot .b24-form-wrapper,
 .ob-form-slot .b24-form-content {
@@ -2469,6 +2498,7 @@ textarea:focus-visible {
 }
 
 .ob-form-slot .b24-form-field {
+  display: block !important;
   margin: 0 0 12px !important;
 }
 
@@ -2480,6 +2510,7 @@ textarea:focus-visible {
 
 .ob-form-slot :is(input, textarea, select),
 .ob-form-slot .b24-form-control {
+  width: 100% !important;
   min-height: 54px !important;
   border: 1px solid rgba(8, 8, 8, 0.1) !important;
   background: rgba(255, 255, 255, 0.76) !important;
@@ -30386,6 +30417,15 @@ span.ob-pricing-estimate__client {
   color: var(--ob-muted);
   font-size: 13px;
   line-height: 1.55;
+}
+
+.ob-lead-modal__b24-form {
+  min-height: 520px;
+  margin-top: 24px;
+}
+
+.ob-lead-modal__b24-form .ob-form-slot__placeholder {
+  min-height: 440px;
 }
 
 .ob-lead-modal__grid {
