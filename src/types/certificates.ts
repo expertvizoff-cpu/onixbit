@@ -34,6 +34,8 @@ export type CertificateAsset = {
   width: number;
   height: number;
   redactedValidity?: boolean;
+  validityNote?: string;
+  archived: boolean;
 };
 
 export type CertificateDashboard = {

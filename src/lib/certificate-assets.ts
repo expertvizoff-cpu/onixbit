@@ -1,5 +1,6 @@
 import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join, relative } from "node:path";
+import { certificateFacts } from "@/data/partner-proof";
 import type { CertificateAsset, CertificateDashboard, CertificateGroup, CertificateGroupId } from "@/types/certificates";
 
 type GeneratedPreview = {
@@ -146,7 +147,8 @@ function listFiles(group: RealCertificateGroup, manifest: Record<string, Generat
       const file = join(dir, name);
       const source = publicPath(file);
       const generated = manifest[source];
-      const title = cleanTitle(name);
+      const facts = certificateFacts[`${group.folder}/${name}`];
+      const title = facts?.title ?? cleanTitle(name);
       const kind = /\.pdf$/i.test(name) ? "pdf" : "image";
 
       return {
@@ -163,6 +165,8 @@ function listFiles(group: RealCertificateGroup, manifest: Record<string, Generat
         width: generated?.width ?? 1200,
         height: generated?.height ?? (group.id.includes("status") || group.id === "onec" ? 850 : 1600),
         redactedValidity: generated?.redactedValidity,
+        validityNote: facts?.validityNote,
+        archived: facts?.archived ?? false,
       } satisfies CertificateAsset;
     });
 }
@@ -181,6 +185,9 @@ const groupWeight: Record<Exclude<CertificateGroupId, "all">, number> = {
 function itemWeight(item: CertificateAsset) {
   const title = item.title.toLowerCase();
   const base = groupWeight[item.group] ?? 90;
+
+  if (item.archived) return base + 30;
+  if (item.validityNote) return base - 1;
 
   if (title.includes("золотой")) return base;
   if (title.includes("crm")) return base + 1;

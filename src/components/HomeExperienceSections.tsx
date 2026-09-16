@@ -1,5 +1,7 @@
 "use client";
 
+import { partnerProof } from "@/data/partner-proof";
+
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -287,14 +289,14 @@ const trustCertificates = [
   {
     label: "Битрикс24",
     title: "Золотой партнёр",
-    image: "/media/certificates/Битрикс24 сертификаты/Золотой партнёр Битрикс24.jpg",
+    image: partnerProof.bitrix24.image,
     orientation: "landscape",
     className: "is-main",
   },
   {
     label: "1С-Битрикс",
-    title: "Золотой партнёр",
-    image: "/media/certificates/1С-Битрикс сертификаты/Золотой партнёр 1С-Битрикс.jpg",
+    title: "Сертифицированный партнёр",
+    image: partnerProof.bitrix.image,
     orientation: "landscape",
     className: "is-second",
   },
@@ -783,7 +785,7 @@ export function HomeTrustSection() {
             <div className="ob-home-trust__badges" aria-label="Подтверждения компетенций">
               <article className="is-bitrix24">
                 <span className="ob-home-trust__badge-cert" aria-hidden="true">
-                  <Image src="/media/certificates/Битрикс24 сертификаты/Золотой партнёр Битрикс24.jpg" alt="" width={96} height={68} sizes="96px" />
+                  <Image src={partnerProof.bitrix24.image} alt="" width={96} height={68} sizes="96px" />
                 </span>
                 <div>
                   <strong><BadgeCheck size={18} aria-hidden="true" /> партнёр Битрикс24</strong>
@@ -792,7 +794,7 @@ export function HomeTrustSection() {
               </article>
               <article className="is-bitrix">
                 <span className="ob-home-trust__badge-cert" aria-hidden="true">
-                  <Image src="/media/certificates/1С-Битрикс сертификаты/Золотой партнёр 1С-Битрикс.jpg" alt="" width={96} height={68} sizes="96px" />
+                  <Image src={partnerProof.bitrix.image} alt="" width={96} height={68} sizes="96px" />
                 </span>
                 <div>
                   <strong><BadgeCheck size={18} aria-hidden="true" /> партнёр 1С-Битрикс</strong>

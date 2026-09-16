@@ -1,5 +1,5 @@
 import { createHash } from "node:crypto";
-import { existsSync, mkdirSync, readdirSync, statSync, unlinkSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readdirSync, readFileSync, statSync, unlinkSync, writeFileSync } from "node:fs";
 import { dirname, join, relative, resolve } from "node:path";
 import { spawnSync } from "node:child_process";
 import sharp from "sharp";
@@ -7,9 +7,10 @@ import sharp from "sharp";
 const projectRoot = resolve(dirname(new URL(import.meta.url).pathname), "..");
 const certificateRoot = resolve(projectRoot, "public/media/certificates");
 const generatedRoot = resolve(certificateRoot, "_generated");
+const manifestPath = resolve(generatedRoot, "manifest.json");
 const popplerRoot = resolve(projectRoot, ".cache/poppler/root");
-const pdftoppm = resolve(popplerRoot, "usr/bin/pdftoppm");
-const pdftotext = resolve(popplerRoot, "usr/bin/pdftotext");
+const bundledPdftoppm = resolve(popplerRoot, "usr/bin/pdftoppm");
+const pdftoppm = process.env.PDFTOPPM_PATH || (existsSync(bundledPdftoppm) ? bundledPdftoppm : "pdftoppm");
 const popplerLibPath = [
   resolve(popplerRoot, "usr/lib/x86_64-linux-gnu"),
   resolve(projectRoot, ".cache/playwright-deps/root/usr/lib/x86_64-linux-gnu"),
@@ -68,112 +69,17 @@ function walk(dir) {
 }
 
 function safeName(file) {
-  const relativePath = relative(certificateRoot, file);
-  const base = relativePath
-    .replace(/\.pdf$/i, "")
-    .normalize("NFKD")
-    .replace(/[^\p{L}\p{N}]+/gu, "-")
-    .replace(/^-+|-+$/g, "")
-    .slice(0, 80);
-  const hash = createHash("sha1").update(relativePath).digest("hex").slice(0, 8);
+  const hash = createHash("sha256")
+    .update(readFileSync(file))
+    .update("original-v1-160dpi-1280")
+    .digest("hex")
+    .slice(0, 16);
 
-  return `${base || "certificate"}-${hash}`;
+  return `original-${hash}`;
 }
 
-function parseBBox(xml) {
-  const pageMatch = xml.match(/<page[^>]*width="([0-9.]+)"[^>]*height="([0-9.]+)"/);
-  const page = pageMatch
-    ? { width: Number(pageMatch[1]), height: Number(pageMatch[2]) }
-    : { width: 0, height: 0 };
-  const words = [];
-  const wordPattern = /<word[^>]*xMin="([0-9.]+)"[^>]*yMin="([0-9.]+)"[^>]*xMax="([0-9.]+)"[^>]*yMax="([0-9.]+)"[^>]*>(.*?)<\/word>/g;
-
-  for (const match of xml.matchAll(wordPattern)) {
-    words.push({
-      xMin: Number(match[1]),
-      yMin: Number(match[2]),
-      xMax: Number(match[3]),
-      yMax: Number(match[4]),
-      text: match[5]
-        .replace(/&amp;/g, "&")
-        .replace(/&lt;/g, "<")
-        .replace(/&gt;/g, ">")
-        .replace(/&quot;/g, "\""),
-    });
-  }
-
-  return { page, words };
-}
-
-function groupLines(words) {
-  const sorted = [...words].sort((a, b) => a.yMin - b.yMin || a.xMin - b.xMin);
-  const lines = [];
-
-  for (const word of sorted) {
-    const line = lines.find((item) => Math.abs(item.y - word.yMin) < 5);
-
-    if (line) {
-      line.words.push(word);
-      line.y = (line.y + word.yMin) / 2;
-    } else {
-      lines.push({ y: word.yMin, words: [word] });
-    }
-  }
-
-  return lines
-    .map((line) => ({
-      words: line.words.sort((a, b) => a.xMin - b.xMin),
-      text: line.words.sort((a, b) => a.xMin - b.xMin).map((word) => word.text).join(" "),
-    }))
-    .sort((a, b) => a.words[0].yMin - b.words[0].yMin);
-}
-
-function unionBoxes(lines) {
-  const words = lines.flatMap((line) => line.words);
-
-  return {
-    xMin: Math.min(...words.map((word) => word.xMin)),
-    yMin: Math.min(...words.map((word) => word.yMin)),
-    xMax: Math.max(...words.map((word) => word.xMax)),
-    yMax: Math.max(...words.map((word) => word.yMax)),
-  };
-}
-
-function validityBox(file) {
-  const xml = run(pdftotext, ["-bbox", file, "-"]);
-  const { page, words } = parseBBox(xml);
-  const lines = groupLines(words);
-  const selected = [];
-
-  lines.forEach((line, index) => {
-    const lineText = line.text;
-    const hasValidityLabel = /действителен|valid/i.test(lineText);
-    const hasDateRange = /\bс\s+\d{2}\.\d{2}\.\d{4}.*\bпо\s+\d{2}\.\d{2}\.\d{4}/i.test(lineText);
-
-    if (hasValidityLabel || hasDateRange) {
-      selected.push(line);
-
-      const nextLine = lines[index + 1];
-      if (nextLine && /\d{2}\.\d{2}\.\d{4}|^\s*с\b/i.test(nextLine.text)) {
-        selected.push(nextLine);
-      }
-    }
-  });
-
-  if (!selected.length || !page.width || !page.height) {
-    return null;
-  }
-
-  const box = unionBoxes(selected);
-  const padding = 8;
-
-  return {
-    xMin: Math.max(0, box.xMin - padding),
-    yMin: Math.max(0, box.yMin - padding),
-    xMax: Math.min(page.width, box.xMax + padding),
-    yMax: Math.min(page.height, box.yMax + padding),
-    page,
-  };
+function sourceUrl(file) {
+  return `/media/certificates/${relative(certificateRoot, file).split(/[\\/]/).map(encodeURIComponent).join("/")}`;
 }
 
 async function createPreview(file) {
@@ -186,30 +92,8 @@ async function createPreview(file) {
 
   run(pdftoppm, ["-f", "1", "-singlefile", "-png", "-r", String(renderDpi), file, tmpPrefix]);
 
-  const image = sharp(tmpPng);
-  const metadata = await image.metadata();
-  const redaction = validityBox(file);
-  const composites = [];
-
-  if (redaction && metadata.width && metadata.height) {
-    const scaleX = metadata.width / redaction.page.width;
-    const scaleY = metadata.height / redaction.page.height;
-    const left = Math.max(0, Math.floor(redaction.xMin * scaleX));
-    const top = Math.max(0, Math.floor(redaction.yMin * scaleY));
-    const width = Math.min(metadata.width - left, Math.ceil((redaction.xMax - redaction.xMin) * scaleX));
-    const height = Math.min(metadata.height - top, Math.ceil((redaction.yMax - redaction.yMin) * scaleY));
-
-    composites.push({
-      input: Buffer.from(
-        `<svg width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg"><rect width="100%" height="100%" rx="10" fill="#fff"/></svg>`,
-      ),
-      left,
-      top,
-    });
-  }
-
+  // Render the original first page as-is: no masking, overlays or date removal.
   const pipeline = sharp(tmpPng)
-    .composite(composites)
     .resize({ width: maxPreviewWidth, withoutEnlargement: true })
     .webp({ quality: 82, effort: 5 });
 
@@ -220,41 +104,46 @@ async function createPreview(file) {
   unlinkSync(tmpPng);
 
   return {
-    source: `/media/certificates/${relative(certificateRoot, file).split(/[\\/]/).map(encodeURIComponent).join("/")}`,
+    source: sourceUrl(file),
     preview: publicPath,
     width: outMeta.width ?? 900,
     height: outMeta.height ?? 1200,
-    redactedValidity: Boolean(redaction),
+    redactedValidity: false,
   };
 }
 
 async function main() {
-  if (!existsSync(pdftoppm) || !existsSync(pdftotext)) {
-    throw new Error("Local Poppler binaries are missing. Prepare .cache/poppler before running this script.");
+  if (pdftoppm !== "pdftoppm" && !existsSync(pdftoppm)) {
+    throw new Error("PDF renderer is missing. Set PDFTOPPM_PATH or install pdftoppm.");
   }
 
   mkdirSync(generatedRoot, { recursive: true });
 
-  const manifest = {};
+  const restoreOnly = process.argv.includes("--restore-validity");
+  const manifest = restoreOnly && existsSync(manifestPath)
+    ? JSON.parse(readFileSync(manifestPath, "utf8"))
+    : {};
   const sourceFiles = certificateFolders.flatMap((folder) => {
     const dir = resolve(certificateRoot, folder);
 
     return existsSync(dir) ? walk(dir) : [];
-  });
+  }).filter((file) => !restoreOnly || manifest[sourceUrl(file)]?.redactedValidity);
 
-  for (const name of readdirSync(generatedRoot)) {
-    if (name.endsWith(".webp")) {
-      unlinkSync(resolve(generatedRoot, name));
+  if (!restoreOnly) {
+    for (const name of readdirSync(generatedRoot)) {
+      if (name.endsWith(".webp")) {
+        unlinkSync(resolve(generatedRoot, name));
+      }
     }
   }
 
   for (const file of sourceFiles) {
     const item = await createPreview(file);
     manifest[item.source] = item;
-    console.log(`${item.redactedValidity ? "masked" : "rendered"} ${item.source}`);
+    console.log(`original ${item.source}`);
   }
 
-  writeFileSync(resolve(generatedRoot, "manifest.json"), JSON.stringify(manifest, null, 2) + "\n");
+  writeFileSync(manifestPath, JSON.stringify(manifest, null, 2) + "\n");
 }
 
 main().catch((error) => {

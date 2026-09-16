@@ -1,4 +1,5 @@
 import { articleRoadmap, knowledgeBaseArticles } from "./articles";
+import { partnerProof } from "./partner-proof";
 
 export type DirectionId = "bitrix24" | "sites" | "onec";
 
@@ -145,7 +146,7 @@ export const directions: Direction[] = [
     shortTitle: "Битрикс24",
     menuTitle: "Внедрение Битрикс24",
     href: "/vnedrenie-bitrix24",
-    badge: "Золотой партнёр Битрикс24",
+    badge: partnerProof.bitrix24.label,
     logo: "Bitrix24",
     eyebrow: "CRM, коммуникации, автоматизация продаж",
     headline: "Битрикс24 под процессы компании",
@@ -197,7 +198,7 @@ export const directions: Direction[] = [
     shortTitle: "1С-Битрикс",
     menuTitle: "Сайты на 1С-Битрикс",
     href: "/razrabotka-saitov-na-1c-bitrix",
-    badge: "Золотой партнёр 1С-Битрикс",
+    badge: partnerProof.bitrix.label,
     logo: "1C-Битрикс",
     eyebrow: "Корпоративные сайты, каталоги, интернет-магазины",
     headline: "Сайты на 1С-Битрикс для продаж и интеграций",
@@ -356,11 +357,11 @@ export const testimonials = [
 
 export const certificates = [
   {
-    title: "Золотой партнёр Битрикс24",
+    title: partnerProof.bitrix24.label,
     text: "Партнёрский статус и компетенции по внедрению CRM, настройкам и разработке.",
   },
   {
-    title: "Золотой партнёр 1С-Битрикс",
+    title: partnerProof.bitrix.label,
     text: "Компетенции по разработке сайтов, магазинов и интеграций на платформе.",
   },
   {

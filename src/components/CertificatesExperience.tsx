@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { createPortal } from "react-dom";
 import {
   BookOpenCheck,
   Cable,
@@ -22,6 +23,7 @@ import {
   X,
 } from "lucide-react";
 import { ButtonLink, LeadButton } from "./Buttons";
+import { partnerProof } from "@/data/partner-proof";
 import type { CertificateArea, CertificateAsset, CertificateDashboard, CertificateGroupId } from "@/types/certificates";
 
 type CertificatesExperienceProps = {
@@ -492,7 +494,7 @@ export function CertificatesExperience({ dashboard }: CertificatesExperienceProp
                   layout
                   transition={{ duration: 0.22, ease: "easeOut" }}
                 >
-                  <span className="obx-certs__type">{item.type}</span>
+                  <span className="obx-certs__type">{item.archived ? "Архив" : item.type}</span>
                   <div className="obx-certs__frame">
                     <button
                       aria-label={"Открыть сертификат: " + item.title}
@@ -512,6 +514,8 @@ export function CertificatesExperience({ dashboard }: CertificatesExperienceProp
                   </div>
                   <h3 className="obx-certs__card-title">{item.title}</h3>
                   <p className="obx-certs__card-text">{item.text}</p>
+                  {item.validityNote && <p className="obx-certs__validity">{item.validityNote}</p>}
+                  <a className="obx-certs__original" href={item.source} target="_blank" rel="noreferrer">Открыть оригинал</a>
                 </motion.article>
               ))}
             </AnimatePresence>
@@ -538,15 +542,16 @@ export function CertificatesExperience({ dashboard }: CertificatesExperienceProp
           <div className="obx-certs__note">
             <FolderCheck size={18} aria-hidden="true" />
             <span>
-              <strong>Страница пополняется:</strong> новые документы появляются в своих направлениях,
-              а для проверки конкретного статуса можно запросить официальный способ подтверждения перед стартом проекта.
+              Статусы проверены {partnerProof.checkedOn}:{" "}
+              <a href={partnerProof.bitrix24.profile} target="_blank" rel="noreferrer">Битрикс24 — золотой партнёр</a>{"; "}
+              <a href={partnerProof.bitrix.profile} target="_blank" rel="noreferrer">1С-Битрикс — сертифицированный партнёр</a>.
+              Сроки документов видны в оригиналах; архивные подтверждения отмечены отдельно.
             </span>
           </div>
         </div>
 
-        <div
-          aria-hidden={!modal}
-          className={"obx-certs__modal " + (modal ? "is-open" : "")}
+        {modal && createPortal(<div
+          className="obx-certs__modal is-open"
           onMouseDown={closeModal}
         >
           {modal && (
@@ -577,9 +582,11 @@ export function CertificatesExperience({ dashboard }: CertificatesExperienceProp
                 <Sparkles size={17} aria-hidden="true" />
                 {modal.title}
               </div>
+              {modal.validityNote && <p className="obx-certs__validity">{modal.validityNote}</p>}
+              <a className="obx-certs__original" href={modal.source} target="_blank" rel="noreferrer">Открыть оригинал документа</a>
             </motion.div>
           )}
-        </div>
+        </div>, document.body)}
       </section>
     </>
   );

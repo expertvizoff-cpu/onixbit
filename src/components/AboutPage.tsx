@@ -1,5 +1,7 @@
 "use client";
 
+import { partnerProof } from "@/data/partner-proof";
+
 import Image from "next/image";
 import Link from "next/link";
 import { Fragment, useEffect, useState } from "react";
@@ -220,11 +222,11 @@ const yandexMapUrl = (query: string) =>
 const certificatePreview = [
   {
     title: "Золотой партнёр Битрикс24",
-    image: "/media/certificates/Битрикс24 сертификаты/Золотой партнёр Битрикс24.jpg",
+    image: partnerProof.bitrix24.image,
   },
   {
-    title: "Золотой партнёр 1С-Битрикс",
-    image: "/media/certificates/1С-Битрикс сертификаты/Золотой партнёр 1С-Битрикс.jpg",
+    title: partnerProof.bitrix.label,
+    image: partnerProof.bitrix.image,
   },
   {
     title: "Интеграция с 1С",

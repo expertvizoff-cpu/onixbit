@@ -98,7 +98,8 @@ function buildJsonLd(dashboard: CertificateDashboard) {
             "@type": "CreativeWork",
             name: item.title,
             image: certificateImage(item.preview),
-            description: item.text,
+            description: [item.text, item.validityNote].filter(Boolean).join(" "),
+            url: `https://onixbit.ru${item.source}`,
             isPartOf: item.folder,
             publisher: {
               "@type": "Organization",

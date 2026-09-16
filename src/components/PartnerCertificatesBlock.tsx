@@ -1,5 +1,7 @@
 "use client";
 
+import { partnerProof } from "@/data/partner-proof";
+
 import Image from "next/image";
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
@@ -44,14 +46,14 @@ const cert = (name: string) => {
   const folder = certificateFolders[name];
   return folder ? certificateBase + "/" + folder + "/" + name + ".jpg" : certificateBase + "/" + name + ".jpg";
 };
-const partnerImage = cert("Золотой партнёр Битрикс24");
-const bitrixGoldImage = cert("Золотой партнёр 1С-Битрикс");
+const partnerImage = partnerProof.bitrix24.image;
+const bitrixGoldImage = partnerProof.bitrix.image;
 
 const certificates: CertificateItem[] = [
   {
     group: "status",
     type: "Партнёр",
-    title: "Золотой партнёр 1С-Битрикс",
+    title: partnerProof.bitrix.label,
     text: "Подтверждение партнёрского статуса по разработке сайтов и решений на 1С-Битрикс.",
     image: bitrixGoldImage,
     width: 2560,
@@ -155,7 +157,7 @@ const trustScenarios: TrustScenario[] = [
     label: "1С-Битрикс",
     title: "Для сайта важен официальный контур платформы и право работать с продуктом",
     text: "Партнёрский статус 1С-Битрикс и авторизационное письмо помогают до договора понять, что сайт будет развиваться на поддерживаемой базе.",
-    proof: ["золотой партнёр", "право работы", "платформа сайта"],
+    proof: ["сертифицированный партнёр", "право работы", "платформа сайта"],
     metric: "понятнее зона ответственности",
   },
   {

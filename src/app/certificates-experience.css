@@ -626,9 +626,14 @@
   align-items: flex-start;
 }
 
+.obx-certs__modal {
+  z-index: 100010;
+  padding: 16px;
+}
+
 .obx-certs__modal-dialog {
   display: flex;
-  width: min(94vw, 940px);
+  width: min(100%, 940px);
   height: min(90vh, 860px);
   flex-direction: column;
   gap: 10px;
@@ -637,7 +642,7 @@
 .obx-certs__modal-media {
   position: relative;
   width: 100%;
-  min-height: 260px;
+  min-height: 0;
   flex: 1 1 auto;
 }
 
@@ -648,6 +653,8 @@
 .obx-certs__modal-close {
   display: inline-grid;
   place-items: center;
+  z-index: 1;
+  color: #fff;
 }
 
 .obx-certs__modal-close::before,
@@ -659,6 +666,23 @@
   display: flex;
   gap: 8px;
   align-items: center;
+}
+
+.obx-certs__validity {
+  margin: 8px 0;
+  font-size: 13px;
+  line-height: 1.45;
+  color: inherit;
+}
+
+.obx-certs__original {
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  text-decoration: underline;
+  color: inherit;
+  font-size: 14px;
+  font-weight: 700;
 }
 
 @media (max-width: 1180px) {
