@@ -1,5 +1,8 @@
 name: Deploy to FirstVDS
 
+permissions:
+  contents: read
+
 on:
   push:
     branches:
@@ -51,6 +54,7 @@ jobs:
   deploy:
     name: Upload and restart on VPS
     runs-on: ubuntu-latest
+    timeout-minutes: 25
     needs: check
     environment: production
     steps:
@@ -74,6 +78,21 @@ jobs:
             sleep $((attempt * 5))
           done
 
+      - name: Build production image on GitHub runner
+        env:
+          NEXT_PUBLIC_YANDEX_METRIKA_ID: ${{ secrets.NEXT_PUBLIC_YANDEX_METRIKA_ID }}
+          NEXT_PUBLIC_SENTRY_DSN: ${{ secrets.NEXT_PUBLIC_SENTRY_DSN }}
+        run: |
+          set -euo pipefail
+          echo "Building production image for $GITHUB_SHA on GitHub runner"
+          docker build \
+            --build-arg "NEXT_PUBLIC_YANDEX_METRIKA_ID=$NEXT_PUBLIC_YANDEX_METRIKA_ID" \
+            --build-arg "NEXT_PUBLIC_SENTRY_DSN=$NEXT_PUBLIC_SENTRY_DSN" \
+            --tag "$APP_NAME:$GITHUB_SHA" \
+            .
+          docker save "$APP_NAME:$GITHUB_SHA" | gzip -1 > "/tmp/onixbit-image-$GITHUB_SHA.tar.gz"
+          du -h "/tmp/onixbit-image-$GITHUB_SHA.tar.gz"
+
       - name: Pack release
         run: |
           set -euo pipefail
@@ -85,7 +104,7 @@ jobs:
             --exclude='*.log' \
             -czf /tmp/onixbit-release-${GITHUB_SHA}.tar.gz .
 
-      - name: Upload release archive
+      - name: Upload release and image
         run: |
           set -euo pipefail
           for attempt in 1 2 3; do
@@ -94,7 +113,8 @@ jobs:
               -o ServerAliveInterval=15 \
               -o ServerAliveCountMax=4 \
               /tmp/onixbit-release-${GITHUB_SHA}.tar.gz \
-              "${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:/tmp/onixbit-release-${GITHUB_SHA}.tar.gz"; then
+              /tmp/onixbit-image-${GITHUB_SHA}.tar.gz \
+              "${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:/tmp/"; then
               exit 0
             fi
             if [ "$attempt" = "3" ]; then
@@ -114,10 +134,31 @@ jobs:
           SHARED_DIR="$APP_DIR/shared"
           CURRENT_LINK="$APP_DIR/current"
           ARCHIVE="/tmp/onixbit-release-$RELEASE_SHA.tar.gz"
+          IMAGE_ARCHIVE="/tmp/onixbit-image-$RELEASE_SHA.tar.gz"
+          PREVIOUS_RELEASE=""
+
+          if [ -L "$CURRENT_LINK" ]; then
+            PREVIOUS_RELEASE="$(readlink -f "$CURRENT_LINK")"
+          fi
+
+          rollback_activation() {
+            if [ -z "$PREVIOUS_RELEASE" ] || [ ! -d "$PREVIOUS_RELEASE" ]; then
+              echo "No previous release is available for automatic rollback" >&2
+              return 1
+            fi
+            echo "[$(date -u +%FT%TZ)] Rolling back to $(basename "$PREVIOUS_RELEASE")" >&2
+            ln -sfn "$PREVIOUS_RELEASE" "$CURRENT_LINK"
+            cd "$CURRENT_LINK"
+            docker compose -p "$APP_NAME" --env-file .env up -d --no-build --remove-orphans
+          }
 
           mkdir -p "$RELEASE_DIR" "$SHARED_DIR"
           tar -xzf "$ARCHIVE" -C "$RELEASE_DIR"
           rm -f "$ARCHIVE"
+
+          echo "[$(date -u +%FT%TZ)] Loading prebuilt image $APP_NAME:$RELEASE_SHA"
+          gzip -dc "$IMAGE_ARCHIVE" | docker load
+          rm -f "$IMAGE_ARCHIVE"
 
           cat > "$RELEASE_DIR/.env" <<ENV_FILE
           DOMAIN=$DOMAIN
@@ -128,13 +169,52 @@ jobs:
           NEXT_PUBLIC_SENTRY_DSN=$NEXT_PUBLIC_SENTRY_DSN
           ENV_FILE
 
+          echo "[$(date -u +%FT%TZ)] Activating release $RELEASE_SHA"
           ln -sfn "$RELEASE_DIR" "$CURRENT_LINK"
           cd "$CURRENT_LINK"
+          if ! docker compose -p "$APP_NAME" --env-file .env up -d --no-build --remove-orphans; then
+            rollback_activation || true
+            exit 1
+          fi
 
-          docker compose -p "$APP_NAME" --env-file .env up -d --build --remove-orphans
-          docker compose -p "$APP_NAME" --env-file .env up -d --force-recreate caddy
-          docker builder prune -af
-          docker image prune -af
+          WEB_CONTAINER_ID="$(docker compose -p "$APP_NAME" --env-file .env ps -q web)"
+          if [ -z "$WEB_CONTAINER_ID" ]; then
+            echo "Web container was not created" >&2
+            exit 1
+          fi
 
-          ls -dt "$APP_DIR"/releases/* | tail -n +6 | xargs -r rm -rf
+          HEALTH_DEADLINE=$((SECONDS + 150))
+          while [ "$SECONDS" -lt "$HEALTH_DEADLINE" ]; do
+            WEB_HEALTH="$(docker inspect --format '{{if .State.Health}}{{.State.Health.Status}}{{else}}{{.State.Status}}{{end}}' "$WEB_CONTAINER_ID")"
+            echo "[$(date -u +%FT%TZ)] Web health: $WEB_HEALTH"
+            if [ "$WEB_HEALTH" = "healthy" ]; then
+              break
+            fi
+            if [ "$WEB_HEALTH" = "unhealthy" ] || [ "$WEB_HEALTH" = "exited" ] || [ "$WEB_HEALTH" = "dead" ]; then
+              docker compose -p "$APP_NAME" --env-file .env logs --tail=120 web >&2
+              rollback_activation || true
+              exit 1
+            fi
+            sleep 10
+          done
+          if [ "${WEB_HEALTH:-unknown}" != "healthy" ]; then
+            docker compose -p "$APP_NAME" --env-file .env logs --tail=120 web >&2
+            echo "Web container did not become healthy in time" >&2
+            rollback_activation || true
+            exit 1
+          fi
+
+          if ! curl --fail --silent --show-error --max-time 15 "https://$DOMAIN/api/health" >/dev/null; then
+            rollback_activation || true
+            exit 1
+          fi
+          echo "[$(date -u +%FT%TZ)] Release $RELEASE_SHA is healthy"
+
+          # Keep the current and four rollback releases/images. Cleanup is exact
+          # and never deletes an image whose release directory is retained.
+          for OLD_RELEASE in $(ls -dt "$APP_DIR"/releases/* | tail -n +6); do
+            OLD_SHA="$(basename "$OLD_RELEASE")"
+            docker image rm "$APP_NAME:$OLD_SHA" >/dev/null 2>&1 || true
+            rm -rf -- "$OLD_RELEASE"
+          done
           REMOTE_SCRIPT
