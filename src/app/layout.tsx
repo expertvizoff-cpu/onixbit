@@ -43,12 +43,12 @@ export const metadata: Metadata = {
   manifest: "/site.webmanifest",
   icons: {
     icon: [
-      { url: "/favicon.ico", sizes: "any" },
-      { url: "/media/icons/favicon-32x32.png", sizes: "32x32", type: "image/png" },
-      { url: "/media/icons/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "/favicon-v2.ico", sizes: "any" },
+      { url: "/media/icons/favicon-v2-32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "/media/icons/favicon-v2-16x16.png", sizes: "16x16", type: "image/png" },
     ],
-    shortcut: "/favicon.ico",
-    apple: [{ url: "/media/icons/apple-touch-icon.png", sizes: "180x180" }],
+    shortcut: "/favicon-v2.ico",
+    apple: [{ url: "/media/icons/apple-touch-icon-v2.png", sizes: "180x180" }],
   },
   openGraph: {
     title: "Ониксбит — разработка и интеграции для B2B",
