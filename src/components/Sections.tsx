@@ -1371,7 +1371,11 @@ export function ContactsContent() {
               ))}
             </div>
           </div>
-          <LeadFormPanel id="contact-form" className="ob-lead-panel--contact ob-contacts-form" />
+          <LeadFormPanel
+            id="contact-form"
+            className="ob-lead-panel--contact ob-contacts-form"
+            headingLevel="h2"
+          />
         </div>
       </section>
 

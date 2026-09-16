@@ -15,18 +15,18 @@ export function JsonLd() {
     logo: `${baseUrl}/brand/onixbit-lockup-primary-v2.png`,
     image: `${baseUrl}/brand/onixbit-og.png`,
     email: company.email,
-    telephone: company.phone,
+    telephone: company.phoneHref.replace("tel:", ""),
     contactPoint: [
       {
         "@type": "ContactPoint",
-        telephone: company.phone,
+        telephone: company.phoneHref.replace("tel:", ""),
         contactType: "sales",
         areaServed: "RU",
         availableLanguage: "ru",
       },
       {
         "@type": "ContactPoint",
-        telephone: company.directPhone,
+        telephone: company.directPhoneHref.replace("tel:", ""),
         contactType: "customer support",
         areaServed: "RU",
         availableLanguage: "ru",
@@ -51,7 +51,7 @@ export function JsonLd() {
         streetAddress: "ул. Бессолова, д. 16, офис 425",
       },
     ],
-    makesOffer: {
+    hasOfferCatalog: {
       "@type": "OfferCatalog",
       name: "Услуги Ониксбит",
       itemListElement: directions.map((direction) => ({

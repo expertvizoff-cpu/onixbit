@@ -61,6 +61,7 @@ export type KnowledgeArticle = {
   audience: string[];
   level: "start" | "normal" | "advanced";
   readingTime: string;
+  publishedAt: string;
   lastUpdated: string;
   reviewedBy: string;
   primaryIntent: string;
@@ -166,7 +167,8 @@ const publishedKnowledgeBaseArticles: KnowledgeArticle[] = [
     audience: ["собственник", "директор", "руководитель продаж", "операционный руководитель"],
     level: "normal",
     readingTime: "10 мин",
-    lastUpdated: "2026-06-29",
+    publishedAt: "2026-06-29",
+    lastUpdated: "2026-07-01",
     reviewedBy: "Александр, Ониксбит",
     primaryIntent: "Проверить, работает ли Битрикс24 как система управления продажами, а не просто как набор настроек.",
     summary:

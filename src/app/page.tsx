@@ -29,6 +29,7 @@ export const metadata: Metadata = {
     description:
       "Битрикс24, 1С-Битрикс, 1С:Предприятие, интеграции, лицензии и поддержка для B2B-команд.",
     url: "/",
+    images: ["/brand/onixbit-og.png"],
     type: "website",
   },
 };

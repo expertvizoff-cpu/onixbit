@@ -121,9 +121,12 @@ function patchYandexMapAccessibility(node: HTMLElement) {
 
 export function ContactMapSwitcher({ offices }: ContactMapSwitcherProps) {
   const [activeId, setActiveId] = useState(offices[0]?.city ?? "");
+  const [shouldLoadMap, setShouldLoadMap] = useState(false);
   const [status, setStatus] = useState<"idle" | "loading" | "ready" | "error">("idle");
+  const rootRef = useRef<HTMLDivElement | null>(null);
   const mapNodeRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<YandexMap | null>(null);
+  const lastMapCityRef = useRef<string | null>(null);
   const placemarksRef = useRef<Record<string, YandexPlacemark>>({});
   const mapA11yObserverRef = useRef<MutationObserver | null>(null);
 
@@ -142,9 +145,31 @@ export function ContactMapSwitcher({ offices }: ContactMapSwitcherProps) {
   const active = (views.find((view) => view.id === activeId) ?? views[0])!;
 
   useEffect(() => {
+    const root = rootRef.current;
+    if (!root) return;
+
+    if (!("IntersectionObserver" in window)) {
+      const timer = globalThis.setTimeout(() => setShouldLoadMap(true), 0);
+      return () => globalThis.clearTimeout(timer);
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (!entries.some((entry) => entry.isIntersecting)) return;
+        setShouldLoadMap(true);
+        observer.disconnect();
+      },
+      { rootMargin: "320px 0px" },
+    );
+
+    observer.observe(root);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
     const node = mapNodeRef.current;
     const firstOffice = offices[0];
-    if (!node || !firstOffice) return;
+    if (!shouldLoadMap || !node || !firstOffice) return;
 
     let cancelled = false;
     setStatus("loading");
@@ -168,6 +193,7 @@ export function ContactMapSwitcher({ offices }: ContactMapSwitcherProps) {
 
         map.behaviors.disable("scrollZoom");
         mapRef.current = map;
+        lastMapCityRef.current = firstOffice.city;
 
         const nextPlacemarks: Record<string, YandexPlacemark> = {};
         offices.forEach((office) => {
@@ -214,24 +240,32 @@ export function ContactMapSwitcher({ offices }: ContactMapSwitcherProps) {
       mapA11yObserverRef.current = null;
       mapRef.current?.destroy();
       mapRef.current = null;
+      lastMapCityRef.current = null;
     };
-  }, [offices]);
+  }, [offices, shouldLoadMap]);
 
   useEffect(() => {
-    if (!active?.office || !mapRef.current) return;
+    if (status !== "ready" || !active?.office || !mapRef.current) return;
+    if (lastMapCityRef.current === active.id) return;
 
     const coords = getCoords(active.office);
     mapRef.current.setCenter(coords, 16, { duration: 260 });
+    lastMapCityRef.current = active.id;
 
     Object.entries(placemarksRef.current).forEach(([city, placemark]) => {
       placemark.options.set({
         preset: city === active.id ? "islands#redStretchyIcon" : "islands#blackStretchyIcon",
       });
     });
-  }, [active]);
+  }, [active, status]);
 
   return (
-    <div className="ob-contact-map" aria-label="Адреса Ониксбит на карте">
+    <div
+      ref={rootRef}
+      className="ob-contact-map"
+      aria-label="Адреса Ониксбит на карте"
+      data-map-status={status}
+    >
       <div className="ob-contact-map__tabs" aria-label="Выбор адреса на карте">
         <span className="ob-contact-map__tabs-label">Адрес на карте</span>
         {views.map((view) => {

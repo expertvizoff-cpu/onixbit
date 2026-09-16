@@ -13,6 +13,7 @@ export const metadata: Metadata = {
     description:
       "Телефон, email, мессенджеры, адреса, реквизиты и форма заявки для проектов Битрикс24, 1С-Битрикс, 1С и интеграций.",
     url: "/contacts",
+    images: ["/brand/onixbit-og.png"],
     type: "website",
   },
 };

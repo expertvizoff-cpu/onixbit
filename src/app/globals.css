@@ -2338,7 +2338,7 @@ textarea:focus-visible {
   padding: 4px 6px 0;
 }
 
-.ob-lead-panel__top h3 {
+.ob-lead-panel__title {
   margin: 14px 0 0;
   color: var(--ob-ink);
   font-size: clamp(24px, 1.9vw, 34px);

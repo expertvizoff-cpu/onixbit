@@ -3,8 +3,29 @@ import { withSentryConfig } from "@sentry/nextjs";
 
 const nextConfig: NextConfig = {
   output: "standalone",
+  skipTrailingSlashRedirect: true,
   async redirects() {
     return [
+      {
+        source: "/company/",
+        destination: "/o-kompanii",
+        permanent: true,
+      },
+      {
+        source: "/company",
+        destination: "/o-kompanii",
+        permanent: true,
+      },
+      {
+        source: "/company/brands/",
+        destination: "/certificates",
+        permanent: true,
+      },
+      {
+        source: "/company/brands",
+        destination: "/certificates",
+        permanent: true,
+      },
       {
         source: "/tg",
         destination: "https://t.me/onixbitru",
@@ -20,6 +41,11 @@ const nextConfig: NextConfig = {
         destination:
           "https://max.ru/u/f9LHodD0cOLKUnPeYPhOm53_bhpzOik5pDQLlBzjW8ZsbaCekC8Vlm0o6AA",
         permanent: false,
+      },
+      {
+        source: "/:path+/",
+        destination: "/:path+",
+        permanent: true,
       },
     ];
   },
@@ -45,15 +71,6 @@ const nextConfig: NextConfig = {
       },
       {
         source: "/raboty-po-1c-predpriyatie",
-        headers: [
-          {
-            key: "Cache-Control",
-            value: "public, max-age=0, must-revalidate",
-          },
-        ],
-      },
-      {
-        source: "/_next/static/chunks/:path*",
         headers: [
           {
             key: "Cache-Control",

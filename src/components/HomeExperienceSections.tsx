@@ -438,7 +438,6 @@ export function SystemSolutionSection() {
               const isActive = activeNode === index;
               return (
                 <button
-                  aria-label={node.title + ": " + node.result}
                   aria-pressed={isActive}
                   className={"ob-system-route__station is-station-" + index + (isActive ? " is-active" : "")}
                   key={node.title}

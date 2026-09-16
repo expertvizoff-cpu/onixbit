@@ -64,12 +64,22 @@ export function InlineBitrixForm({ className = "" }: { className?: string }) {
   );
 }
 
-export function LeadFormPanel({ className = "", id }: { className?: string; id?: string }) {
+export function LeadFormPanel({
+  className = "",
+  headingLevel = "h3",
+  id,
+}: {
+  className?: string;
+  headingLevel?: "h2" | "h3";
+  id?: string;
+}) {
+  const Heading = headingLevel;
+
   return (
     <aside id={id} className={`ob-lead-panel ${className}`} aria-label="Форма заявки Битрикс24">
       <div className="ob-lead-panel__top">
         <span className="ob-lead-panel__label">Форма Битрикс24</span>
-        <h3>Заявка на консультацию</h3>
+        <Heading className="ob-lead-panel__title">Заявка на консультацию</Heading>
         <p>
           Заявка попадёт в CRM. Мы вернёмся с первым уточнением по проекту и
           предложим ближайший практичный шаг.

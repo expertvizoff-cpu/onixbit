@@ -14,6 +14,7 @@ export const metadata: Metadata = {
     description:
       "Подбор облачной или коробочной лицензии Битрикс24 под команду, права, интеграции и инфраструктуру.",
     url: "/tarify-licenziy",
+    images: ["/brand/onixbit-og.png"],
     type: "website",
   },
 };

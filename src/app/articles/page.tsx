@@ -39,6 +39,7 @@ export const metadata: Metadata = {
     description:
       "Практические разборы по участкам системы: заявки, CRM, задачи, роботы, права, сайт, 1С и интеграции.",
     url: "/articles",
+    images: ["/brand/onixbit-og.png"],
     type: "website",
   },
 };

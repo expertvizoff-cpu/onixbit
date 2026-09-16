@@ -13,6 +13,7 @@ export const metadata: Metadata = {
     description:
       "Основатель, подход, сертификаты, реквизиты и B2B-экспертиза Ониксбит по Битрикс24, 1С-Битрикс и 1С-интеграциям.",
     url: "/o-kompanii",
+    images: ["/brand/onixbit-og.png"],
     type: "website",
   },
 };

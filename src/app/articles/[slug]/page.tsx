@@ -86,7 +86,7 @@ export async function generateMetadata({ params }: ArticlePageProps): Promise<Me
       description: article.metaDescription,
       url: `/articles/${article.slug}`,
       type: "article",
-      publishedTime: article.lastUpdated,
+      publishedTime: article.publishedAt,
       modifiedTime: article.lastUpdated,
       authors: [article.author.name],
       images: [visualUrl],
@@ -115,7 +115,7 @@ function buildArticleJsonLd(article: NonNullable<ReturnType<typeof getArticleByS
         headline: article.title,
         description: article.description,
         image: articleImage,
-        datePublished: article.lastUpdated,
+        datePublished: article.publishedAt,
         dateModified: article.lastUpdated,
         mainEntityOfPage: articleUrl,
         author: {
@@ -192,6 +192,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
   const articleVisual = getArticleVisual(article);
   const seriesThemeClass = getSeriesThemeClass(article.seriesId);
   const jsonLd = buildArticleJsonLd(article);
+  const publishedDate = formatDate(article.publishedAt);
   const updatedDate = formatDate(article.lastUpdated);
   const sectionTitles = { ...defaultSectionTitles, ...article.sectionTitles };
   const firstWarning = article.warningSigns[0] ?? {
@@ -232,6 +233,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
             <div className="ob-article-meta" aria-label="Метаданные статьи">
               <span>{article.category}</span>
               <span>{article.readingTime}</span>
+              <time dateTime={article.publishedAt}>Опубликовано: {publishedDate}</time>
               <time dateTime={article.lastUpdated}>Обновлено: {updatedDate}</time>
             </div>
             <div className="ob-article-hero__diagnostic" aria-label="Короткая диагностическая карточка статьи">
