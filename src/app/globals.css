@@ -30730,9 +30730,14 @@ span.ob-pricing-estimate__client {
     display: none;
   }
 
+  .ob-lead-modal__form-head {
+    padding-right: 0;
+  }
+
   .ob-lead-modal__form-head h3 {
-    padding-right: 42px;
-    font-size: 23px;
+    padding-right: 0;
+    font-size: 21px;
+    white-space: nowrap;
   }
 
   .ob-lead-modal__b24-form {
