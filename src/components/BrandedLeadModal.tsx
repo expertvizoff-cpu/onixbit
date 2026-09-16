@@ -5,10 +5,7 @@ import {
   ArrowRight,
   Check,
   CheckCircle2,
-  Database,
-  MonitorSmartphone,
   Phone,
-  UserRoundCheck,
   X,
 } from "lucide-react";
 import { type FormEvent, useEffect, useId, useRef, useState } from "react";
@@ -251,20 +248,6 @@ export function LeadPopupBridge() {
           <p id={descriptionId}>
             Коротко опишите контекст. Мы уточним детали, границы проекта и подходящий формат работы.
           </p>
-
-          <div className="ob-lead-modal__route" aria-label="Маршрут заявки">
-            <span className="ob-lead-modal__route-node" role="img" aria-label="Сайт">
-              <MonitorSmartphone size={21} aria-hidden="true" />
-            </span>
-            <ArrowRight size={15} aria-hidden="true" />
-            <span className="ob-lead-modal__route-node" role="img" aria-label="CRM">
-              <Database size={21} aria-hidden="true" />
-            </span>
-            <ArrowRight size={15} aria-hidden="true" />
-            <span className="ob-lead-modal__route-node is-result" role="img" aria-label="Ответственный">
-              <UserRoundCheck size={22} aria-hidden="true" />
-            </span>
-          </div>
 
           <ul className="ob-lead-modal__steps">
             <li><CheckCircle2 size={17} aria-hidden="true" /> Уточним контекст</li>
