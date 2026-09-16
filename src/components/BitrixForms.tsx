@@ -13,13 +13,18 @@ function appendBitrixScript(
   form: string,
   loader: string,
 ) {
-  if (container.querySelector("script[data-b24-form]")) return;
+  const clickForm = form.startsWith("click/");
+  if (clickForm
+    ? container.previousElementSibling?.matches("script[data-b24-form]")
+    : container.querySelector("script[data-b24-form]")) return;
 
   const script = document.createElement("script");
   script.dataset.b24Form = form;
   script.dataset.skipMoving = "true";
   script.text = `(function(w,d,u){var s=d.createElement('script');s.async=true;s.src=u+'?'+(Date.now()/180000|0);var h=d.getElementsByTagName('script')[0];h.parentNode.insertBefore(s,h);})(window,document,'${loader}');`;
-  container.appendChild(script);
+  // Bitrix24 binds click forms to the marker's next sibling, not its parent.
+  if (clickForm) container.before(script);
+  else container.appendChild(script);
 }
 
 export function LeadPopupBridge() {
