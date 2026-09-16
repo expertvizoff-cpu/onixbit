@@ -30663,35 +30663,45 @@ span.ob-pricing-estimate__client {
 
 @media (max-width: 600px) {
   .ob-lead-modal__backdrop {
-    align-items: start;
-    padding: 8px;
-    overflow-y: auto;
+    align-items: center;
+    padding: 6px;
+    overflow: hidden;
   }
 
   .ob-lead-modal {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr);
     width: 100%;
-    max-height: none;
+    max-height: calc(100dvh - 12px);
     border-radius: 14px;
+    overflow: hidden;
   }
 
   .ob-lead-modal__close {
-    position: fixed;
-    top: 18px;
-    right: 18px;
+    position: absolute;
+    top: 12px;
+    right: 12px;
   }
 
   .ob-lead-modal__intro {
-    padding: 24px 22px;
+    padding: 16px 18px 14px;
   }
 
   .ob-lead-modal__logo {
-    width: 132px;
-    margin-bottom: 28px;
+    width: 108px;
+    margin-bottom: 14px;
+  }
+
+  .ob-lead-modal__eyebrow {
+    margin-bottom: 8px;
+    font-size: 10px;
   }
 
   .ob-lead-modal__intro h2 {
-    padding-right: 34px;
-    font-size: clamp(25px, 8vw, 34px);
+    padding-right: 48px;
+    font-size: 25px;
+    line-height: 1.04;
   }
 
   .ob-lead-modal__intro h2 span {
@@ -30699,62 +30709,64 @@ span.ob-pricing-estimate__client {
     white-space: normal;
   }
 
-  .ob-lead-modal__intro > p {
-    margin-top: 14px;
-    font-size: 13px;
-  }
-
+  .ob-lead-modal__intro h2 span:last-child,
+  .ob-lead-modal__intro > p,
+  .ob-lead-modal__steps-label,
   .ob-lead-modal__steps {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 8px;
-    margin-top: 12px;
+    display: none;
   }
 
-  .ob-lead-modal__steps-label {
-    margin-top: 24px;
-  }
-
-  .ob-lead-modal__steps li {
-    font-size: 12px;
+  .ob-lead-modal__form-panel {
+    min-height: 0;
+    overflow: hidden;
   }
 
   .ob-lead-modal__form {
-    padding: 28px 20px 24px;
+    min-height: 0;
+    padding: 14px 16px 16px;
   }
 
-  .ob-lead-modal__form-head {
-    padding-right: 0;
+  .ob-lead-modal__form-head p {
+    display: none;
   }
 
-  .ob-lead-modal__grid {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 13px;
-    margin-top: 20px;
+  .ob-lead-modal__form-head h3 {
+    padding-right: 42px;
+    font-size: 23px;
   }
 
-  .ob-lead-modal__field--wide,
-  .ob-lead-modal__field-error--wide {
-    grid-column: auto;
+  .ob-lead-modal__b24-form {
+    min-height: 0;
+    margin-top: 10px;
   }
 
-  .ob-lead-modal__actions {
-    align-items: stretch;
-    flex-direction: column;
-    gap: 8px;
+  .ob-lead-modal__b24-form .b24-form-field {
+    margin-bottom: 7px !important;
   }
 
-  .ob-lead-modal__actions .ob-btn {
-    width: 100%;
-    min-width: 0;
+  .ob-lead-modal__b24-form :is(input, select),
+  .ob-lead-modal__b24-form .b24-form-control {
+    min-height: 42px !important;
   }
 
-  .ob-lead-modal__actions > a {
-    justify-content: center;
+  .ob-lead-modal__b24-form textarea,
+  .ob-lead-modal__b24-form textarea.b24-form-control {
+    min-height: 68px !important;
   }
 
-  .ob-lead-modal__success {
-    min-height: 460px;
-    padding: 34px 24px;
+  .ob-lead-modal__b24-form .b24-form-field-agreement,
+  .ob-lead-modal__b24-form .b24-form-control-desc {
+    font-size: 9.5px !important;
+    line-height: 1.3 !important;
+  }
+
+  .ob-lead-modal__b24-form .b24-form-btn-container,
+  .ob-lead-modal__b24-form .b24-form-btn-block {
+    margin-top: 8px !important;
+  }
+
+  .ob-lead-modal__b24-form .b24-form-btn {
+    min-height: 44px !important;
   }
 }
 

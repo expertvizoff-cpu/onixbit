@@ -89,15 +89,23 @@ test("modal traps keyboard focus, closes with Escape and restores the opener", a
 
 test("mobile modal has no horizontal overflow and respects reduced motion", async ({ page }) => {
   await mockNativeForm(page);
+  await page.setViewportSize({ width: 375, height: 667 });
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/");
   await openLeadModal(page);
   const dialog = page.getByRole("dialog", { name: /Опишите ситуацию/ });
 
   expect(await dialog.evaluate((element) => element.scrollWidth <= element.clientWidth + 1)).toBe(true);
+  const fit = await dialog.evaluate((element) => {
+    const rect = element.getBoundingClientRect();
+    return {
+      insideViewport: rect.top >= 0 && rect.bottom <= window.innerHeight,
+      noInternalScroll: element.scrollHeight <= element.clientHeight + 1,
+    };
+  });
+  expect(fit).toEqual({ insideViewport: true, noInternalScroll: true });
   await expect(dialog).toHaveCSS("animation-name", "none");
-  await expect(dialog.getByText("После заявки", { exact: true })).toBeVisible();
-  await expect(dialog.getByText("Обозначим состав первого этапа", { exact: true })).toBeVisible();
+  await expect(dialog.getByText("После заявки", { exact: true })).toBeHidden();
 
   const scan = await new AxeBuilder({ page })
     .include("[data-obx-lead-modal]")
