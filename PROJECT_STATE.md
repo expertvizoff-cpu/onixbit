@@ -6,8 +6,23 @@ Shared hub: `/home/aleksander/projects/astra-command`
 
 ## Branded Lead Modal Preview — 2026-09-16
 
+### Production publication complete
+
+- Public main and production release: `5867f5a`; rollback: `41b67a8`.
+- CI run `35128478518` and deploy run `35128478458` succeeded. The deploy
+  activated the prebuilt image only after its independent lint, audit, build
+  and E2E gate passed.
+- First pushed SHA `2bfa656` failed only in a mobile Playwright opener race;
+  its deploy workflow stopped in `Check before deploy`, and the VPS job was
+  skipped. The stable mobile-dock test fix is `5867f5a`.
+- Live `/api/health`, robots and sitemap passed. Real form 28 loaded six native
+  controls and reopened with one marker on desktop and mobile. All external
+  write requests were blocked; submit was not pressed and no CRM record was made.
+- No Bitrix24 webhook, OAuth app, portal setting or GitHub secret was created or
+  changed for this release. The existing CRM form remains the only delivery path.
+
 - Branch: `feature/branded-lead-modal-2026-09-16`, based on exact public
-  production `41b67a8`; no push, workflow dispatch, deploy or CRM write.
+  production `41b67a8`.
 - The first-party Onixbit modal embeds the already configured Bitrix24 CRM form
   28 in inline mode. No second delivery channel, API route, webhook or secret is
   introduced. The existing lazy inline form 24 on the contacts page is unchanged.
@@ -21,8 +36,7 @@ Shared hub: `/home/aleksander/projects/astra-command`
   desktop/mobile screenshots were visually reviewed. A real-loader no-submit
   check loaded six native controls, reopened the form with one marker and blocked
   two external write requests; no CRM submission ran.
-- Owner authorized this release. Remaining gates: exact production-baseline diff,
-  successful CI/deploy and a no-submit live opening check.
+- Owner authorized and the release completed all planned gates.
 
 ## Company Requisites Publication — 2026-09-01
 
