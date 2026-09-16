@@ -2,6 +2,48 @@
 
 Last updated: 2026-09-16
 
+## Verified SEO / Legacy Review Package — 2026-09-16
+
+- Review branch: `growth/seo-verified-patch-2026-09-16`, created from the
+  confirmed public `main` baseline `3d275be9b3f4d6e9ce137213f5dd441feb27385a`.
+  Implementation commit: `435b549`. Local only: no push, merge, workflow
+  dispatch or production deploy was performed.
+- Closed from the 2026-09-15 audit: direct permanent redirects
+  `/company` → `/o-kompanii` and `/company/brands` → `/certificates`.
+  Slash and query variants reach the final page in one 308; the normal
+  site-wide no-trailing-slash behavior remains in place. `/product` and
+  `/product/gotovye-sayty` remain real 404/noindex responses with no wildcard.
+- Closed P2 items: Organization JSON-LD now uses `hasOfferCatalog`, JSON-LD
+  phones use normalized `tel:` values, the contacts form heading is H2, the
+  homepage station controls use their complete visible text as the accessible
+  name, and the Yandex map is lazy-loaded with the delayed-selection race fixed.
+  The manual Cache-Control override for Next static chunks was removed.
+- Closed metadata/content-date items: the existing 1200×630 brand asset is now
+  explicit on `/`, `/contacts`, `/o-kompanii`, `/tarify-licenziy` and
+  `/articles`; article publication dates are the recorded 2026-06-29/30 dates
+  and the modification date is the documented 2026-07-01 article update.
+- Already satisfied in public `main` and intentionally unchanged: unique
+  title/description and one H1 on the 18 sitemap routes, self-canonicals,
+  robots/sitemap structure, Service/Article/FAQ/Breadcrumb schema already in
+  use, branded OG images on service pages and certificates, and absence of a
+  broad `/product/*` redirect.
+- Fresh verification: clean `npm run check` passed (production audit 0 and 24
+  generated routes); full Playwright passed 76/76 across desktop/mobile,
+  including 24 focused SEO/legacy tests. `npm run lhci` passed build and
+  healthcheck but the first homepage run ended with the known Lighthouse 12.6.1
+  / Chromium 149 `TARGET_CRASHED`; the performance gate is not claimed passed.
+- Remaining P1: commercial tariff matrix; separate partner-status proof;
+  certificate preview/current-status package; real cases; inline-form failure
+  handling and remaining end-to-end/analytics coverage; homepage performance;
+  GSC/Webmaster/log data and the wider legacy inventory, including a relevant
+  decision for `/product` and `/product/gotovye-sayty`.
+- Remaining P2: useful Russian 404 UI, compatible HSTS/CSP/security-header
+  package, optional additional page schema where supported by visible content,
+  and gradual CSS/font maintainability work with visual comparison.
+- Stop condition reached: this is a review package only. Next action requires
+  Aleksander's explicit approval of the exact diff and rollback target before
+  any merge to public `main`; production deploy requires separate approval.
+
 Shared hub: `/home/aleksander/projects/astra-command`
 
 ## Branded Lead Modal Preview — 2026-09-16

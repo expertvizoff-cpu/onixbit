@@ -1,5 +1,57 @@
 # Ониксбит — аудит и Growth Sprint 1
 
+## Review package: verified SEO / legacy patch — 2026-09-16
+
+Ветка `growth/seo-verified-patch-2026-09-16` создана от подтверждённого
+публичного `main` `3d275be9b3f4d6e9ce137213f5dd441feb27385a`.
+Implementation-коммит: `435b549`. Push, merge, workflow dispatch и deploy не
+выполнялись.
+
+Закрыто из подтверждённого audit patch:
+
+- `/company` → `/o-kompanii` и `/company/brands` → `/certificates` прямым 308;
+  варианты со slash и query идут к целевой странице одним redirect;
+- `/product`, `/product/gotovye-sayty` и неизвестные `/product/*` не получают
+  нерелевантного redirect и остаются 404/noindex;
+- `Organization.hasOfferCatalog`, нормализованные JSON-LD телефоны, H2 формы
+  контактов, полное доступное имя станций главной;
+- lazy-load Яндекс.Карт и устранение подтверждённой гонки выбора города;
+- удалён ручной Cache-Control override для Next static chunks;
+- брендовый `og:image` явно добавлен на `/`, `/contacts`, `/o-kompanii`,
+  `/tarify-licenziy`, `/articles`;
+- даты статей разведены: публикация 29–30.06.2026, документированное обновление
+  01.07.2026; дата сборки не используется.
+
+Уже было удовлетворено в публичном `main` и не дублировалось: один H1,
+уникальные title/description и self-canonical на 18 маршрутах sitemap;
+robots/sitemap; Service/Article/FAQ/Breadcrumb schema; OG на страницах услуг и
+сертификатов; отсутствие wildcard `/product/*`.
+
+Проверки review package:
+
+- чистый `npm run check`: PASS, production audit 0, build 24 маршрута;
+- Playwright: 76/76 PASS на desktop/mobile, включая 24 точечных SEO/legacy
+  regression tests;
+- robots, sitemap, canonical, redirects, OG, schema, даты и 404 проверены на
+  локальной production-сборке;
+- `npm run lhci`: build/healthcheck PASS, первый прогон главной завершился
+  известным `Lighthouse 12.6.1 / Chromium 149 TARGET_CRASHED`; performance gate
+  не считается пройденным.
+
+Остались P1: тарифы; отдельная проверка партнёрских статусов; сертификаты;
+реальные кейсы; устойчивость встроенной формы и оставшийся сквозной/analytics
+контур; главная performance; GSC/Вебмастер/логи и полный legacy-инвентарь с
+содержательным решением для `/product*`.
+
+Остались P2: полезная русская 404; совместимый пакет HSTS/CSP/security headers;
+дополнительные типы schema только при подтверждённом видимом содержании;
+постепенная работа с CSS/font imports после визуального сравнения.
+
+**STOP:** review package готов. Перед merge в публичный `main` требуется
+отдельное одобрение Александра точного diff и rollback target; deploy требует
+отдельного разрешения. Не переходить к позиционированию, ICP, продуктовой
+матрице, кейсам или соцсетям.
+
 > **Branded modal опубликована 16.09.2026.** Production `5867f5a`, rollback
 > `41b67a8`; CI `35128478518` и deploy `35128478458` прошли. Модалка использует
 > существующую CRM-форму 28, отдельного API/webhook нет. Live desktop/mobile
