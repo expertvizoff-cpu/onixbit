@@ -32,9 +32,12 @@ async function mockNativeForm(page: Page) {
 }
 
 async function openLeadModal(page: Page) {
-  const menu = page.getByRole("button", { name: "Открыть меню", exact: true });
-  if (await menu.isVisible()) await menu.click();
-  const opener = page.locator("[data-obx-lead-open]").filter({ visible: true }).first();
+  const mobileOpener = page
+    .getByRole("navigation", { name: "Быстрая мобильная навигация" })
+    .getByRole("link", { name: "Заявка", exact: true });
+  const opener = await mobileOpener.isVisible()
+    ? mobileOpener
+    : page.locator("[data-obx-lead-open]").filter({ visible: true }).first();
   await opener.click();
   await expect(page.getByRole("dialog", { name: /Опишите ситуацию/ })).toBeVisible();
   return opener;
