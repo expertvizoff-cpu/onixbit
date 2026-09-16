@@ -1,7 +1,16 @@
 "use client";
 
 import Image from "next/image";
-import { ArrowRight, Check, CheckCircle2, Phone, X } from "lucide-react";
+import {
+  ArrowRight,
+  Check,
+  CheckCircle2,
+  Database,
+  MonitorSmartphone,
+  Phone,
+  UserRoundCheck,
+  X,
+} from "lucide-react";
 import { type FormEvent, useEffect, useId, useRef, useState } from "react";
 import { company } from "@/data/site";
 import { leadUtmKeys, type LeadSubmission } from "@/lib/lead-form";
@@ -235,17 +244,26 @@ export function LeadPopupBridge() {
             height={40}
           />
           <span className="ob-lead-modal__eyebrow">Заявка в Ониксбит</span>
-          <h2 id={titleId}>Обсудим задачу и зафиксируем ближайший шаг</h2>
+          <h2 id={titleId}>
+            <span>Разберём задачу.</span>{" "}
+            <span>Наметим шаги.</span>
+          </h2>
           <p id={descriptionId}>
             Коротко опишите контекст. Мы уточним детали, границы проекта и подходящий формат работы.
           </p>
 
           <div className="ob-lead-modal__route" aria-label="Маршрут заявки">
-            <span>Сайт</span>
+            <span className="ob-lead-modal__route-node" role="img" aria-label="Сайт">
+              <MonitorSmartphone size={21} aria-hidden="true" />
+            </span>
             <ArrowRight size={15} aria-hidden="true" />
-            <span>CRM</span>
+            <span className="ob-lead-modal__route-node" role="img" aria-label="CRM">
+              <Database size={21} aria-hidden="true" />
+            </span>
             <ArrowRight size={15} aria-hidden="true" />
-            <span>Ответственный</span>
+            <span className="ob-lead-modal__route-node is-result" role="img" aria-label="Ответственный">
+              <UserRoundCheck size={22} aria-hidden="true" />
+            </span>
           </div>
 
           <ul className="ob-lead-modal__steps">

@@ -17,7 +17,7 @@ async function openLeadModal(page: Page) {
   if (await menu.isVisible()) await menu.click();
   const opener = page.locator("[data-obx-lead-open]").filter({ visible: true }).first();
   await opener.click();
-  await expect(page.getByRole("dialog", { name: /Обсудим задачу/ })).toBeVisible();
+  await expect(page.getByRole("dialog", { name: /Разберём задачу/ })).toBeVisible();
   return opener;
 }
 
@@ -30,7 +30,7 @@ test("branded modal preserves fields, source and UTM through successful submissi
 
   await page.goto("/contacts?utm_source=search&utm_medium=cpc&utm_campaign=crm&utm_content=header&utm_term=bitrix24");
   await openLeadModal(page);
-  const dialog = page.getByRole("dialog", { name: /Обсудим задачу/ });
+  const dialog = page.getByRole("dialog", { name: /Разберём задачу/ });
 
   await expect(dialog.getByLabel("Имя")).toBeVisible();
   await expect(dialog.getByLabel("Фамилия")).toBeVisible();
@@ -75,7 +75,7 @@ test("modal validates contact and consent before sending", async ({ page }) => {
   });
   await page.goto("/");
   await openLeadModal(page);
-  const dialog = page.getByRole("dialog", { name: /Обсудим задачу/ });
+  const dialog = page.getByRole("dialog", { name: /Разберём задачу/ });
 
   await dialog.getByRole("button", { name: /Отправить заявку/ }).click();
   await expect(dialog.getByText("Укажите телефон или e-mail, чтобы мы могли ответить.")).toBeVisible();
@@ -96,7 +96,7 @@ test("modal traps keyboard focus, closes with Escape and restores the opener", a
   await expect(page.locator("body")).toHaveCSS("overflow", "hidden");
 
   await page.keyboard.press("Escape");
-  await expect(page.getByRole("dialog", { name: /Обсудим задачу/ })).toHaveCount(0);
+  await expect(page.getByRole("dialog", { name: /Разберём задачу/ })).toHaveCount(0);
   await expect.poll(() => page.evaluate(() => {
     const active = document.activeElement;
     return active instanceof HTMLElement
@@ -108,7 +108,7 @@ test("mobile modal has no horizontal overflow and respects reduced motion", asyn
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/");
   await openLeadModal(page);
-  const dialog = page.getByRole("dialog", { name: /Обсудим задачу/ });
+  const dialog = page.getByRole("dialog", { name: /Разберём задачу/ });
 
   expect(await dialog.evaluate((element) => element.scrollWidth <= element.clientWidth + 1)).toBe(true);
   await expect(dialog).toHaveCSS("animation-name", "none");
