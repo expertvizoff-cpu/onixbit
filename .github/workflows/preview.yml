@@ -1,4 +1,4 @@
-name: Update reviewed Onixbit daylight preview
+name: Update reviewed Onixbit material and palette refinement
 on:
   push:
     branches: [codex/onixbit-preview-20260920]

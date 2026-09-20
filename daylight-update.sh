@@ -2,7 +2,7 @@
 set -euo pipefail
 umask 022
 [[ "$RELEASE_ID" =~ ^[a-z0-9-]+$ ]]
-base_id=20260920-65ed0001525b
+base_id=20260920-daylight-db919061ee
 base="$APP_DIR/previews/$base_id"
 target="$APP_DIR/previews/$RELEASE_ID"
 old_container="onixbit-design-$base_id"
@@ -10,13 +10,13 @@ container="onixbit-design-$RELEASE_ID"
 proxy=onixbit-site-caddy-1
 live="$APP_DIR/current/Caddyfile"
 backup="$APP_DIR/preview-backups/Caddyfile-$RELEASE_ID"
-expected_proxy=bac52e1bc97849cbbbeed5f458e1ba62574d30757b7032246237462788741e62
+expected_proxy=b960ff7981363e524d0242d84f6b2bcac81ebc12ab49833ecb7df18f87cdc48e
 bundle="/tmp/onixbit-preview-$RELEASE_ID.tgz"
 test "$(sha256sum "$live" | cut -d' ' -f1)" = "$expected_proxy"
 test "$(docker exec "$proxy" sha256sum /etc/caddy/Caddyfile | cut -d' ' -f1)" = "$expected_proxy"
 test "$(stat -Lc '%d:%i' "$live")" = "$(docker exec "$proxy" stat -Lc '%d:%i' /etc/caddy/Caddyfile)"
 test "$(sha256sum "$bundle" | cut -d' ' -f1)" = "$PACKAGE_SHA"
-test "$(cat "$base/.next/BUILD_ID")" = yiwgV-glyz2QbtdW5D_Fa
+test "$(cat "$base/.next/BUILD_ID")" = TdJDGdqj-vHEegGA3XbFQ
 test "$(sha256sum "$base/package-lock.json" | cut -d' ' -f1)" = "$DEPENDENCY_LOCK_SHA"
 test "$(docker inspect --format '{{.State.Running}}' "$old_container")" = true
 test ! -e "$target"
@@ -103,5 +103,5 @@ curl --connect-timeout 3 --max-time 15 -fsS https://onixbit.ru/design/api/health
 curl --connect-timeout 3 --max-time 15 -fsS https://media.onixbit.ru/healthz >/dev/null
 # The older release stays on disk for rollback, but needs no active process.
 docker stop "$old_container" >/dev/null
-echo 'Daylight preview published; root HTML, production application and proxy start time unchanged.'
+echo 'Refined light preview published; root HTML, production application and proxy start time unchanged.'
 printf 'RELEASE_ID=%s\nBUILD_ID=%s\nPACKAGE_SHA=%s\nPROXY_SHA=%s\n' "$RELEASE_ID" "$EXPECTED_BUILD_ID" "$PACKAGE_SHA" "$candidate_sha"

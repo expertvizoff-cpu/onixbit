@@ -1,12 +1,12 @@
 {
-  "releaseId": "20260920-daylight-db919061ee",
-  "packageSha": "db919061ee7630dd77a2658f111c6c58d95b88d8e13a7e53ebd5f94fb36ab21f",
-  "buildId": "TdJDGdqj-vHEegGA3XbFQ",
+  "releaseId": "20260920-materials-c5ce94d3a9",
+  "packageSha": "c5ce94d3a9bd59666c86a7c9951d1525f18e406652877c9b75299b135306d2d2",
+  "buildId": "8AkUrlLp-EGstF3Qiqr8i",
   "basePath": "/design",
-  "baseReleaseId": "20260920-65ed0001525b",
-  "baseBuildId": "yiwgV-glyz2QbtdW5D_Fa",
+  "baseReleaseId": "20260920-daylight-db919061ee",
+  "baseBuildId": "TdJDGdqj-vHEegGA3XbFQ",
   "dependencyLockSha": "ca4b7a51cf9472baa78f1503a44627681728c7441f39c6d450c9525f5996154b",
   "packageJsonSha": "7992fc16c87b672b4a6281b2e66c70ddb85c2e399082a5524fd39f0fb59b76f7",
-  "baseProxySha": "bac52e1bc97849cbbbeed5f458e1ba62574d30757b7032246237462788741e62",
+  "baseProxySha": "b960ff7981363e524d0242d84f6b2bcac81ebc12ab49833ecb7df18f87cdc48e",
   "kind": "runtime-overlay-with-unchanged-production-dependencies"
 }
