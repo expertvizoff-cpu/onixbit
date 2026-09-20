@@ -1,4 +1,4 @@
-name: Rebind proxy and publish Onixbit design preview
+name: Update reviewed Onixbit daylight preview
 on:
   push:
     branches: [codex/onixbit-preview-20260920]
@@ -19,7 +19,7 @@ jobs:
       PREVIEW_BUNDLE_KEY: ${{ secrets.ONIXBIT_PREVIEW_BUNDLE_KEY }}
       PUBLISH_SHA: ${{ github.sha }}
     steps:
-      - name: Deploy reviewed runtime to design folders
+      - name: Switch only the reviewed design preview
         shell: bash
         run: |
           set -euo pipefail
@@ -37,8 +37,11 @@ jobs:
           openssl enc -d -aes-256-cbc -pbkdf2 -iter 200000 -in "$RUNNER_TEMP/onixbit-preview.enc" -out "$bundle" -pass env:PREVIEW_BUNDLE_KEY
           package_sha="$(python3 -c 'import json;print(json.load(open("release.json"))["packageSha"])')"
           release_id="$(python3 -c 'import json;print(json.load(open("release.json"))["releaseId"])')"
+          build_id="$(python3 -c 'import json;print(json.load(open("release.json"))["buildId"])')"
+          lock_sha="$(python3 -c 'import json;print(json.load(open("release.json"))["dependencyLockSha"])')"
+          json_sha="$(python3 -c 'import json;print(json.load(open("release.json"))["packageJsonSha"])')"
           test "$(sha256sum "$bundle" | cut -d' ' -f1)" = "$package_sha"
           printf '%s\n' "$DEPLOY_KEY" > "$key"
           ssh-keyscan -p "$DEPLOY_PORT" "$DEPLOY_HOST" > "$hosts" 2>/dev/null
-          build_id="$(python3 -c 'import json;print(json.load(open("release.json"))["buildId"])')"
-          ssh -i "$key" -p "$DEPLOY_PORT" -o UserKnownHostsFile="$hosts" -o StrictHostKeyChecking=yes "$DEPLOY_USER@$DEPLOY_HOST" "APP_DIR='$APP_DIR' PACKAGE_SHA='$package_sha' RELEASE_ID='$release_id' EXPECTED_BUILD_ID='$build_id' bash -s" < retry-preview-remote.sh
+          scp -i "$key" -P "$DEPLOY_PORT" -o UserKnownHostsFile="$hosts" -o StrictHostKeyChecking=yes "$bundle" "$DEPLOY_USER@$DEPLOY_HOST:/tmp/onixbit-preview-$release_id.tgz"
+          ssh -i "$key" -p "$DEPLOY_PORT" -o UserKnownHostsFile="$hosts" -o StrictHostKeyChecking=yes "$DEPLOY_USER@$DEPLOY_HOST" "APP_DIR='$APP_DIR' PACKAGE_SHA='$package_sha' RELEASE_ID='$release_id' EXPECTED_BUILD_ID='$build_id' DEPENDENCY_LOCK_SHA='$lock_sha' PACKAGE_JSON_SHA='$json_sha' bash -s" < daylight-update.sh
