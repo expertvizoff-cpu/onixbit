@@ -1,12 +1,12 @@
 {
-  "releaseId": "20260920-materials-c5ce94d3a9",
-  "packageSha": "c5ce94d3a9bd59666c86a7c9951d1525f18e406652877c9b75299b135306d2d2",
-  "buildId": "8AkUrlLp-EGstF3Qiqr8i",
+  "releaseId": "20260920-internal-f34f033b85",
+  "packageSha": "f34f033b85430238e1a824aa395ce1419f289bfed6dac9d538f96bf4e95f1bb8",
+  "buildId": "paRTun1YY9l0IUoB7Lg2h",
   "basePath": "/design",
-  "baseReleaseId": "20260920-daylight-db919061ee",
-  "baseBuildId": "TdJDGdqj-vHEegGA3XbFQ",
+  "baseReleaseId": "20260920-materials-c5ce94d3a9",
+  "baseBuildId": "8AkUrlLp-EGstF3Qiqr8i",
   "dependencyLockSha": "ca4b7a51cf9472baa78f1503a44627681728c7441f39c6d450c9525f5996154b",
   "packageJsonSha": "7992fc16c87b672b4a6281b2e66c70ddb85c2e399082a5524fd39f0fb59b76f7",
-  "baseProxySha": "b960ff7981363e524d0242d84f6b2bcac81ebc12ab49833ecb7df18f87cdc48e",
+  "baseProxySha": "8d6d91322f1fbc3d10715758c26ca1f38bdc31945dfde3cbc22e0e68a8a1a241",
   "kind": "runtime-overlay-with-unchanged-production-dependencies"
 }
