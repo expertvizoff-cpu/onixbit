@@ -1,4 +1,4 @@
-name: Publish isolated Onixbit design preview
+name: Diagnose Onixbit preview routing
 on:
   push:
     branches: [codex/onixbit-preview-20260920]
@@ -7,38 +7,47 @@ concurrency:
   group: production-deploy
   cancel-in-progress: false
 jobs:
-  preview:
+  inspect:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 5
     env:
       DEPLOY_HOST: ${{ secrets.VPS_HOST }}
       DEPLOY_USER: ${{ secrets.VPS_USER }}
       DEPLOY_PORT: ${{ secrets.VPS_PORT || '22' }}
       DEPLOY_KEY: ${{ secrets.VPS_SSH_KEY }}
       APP_DIR: ${{ secrets.VPS_APP_DIR || '/opt/onixbit-site' }}
-      PREVIEW_BUNDLE_KEY: ${{ secrets.ONIXBIT_PREVIEW_BUNDLE_KEY }}
-      PUBLISH_SHA: ${{ github.sha }}
     steps:
-      - name: Deploy reviewed runtime to design folders
+      - name: Inspect existing proxy and runtime without changes
         shell: bash
         run: |
           set -euo pipefail
           umask 077
           key="$RUNNER_TEMP/onixbit-key"
           hosts="$RUNNER_TEMP/onixbit-hosts"
-          bundle="$RUNNER_TEMP/onixbit-preview.tgz"
-          trap 'rm -f "$key" "$hosts" "$bundle"' EXIT
-          git init -q payload
-          git -C payload fetch -q --depth 1 https://github.com/expertvizoff-cpu/onixbit.git "$PUBLISH_SHA"
-          git -C payload checkout -q FETCH_HEAD
-          cd payload
-          sha256sum -c bundle.sha256
-          while read -r checksum filename; do cat "$filename"; done < bundle.sha256 > "$RUNNER_TEMP/onixbit-preview.enc"
-          openssl enc -d -aes-256-cbc -pbkdf2 -iter 200000 -in "$RUNNER_TEMP/onixbit-preview.enc" -out "$bundle" -pass env:PREVIEW_BUNDLE_KEY
-          package_sha="$(python3 -c 'import json;print(json.load(open("release.json"))["packageSha"])')"
-          release_id="$(python3 -c 'import json;print(json.load(open("release.json"))["releaseId"])')"
-          test "$(sha256sum "$bundle" | cut -d' ' -f1)" = "$package_sha"
+          trap 'rm -f "$key" "$hosts"' EXIT
           printf '%s\n' "$DEPLOY_KEY" > "$key"
           ssh-keyscan -p "$DEPLOY_PORT" "$DEPLOY_HOST" > "$hosts" 2>/dev/null
-          scp -i "$key" -P "$DEPLOY_PORT" -o UserKnownHostsFile="$hosts" -o StrictHostKeyChecking=yes "$bundle" "$DEPLOY_USER@$DEPLOY_HOST:/tmp/onixbit-preview-$release_id.tgz"
-          ssh -i "$key" -p "$DEPLOY_PORT" -o UserKnownHostsFile="$hosts" -o StrictHostKeyChecking=yes "$DEPLOY_USER@$DEPLOY_HOST" "APP_DIR='$APP_DIR' PACKAGE_SHA='$package_sha' RELEASE_ID='$release_id' bash -s" < deploy-preview-remote.sh
+          ssh -i "$key" -p "$DEPLOY_PORT" -o UserKnownHostsFile="$hosts" -o StrictHostKeyChecking=yes "$DEPLOY_USER@$DEPLOY_HOST" "APP_DIR='$APP_DIR' bash -s" <<'REMOTE'
+          set -euo pipefail
+          proxy=onixbit-site-caddy-1
+          live="$APP_DIR/current/Caddyfile"
+          printf 'HOST_CURRENT_CONFIG\n'
+          readlink -f "$live"
+          stat -c '%d:%i' "$live"
+          sha256sum "$live"
+          printf 'BOUND_CONTAINER_CONFIG\n'
+          docker exec "$proxy" stat -c '%d:%i' /etc/caddy/Caddyfile
+          docker exec "$proxy" sha256sum /etc/caddy/Caddyfile
+          inode="$(docker exec "$proxy" stat -c '%i' /etc/caddy/Caddyfile)"
+          printf 'MATCHING_RELEASE_CONFIG\n'
+          find "$APP_DIR/releases" -maxdepth 2 -type f -name Caddyfile -inum "$inode" -print
+          printf 'EXPECTED_PUBLIC_HOST\n'
+          docker exec "$proxy" sh -c 'if [ "$DOMAIN" = "onixbit.ru" ]; then echo DOMAIN_MATCH=true; else echo DOMAIN_MATCH=false; fi'
+          printf 'PREVIEW_CONTAINER_STATE\n'
+          docker ps -a --filter name=onixbit-design --format '{{.Names}} {{.Status}}'
+          printf 'ROOT_AND_MEDIA_HEALTH\n'
+          curl -fsS https://onixbit.ru/api/health
+          curl -fsS https://media.onixbit.ru/healthz
+          printf '\nPREVIEW_PUBLIC_STATUS\n'
+          curl -sS -o /dev/null -w '%{http_code}\n' https://onixbit.ru/design/api/health
+          REMOTE
