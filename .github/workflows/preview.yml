@@ -1,4 +1,4 @@
-name: Update reviewed Onixbit owner final correction
+name: Update reviewed Onixbit light Premium correction
 on:
   push:
     branches: [codex/onixbit-preview-20260920]
@@ -44,4 +44,4 @@ jobs:
           printf '%s\n' "$DEPLOY_KEY" > "$key"
           ssh-keyscan -p "$DEPLOY_PORT" "$DEPLOY_HOST" > "$hosts" 2>/dev/null
           scp -i "$key" -P "$DEPLOY_PORT" -o UserKnownHostsFile="$hosts" -o StrictHostKeyChecking=yes "$bundle" "$DEPLOY_USER@$DEPLOY_HOST:/tmp/onixbit-preview-$release_id.tgz"
-          ssh -i "$key" -p "$DEPLOY_PORT" -o UserKnownHostsFile="$hosts" -o StrictHostKeyChecking=yes "$DEPLOY_USER@$DEPLOY_HOST" "APP_DIR='$APP_DIR' PACKAGE_SHA='$package_sha' RELEASE_ID='$release_id' EXPECTED_BUILD_ID='$build_id' DEPENDENCY_LOCK_SHA='$lock_sha' PACKAGE_JSON_SHA='$json_sha' bash -s" < owner-final-update.sh
+          ssh -i "$key" -p "$DEPLOY_PORT" -o UserKnownHostsFile="$hosts" -o StrictHostKeyChecking=yes "$DEPLOY_USER@$DEPLOY_HOST" "APP_DIR='$APP_DIR' PACKAGE_SHA='$package_sha' RELEASE_ID='$release_id' EXPECTED_BUILD_ID='$build_id' DEPENDENCY_LOCK_SHA='$lock_sha' PACKAGE_JSON_SHA='$json_sha' bash -s" < no-plaque-update.sh
