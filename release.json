@@ -1,12 +1,12 @@
 {
-  "releaseId": "20260920-menu-7665348855",
-  "packageSha": "766534885522279ab1a56f1c73b7d3bb9dca547f6b5255a4f81fb699b2d1a9a3",
-  "buildId": "Jphq0zM5DUzL1yesm28ij",
+  "releaseId": "20260921-home-18b8a7f51a",
+  "packageSha": "18b8a7f51a8e23f529ac3668dc488755c053f48b8aefcd408e781ac28b1b8df9",
+  "buildId": "B_igfNwBg3Ui2V7rT-H1q",
   "basePath": "/design",
-  "baseReleaseId": "20260920-internal-f34f033b85",
-  "baseBuildId": "paRTun1YY9l0IUoB7Lg2h",
+  "baseReleaseId": "20260920-menu-7665348855",
+  "baseBuildId": "Jphq0zM5DUzL1yesm28ij",
   "dependencyLockSha": "ca4b7a51cf9472baa78f1503a44627681728c7441f39c6d450c9525f5996154b",
   "packageJsonSha": "7992fc16c87b672b4a6281b2e66c70ddb85c2e399082a5524fd39f0fb59b76f7",
-  "baseProxySha": "8885944d38414f9956dc302e8b9b21395bcb7d95cab2563a4424ce118e2c7347",
+  "baseProxyShaPattern": "^eac1a6fc87a279e3053fce995a5c8613db2178267276c39d33f4625198aca[0-9a-f]{2}1$",
   "kind": "runtime-overlay-with-unchanged-production-dependencies"
 }
