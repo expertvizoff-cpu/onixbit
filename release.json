@@ -1,12 +1,12 @@
 {
-  "releaseId": "20260921-home-18b8a7f51a",
-  "packageSha": "18b8a7f51a8e23f529ac3668dc488755c053f48b8aefcd408e781ac28b1b8df9",
-  "buildId": "B_igfNwBg3Ui2V7rT-H1q",
+  "releaseId": "20260921-homefix-2df64bc0b9",
+  "packageSha": "2df64bc0b993a6d669ecc8f64215528c2a7d892d22f50459151abf607502b9a2",
+  "buildId": "IWUpbkXbfM4-pX6-NhreG",
   "basePath": "/design",
-  "baseReleaseId": "20260920-menu-7665348855",
-  "baseBuildId": "Jphq0zM5DUzL1yesm28ij",
+  "baseReleaseId": "20260921-home-18b8a7f51a",
+  "baseBuildId": "B_igfNwBg3Ui2V7rT-H1q",
   "dependencyLockSha": "ca4b7a51cf9472baa78f1503a44627681728c7441f39c6d450c9525f5996154b",
   "packageJsonSha": "7992fc16c87b672b4a6281b2e66c70ddb85c2e399082a5524fd39f0fb59b76f7",
-  "baseProxyShaPattern": "^eac1a6fc87a279e3053fce995a5c8613db2178267276c39d33f4625198aca[0-9a-f]{2}1$",
+  "baseProxyShaPattern": "^08cbd9b78de558d4d6f2fd5e44bdbaf0ee34e750d1ea05e158e3[0-9a-f]{2}a6a401e5e0$",
   "kind": "runtime-overlay-with-unchanged-production-dependencies"
 }
