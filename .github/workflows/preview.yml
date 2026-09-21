@@ -1,4 +1,4 @@
-name: Update reviewed Onixbit owner portraits
+name: Inspect Onixbit preview (read-only)
 on:
   push:
     branches: [codex/onixbit-preview-20260920]
@@ -7,41 +7,32 @@ concurrency:
   group: production-deploy
   cancel-in-progress: false
 jobs:
-  preview:
+  inspect:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 8
     env:
       DEPLOY_HOST: ${{ secrets.VPS_HOST }}
       DEPLOY_USER: ${{ secrets.VPS_USER }}
       DEPLOY_PORT: ${{ secrets.VPS_PORT || '22' }}
       DEPLOY_KEY: ${{ secrets.VPS_SSH_KEY }}
       APP_DIR: ${{ secrets.VPS_APP_DIR || '/opt/onixbit-site' }}
-      PREVIEW_BUNDLE_KEY: ${{ secrets.ONIXBIT_PREVIEW_BUNDLE_KEY }}
       PUBLISH_SHA: ${{ github.sha }}
     steps:
-      - name: Switch only the reviewed design preview
+      - name: Read current preview and production identities only
         shell: bash
         run: |
           set -euo pipefail
           umask 077
-          key="$RUNNER_TEMP/onixbit-key"
-          hosts="$RUNNER_TEMP/onixbit-hosts"
-          bundle="$RUNNER_TEMP/onixbit-preview.tgz"
-          trap 'rm -f "$key" "$hosts" "$bundle"' EXIT
+          [[ "$PUBLISH_SHA" =~ ^[a-f0-9]{40}$ ]]
+          [[ "$APP_DIR" =~ ^/[A-Za-z0-9_./-]+$ && "$APP_DIR" != / && "$APP_DIR" != *'/../'* ]]
+          [[ "$DEPLOY_PORT" =~ ^[0-9]+$ ]]
+          key="$RUNNER_TEMP/onixbit-inspect-key"
+          hosts="$RUNNER_TEMP/onixbit-inspect-hosts"
+          trap 'rm -f -- "$key" "$hosts"' EXIT
           git init -q payload
           git -C payload fetch -q --depth 1 https://github.com/expertvizoff-cpu/onixbit.git "$PUBLISH_SHA"
           git -C payload checkout -q FETCH_HEAD
-          cd payload
-          sha256sum -c bundle.sha256
-          while read -r checksum filename; do cat "$filename"; done < bundle.sha256 > "$RUNNER_TEMP/onixbit-preview.enc"
-          openssl enc -d -aes-256-cbc -pbkdf2 -iter 200000 -in "$RUNNER_TEMP/onixbit-preview.enc" -out "$bundle" -pass env:PREVIEW_BUNDLE_KEY
-          package_sha="$(python3 -c 'import json;print(json.load(open("release.json"))["packageSha"])')"
-          release_id="$(python3 -c 'import json;print(json.load(open("release.json"))["releaseId"])')"
-          build_id="$(python3 -c 'import json;print(json.load(open("release.json"))["buildId"])')"
-          lock_sha="$(python3 -c 'import json;print(json.load(open("release.json"))["dependencyLockSha"])')"
-          json_sha="$(python3 -c 'import json;print(json.load(open("release.json"))["packageJsonSha"])')"
-          test "$(sha256sum "$bundle" | cut -d' ' -f1)" = "$package_sha"
           printf '%s\n' "$DEPLOY_KEY" > "$key"
           ssh-keyscan -p "$DEPLOY_PORT" "$DEPLOY_HOST" > "$hosts" 2>/dev/null
-          scp -i "$key" -P "$DEPLOY_PORT" -o UserKnownHostsFile="$hosts" -o StrictHostKeyChecking=yes "$bundle" "$DEPLOY_USER@$DEPLOY_HOST:/tmp/onixbit-preview-$release_id.tgz"
-          ssh -i "$key" -p "$DEPLOY_PORT" -o UserKnownHostsFile="$hosts" -o StrictHostKeyChecking=yes "$DEPLOY_USER@$DEPLOY_HOST" "APP_DIR='$APP_DIR' PACKAGE_SHA='$package_sha' RELEASE_ID='$release_id' EXPECTED_BUILD_ID='$build_id' DEPENDENCY_LOCK_SHA='$lock_sha' PACKAGE_JSON_SHA='$json_sha' bash -s" < founder-v14-update.sh
+          ssh -i "$key" -p "$DEPLOY_PORT" -o UserKnownHostsFile="$hosts" -o StrictHostKeyChecking=yes \
+            "$DEPLOY_USER@$DEPLOY_HOST" "APP_DIR='$APP_DIR' bash -s" < payload/inspect-remote.sh
