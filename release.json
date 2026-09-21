@@ -1,12 +1,12 @@
 {
-  "releaseId": "20260921-noplaque-e3bdea5914",
-  "packageSha": "e3bdea5914683436a0b69cd3b0459ab9b21f4f5f004681fe85fbbadd2cd904e0",
-  "buildId": "NgAwCN8l7IAVwprw0Zg6o",
+  "releaseId": "20260921-homev7-b46d4056db",
+  "packageSha": "b46d4056db2bce97d7210df3942e72de3d392baf0745d4396eed7efd1ab94f80",
+  "buildId": "wEa4Jzyv6roW2dYN0c5j4",
   "basePath": "/design",
-  "baseReleaseId": "20260921-ownerfinal-e7fcb86787",
-  "baseBuildId": "8-Saqgo2LkBtodeOBmK35",
+  "baseReleaseId": "20260921-noplaque-e3bdea5914",
+  "baseBuildId": "NgAwCN8l7IAVwprw0Zg6o",
   "dependencyLockSha": "ca4b7a51cf9472baa78f1503a44627681728c7441f39c6d450c9525f5996154b",
   "packageJsonSha": "7992fc16c87b672b4a6281b2e66c70ddb85c2e399082a5524fd39f0fb59b76f7",
-  "baseProxyShaPattern": "^028b3d68573b552d8aa1cface319e6894dbd6[0-9a-f]{2}32ff7fbb642f85ffbd142d5f0$",
+  "baseProxyShaPattern": "^208281e1849de4e5d9fd5c86024689dce[0-9a-f]{2}49eca5dd80b70abae2ab24bb3f2cf$",
   "kind": "runtime-overlay-with-unchanged-production-dependencies"
 }
