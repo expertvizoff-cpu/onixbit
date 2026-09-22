@@ -2,8 +2,8 @@
 # Read-only snapshot. No file, config, container or network-route mutations.
 set -euo pipefail
 [[ "${APP_DIR:-}" =~ ^/[A-Za-z0-9_./-]+$ && "$APP_DIR" != / && "$APP_DIR" != *'/../'* ]]
-release=20260922-cases-9775e5ad44
-expected_build=r5I6PGeUlEKxzkv3tiWDs
+release=20260922-motion-68d4ebbad2
+expected_build=yzCvaj0NkOEcI64peClwo
 preview="onixbit-design-$release"
 proxy=onixbit-site-caddy-1
 production=onixbit-site-web-1
