@@ -1,4 +1,4 @@
-name: Publish reviewed Onixbit design preview
+name: Publish reviewed Onixbit cases preview
 on:
   push:
     branches: [codex/onixbit-preview-20260920]
@@ -41,8 +41,8 @@ jobs:
           from pathlib import Path
           release=json.loads(Path('release.json').read_text())
           assert release['basePath']=='/design'
-          assert release['baseReleaseId']=='20260921-founder14-89985b024f'
-          assert release['baseBuildId']=='SqA3Tqma8pPH5qWmjPgr_'
+          assert release['baseReleaseId']=='20260922-character-8caffd9164'
+          assert release['baseBuildId']=='7AQUqYCVHVO4Tp9Kp1eVY'
           assert re.fullmatch('[a-z0-9-]+',release['releaseId'])
           assert re.fullmatch('[A-Za-z0-9_-]+',release['buildId'])
           for name in ('packageSha','dependencyLockSha','basePackageJsonSha','packageJsonSha','baseProxySha'):
@@ -74,4 +74,4 @@ jobs:
             "$bundle" "$DEPLOY_USER@$DEPLOY_HOST:/tmp/onixbit-preview-$release_id.tgz"
           ssh -i "$key" -p "$DEPLOY_PORT" -o UserKnownHostsFile="$hosts" -o StrictHostKeyChecking=yes \
             "$DEPLOY_USER@$DEPLOY_HOST" \
-            "APP_DIR='$APP_DIR' PACKAGE_SHA='$package_sha' RELEASE_ID='$release_id' EXPECTED_BUILD_ID='$build_id' DEPENDENCY_LOCK_SHA='$lock_sha' PACKAGE_JSON_SHA='$json_sha' BASE_PACKAGE_JSON_SHA='$base_json_sha' EXPECTED_PROXY_SHA='$proxy_sha' BASE_RELEASE_ID='$base_release' BASE_BUILD_ID='$base_build' bash -s" < deploy-update.sh
+            "APP_DIR='$APP_DIR' PACKAGE_SHA='$package_sha' RELEASE_ID='$release_id' EXPECTED_BUILD_ID='$build_id' DEPENDENCY_LOCK_SHA='$lock_sha' PACKAGE_JSON_SHA='$json_sha' BASE_PACKAGE_JSON_SHA='$base_json_sha' EXPECTED_PROXY_SHA='$proxy_sha' BASE_RELEASE_ID='$base_release' BASE_BUILD_ID='$base_build' bash -s" < deploy-preview.sh
