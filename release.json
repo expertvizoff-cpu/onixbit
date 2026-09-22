@@ -1,12 +1,13 @@
 {
-  "releaseId": "20260921-founder14-89985b024f",
-  "packageSha": "89985b024fad101b1ceb11685425828b87e3b5023af495a5cc53ac5ad13c1f39",
-  "buildId": "SqA3Tqma8pPH5qWmjPgr_",
+  "releaseId": "20260922-character-8caffd9164",
+  "packageSha": "8caffd9164db98a98cd0b071c09acfef952c20783935f2fc2e72720bbde922fc",
+  "buildId": "7AQUqYCVHVO4Tp9Kp1eVY",
   "basePath": "/design",
-  "baseReleaseId": "20260921-homev13-ce272c84bf",
-  "baseBuildId": "wU8lXI2ypOqNzMhXaBg0y",
+  "baseReleaseId": "20260921-founder14-89985b024f",
+  "baseBuildId": "SqA3Tqma8pPH5qWmjPgr_",
+  "baseProxySha": "09b153dd86409fdae642a85e68687fb5ea7c714346f93d03a229abf95e18f488",
   "dependencyLockSha": "ca4b7a51cf9472baa78f1503a44627681728c7441f39c6d450c9525f5996154b",
-  "packageJsonSha": "7992fc16c87b672b4a6281b2e66c70ddb85c2e399082a5524fd39f0fb59b76f7",
-  "baseProxyShaPattern": "^fdd4fe7cace490f6b9058f73df8a6982cdc26883b57d92e29b7c81[0-9a-f]{2}b5a8562d$",
-  "kind": "runtime-overlay-with-unchanged-production-dependencies"
+  "basePackageJsonSha": "7992fc16c87b672b4a6281b2e66c70ddb85c2e399082a5524fd39f0fb59b76f7",
+  "packageJsonSha": "8ea55de9af2d79af0af6d1f714ab50bcdcfc5c9a9f4736a79a7a3f592f554759",
+  "kind": "runtime-overlay-scripts-only-package-change"
 }
