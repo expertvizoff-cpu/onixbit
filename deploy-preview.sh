@@ -6,7 +6,7 @@ umask 022
 [[ "$RELEASE_ID" =~ ^[a-z0-9-]+$ && "$BASE_RELEASE_ID" =~ ^[a-z0-9-]+$ ]]
 [[ "$EXPECTED_BUILD_ID" =~ ^[A-Za-z0-9_-]+$ && "$BASE_BUILD_ID" =~ ^[A-Za-z0-9_-]+$ ]]
 for value in "$PACKAGE_SHA" "$DEPENDENCY_LOCK_SHA" "$BASE_PACKAGE_JSON_SHA" "$PACKAGE_JSON_SHA" "$EXPECTED_PROXY_SHA"; do [[ "$value" =~ ^[a-f0-9]{64}$ ]]; done
-[[ "$BASE_RELEASE_ID" = 20260923-hover-line-d4a8e1d5c8 && "$BASE_BUILD_ID" = dzN-jMBjI9vEofcs5gRln ]]
+[[ "$BASE_RELEASE_ID" = 20260923-ui-unified-56b59702c8 && "$BASE_BUILD_ID" = vyKujR63pGHii8H1gZ0lL ]]
 base="$APP_DIR/previews/$BASE_RELEASE_ID"
 target="$APP_DIR/previews/$RELEASE_ID"
 old_container="onixbit-design-$BASE_RELEASE_ID"
