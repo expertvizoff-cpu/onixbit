@@ -6,7 +6,7 @@ umask 022
 [[ "$RELEASE_ID" =~ ^[a-z0-9-]+$ && "$BASE_RELEASE_ID" =~ ^[a-z0-9-]+$ ]]
 [[ "$EXPECTED_BUILD_ID" =~ ^[A-Za-z0-9_-]+$ && "$BASE_BUILD_ID" =~ ^[A-Za-z0-9_-]+$ ]]
 for value in "$PACKAGE_SHA" "$DEPENDENCY_LOCK_SHA" "$BASE_PACKAGE_JSON_SHA" "$PACKAGE_JSON_SHA" "$EXPECTED_PROXY_SHA"; do [[ "$value" =~ ^[a-f0-9]{64}$ ]]; done
-[[ "$BASE_RELEASE_ID" = 20260923-home-outline-485f344642 && "$BASE_BUILD_ID" = vwfqTLoFGR52rmMdERk8B ]]
+[[ "$BASE_RELEASE_ID" = 20260923-company-blocks-0fe140e051 && "$BASE_BUILD_ID" = RCwhxPN8qSS0FgAi-SpGT ]]
 base="$APP_DIR/previews/$BASE_RELEASE_ID"
 target="$APP_DIR/previews/$RELEASE_ID"
 old_container="onixbit-design-$BASE_RELEASE_ID"
@@ -140,7 +140,7 @@ test "$(readlink -f "$APP_DIR/current")" = "$before_current"
 curl --connect-timeout 3 --max-time 15 -fsS https://onixbit.ru/design/api/health
 curl --connect-timeout 3 --max-time 15 -fsS https://media.onixbit.ru/healthz >/dev/null
 docker stop "$old_container" >/dev/null
-echo 'Reviewed /design company-page preview published. Production root HTML, application, current link and proxy start time preserved.'
+echo 'Reviewed /design company continuity preview published. Production root HTML, application, current link and proxy start time preserved.'
 printf 'RELEASE_ID=%s\nBUILD_ID=%s\nPACKAGE_SHA=%s\nPROXY_SHA=%s\n' "$RELEASE_ID" "$EXPECTED_BUILD_ID" "$PACKAGE_SHA" "$candidate_sha"
 printf 'PROXY_SHA_BASE64='
 printf '%s' "$candidate_sha" | base64 | tr -d '\n'
