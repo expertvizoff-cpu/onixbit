@@ -41,8 +41,8 @@ jobs:
           from pathlib import Path
           release=json.loads(Path('release.json').read_text())
           assert release['basePath']=='/design'
-          assert release['baseReleaseId']=='20260923-company-nav-661a811bc7'
-          assert release['baseBuildId']=='QiD9mAQb8LXWEHjFzvqZb'
+          assert release['baseReleaseId']=='20260923-approach-61423102f8'
+          assert release['baseBuildId']=='yhGdNklgqUuw0_tIS4txl'
           assert re.fullmatch('[a-z0-9-]+',release['releaseId'])
           assert re.fullmatch('[A-Za-z0-9_-]+',release['buildId'])
           for name in ('packageSha','dependencyLockSha','basePackageJsonSha','packageJsonSha','baseProxySha'):
