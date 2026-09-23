@@ -6,7 +6,7 @@ umask 022
 [[ "$RELEASE_ID" =~ ^[a-z0-9-]+$ && "$BASE_RELEASE_ID" =~ ^[a-z0-9-]+$ ]]
 [[ "$EXPECTED_BUILD_ID" =~ ^[A-Za-z0-9_-]+$ && "$BASE_BUILD_ID" =~ ^[A-Za-z0-9_-]+$ ]]
 for value in "$PACKAGE_SHA" "$DEPENDENCY_LOCK_SHA" "$BASE_PACKAGE_JSON_SHA" "$PACKAGE_JSON_SHA" "$EXPECTED_PROXY_SHA"; do [[ "$value" =~ ^[a-f0-9]{64}$ ]]; done
-[[ "$BASE_RELEASE_ID" = 20260923-brand-yellow-aad9a1d174 && "$BASE_BUILD_ID" = UE_6Ru4Sjtn0DI5yTe6n7 ]]
+[[ "$BASE_RELEASE_ID" = 20260923-articles-4a4811e6a0 && "$BASE_BUILD_ID" = FeMFiCHfmikYHCHcg_Dvb ]]
 base="$APP_DIR/previews/$BASE_RELEASE_ID"
 target="$APP_DIR/previews/$RELEASE_ID"
 old_container="onixbit-design-$BASE_RELEASE_ID"
@@ -129,7 +129,7 @@ for mode in dark light auto; do
   grep -q '/design/_next/static/' "$target/check-$mode.html"
 done
 curl --connect-timeout 3 --max-time 15 -fsSI https://onixbit.ru/design/ | grep -iq 'x-robots-tag:.*noindex'
-for route in cases cases/service-company-request-routing cases/ecommerce-order-to-1c cases/manufacturer-estimate-control cases/dealer-stock-sync cases/b2b-account-repeat-orders cases/field-service-mobile-control; do
+for route in o-kompanii contacts articles cases cases/service-company-request-routing cases/ecommerce-order-to-1c cases/manufacturer-estimate-control cases/dealer-stock-sync cases/b2b-account-repeat-orders cases/field-service-mobile-control; do
   curl --connect-timeout 3 --max-time 20 -fsS "https://onixbit.ru/design/$route" >/dev/null
 done
 test "$(curl --connect-timeout 3 --max-time 20 -fsS https://onixbit.ru/ | sha256sum | cut -d' ' -f1)" = "$before_root"
