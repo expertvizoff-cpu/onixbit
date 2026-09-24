@@ -1,13 +1,13 @@
 {
-  "releaseId": "20260924-bitrix24-service-3fbbc607d0",
-  "packageSha": "3fbbc607d05eaec17e4f794c326985682da01321fd8873aef75b5326eeb0c1c9",
-  "buildId": "6lU70yKGpHopc-fTN7Hlt",
+  "releaseId": "20260924-bitrix24-cohesive-e750ab1594",
+  "packageSha": "e750ab1594b578b929d4df5382c94303f04db87ae46f380abc029e596ed3ff33",
+  "buildId": "u1F3RY6Ve66G2LOedvLN4",
   "basePath": "/design",
-  "baseReleaseId": "20260923-company-1700-buttons-0243b12c28",
-  "baseBuildId": "0_GMqYVKbqzVpIFcIwSuO",
-  "baseProxySha": "5617bbc7a08a7d46815cd2998f5f5c499d7a846775421ca29fa18542b46d9c0d",
+  "baseReleaseId": "20260924-bitrix24-service-3fbbc607d0",
+  "baseBuildId": "6lU70yKGpHopc-fTN7Hlt",
+  "baseProxySha": "fe2a849d2502223b793c69da0dd79a3b1a6cbd3f06068340b46b5d53886587ea",
   "dependencyLockSha": "ca4b7a51cf9472baa78f1503a44627681728c7441f39c6d450c9525f5996154b",
-  "basePackageJsonSha": "8ea55de9af2d79af0af6d1f714ab50bcdcfc5c9a9f4736a79a7a3f592f554759",
+  "basePackageJsonSha": "9274811dcca28d5d4fc362b860529b6ccb328e4aee626cb83f068a8296459a7f",
   "packageJsonSha": "9274811dcca28d5d4fc362b860529b6ccb328e4aee626cb83f068a8296459a7f",
   "kind": "runtime-overlay-no-dependency-change"
 }
