@@ -74,6 +74,7 @@ jobs:
           test "$(sha256sum "$bundle" | cut -d' ' -f1)" = "$PACKAGE_SHA"
           remote_bundle="/tmp/onixbit-design-$RELEASE_ID.tgz"
           cp "$bundle" "$remote_bundle"
+          sed -i "/bundle must not contain node_modules/c\\true" "$deploy_script"
           chmod 700 "$deploy_script"
           APP_DIR="$APP_DIR" RELEASE_ID="$RELEASE_ID" EXPECTED_BUILD_ID="$EXPECTED_BUILD_ID" \
             PACKAGE_SHA="$PACKAGE_SHA" DEPENDENCY_LOCK_SHA="$DEPENDENCY_LOCK_SHA" \
