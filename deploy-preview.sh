@@ -19,27 +19,27 @@ production="onixbit-site-web-1"
 live="$APP_DIR/current/Caddyfile"
 backup="$APP_DIR/preview-backups/Caddyfile-$RELEASE_ID"
 
-old_container="$(python3 - "$live" <<'PY'
-from pathlib import Path
-import re, sys
-text = Path(sys.argv[1]).read_text()
-matches = re.findall(r'reverse_proxy (onixbit-design-[a-z0-9-]+):3000', text)
-assert len(matches) == 1, matches
-print(matches[0])
-PY
-)"
-base_release="${old_container#onixbit-design-}"
-base="$APP_DIR/previews/$base_release"
+old_container=""
+while IFS= read -r name; do
+  if [ "$(docker inspect --format '{{.State.Running}}' "$name" 2>/dev/null || true)" = true ]; then
+    old_container="$name"
+    break
+  fi
+done < <(docker ps --format '{{.Names}}' | grep '^onixbit-design-' || true)
+
+base=""
+while IFS= read -r candidate_base; do
+  if [ -f "$candidate_base/package.json" ] && [ -f "$candidate_base/package-lock.json" ] && [ -d "$candidate_base/node_modules" ] && \
+     [ "$(sha256sum "$candidate_base/package-lock.json" | cut -d' ' -f1)" = "$DEPENDENCY_LOCK_SHA" ]; then
+    base="$candidate_base"
+    break
+  fi
+done < <(find "$APP_DIR/previews" -mindepth 1 -maxdepth 1 -type d -printf '%T@ %p\n' 2>/dev/null | sort -nr | cut -d' ' -f2-)
 
 test -f "$bundle"
 test -f "$live"
-test -d "$base"
-test -f "$base/package.json"
-test -f "$base/package-lock.json"
-test -d "$base/node_modules"
+test -n "$base"
 test "$(sha256sum "$bundle" | cut -d' ' -f1)" = "$PACKAGE_SHA"
-test "$(sha256sum "$base/package-lock.json" | cut -d' ' -f1)" = "$DEPENDENCY_LOCK_SHA"
-test "$(docker inspect --format '{{.State.Running}}' "$old_container")" = true
 test ! -e "$target"
 ! docker inspect "$container" >/dev/null 2>&1
 
@@ -55,7 +55,12 @@ before_web_started="$(docker inspect --format '{{.State.StartedAt}}' "$productio
 before_proxy_started="$(docker inspect --format '{{.State.StartedAt}}' "$proxy")"
 before_current="$(readlink -f "$APP_DIR/current")"
 before_root="$(curl --connect-timeout 3 --max-time 20 -fsS https://onixbit.ru/ | sha256sum | cut -d' ' -f1)"
-preview_image="$(docker inspect --format '{{.Image}}' "$old_container")"
+if [ -n "$old_container" ]; then
+  preview_image="$(docker inspect --format '{{.Config.Image}}' "$old_container")"
+else
+  preview_image="node:22-bookworm-slim"
+  docker image inspect "$preview_image" >/dev/null 2>&1 || docker pull "$preview_image" >/dev/null
+fi
 
 python3 - "$bundle" <<'PY'
 from pathlib import PurePosixPath
@@ -83,7 +88,7 @@ rollback() {
     set +e
     restored=1
     if [ "$changed" -eq 1 ]; then
-      docker start "$old_container" >/dev/null 2>&1 || restored=0
+      if [ -n "$old_container" ]; then docker start "$old_container" >/dev/null 2>&1 || restored=0; fi
       cat "$backup" > "$live" || restored=0
       docker exec "$proxy" caddy reload --config /etc/caddy/Caddyfile --adapter caddyfile >/dev/null 2>&1 || restored=0
     fi
@@ -148,14 +153,47 @@ done
 docker exec "$container" node -e 'const fs=require("fs"),p="/app/.next/cache/probe";fs.writeFileSync(p,"ok");fs.unlinkSync(p);require("sharp")({create:{width:2,height:2,channels:3,background:{r:255,g:0,b:0}}}).resize(1,1).png().toBuffer().then(b=>{if(!b.length)process.exit(1);console.log("Image/cache preflight passed")}).catch(e=>{console.error(e.message);process.exit(1)})'
 
 candidate="$target/Caddyfile.preview"
-python3 - "$live" "$candidate" "$old_container" "$container" <<'PY'
+python3 - "$live" "$candidate" "$container" <<'PY'
 from pathlib import Path
 import sys
 original = Path(sys.argv[1]).read_text()
-old = 'reverse_proxy ' + sys.argv[3] + ':3000'
-new = 'reverse_proxy ' + sys.argv[4] + ':3000'
-assert original.count(old) == 1
-Path(sys.argv[2]).write_text(original.replace(old, new))
+container = sys.argv[3]
+begin = '  # BEGIN ONIXBIT DESIGN PREVIEW — root production remains on web:3000'
+end = '  # END ONIXBIT DESIGN PREVIEW'
+block = f"""  # BEGIN ONIXBIT DESIGN PREVIEW — root production remains on web:3000
+  @design path /design /design/*
+  handle @design {{
+    header X-Robots-Tag "noindex, nofollow, noarchive"
+    reverse_proxy {container}:3000
+  }}
+  @darkPreview path /dark /dark/
+  handle @darkPreview {{
+    header X-Robots-Tag "noindex, nofollow, noarchive"
+    redir * /design/?theme=dark 302
+  }}
+  @lightPreview path /light /light/
+  handle @lightPreview {{
+    header X-Robots-Tag "noindex, nofollow, noarchive"
+    redir * /design/?theme=light 302
+  }}
+  @autoPreview path /auto /auto/
+  handle @autoPreview {{
+    header X-Robots-Tag "noindex, nofollow, noarchive"
+    redir * /design/?theme=auto 302
+  }}
+  handle {{
+    reverse_proxy web:3000
+  }}
+  # END ONIXBIT DESIGN PREVIEW"""
+if begin in original and end in original:
+    first = original.index(begin)
+    last = original.index(end, first) + len(end)
+    updated = original[:first] + block + original[last:]
+else:
+    needle = '  reverse_proxy web:3000'
+    assert original.count(needle) == 1
+    updated = original.replace(needle, block)
+Path(sys.argv[2]).write_text(updated)
 PY
 
 docker cp "$candidate" "$proxy:/tmp/onixbit-design-preview.caddy"
@@ -181,6 +219,8 @@ curl --connect-timeout 3 --max-time 30 -fsS "https://onixbit.ru/design/vnedrenie
 grep -Fq 'От точечной настройки до корпоративной архитектуры' "$target/check-bitrix24.html"
 grep -Fq 'ONIXBIT Enterprise' "$target/check-bitrix24.html"
 grep -Fq 'Разберём задачу и предложим следующий шаг' "$target/check-bitrix24.html"
+removed_status="$(curl --connect-timeout 3 --max-time 20 -sS -o /dev/null -w '%{http_code}' https://onixbit.ru/design/preview/vnedrenie-bitrix24)"
+test "$removed_status" = 404
 curl --connect-timeout 3 --max-time 20 -fsS "https://onixbit.ru/design/media/bitrix24-implementation/continuous-office-night.webp?release=$RELEASE_ID" >/dev/null
 curl --connect-timeout 3 --max-time 15 -fsSI https://onixbit.ru/design/ | grep -iq 'x-robots-tag:.*noindex'
 
@@ -197,7 +237,7 @@ test "$(readlink -f "$APP_DIR/current")" = "$before_current"
 curl --connect-timeout 3 --max-time 15 -fsS https://onixbit.ru/api/health >/dev/null
 curl --connect-timeout 3 --max-time 15 -fsS https://media.onixbit.ru/healthz >/dev/null
 
-docker stop "$old_container" >/dev/null
+if [ -n "$old_container" ] && [ "$old_container" != "$container" ]; then docker stop "$old_container" >/dev/null || true; fi
 rm -f "$bundle"
 
 echo 'Reviewed /design Bitrix24 page published. Production root container, release link and proxy process were preserved.'
