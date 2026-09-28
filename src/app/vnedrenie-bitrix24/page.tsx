@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
-import { ServicePage } from "@/components/Sections";
-import { bitrix24FaqItems, directions } from "@/data/site";
-
-const direction = directions.find((item) => item.id === "bitrix24")!;
+import { Bitrix24Prototype } from "@/components/Bitrix24Prototype";
+import { bitrix24FaqItems } from "@/data/site";
 const baseUrl = "https://onixbit.ru";
 
 function serializeJsonLd(data: unknown) {
@@ -107,7 +105,7 @@ export default function Bitrix24Page() {
   return (
     <>
       <Bitrix24StructuredData />
-      <ServicePage direction={direction} />
+      <Bitrix24Prototype />
     </>
   );
 }
