@@ -18,7 +18,15 @@ target="$APP_DIR/previews/$RELEASE_ID"
 container="onixbit-design-$RELEASE_ID"
 proxy="onixbit-site-caddy-1"
 production="onixbit-site-web-1"
-live="$(docker inspect --format '{{range .Mounts}}{{if eq .Destination "/etc/caddy/Caddyfile"}}{{.Source}}{{end}}{{end}}' "$proxy")"
+container_caddy_inode="$(docker exec "$proxy" stat -Lc '%d:%i' /etc/caddy/Caddyfile)"
+live=""
+while IFS= read -r candidate_live; do
+  if [ "$(stat -Lc '%d:%i' "$candidate_live" 2>/dev/null || true)" = "$container_caddy_inode" ]; then
+    live="$candidate_live"
+    break
+  fi
+done < <(find "$APP_DIR" -type f -name Caddyfile -print 2>/dev/null)
+test -n "$live"
 backup="$APP_DIR/preview-backups/Caddyfile-$RELEASE_ID"
 
 old_container=""
