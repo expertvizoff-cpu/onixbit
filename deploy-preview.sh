@@ -3,8 +3,6 @@
 # and current release symlink must remain byte-for-byte and process-identical.
 set -euo pipefail
 umask 022
-PS4='[design-deploy] 1: '
-set -x
 
 [[ "${APP_DIR:-}" =~ ^/[A-Za-z0-9_./-]+$ && "$APP_DIR" != / && "$APP_DIR" != *'/../'* ]]
 [[ "${RELEASE_ID:-}" =~ ^[a-z0-9-]+$ ]]
@@ -228,7 +226,7 @@ curl --connect-timeout 3 --max-time 20 -fsS "https://onixbit.ru/design/api/healt
 curl --connect-timeout 3 --max-time 30 -fsS "https://onixbit.ru/design/vnedrenie-bitrix24?release=$RELEASE_ID" -o "$target/check-bitrix24.html"
 grep -Fq 'От точечной настройки до корпоративной архитектуры' "$target/check-bitrix24.html"
 grep -Fq 'ONIXBIT Enterprise' "$target/check-bitrix24.html"
-grep -Fq 'Разберём задачу и предложим следующий шаг' "$target/check-bitrix24.html"
+grep -Fq 'Оставьте заявку и сделайте следующий шаг' "$target/check-bitrix24.html"
 removed_status="$(curl --connect-timeout 3 --max-time 20 -sS -o /dev/null -w '%{http_code}' https://onixbit.ru/design/preview/vnedrenie-bitrix24)"
 test "$removed_status" = 404
 curl --connect-timeout 3 --max-time 20 -fsS "https://onixbit.ru/design/media/bitrix24-implementation/continuous-office-night.webp?release=$RELEASE_ID" >/dev/null
