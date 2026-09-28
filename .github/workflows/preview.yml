@@ -14,7 +14,7 @@ concurrency:
 jobs:
   preview:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 30
     env:
       DEPLOY_HOST: ${{ secrets.VPS_HOST }}
       DEPLOY_USER: ${{ secrets.VPS_USER }}
@@ -37,8 +37,7 @@ jobs:
 
           key="$RUNNER_TEMP/onixbit-publish-key"
           hosts="$RUNNER_TEMP/onixbit-publish-hosts"
-          bundle="$RUNNER_TEMP/onixbit-preview.tgz"
-          trap 'rm -f -- "$key" "$hosts" "$bundle"' EXIT
+          trap 'rm -f -- "$key" "$hosts"' EXIT
 
           git init -q payload
           git -C payload fetch -q --depth 1 https://github.com/expertvizoff-cpu/onixbit.git "$PUBLISH_SHA"
@@ -68,21 +67,52 @@ jobs:
           PY
 
           sha256sum -c bundle.sha256
-          while read -r checksum filename; do cat -- "$filename"; done < bundle.sha256 > "$bundle"
-
           readarray -t fields < <(python3 -c 'import json; r=json.load(open("release.json")); print("\n".join(r[k] for k in ["packageSha","releaseId","buildId","dependencyLockSha","packageJsonSha"]))')
           package_sha="${fields[0]}"
           release_id="${fields[1]}"
           build_id="${fields[2]}"
           lock_sha="${fields[3]}"
           json_sha="${fields[4]}"
-          test "$(sha256sum "$bundle" | cut -d' ' -f1)" = "$package_sha"
+          deploy_script_sha="$(sha256sum deploy-preview.sh | cut -d' ' -f1)"
+          remote_base="https://raw.githubusercontent.com/expertvizoff-cpu/onixbit/$PUBLISH_SHA"
 
           printf '%s\n' "$DEPLOY_KEY" > "$key"
           chmod 600 "$key"
           ssh-keyscan -p "$DEPLOY_PORT" "$DEPLOY_HOST" > "$hosts" 2>/dev/null
-          scp -i "$key" -P "$DEPLOY_PORT" -o UserKnownHostsFile="$hosts" -o StrictHostKeyChecking=yes \
-            "$bundle" "$DEPLOY_USER@$DEPLOY_HOST:/tmp/onixbit-preview-$release_id.tgz"
+
           ssh -i "$key" -p "$DEPLOY_PORT" -o UserKnownHostsFile="$hosts" -o StrictHostKeyChecking=yes \
             "$DEPLOY_USER@$DEPLOY_HOST" \
-            "APP_DIR='$APP_DIR' PACKAGE_SHA='$package_sha' RELEASE_ID='$release_id' EXPECTED_BUILD_ID='$build_id' DEPENDENCY_LOCK_SHA='$lock_sha' PACKAGE_JSON_SHA='$json_sha' bash -s" < deploy-preview.sh
+            "REMOTE_BASE='$remote_base' APP_DIR='$APP_DIR' PACKAGE_SHA='$package_sha' RELEASE_ID='$release_id' EXPECTED_BUILD_ID='$build_id' DEPENDENCY_LOCK_SHA='$lock_sha' PACKAGE_JSON_SHA='$json_sha' DEPLOY_SCRIPT_SHA='$deploy_script_sha' bash -s" <<'REMOTE'
+          set -euo pipefail
+          umask 077
+          work="/tmp/onixbit-download-$RELEASE_ID"
+          bundle="/tmp/onixbit-preview-$RELEASE_ID.tgz"
+          rm -rf "$work" "$bundle"
+          mkdir -p "$work"
+          trap 'rm -rf "$work"' EXIT
+          cd "$work"
+
+          curl -fL --retry 5 --retry-all-errors --connect-timeout 10 --max-time 600 \
+            "$REMOTE_BASE/bundle.sha256" -o bundle.sha256
+
+          expected=0
+          while read -r checksum filename; do
+            [[ "$checksum" =~ ^[a-f0-9]{64}$ ]]
+            printf -v expected_name 'bundle.tgz.part%02d' "$expected"
+            test "$filename" = "$expected_name"
+            curl -fL --retry 5 --retry-all-errors --connect-timeout 10 --max-time 600 \
+              "$REMOTE_BASE/$filename" -o "$filename"
+            expected=$((expected + 1))
+          done < bundle.sha256
+          test "$expected" -gt 0
+          sha256sum -c bundle.sha256
+          while read -r checksum filename; do cat -- "$filename"; done < bundle.sha256 > "$bundle"
+          test "$(sha256sum "$bundle" | cut -d' ' -f1)" = "$PACKAGE_SHA"
+
+          curl -fL --retry 5 --retry-all-errors --connect-timeout 10 --max-time 120 \
+            "$REMOTE_BASE/deploy-preview.sh" -o deploy-preview.sh
+          test "$(sha256sum deploy-preview.sh | cut -d' ' -f1)" = "$DEPLOY_SCRIPT_SHA"
+          chmod 700 deploy-preview.sh
+          cd /
+          bash "$work/deploy-preview.sh"
+          REMOTE
