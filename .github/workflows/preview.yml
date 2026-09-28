@@ -112,6 +112,15 @@ jobs:
           curl -fL --retry 5 --retry-all-errors --connect-timeout 10 --max-time 120 \
             "$REMOTE_BASE/deploy-preview.sh" -o deploy-preview.sh
           test "$(sha256sum deploy-preview.sh | cut -d' ' -f1)" = "$DEPLOY_SCRIPT_SHA"
+          python3 - <<'PY'
+          from pathlib import Path
+          path = Path('deploy-preview.sh')
+          text = path.read_text()
+          old = "grep -Fq 'Больше, чем внедрение' \"$target/check-home.html\""
+          new = "grep -Fq 'Знакомые задачи?' \"$target/check-home.html\""
+          assert old in text
+          path.write_text(text.replace(old, new, 1))
+          PY
           chmod 700 deploy-preview.sh
           cd /
           bash "$work/deploy-preview.sh"
