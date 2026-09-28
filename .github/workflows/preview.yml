@@ -1,9 +1,12 @@
 name: Publish reviewed Onixbit design preview
 
 on:
-  push:
-    branches:
-      - codex/onixbit-preview-20260920
+  workflow_dispatch:
+    inputs:
+      artifact_url:
+        description: Temporary download URL for an independently reviewed runtime artifact
+        required: true
+        type: string
 
 permissions: {}
 
@@ -21,7 +24,7 @@ jobs:
       DEPLOY_PORT: ${{ secrets.VPS_PORT || '22' }}
       DEPLOY_KEY: ${{ secrets.VPS_SSH_KEY }}
       APP_DIR: ${{ secrets.VPS_APP_DIR || '/opt/onixbit-site' }}
-      ARTIFACT_URL: 'https://sdmntprnortheu.oaiusercontent.com/files/00000000-aaac-81f4-93ce-15f473a46e77/raw?se=2026-09-28T13%3A52%3A25Z&sp=r&sv=2026-02-06&sr=b&scid=162e89fb-8583-530b-88f0-d56884af1c16&skoid=b971d227-1348-4524-8797-edb0fdf15147&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-09-28T06%3A13%3A33Z&ske=2026-09-29T06%3A13%3A33Z&sks=b&skv=2026-02-06&sig=PPR4YxoDpfocgxFUB42FANtnXfLjhY%2BwPzEAjRgtiak%3D'
+      ARTIFACT_URL: ${{ inputs.artifact_url }}
     steps:
       - name: Deploy reviewed runtime through isolated design route
         shell: bash
