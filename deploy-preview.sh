@@ -3,6 +3,8 @@
 # and current release symlink must remain byte-for-byte and process-identical.
 set -euo pipefail
 umask 022
+PS4='[design-deploy] ${LINENO}: '
+set -x
 
 [[ "${APP_DIR:-}" =~ ^/[A-Za-z0-9_./-]+$ && "$APP_DIR" != / && "$APP_DIR" != *'/../'* ]]
 [[ "${RELEASE_ID:-}" =~ ^[a-z0-9-]+$ ]]
