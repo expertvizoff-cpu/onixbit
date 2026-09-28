@@ -1,9 +1,9 @@
 {
-  "releaseId": "20260928-bitrix24-concept-v4-890a5ee",
-  "packageSha": "47f09b8e4625ce846ed9311d9f0b9ea5b102361f96f618dec7213424a0bb1c7e",
-  "buildId": "Cktay93mn6tC0A73pdbOH",
+  "releaseId": "20260928-full-new-site-v3-3a1d3f65",
+  "packageSha": "aa50d94fe133c02150ed2e37b3383394abb34e90e34f16d8256a560bd84f0147",
+  "buildId": "CctOlBW1WgE84o2WQSbim",
   "basePath": "/design",
   "dependencyLockSha": "ca4b7a51cf9472baa78f1503a44627681728c7441f39c6d450c9525f5996154b",
-  "packageJsonSha": "746fccfa8501e3e3722c3a341348aff8d4cd3ed3568747c9186f6c921d5e4a95",
-  "kind": "runtime-overlay-no-dependency-change"
+  "packageJsonSha": "9274811dcca28d5d4fc362b860529b6ccb328e4aee626cb83f068a8296459a7f",
+  "kind": "runtime-overlay-reuses-verified-node-modules"
 }

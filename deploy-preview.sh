@@ -223,13 +223,32 @@ test "$(docker exec "$proxy" sha256sum /etc/caddy/Caddyfile | cut -d' ' -f1)" = 
 test "$(stat -Lc '%d:%i' "$live")" = "$(docker exec "$proxy" stat -Lc '%d:%i' /etc/caddy/Caddyfile)"
 
 curl --connect-timeout 3 --max-time 20 -fsS "https://onixbit.ru/design/api/health?release=$RELEASE_ID" >/dev/null
+
+for route in /design/ /design/o-kompanii /design/vnedrenie-bitrix24 /design/cases /design/certificates /design/tarify-licenziy; do
+  curl --connect-timeout 3 --max-time 30 -fsS "https://onixbit.ru$route?release=$RELEASE_ID" >/dev/null
+done
+
+curl --connect-timeout 3 --max-time 30 -fsS "https://onixbit.ru/design/?release=$RELEASE_ID" -o "$target/check-home.html"
+grep -Fq 'Больше, чем внедрение' "$target/check-home.html"
+grep -Fq 'Реальные результаты' "$target/check-home.html"
+
+curl --connect-timeout 3 --max-time 30 -fsS "https://onixbit.ru/design/o-kompanii?release=$RELEASE_ID" -o "$target/check-about.html"
+grep -Fq 'команда, которая связывает' "$target/check-about.html"
+grep -Fq 'Четыре понятных этапа проекта' "$target/check-about.html"
+
 curl --connect-timeout 3 --max-time 30 -fsS "https://onixbit.ru/design/vnedrenie-bitrix24?release=$RELEASE_ID" -o "$target/check-bitrix24.html"
-grep -Fq 'От точечной настройки до корпоративной архитектуры' "$target/check-bitrix24.html"
+grep -Fq 'От одной задачи до корпоративной системы' "$target/check-bitrix24.html"
 grep -Fq 'ONIXBIT Enterprise' "$target/check-bitrix24.html"
-grep -Fq 'Оставьте заявку и сделайте следующий шаг' "$target/check-bitrix24.html"
-removed_status="$(curl --connect-timeout 3 --max-time 20 -sS -o /dev/null -w '%{http_code}' https://onixbit.ru/design/preview/vnedrenie-bitrix24)"
-test "$removed_status" = 404
+grep -Fq 'Разберём задачу и предложим следующий шаг' "$target/check-bitrix24.html"
+
+for removed in /design/preview/vnedrenie-bitrix24 /design/preview/mobile; do
+  removed_status="$(curl --connect-timeout 3 --max-time 20 -sS -o /dev/null -w '%{http_code}' "https://onixbit.ru$removed")"
+  test "$removed_status" = 404
+done
+
+curl --connect-timeout 3 --max-time 20 -fsS "https://onixbit.ru/design/media/compositions/desktop-reference.webp?release=$RELEASE_ID" >/dev/null
 curl --connect-timeout 3 --max-time 20 -fsS "https://onixbit.ru/design/media/bitrix24-implementation/continuous-office-night.webp?release=$RELEASE_ID" >/dev/null
+curl --connect-timeout 3 --max-time 20 -fsS "https://onixbit.ru/design/media/team/founder-office-day-20260921.webp?release=$RELEASE_ID" >/dev/null
 curl --connect-timeout 3 --max-time 15 -fsSI https://onixbit.ru/design/ | grep -iq 'x-robots-tag:.*noindex'
 
 for mode in dark light auto; do
@@ -248,6 +267,6 @@ curl --connect-timeout 3 --max-time 15 -fsS https://media.onixbit.ru/healthz >/d
 if [ -n "$old_container" ] && [ "$old_container" != "$container" ]; then docker stop "$old_container" >/dev/null || true; fi
 rm -f "$bundle"
 
-echo 'Reviewed /design Bitrix24 page published. Production root container, release link and proxy process were preserved.'
+echo 'Complete reviewed /design site published. Production root container, release link and proxy process were preserved.'
 printf 'RELEASE_ID=%s\nBUILD_ID=%s\nPACKAGE_SHA=%s\nPROXY_SHA=%s\nPREVIOUS_PREVIEW=%s\n' \
   "$RELEASE_ID" "$EXPECTED_BUILD_ID" "$PACKAGE_SHA" "$candidate_sha" "$old_container"
