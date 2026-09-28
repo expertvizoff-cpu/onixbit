@@ -18,7 +18,7 @@ target="$APP_DIR/previews/$RELEASE_ID"
 container="onixbit-design-$RELEASE_ID"
 proxy="onixbit-site-caddy-1"
 production="onixbit-site-web-1"
-live="$APP_DIR/current/Caddyfile"
+live="$(docker inspect --format '{{range .Mounts}}{{if eq .Destination "/etc/caddy/Caddyfile"}}{{.Source}}{{end}}{{end}}' "$proxy")"
 backup="$APP_DIR/preview-backups/Caddyfile-$RELEASE_ID"
 
 old_container=""
