@@ -289,12 +289,15 @@ caddy_image_id="$(docker inspect --format '{{.Image}}' "$proxy")"
 docker image inspect "$caddy_image_id" >/dev/null
 docker run -d --name "$container" --restart unless-stopped \
   --network onixbit-site_default --user 1001:1001 --memory 96m --cpus 0.25 \
-  --read-only --cap-drop ALL --security-opt no-new-privileges:true \
+  --read-only --cap-drop ALL --cap-add NET_BIND_SERVICE --security-opt no-new-privileges:true \
   --tmpfs /tmp:rw,noexec,nosuid,size=8m -v "$target/site:/srv:ro" \
   "$caddy_image_id" caddy file-server --root /srv --listen :8080 >/dev/null
 started=1
 expected_html="$(sha256sum "$target/site/index.html" | cut -d' ' -f1)"
 for attempt in $(seq 1 15); do
+  if [ "$(docker inspect --format '{{.State.Running}}' "$container")" != true ]; then
+    fail 'Isolated static server exited before HTTP readiness; inspect startup error'
+  fi
   if docker exec "$proxy" wget -q -T 5 -O - "http://$container:8080/" | sha256sum | cut -d' ' -f1 | grep -Fxq "$expected_html"; then break; fi
   test "$attempt" != 15 || fail 'Internal demo health failed'
   sleep 1
