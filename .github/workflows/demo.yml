@@ -1,6 +1,6 @@
-# Transport-only template. Install as .github/workflows/demo.yml on the
-# dedicated public transport branch, never as a root production deployment.
-name: Publish reviewed Onixbit demo
+# Temporary READ-ONLY replacement for transport .github/workflows/demo.yml.
+# Never install beside an enabled publication workflow on the same branch.
+name: Diagnose Onixbit demo attempt read-only
 
 on:
   push:
@@ -15,26 +15,72 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  publish:
+  diagnose:
     if: github.ref == 'refs/heads/publish/onixbit-demo-20261002'
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 10
     steps:
-      # No third-party actions or dependency installation; all build, visual
-      # review and testing occur on the approved server before this transport.
-      - name: Fetch exact reviewed transport commit
+      - name: D01 fetch exact diagnostic transport commit
         env:
           PUBLISH_SHA: ${{ github.sha }}
         shell: bash
         run: |
           set -euo pipefail
+          trap 'echo "::error title=Demo diagnostic D01::exact_commit=false"' ERR
           [[ "$PUBLISH_SHA" =~ ^[a-f0-9]{40}$ ]]
           git init -q payload
-          git -C payload fetch -q --depth 1 https://github.com/expertvizoff-cpu/onixbit.git "$PUBLISH_SHA"
-          git -C payload checkout -q --detach FETCH_HEAD
+          git -C payload fetch -q --depth 1 https://github.com/expertvizoff-cpu/onixbit.git "$PUBLISH_SHA" 2>/dev/null
+          git -C payload checkout -q --detach FETCH_HEAD 2>/dev/null
           test "$(git -C payload rev-parse HEAD)" = "$PUBLISH_SHA"
+          echo '::error title=Demo diagnostic D01::exact_commit=true;diagnostic_only=true'
 
-      - name: Transport and activate only the reviewed demo package
+      - name: D10-D20 inspect local inputs and immutable package
+        env:
+          DEPLOY_HOST: ${{ secrets.VPS_HOST }}
+          DEPLOY_USER: ${{ secrets.VPS_USER }}
+          DEPLOY_PORT: ${{ secrets.VPS_PORT || '22' }}
+          DEPLOY_KEY: ${{ secrets.VPS_SSH_KEY }}
+          APP_DIR: ${{ secrets.VPS_APP_DIR || '/opt/onixbit-site' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd payload
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib, json, os, re, sys
+          def note(phase, checks):
+              print('::error title=Demo diagnostic ' + phase + '::' + ';'.join(k + '=' + str(bool(v)).lower() for k, v in checks.items()), flush=True)
+          host, user, port, key, app = (os.environ.get(k, '') for k in ('DEPLOY_HOST', 'DEPLOY_USER', 'DEPLOY_PORT', 'DEPLOY_KEY', 'APP_DIR'))
+          inputs = {
+              'VPS_HOST_present': bool(host),
+              'VPS_HOST_format': bool(re.fullmatch(r'[A-Za-z0-9.-]+', host)) and not host.startswith('-'),
+              'VPS_USER_present': bool(user),
+              'VPS_USER_format': bool(re.fullmatch(r'[A-Za-z_][A-Za-z0-9_-]*', user)),
+              'VPS_PORT_format': bool(re.fullmatch(r'[0-9]+', port)),
+              'VPS_SSH_KEY_present': bool(key),
+              'VPS_APP_DIR_format': bool(re.fullmatch(r'/[A-Za-z0-9_./-]+', app)) and app != '/' and '/../' not in app,
+              'VPS_APP_DIR_canonical_runner': bool(app) and str(Path(app).resolve()) == app,
+          }
+          note('D10', inputs)
+          package = {'release_json_present': Path('release.json').is_file(), 'release_json_valid': False,
+              'base_path_matches': False, 'exact_release_matches': False, 'package_sha_format': False,
+              'archive_present': Path('demo.tgz').is_file(), 'archive_digest_matches': False,
+              'publish_script_present': Path('publish-demo.sh').is_file()}
+          try:
+              data = json.loads(Path('release.json').read_text())
+              package['release_json_valid'] = isinstance(data, dict)
+              package['base_path_matches'] = data.get('basePath') == '/demo'
+              package['exact_release_matches'] = data.get('releaseId') == '20261002-relay-demo-f9d009c'
+              package['package_sha_format'] = bool(re.fullmatch(r'[a-f0-9]{64}', str(data.get('packageSha', ''))))
+              if package['archive_present']:
+                  package['archive_digest_matches'] = hashlib.sha256(Path('demo.tgz').read_bytes()).hexdigest() == data.get('packageSha')
+          except Exception:
+              pass
+          note('D20', package)
+          sys.exit(0 if all(inputs.values()) and all(package.values()) else 1)
+          PY
+
+      - name: D30-D90 inspect exact VPS release without writes
         env:
           DEPLOY_HOST: ${{ secrets.VPS_HOST }}
           DEPLOY_USER: ${{ secrets.VPS_USER }}
@@ -45,59 +91,172 @@ jobs:
         run: |
           set -euo pipefail
           umask 077
+          # Prior step validates formats. Recheck every interpolated SSH value.
           [[ "$APP_DIR" =~ ^/[A-Za-z0-9_./-]+$ && "$APP_DIR" != / && "$APP_DIR" != *'/../'* ]]
-          test "$(realpath -m "$APP_DIR")" = "$APP_DIR"
           [[ "$DEPLOY_PORT" =~ ^[0-9]+$ ]]
           [[ "$DEPLOY_USER" =~ ^[A-Za-z_][A-Za-z0-9_-]*$ ]]
           [[ "$DEPLOY_HOST" =~ ^[A-Za-z0-9.-]+$ && "$DEPLOY_HOST" != -* ]]
-          test -n "$DEPLOY_KEY"
-          cd payload
-          readarray -t release < <(python3 - <<'PY'
-          import json, re
-          from pathlib import Path
-          data = json.loads(Path('release.json').read_text())
-          assert data['basePath'] == '/demo'
-          assert re.fullmatch(r'20261002-relay-demo-[a-z0-9-]+', data['releaseId'])
-          assert re.fullmatch(r'[a-f0-9]{64}', data['packageSha'])
-          print(data['releaseId'])
-          print(data['packageSha'])
-          PY
-          )
-          test "${#release[@]}" = 2
-          release_id="${release[0]}"
-          package_sha="${release[1]}"
-          test "$(sha256sum demo.tgz | cut -d' ' -f1)" = "$package_sha"
-          test -f publish-demo.sh
-
-          key="$RUNNER_TEMP/onixbit-demo-key"
-          hosts="$RUNNER_TEMP/onixbit-demo-hosts"
+          package_sha="$(python3 -c 'import json; print(json.load(open("payload/release.json"))["packageSha"])')"
+          [[ "$package_sha" =~ ^[a-f0-9]{64}$ ]]
+          key="$RUNNER_TEMP/onixbit-demo-diagnostic-key"
+          hosts="$RUNNER_TEMP/onixbit-demo-diagnostic-hosts"
           trap 'rm -f -- "$key" "$hosts"' EXIT
           printf '%s\n' "$DEPLOY_KEY" > "$key"
           unset DEPLOY_KEY
           chmod 600 "$key"
-          # Same host-key bootstrap as the existing VPS transport. Subsequent
-          # commands require that exact captured key; no StrictHostKeyChecking=no.
-          ssh-keyscan -T 10 -p "$DEPLOY_PORT" "$DEPLOY_HOST" > "$hosts" 2>/dev/null
-          test -s "$hosts"
+          if ssh-keyscan -T 10 -p "$DEPLOY_PORT" "$DEPLOY_HOST" > "$hosts" 2>/dev/null && test -s "$hosts"; then
+            echo '::error title=Demo diagnostic D30::host_key_acquired=true'
+          else
+            echo '::error title=Demo diagnostic D30::host_key_acquired=false'
+            exit 1
+          fi
           ssh_args=(-i "$key" -o BatchMode=yes -o ConnectTimeout=20
             -o ServerAliveInterval=15 -o ServerAliveCountMax=4
             -o UserKnownHostsFile="$hosts" -o StrictHostKeyChecking=yes)
+          if ssh "${ssh_args[@]}" -p "$DEPLOY_PORT" "$DEPLOY_USER@$DEPLOY_HOST" 'exit 0' >/dev/null 2>&1; then
+            echo '::error title=Demo diagnostic D31::ssh_probe_succeeded=true'
+          else
+            echo '::error title=Demo diagnostic D31::ssh_probe_succeeded=false'
+            exit 1
+          fi
+          set +e
           ssh "${ssh_args[@]}" -p "$DEPLOY_PORT" "$DEPLOY_USER@$DEPLOY_HOST" \
-            "APP_DIR='$APP_DIR' RELEASE_ID='$release_id' python3 -" <<'PY'
+            "APP_DIR='$APP_DIR' PACKAGE_SHA='$package_sha' python3 -" 2>/dev/null <<'PY'
           from pathlib import Path
-          import os
-          root = Path(os.environ['APP_DIR'])
-          release = os.environ['RELEASE_ID']
-          assert root.is_dir() and not root.is_symlink() and root.resolve(strict=True) == root
-          for name in ('demo-incoming', 'previews', 'preview-backups'):
-              parent = root / name
-              assert not parent.is_symlink() and parent.resolve() == parent and parent.parent == root
-              assert not parent.exists() or parent.is_dir()
-          for leaf in (root / 'demo-incoming' / (release + '.tgz'), root / 'previews' / release, root / 'preview-backups' / release):
-              assert not leaf.exists() and not leaf.is_symlink(), 'Release path already exists'
-          (root / 'demo-incoming').mkdir(mode=0o755, exist_ok=True)
+          import hashlib, json, os, re, subprocess, sys, urllib.error, urllib.request
+          def note(phase, checks):
+              print('::error title=Demo diagnostic ' + phase + '::' + ';'.join(k + '=' + str(bool(v)).lower() for k, v in checks.items()), flush=True)
+          def run(*args):
+              try:
+                  p = subprocess.run(args, text=True, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, timeout=20)
+                  return p.stdout.strip() if p.returncode == 0 else None
+              except Exception:
+                  return None
+          def digest(path):
+              try: return hashlib.sha256(path.read_bytes()).hexdigest()
+              except Exception: return None
+          def safe_file(path):
+              try: return path.is_file() and not path.is_symlink() and path.resolve() == path
+              except Exception: return False
+          def http(path):
+              try:
+                  with urllib.request.urlopen('https://onixbit.ru' + path, timeout=20) as r:
+                      return r.status, hashlib.sha256(r.read()).hexdigest()
+              except urllib.error.HTTPError as e:
+                  return e.code, None
+              except Exception:
+                  return None, None
+          try:
+              root = Path(os.environ['APP_DIR'])
+              release = '20261002-relay-demo-f9d009c'
+              storage = {'remote_python_started': True, 'app_exists': root.is_dir(), 'app_not_symlink': not root.is_symlink()}
+              try: storage['app_canonical'] = root.resolve(strict=True) == root
+              except Exception: storage['app_canonical'] = False
+              for name, label in (('demo-incoming', 'incoming'), ('previews', 'previews'), ('preview-backups', 'backups')):
+                  p = root / name
+                  storage[label + '_exists'] = p.exists()
+                  storage[label + '_safe'] = not p.is_symlink() and p.resolve() == p and (not p.exists() or p.is_dir())
+              note('D40', storage)
+              if not all(storage[k] for k in ('app_exists', 'app_not_symlink', 'app_canonical', 'incoming_safe', 'previews_safe', 'backups_safe')):
+                  sys.exit(1)
+              archive = root / 'demo-incoming' / (release + '.tgz')
+              target = root / 'previews' / release
+              backup = root / 'preview-backups' / release
+              state = {'archive_exists': archive.exists(), 'archive_safe_file': safe_file(archive),
+                  'archive_digest_matches': safe_file(archive) and digest(archive) == os.environ['PACKAGE_SHA'],
+                  'target_exists': target.exists(), 'target_not_symlink': not target.is_symlink(),
+                  'backup_exists': backup.exists(), 'backup_not_symlink': not backup.is_symlink(),
+                  'target_index_exists': False, 'before_snapshot_exists': False,
+                  'candidate_exists': False, 'activation_journal_exists': False, 'published_record_exists': False}
+              if target.is_dir() and not target.is_symlink():
+                  state['target_index_exists'] = safe_file(target / 'site/index.html')
+              if backup.is_dir() and not backup.is_symlink():
+                  for key, filename in (('before_snapshot_exists','before.json'),('candidate_exists','Caddyfile.candidate'),('activation_journal_exists','activation.json'),('published_record_exists','published.txt')):
+                      state[key] = safe_file(backup / filename)
+              note('D50', state)
+              proxy, production, demo = 'onixbit-site-caddy-1', 'onixbit-site-web-1', 'onixbit-demo-' + release
+              def identity(name):
+                  raw = run('docker', 'inspect', '--format', '{{json .}}', name)
+                  try:
+                      obj = json.loads(raw)
+                      return {'image': obj['Image'], 'started': obj['State']['StartedAt'], 'running': obj['State']['Running'], 'mounts': obj['Mounts']}
+                  except Exception: return None
+              pi, wi, di = (identity(n) for n in (proxy, production, demo))
+              note('D60', {'docker_access': run('docker', 'version', '--format', '{{.Server.Version}}') is not None,
+                  'proxy_exists': pi is not None, 'proxy_running': bool(pi and pi['running']),
+                  'root_exists': wi is not None, 'root_running': bool(wi and wi['running']),
+                  'demo_container_exists': di is not None, 'demo_container_running': bool(di and di['running'])})
+              active = None
+              proxy_checks = {'proxy_mount_identified': False, 'host_config_inside_app': False,
+                  'host_config_inode_matches': False, 'host_config_hash_matches': False,
+                  'demo_marker_present': False, 'demo_upstream_present': False,
+                  'design_marker_present': False, 'root_upstream_present': False}
+              container_inode = run('docker', 'exec', proxy, 'stat', '-Lc', '%d:%i', '/etc/caddy/Caddyfile') if pi else None
+              container_hash = run('docker', 'exec', proxy, 'sha256sum', '/etc/caddy/Caddyfile') if pi else None
+              if pi:
+                  mounts = [m for m in pi['mounts'] if m.get('Destination') == '/etc/caddy/Caddyfile']
+                  proxy_checks['proxy_mount_identified'] = len(mounts) == 1
+                  candidates = []
+                  if len(mounts) == 1:
+                      source = Path(mounts[0]['Source']).resolve()
+                      if source.is_relative_to(root):
+                          proxy_checks['host_config_inside_app'] = True
+                          candidates.append(source)
+                  # Read-only fallback for a current symlink whose target changed
+                  # after Docker bind-mounted a specific release file inode.
+                  candidates.extend(root.glob('releases/*/Caddyfile'))
+                  for p in candidates:
+                      if safe_file(p) and p.is_relative_to(root):
+                          stat = p.stat()
+                          if f'{stat.st_dev}:{stat.st_ino}' == container_inode:
+                              active = p
+                              break
+              if active:
+                  config = active.read_text()
+                  proxy_checks['host_config_inode_matches'] = True
+                  proxy_checks['host_config_hash_matches'] = bool(container_hash) and digest(active) == container_hash.split()[0]
+                  proxy_checks['demo_marker_present'] = 'BEGIN ONIXBIT DEMO PREVIEW' in config
+                  proxy_checks['demo_upstream_present'] = 'reverse_proxy ' + demo + ':8080' in config
+                  proxy_checks['design_marker_present'] = 'BEGIN ONIXBIT DESIGN PREVIEW' in config
+                  proxy_checks['root_upstream_present'] = config.count('reverse_proxy web:3000') == 1
+              note('D70', proxy_checks)
+              baseline = {'before_snapshot_readable': False, 'root_image_unchanged': False, 'root_started_unchanged': False,
+                  'proxy_started_unchanged': False, 'current_link_unchanged': False, 'root_html_unchanged': False,
+                  'design_html_unchanged': False, 'config_matches_before': False, 'config_matches_candidate': False,
+                  'activation_writing': False, 'activation_written': False, 'activation_restored': False}
+              root_status, root_hash = http('/')
+              design_status, design_hash = http('/design/')
+              demo_status, _ = http('/demo/')
+              if state['before_snapshot_exists']:
+                  try:
+                      before = json.loads((backup / 'before.json').read_text())
+                      baseline['before_snapshot_readable'] = True
+                      baseline['root_image_unchanged'] = bool(wi) and wi['image'] == before.get('rootImage')
+                      baseline['root_started_unchanged'] = bool(wi) and wi['started'] == before.get('rootStartedAt')
+                      baseline['proxy_started_unchanged'] = bool(pi) and pi['started'] == before.get('proxyStartedAt')
+                      baseline['current_link_unchanged'] = str((root / 'current').resolve()) == before.get('current')
+                      baseline['root_html_unchanged'] = bool(root_hash) and root_hash == before.get('rootHtmlSha256')
+                      baseline['design_html_unchanged'] = bool(design_hash) and design_hash == before.get('designHtmlSha256')
+                      baseline['config_matches_before'] = bool(active) and digest(active) == before.get('proxySha256')
+                  except Exception: pass
+              if state['candidate_exists']:
+                  baseline['config_matches_candidate'] = bool(active) and digest(active) == digest(backup / 'Caddyfile.candidate')
+              if state['activation_journal_exists']:
+                  try:
+                      phase = json.loads((backup / 'activation.json').read_text()).get('phase')
+                      for value in ('writing', 'written', 'restored'):
+                          baseline['activation_' + value] = phase == value
+                  except Exception: pass
+              note('D80', baseline)
+              note('D90', {'root_http_200': root_status == 200, 'design_http_200': design_status == 200,
+                  'demo_http_404': demo_status == 404, 'demo_http_200': demo_status == 200, 'readonly_complete': True})
+          except Exception:
+              note('D99', {'remote_inspection_exception': True, 'readonly_complete': False})
+              sys.exit(1)
           PY
-          scp "${ssh_args[@]}" -P "$DEPLOY_PORT" demo.tgz \
-            "$DEPLOY_USER@$DEPLOY_HOST:$APP_DIR/demo-incoming/$release_id.tgz"
-          ssh "${ssh_args[@]}" -p "$DEPLOY_PORT" "$DEPLOY_USER@$DEPLOY_HOST" \
-            "APP_DIR='$APP_DIR' PACKAGE_SHA='$package_sha' RELEASE_ID='$release_id' bash -s" < publish-demo.sh
+          diagnostic_status=$?
+          set -e
+          if [ "$diagnostic_status" -ne 0 ]; then
+            echo '::error title=Demo diagnostic D99::ssh_or_remote_inspection_complete=false'
+            exit 1
+          fi
