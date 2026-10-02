@@ -1,0 +1,103 @@
+# Transport-only template. Install as .github/workflows/demo.yml on the
+# dedicated public transport branch, never as a root production deployment.
+name: Publish reviewed Onixbit demo
+
+on:
+  push:
+    branches:
+      - publish/onixbit-demo-20261002
+
+permissions:
+  contents: read
+
+concurrency:
+  group: production-deploy
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    if: github.ref == 'refs/heads/publish/onixbit-demo-20261002'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      # No third-party actions or dependency installation; all build, visual
+      # review and testing occur on the approved server before this transport.
+      - name: Fetch exact reviewed transport commit
+        env:
+          PUBLISH_SHA: ${{ github.sha }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ "$PUBLISH_SHA" =~ ^[a-f0-9]{40}$ ]]
+          git init -q payload
+          git -C payload fetch -q --depth 1 https://github.com/expertvizoff-cpu/onixbit.git "$PUBLISH_SHA"
+          git -C payload checkout -q --detach FETCH_HEAD
+          test "$(git -C payload rev-parse HEAD)" = "$PUBLISH_SHA"
+
+      - name: Transport and activate only the reviewed demo package
+        env:
+          DEPLOY_HOST: ${{ secrets.VPS_HOST }}
+          DEPLOY_USER: ${{ secrets.VPS_USER }}
+          DEPLOY_PORT: ${{ secrets.VPS_PORT || '22' }}
+          DEPLOY_KEY: ${{ secrets.VPS_SSH_KEY }}
+          APP_DIR: ${{ secrets.VPS_APP_DIR || '/opt/onixbit-site' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          umask 077
+          [[ "$APP_DIR" =~ ^/[A-Za-z0-9_./-]+$ && "$APP_DIR" != / && "$APP_DIR" != *'/../'* ]]
+          test "$(realpath -m "$APP_DIR")" = "$APP_DIR"
+          [[ "$DEPLOY_PORT" =~ ^[0-9]+$ ]]
+          [[ "$DEPLOY_USER" =~ ^[A-Za-z_][A-Za-z0-9_-]*$ ]]
+          [[ "$DEPLOY_HOST" =~ ^[A-Za-z0-9.-]+$ && "$DEPLOY_HOST" != -* ]]
+          test -n "$DEPLOY_KEY"
+          cd payload
+          readarray -t release < <(python3 - <<'PY'
+          import json, re
+          from pathlib import Path
+          data = json.loads(Path('release.json').read_text())
+          assert data['basePath'] == '/demo'
+          assert re.fullmatch(r'20261002-relay-demo-[a-z0-9-]+', data['releaseId'])
+          assert re.fullmatch(r'[a-f0-9]{64}', data['packageSha'])
+          print(data['releaseId'])
+          print(data['packageSha'])
+          PY
+          )
+          test "${#release[@]}" = 2
+          release_id="${release[0]}"
+          package_sha="${release[1]}"
+          test "$(sha256sum demo.tgz | cut -d' ' -f1)" = "$package_sha"
+          test -f publish-demo.sh
+
+          key="$RUNNER_TEMP/onixbit-demo-key"
+          hosts="$RUNNER_TEMP/onixbit-demo-hosts"
+          trap 'rm -f -- "$key" "$hosts"' EXIT
+          printf '%s\n' "$DEPLOY_KEY" > "$key"
+          unset DEPLOY_KEY
+          chmod 600 "$key"
+          # Same host-key bootstrap as the existing VPS transport. Subsequent
+          # commands require that exact captured key; no StrictHostKeyChecking=no.
+          ssh-keyscan -T 10 -p "$DEPLOY_PORT" "$DEPLOY_HOST" > "$hosts" 2>/dev/null
+          test -s "$hosts"
+          ssh_args=(-i "$key" -o BatchMode=yes -o ConnectTimeout=20
+            -o ServerAliveInterval=15 -o ServerAliveCountMax=4
+            -o UserKnownHostsFile="$hosts" -o StrictHostKeyChecking=yes)
+          ssh "${ssh_args[@]}" -p "$DEPLOY_PORT" "$DEPLOY_USER@$DEPLOY_HOST" \
+            "APP_DIR='$APP_DIR' RELEASE_ID='$release_id' python3 -" <<'PY'
+          from pathlib import Path
+          import os
+          root = Path(os.environ['APP_DIR'])
+          release = os.environ['RELEASE_ID']
+          assert root.is_dir() and not root.is_symlink() and root.resolve(strict=True) == root
+          for name in ('demo-incoming', 'previews', 'preview-backups'):
+              parent = root / name
+              assert not parent.is_symlink() and parent.resolve() == parent and parent.parent == root
+              assert not parent.exists() or parent.is_dir()
+          for leaf in (root / 'demo-incoming' / (release + '.tgz'), root / 'previews' / release, root / 'preview-backups' / release):
+              assert not leaf.exists() and not leaf.is_symlink(), 'Release path already exists'
+          (root / 'demo-incoming').mkdir(mode=0o755, exist_ok=True)
+          PY
+          scp "${ssh_args[@]}" -P "$DEPLOY_PORT" demo.tgz \
+            "$DEPLOY_USER@$DEPLOY_HOST:$APP_DIR/demo-incoming/$release_id.tgz"
+          ssh "${ssh_args[@]}" -p "$DEPLOY_PORT" "$DEPLOY_USER@$DEPLOY_HOST" \
+            "APP_DIR='$APP_DIR' PACKAGE_SHA='$package_sha' RELEASE_ID='$release_id' bash -s" < publish-demo.sh
