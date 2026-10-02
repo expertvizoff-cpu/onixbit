@@ -1,6 +1,6 @@
 # Temporary READ-ONLY replacement for transport .github/workflows/demo.yml.
 # Never install beside an enabled publication workflow on the same branch.
-name: Diagnose Onixbit demo attempt read-only
+name: Diagnose isolated demo static server
 
 on:
   push:
@@ -260,3 +260,77 @@ jobs:
             echo '::error title=Demo diagnostic D99::ssh_or_remote_inspection_complete=false'
             exit 1
           fi
+
+      - name: D100 bounded isolated static-server probe
+        env:
+          DEPLOY_HOST: ${{ secrets.VPS_HOST }}
+          DEPLOY_USER: ${{ secrets.VPS_USER }}
+          DEPLOY_PORT: ${{ secrets.VPS_PORT || '22' }}
+          DEPLOY_KEY: ${{ secrets.VPS_SSH_KEY }}
+          APP_DIR: ${{ secrets.VPS_APP_DIR || '/opt/onixbit-site' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          umask 077
+          [[ "$APP_DIR" =~ ^/[A-Za-z0-9_./-]+$ && "$APP_DIR" != / && "$APP_DIR" != *'/../'* ]]
+          [[ "$DEPLOY_PORT" =~ ^[0-9]+$ ]]
+          [[ "$DEPLOY_USER" =~ ^[A-Za-z_][A-Za-z0-9_-]*$ ]]
+          [[ "$DEPLOY_HOST" =~ ^[A-Za-z0-9.-]+$ && "$DEPLOY_HOST" != -* ]]
+          key="$RUNNER_TEMP/demo-probe-key"
+          hosts="$RUNNER_TEMP/demo-probe-hosts"
+          trap 'rm -f -- "$key" "$hosts"' EXIT
+          printf '%s\n' "$DEPLOY_KEY" > "$key"
+          unset DEPLOY_KEY
+          ssh-keyscan -T 10 -p "$DEPLOY_PORT" "$DEPLOY_HOST" > "$hosts" 2>/dev/null
+          ssh -i "$key" -p "$DEPLOY_PORT" -o BatchMode=yes -o ConnectTimeout=20 \
+            -o UserKnownHostsFile="$hosts" -o StrictHostKeyChecking=yes \
+            "$DEPLOY_USER@$DEPLOY_HOST" "APP_DIR='$APP_DIR' bash -s" <<'REMOTE'
+          set -euo pipefail
+          proxy=onixbit-site-caddy-1
+          probe=onixbit-demo-probe-20261002-f9d009c
+          target="$APP_DIR/previews/20261002-relay-demo-f9d009c/site"
+          test -f "$target/index.html"
+          if docker inspect "$probe" >/dev/null 2>&1; then echo '::error title=Demo probe::existing_probe=true'; exit 1; fi
+          image="$(docker inspect --format '{{.Image}}' "$proxy")"
+          docker image inspect "$image" --format '{{json .Config.Entrypoint}}' | python3 -c 'import json,sys; e=json.load(sys.stdin);print("::error title=Demo probe image::entrypoint_present="+str(bool(e)).lower()+";entrypoint_caddy="+str(bool(e and "caddy" in e[0])).lower())'
+          docker inspect "$proxy" --format '{{json .NetworkSettings.Networks}}' | python3 -c 'import json,sys; n=json.load(sys.stdin); print("::error title=Demo probe network::expected_network_attached="+str("onixbit-site_default" in n).lower())'
+          started=0
+          cleanup() { if [ "$started" = 1 ]; then docker rm -fv "$probe_id" >/dev/null 2>&1; fi; }
+          trap cleanup EXIT
+          if probe_id="$(docker create --name "$probe" --network onixbit-site_default --user 1001:1001 \
+            --memory 96m --cpus 0.25 --read-only --cap-drop ALL --security-opt no-new-privileges:true \
+            --tmpfs /tmp:rw,noexec,nosuid,size=8m -v "$target:/srv:ro" \
+            "$image" caddy file-server --root /srv --listen :8080 2>/dev/null)"; then
+            started=1
+            echo '::error title=Demo probe::container_created=true'
+          else
+            echo '::error title=Demo probe::container_created=false'
+            exit 1
+          fi
+          if docker start "$probe_id" >/dev/null 2>&1; then
+            echo '::error title=Demo probe::container_started=true'
+          else
+            echo '::error title=Demo probe::container_started=false'
+          fi
+          sleep 3
+          docker inspect "$probe" --format '{{json .State}}' | python3 -c 'import json,sys;s=json.load(sys.stdin);print("::error title=Demo probe state::running="+str(s["Running"]).lower()+";exit_code="+str(s["ExitCode"])+";oom="+str(s["OOMKilled"]).lower())'
+          docker logs --tail 40 "$probe" 2>&1 | python3 -c 'import sys;s=sys.stdin.read().lower(); keys={"permission_denied":"permission denied","readonly_filesystem":"read-only file system","unknown_command":"unknown command","address_in_use":"address already in use","storage_failure":"storage","server_running":"server running"};print("::error title=Demo probe logs::"+";".join(k+"="+str(v in s).lower() for k,v in keys.items()))'
+          expected="$(sha256sum "$target/index.html" | cut -d' ' -f1)"
+          set +e
+          actual="$(docker exec "$probe" wget -q -T 5 -O - http://127.0.0.1:8080/ 2>/dev/null | sha256sum | cut -d' ' -f1)"
+          self_status=$?
+          from_proxy="$(docker exec "$proxy" wget -q -T 5 -O - "http://$probe:8080/" 2>/dev/null | sha256sum | cut -d' ' -f1)"
+          proxy_status=$?
+          probe_ip="$(docker inspect "$probe" --format '{{(index .NetworkSettings.Networks "onixbit-site_default").IPAddress}}' 2>/dev/null)"
+          from_ip="$(docker exec "$proxy" wget -q -T 5 -O - "http://$probe_ip:8080/" 2>/dev/null | sha256sum | cut -d' ' -f1)"
+          ip_status=$?
+          set -e
+          [ "$actual" = "$expected" ] && self_match=true || self_match=false
+          [ "$from_proxy" = "$expected" ] && proxy_match=true || proxy_match=false
+          printf '::error title=Demo probe HTTP::self_exit=%s;self_hash_match=%s;proxy_exit=%s;proxy_hash_match=%s\n' "$self_status" "$self_match" "$proxy_status" "$proxy_match"
+          [ "$from_ip" = "$expected" ] && ip_match=true || ip_match=false
+          printf '::error title=Demo probe direct IP::exit=%s;hash_match=%s\n' "$ip_status" "$ip_match"
+          cleanup
+          started=0
+          echo '::error title=Demo probe complete::temporary_container_removed=true;proxy_untouched=true'
+          REMOTE
