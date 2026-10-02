@@ -313,8 +313,8 @@ jobs:
             echo '::error title=Demo probe::container_started=false'
           fi
           sleep 3
-          docker inspect "$probe" --format '{{json .State}}' | python3 -c 'import json,sys;s=json.load(sys.stdin);print("::error title=Demo probe state::running="+str(s["Running"]).lower()+";exit_code="+str(s["ExitCode"])+";oom="+str(s["OOMKilled"]).lower())'
-          docker logs --tail 40 "$probe" 2>&1 | python3 -c 'import sys;s=sys.stdin.read().lower(); keys={"permission_denied":"permission denied","readonly_filesystem":"read-only file system","unknown_command":"unknown command","address_in_use":"address already in use","storage_failure":"storage","server_running":"server running"};print("::error title=Demo probe logs::"+";".join(k+"="+str(v in s).lower() for k,v in keys.items()))'
+          docker inspect "$probe" --format '{{json .State}}' | python3 -c 'import json,sys;s=json.load(sys.stdin);print("::error title=Demo probe state::running="+str(s["Running"]).lower()+";exit_code="+str(s["ExitCode"])+";oom="+str(s["OOMKilled"]).lower()+";state_error_present="+str(bool(s.get("Error"))).lower()+";state_operation_not_permitted="+str("operation not permitted" in s.get("Error", "").lower()).lower())'
+          docker logs --tail 40 "$probe" 2>&1 | python3 -c 'import sys;s=sys.stdin.read().lower(); keys={"permission_denied":"permission denied","readonly_filesystem":"read-only file system","unknown_command":"unknown command","address_in_use":"address already in use","storage_failure":"storage","server_running":"server running","operation_not_permitted":"operation not permitted","exec_caddy":"exec /usr/bin/caddy","exec_format":"exec format","segfault":"segmentation"};print("::error title=Demo probe logs::"+";".join(k+"="+str(v in s).lower() for k,v in keys.items()))'
           expected="$(sha256sum "$target/index.html" | cut -d' ' -f1)"
           set +e
           actual="$(docker exec "$probe" wget -q -T 5 -O - http://127.0.0.1:8080/ 2>/dev/null | sha256sum | cut -d' ' -f1)"
