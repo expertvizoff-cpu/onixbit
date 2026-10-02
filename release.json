@@ -1,8 +1,8 @@
 {
   "basePath": "/demo",
-  "releaseId": "20261002-relay-demo-full-depth-v2",
-  "packageSha": "bf497e488d599cf614c708a66216585234b687155a2d2f3a3bef9ecc663b7e5b",
-  "sourceCommit": "6068b917f53f6181e40606e6856bc29780d9def2",
-  "runtimeFiles": 20,
-  "packageBytes": 415550
+  "releaseId": "20261002-relay-demo-depth-motion-v3",
+  "packageSha": "e15a95b2d4d8df7d2690ffda41d0e3e541401ef82064092a50c31c953069f0af",
+  "sourceCommit": "99d0a3d9a034a9f497445907383106342cc31649",
+  "runtimeFiles": 22,
+  "packageBytes": 421054
 }
