@@ -298,7 +298,7 @@ jobs:
           cleanup() { if [ "$started" = 1 ]; then docker rm -fv "$probe_id" >/dev/null 2>&1; fi; }
           trap cleanup EXIT
           if probe_id="$(docker create --name "$probe" --network onixbit-site_default --user 1001:1001 \
-            --memory 96m --cpus 0.25 --read-only --cap-drop ALL --security-opt no-new-privileges:true \
+            --memory 96m --cpus 0.25 --read-only --cap-drop ALL --cap-add NET_BIND_SERVICE --security-opt no-new-privileges:true \
             --tmpfs /tmp:rw,noexec,nosuid,size=8m -v "$target:/srv:ro" \
             "$image" caddy file-server --root /srv --listen :8080 2>/dev/null)"; then
             started=1
