@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Update only the approved existing /demo/ static preview. Run on the VPS only.
-# This is intentionally bound to the previously verified depth/motion v3 demo release.
+# This is intentionally bound to the previously verified transfer/background v4 demo release.
 # Keeps the old demo container and files untouched as the rollback target.
 # Does not rebuild, restart, replace or switch the production/old-design app.
 set -Eeuo pipefail
@@ -29,9 +29,10 @@ bundle="$APP_DIR/demo-incoming/$RELEASE_ID.tgz"
 target="$APP_DIR/previews/$RELEASE_ID"
 backup_dir="$APP_DIR/preview-backups/$RELEASE_ID"
 container="onixbit-demo-$RELEASE_ID"
-previous_release=20261002-relay-demo-depth-motion-v3
+previous_release=20261002-relay-demo-transfer-background-v4
 previous_container="onixbit-demo-$previous_release"
 previous_index_sha=80ff388d07008e31d853572cadc39b60bab1fd6ff40def9939b066a7f7f3825d
+previous_manifest_sha=1b8937277a3bafd2023b5f119ff09e149e93b5779ae341b51b493aa7f2a8dc11
 previous_site="$APP_DIR/previews/$previous_release/site"
 test "$RELEASE_ID" != "$previous_release" || fail 'Never overwrite the current demo release'
 proxy=onixbit-site-caddy-1
@@ -85,6 +86,8 @@ index = site / 'index.html'
 assert index.is_file() and not index.is_symlink()
 PY_OLD
 test "$(sha256sum "$previous_site/index.html" | cut -d' ' -f1)" = "$previous_index_sha" || fail 'Previous demo index drift'
+test "$(sha256sum "$APP_DIR/previews/$previous_release/MANIFEST.sha256" | cut -d' ' -f1)" = "$previous_manifest_sha" || fail 'Previous manifest drift'
+(cd "$APP_DIR/previews/$previous_release" && sha256sum --quiet -c MANIFEST.sha256) || fail 'Previous runtime drift'
 
 proxy_inode="$(docker exec "$proxy" stat -Lc '%d:%i' /etc/caddy/Caddyfile)"
 while IFS= read -r candidate_live; do
@@ -159,14 +162,14 @@ with tarfile.open(sys.argv[1], 'r:gz') as archive:
         assert member.isfile() or member.isdir(), 'Links/devices are prohibited'
         assert name == 'MANIFEST.sha256' or path.parts[0] == 'site'
         if member.isfile() and name != 'MANIFEST.sha256':
-            assert (name == 'site/index.html' or
+            assert (name in ('site/index.html', 'site/company.html') or
                     re.fullmatch(r'site/src/(?:[A-Za-z0-9_-]+/)*[A-Za-z0-9_.-]+\.(?:js|mjs|css)', name) or
-                    re.fullmatch(r'site/assets/(?:three/[A-Za-z0-9_.-]+\.(?:js|txt)|fonts/[A-Za-z0-9_.-]+\.(?:woff2|txt)|onixbit-(?:logo|mark)\.png)', name)), 'Unexpected runtime file'
+                    re.fullmatch(r'site/assets/(?:three/[A-Za-z0-9_.-]+\.(?:js|txt)|fonts/[A-Za-z0-9_.-]+\.(?:woff2|txt)|onixbit-(?:logo|mark)\.png|onixbit-founder\.webp)', name)), 'Unexpected runtime file'
         assert not any(p.startswith('.') or p in ('node_modules', 'deploy') for p in path.parts)
         if member.isfile():
             assert member.size <= 10 * 1024 * 1024, 'Oversized file'
             files[name] = archive.extractfile(member).read()
-    assert 'site/index.html' in files and 'MANIFEST.sha256' in files
+    assert 'site/index.html' in files and 'site/company.html' in files and 'MANIFEST.sha256' in files
     rows = files.pop('MANIFEST.sha256').decode('ascii').splitlines()
     manifest = {}
     for row in rows:
@@ -176,12 +179,45 @@ with tarfile.open(sys.argv[1], 'r:gz') as archive:
         assert name not in manifest, 'Duplicate manifest entry'
         manifest[name] = checksum
     assert manifest.keys() == files.keys(), 'Manifest does not cover exact archive'
+    expected_runtime = {
+        'site/assets/fonts/inter-OFL.txt',
+        'site/assets/fonts/inter-cyrillic.woff2',
+        'site/assets/fonts/inter-latin.woff2',
+        'site/assets/fonts/mono-OFL.txt',
+        'site/assets/fonts/mono-cyrillic.woff2',
+        'site/assets/fonts/mono-latin.woff2',
+        'site/assets/fonts/serif-OFL.txt',
+        'site/assets/fonts/serif-cyrillic.woff2',
+        'site/assets/fonts/serif-latin.woff2',
+        'site/assets/onixbit-founder.webp',
+        'site/assets/onixbit-logo.png',
+        'site/assets/onixbit-mark.png',
+        'site/assets/three/LICENSE.txt',
+        'site/assets/three/three.core.min.js',
+        'site/assets/three/three.module.min.js',
+        'site/company.html',
+        'site/index.html',
+        'site/src/brand-theme.js',
+        'site/src/company.css',
+        'site/src/company.js',
+        'site/src/light-stream.js',
+        'site/src/main.js',
+        'site/src/onixbit-theme.css',
+        'site/src/scene-motion.css',
+        'site/src/scene-motion.js',
+        'site/src/sections-interactions.js',
+        'site/src/sections.css',
+        'site/src/styles.css',
+    }
+    assert set(files) == expected_runtime, 'Runtime differs from reviewed two-page manifest'
     for name, data in files.items():
         assert hashlib.sha256(data).hexdigest() == manifest[name], 'Payload checksum mismatch'
 PY
 
 verify_protected() {
   test "$(docker inspect --format '{{.Id}} {{.Image}} {{.State.StartedAt}} {{.State.Running}}' "$previous_container")" = "$previous_identity" &&
+  test "$(sha256sum "$APP_DIR/previews/$previous_release/MANIFEST.sha256" | cut -d' ' -f1)" = "$previous_manifest_sha" &&
+  (cd "$APP_DIR/previews/$previous_release" && sha256sum --quiet -c MANIFEST.sha256) &&
   test "$(sha256sum "$previous_site/index.html" | cut -d' ' -f1)" = "$previous_index_sha" &&
   test "$(docker exec "$proxy" wget -q -T 5 -O - "http://$previous_container:8080/" | sha256sum | cut -d' ' -f1)" = "$previous_index_sha" &&
   test "$(docker inspect --format '{{.Image}}' "$production")" = "$before_web_image" &&
@@ -414,6 +450,8 @@ for row in (root / 'MANIFEST.sha256').read_text().splitlines():
         if relative.endswith('.css'): assert kind == 'text/css', (relative, kind)
         if relative.endswith('.html'): assert kind == 'text/html', (relative, kind)
         if relative.endswith('.woff2'): assert kind == 'font/woff2', (relative, kind)
+        if relative.endswith('.webp'): assert kind == 'image/webp', (relative, kind)
+        if relative.endswith('.png'): assert kind == 'image/png', (relative, kind)
 try:
     urllib.request.urlopen('https://onixbit.ru/demo/absent-' + release, timeout=20)
     raise AssertionError('Missing static 404')

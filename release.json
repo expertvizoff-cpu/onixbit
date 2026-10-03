@@ -1,8 +1,8 @@
 {
   "basePath": "/demo",
-  "releaseId": "20261002-relay-demo-transfer-background-v4",
-  "packageSha": "08197af3c014dd7f750f5d87726c8c92f7ffb6b35989cdfbeb705ff056079484",
-  "sourceCommit": "3c83aeb711845d3ae5b876527cafc96086641196",
-  "runtimeFiles": 22,
-  "packageBytes": 422273
+  "releaseId": "20261002-relay-demo-launch-foundation-v5",
+  "packageSha": "df4dffea7cec9812a6e14348bb7d4b5ef3e3f4dbb6e15d8750ee289e31c7f6b4",
+  "sourceCommit": "531ca07d18a9b3066818d08929014aa99fa3d425",
+  "runtimeFiles": 28,
+  "packageBytes": 478854
 }
