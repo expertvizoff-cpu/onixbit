@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Update only the approved existing /demo/ static preview. Run on the VPS only.
-# This is intentionally bound to the previously verified full-page demo release.
+# This is intentionally bound to the previously verified depth/motion v3 demo release.
 # Keeps the old demo container and files untouched as the rollback target.
 # Does not rebuild, restart, replace or switch the production/old-design app.
 set -Eeuo pipefail
@@ -29,9 +29,9 @@ bundle="$APP_DIR/demo-incoming/$RELEASE_ID.tgz"
 target="$APP_DIR/previews/$RELEASE_ID"
 backup_dir="$APP_DIR/preview-backups/$RELEASE_ID"
 container="onixbit-demo-$RELEASE_ID"
-previous_release=20261002-relay-demo-full-depth-v2
+previous_release=20261002-relay-demo-depth-motion-v3
 previous_container="onixbit-demo-$previous_release"
-previous_index_sha=7a3e53506aabcaf3bfb34c80dca76c89d321f78dbc67139bccfe47f1007ce40c
+previous_index_sha=80ff388d07008e31d853572cadc39b60bab1fd6ff40def9939b066a7f7f3825d
 previous_site="$APP_DIR/previews/$previous_release/site"
 test "$RELEASE_ID" != "$previous_release" || fail 'Never overwrite the current demo release'
 proxy=onixbit-site-caddy-1

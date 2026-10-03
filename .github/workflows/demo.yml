@@ -1,6 +1,6 @@
 # Transport-only template. Install as .github/workflows/demo.yml on the
 # dedicated public transport branch, never as a root production deployment.
-# Only update-demo.sh may run: it requires the exact retained full-page release.
+# Only update-demo.sh may run: it requires the exact retained depth/motion v3 release.
 # Reuse the existing demo.yml filename so the first-publish workflow is replaced.
 # Root main/deploy workflows must not be copied to this transport branch.
 name: Update reviewed Onixbit demo
@@ -8,7 +8,7 @@ name: Update reviewed Onixbit demo
 on:
   push:
     branches:
-      - publish/onixbit-demo-depth-motion-20261002
+      - publish/onixbit-demo-transfer-background-20261003
 
 permissions:
   contents: read
@@ -19,7 +19,7 @@ concurrency:
 
 jobs:
   publish:
-    if: github.ref == 'refs/heads/publish/onixbit-demo-depth-motion-20261002'
+    if: github.ref == 'refs/heads/publish/onixbit-demo-transfer-background-20261003'
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -71,7 +71,7 @@ jobs:
           package_sha="${release[1]}"
           test "$(sha256sum demo.tgz | cut -d' ' -f1)" = "$package_sha"
           test -f update-demo.sh
-          test "$release_id" != 20261002-relay-demo-full-depth-v2
+          test "$release_id" != 20261002-relay-demo-depth-motion-v3
 
           key="$RUNNER_TEMP/onixbit-demo-key"
           hosts="$RUNNER_TEMP/onixbit-demo-hosts"
