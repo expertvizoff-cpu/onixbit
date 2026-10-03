@@ -87,7 +87,10 @@ def http(url):
             require(location.startswith(('/', 'https://onixbit.ru/')), 'HTTP_REDIRECT_SCOPE')
             result['location'] = location
         if url.endswith('/api/health'):
-            result['healthContract'] = json.loads(body) == {'ok': True, 'service': 'onixbit'}
+            health = json.loads(body)
+            result['healthContract'] = (type(health) is dict
+                and set(health) == {'ok', 'service'} and health['ok'] is True
+                and health['service'] == 'onixbit')
         return result
 
 
@@ -186,6 +189,8 @@ def main():
             require(result['healthContract'], 'PUBLIC_HEALTH_CONTRACT')
     require(current.resolve(strict=True) == resolved, 'CURRENT_CHANGED_DURING_PROBE')
     require(digest(active.read_bytes()) == proxy_sha, 'CADDY_CHANGED_DURING_PROBE')
+    final_stat = active.stat()
+    require(f'{final_stat.st_dev}:{final_stat.st_ino}' == inode, 'CADDY_HOST_INODE_CHANGED_DURING_PROBE')
     require(run('docker', 'exec', PROXY, 'stat', '-Lc', '%d:%i', '/etc/caddy/Caddyfile') == inode,
             'CADDY_INODE_CHANGED_DURING_PROBE')
     require(run('docker', 'exec', PROXY, 'sha256sum', '/etc/caddy/Caddyfile').split()[0] == proxy_sha,
