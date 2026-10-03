@@ -180,6 +180,21 @@ def main():
                 archives.append({'relativePath': str(path.relative_to(ROOT)),
                                  'bytes': path.stat().st_size})
     REPORT['archiveInventory'] = archives
+    caches = []
+    for parent in (ROOT / 'releases', ROOT / 'previews'):
+        if not parent.is_dir() or parent.is_symlink():
+            continue
+        children = sorted(parent.iterdir())
+        require(len(children) <= 200, 'RELEASE_INVENTORY_BOUND')
+        for release in children:
+            if not release.is_dir() or release.is_symlink():
+                continue
+            for suffix in ('.next/cache/images', '.next/cache/webpack', '.next/cache/swc'):
+                cache = release / suffix
+                if cache.is_dir() and not cache.is_symlink() and cache.resolve() == cache:
+                    caches.append({'relativePath': str(cache.relative_to(ROOT)),
+                                   'diskBytes': int(run('du', '-sxk', str(cache)).split()[0]) * 1024})
+    REPORT['regenerableCacheInventory'] = caches
     for relative in ('full-site-incoming', 'full-site-releases', 'full-site-backups'):
         parent = ROOT / relative
         require(not parent.is_symlink() and parent.resolve() == parent
