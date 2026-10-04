@@ -1,0 +1,357 @@
+{
+  "schemaVersion": 1,
+  "releaseId": "20261004-content-depth-rc",
+  "sourceCommit": "fad8dd1c5388c6549d43d8040650512b21d2d7ce",
+  "buildId": "bjdTSW2nkZjtCHuYn7ViB",
+  "archiveSHA256": "42a81b8e3cd1a0bbda4e1dc21a5d90a9bb408fe61169aad66f296e0d45f6fe66",
+  "baseline": {
+    "activeBuildId": "FuluQNL8rKLzaSJ6N672L",
+    "approvedMaintenance": {
+      "container": "onixbit-full-site-20261003-full-site-rc-0f191e5",
+      "containerId": "5ffaf5be8d2b7e19863417939fc7901d24e6b68d925c90f8a089059d2535b3cb",
+      "scope": "retained 0f only",
+      "stopped": true
+    },
+    "archiveInventory": [
+      {
+        "bytes": 396337,
+        "relativePath": "demo-incoming/20261002-relay-demo-f9d009c.tgz"
+      }
+    ],
+    "candidate": "20261004-content-depth-rc",
+    "capacity": {
+      "diskFreeBytes": 1836072960,
+      "memoryAvailableBytes": 1890689024
+    },
+    "checkedAt": "2026-10-04T06:46:08.342564+00:00",
+    "checks": {
+      "minimumHeadroom": false,
+      "snapshotStable": true
+    },
+    "containers": [
+      {
+        "id": "b64148d18bc83c286fec8a5b6df932d9f8388807f657eee475943ae0378b2ac2",
+        "imageId": "sha256:48e4b67d85f87bd551df43704e24d252f56cc5f8e9718841aace50f19948f0f9",
+        "name": "onixbit-full-site-20261004-relay-f178f70",
+        "networkNames": [
+          "onixbit-site_default"
+        ],
+        "readOnlyRootfs": true,
+        "running": true,
+        "startedAt": "2026-10-04T04:07:00.617443609Z",
+        "user": "1001:1001"
+      },
+      {
+        "id": "5ffaf5be8d2b7e19863417939fc7901d24e6b68d925c90f8a089059d2535b3cb",
+        "imageId": "sha256:48e4b67d85f87bd551df43704e24d252f56cc5f8e9718841aace50f19948f0f9",
+        "name": "onixbit-full-site-20261003-full-site-rc-0f191e5",
+        "networkNames": [
+          "onixbit-site_default"
+        ],
+        "readOnlyRootfs": true,
+        "running": false,
+        "startedAt": "2026-10-03T18:19:54.81259699Z",
+        "user": "1001:1001"
+      },
+      {
+        "id": "e820d16fc0804bfea038ee64308b7a6dc8ebf184973bddbd79aa1d6e3f4b4e53",
+        "imageId": "sha256:ec73d93b72199683b0b903e5d1808af9b916518c99c7b4048fa7d46dce58f1a6",
+        "name": "onixbit-site-web-1",
+        "networkNames": [
+          "onixbit-site_default"
+        ],
+        "readOnlyRootfs": false,
+        "running": true,
+        "startedAt": "2026-09-28T07:20:43.136458054Z",
+        "user": "nextjs"
+      },
+      {
+        "id": "430f8973554a64e331d48d700c7fcd2eaf878a24415afd8e1627e1839872e531",
+        "imageId": "sha256:5f5c8640aae01df9654968d946d8f1a56c497f1dd5c5cda4cf95ab7c14d58648",
+        "name": "onixbit-site-caddy-1",
+        "networkNames": [
+          "onixbit-site_default"
+        ],
+        "readOnlyRootfs": false,
+        "running": true,
+        "startedAt": "2026-09-20T17:53:01.097506219Z",
+        "user": ""
+      },
+      {
+        "id": "fa17cf1e01cb366246ebc6097383958cfce6f7471258d2ceb9895dca98df12a3",
+        "imageId": "sha256:5f5c8640aae01df9654968d946d8f1a56c497f1dd5c5cda4cf95ab7c14d58648",
+        "name": "onixbit-demo-20261002-relay-demo-launch-foundation-v5",
+        "networkNames": [
+          "onixbit-site_default"
+        ],
+        "readOnlyRootfs": true,
+        "running": true,
+        "startedAt": "2026-10-03T08:00:53.399434882Z",
+        "user": "1001:1001"
+      },
+      {
+        "id": "d615917c3ced438ce4c98e9945ed7c1042ee3d724cbe91b90299953b843ae1f7",
+        "imageId": "sha256:48e4b67d85f87bd551df43704e24d252f56cc5f8e9718841aace50f19948f0f9",
+        "name": "onixbit-design-b24-concept-0b57c249b34d",
+        "networkNames": [
+          "onixbit-site_default"
+        ],
+        "readOnlyRootfs": true,
+        "running": true,
+        "startedAt": "2026-09-28T13:49:45.316633906Z",
+        "user": "1001:1001"
+      }
+    ],
+    "current": "/opt/onixbit-site/releases/bc80907dd9f716c9db36506704b73d7c5899d67e",
+    "existingDesignRuntime": {
+      "arch": "x64",
+      "glibc": "glibc 2.36",
+      "node": "v22.23.2",
+      "platform": "linux"
+    },
+    "historicalInventoryCheckedAt": "2026-10-04T06:17:50.428680+00:00",
+    "http": {
+      "https://media.onixbit.ru/healthz": {
+        "bytes": 11,
+        "cacheControl": "private, no-store",
+        "contentType": "application/json; charset=utf-8",
+        "sha256": "4062edaf750fb8074e7e83e0c9028c94e32468a8b6f1614774328ef045150f93",
+        "status": 200,
+        "xRobotsTag": ""
+      },
+      "https://onixbit.ru/": {
+        "bytes": 114425,
+        "cacheControl": "s-maxage=31536000",
+        "contentType": "text/html; charset=utf-8",
+        "sha256": "40d4ffc07bb912cbb8ef970f207c9dcb41daf68bc2f80754ee846b343a80c942",
+        "status": 200,
+        "xRobotsTag": ""
+      },
+      "https://onixbit.ru/api/health": {
+        "bytes": 31,
+        "cacheControl": "s-maxage=31536000",
+        "contentType": "application/json",
+        "healthContract": true,
+        "sha256": "42cdaaa8dc12ba963a1f2b152e2828dc048c0996920cd0c845ebd38e0c35f0f7",
+        "status": 200,
+        "xRobotsTag": ""
+      },
+      "https://onixbit.ru/demo": {
+        "bytes": 0,
+        "cacheControl": "",
+        "contentType": "",
+        "location": "/demo/",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "status": 308,
+        "xRobotsTag": "noindex, nofollow, noarchive"
+      },
+      "https://onixbit.ru/demo/": {
+        "bytes": 37899,
+        "cacheControl": "no-store",
+        "contentType": "text/html; charset=utf-8",
+        "sha256": "6d5ffa5148b44d116a89f1d1f55bad355143c525532505cec556288d3e95fc16",
+        "status": 200,
+        "xRobotsTag": "noindex, nofollow, noarchive"
+      },
+      "https://onixbit.ru/demo/company.html": {
+        "bytes": 15005,
+        "cacheControl": "no-store",
+        "contentType": "text/html; charset=utf-8",
+        "sha256": "ec630bd56a2f3d8588400bd5b60865ef69a80ab8fd1ab0a411122e9d2abc5e99",
+        "status": 200,
+        "xRobotsTag": "noindex, nofollow, noarchive"
+      },
+      "https://onixbit.ru/design/": {
+        "bytes": 654644,
+        "cacheControl": "s-maxage=31536000",
+        "contentType": "text/html; charset=utf-8",
+        "sha256": "fb244acc30766aa6a4989af5f2863a720db0483023c5471821cfd002933b54b5",
+        "status": 200,
+        "xRobotsTag": "noindex, nofollow, noarchive"
+      },
+      "https://onixbit.ru/design/api/health": {
+        "bytes": 31,
+        "cacheControl": "s-maxage=31536000",
+        "contentType": "application/json",
+        "healthContract": true,
+        "sha256": "42cdaaa8dc12ba963a1f2b152e2828dc048c0996920cd0c845ebd38e0c35f0f7",
+        "status": 200,
+        "xRobotsTag": "noindex, nofollow, noarchive"
+      }
+    },
+    "network": "onixbit-site_default",
+    "proxyConfig": {
+      "activePath": "/opt/onixbit-site/releases/7c96b74bae0711ee9041b7ebfeb2bdc545b220b2/Caddyfile",
+      "deviceInode": "64771:129052",
+      "gid": 1000,
+      "mode": "0o644",
+      "protectedBlockHashes": {
+        "demo": "744c5e42de966b3a965ab4a8202b026bb3b65ad87c1588dc4770cd96dfe558e2",
+        "design": "3dd92bb1ee1713076b05a0bec404fc864d401a26625988b8e2763014a9ca308a"
+      },
+      "rootUpstream": "onixbit-full-site-20261004-relay-f178f70:3000",
+      "sha256": "d61c951c85f625aa561ea2a012e1456f755c17385e86cdff3c482a6a205c42e5",
+      "uid": 1000
+    },
+    "readOnly": true,
+    "regenerableCacheInventory": [
+      {
+        "diskBytes": 36864,
+        "relativePath": "previews/b24-concept-0b57c249b34d/.next/cache/images"
+      }
+    ],
+    "remainingBeforeActivation": [
+      "Exact candidate container smoke including writable Next caches and image resize",
+      "Public build-time settings agreement; accepted build has disabled Sentry DSN",
+      "Fresh backup, drift lock, validated root-only Caddy diff and rollback journal",
+      "Exact publication authorisation and post-publication UI verification"
+    ],
+    "retainedBuildId": "ByEtc-a5cjdzPGuFkGEyN",
+    "schemaVersion": 1,
+    "status": "STOP_CAPACITY",
+    "storageBytes": {
+      "backups": 12288,
+      "demo-incoming": 401408,
+      "preview-backups": 327680,
+      "previews": 24950927360,
+      "releases": 167882752
+    }
+  },
+  "imageId": "sha256:48e4b67d85f87bd551df43704e24d252f56cc5f8e9718841aace50f19948f0f9",
+  "demoFiles": [
+    {
+      "path": "assets/fonts/inter-OFL.txt",
+      "sha256": "5dd548d31a85f756e01d63e00d7faf1e324103ed3e9102fcbbabf2cc2db6dd39"
+    },
+    {
+      "path": "assets/fonts/inter-cyrillic.woff2",
+      "sha256": "71d5ee93cc1e9f1d520a3a8b66456de18c7879d8df09d57fcd2eaff75fef0075"
+    },
+    {
+      "path": "assets/fonts/inter-latin.woff2",
+      "sha256": "3100e775e8616cd2611beecfa23a4263d7037586789b43f035236a2e6fbd4c62"
+    },
+    {
+      "path": "assets/fonts/mono-OFL.txt",
+      "sha256": "04e68eeb550895a2f5c3558510a7e83505b73159d6a3e4b841c365e9c9005461"
+    },
+    {
+      "path": "assets/fonts/mono-cyrillic.woff2",
+      "sha256": "7e16c88d4fcca3dc553b31877c03b2937c8fcc86428c37511608a60210ccacd0"
+    },
+    {
+      "path": "assets/fonts/mono-latin.woff2",
+      "sha256": "44c4e39bff5e76652a24a872cbebabccbcfb20f62c4633b27c1f2745cba86b56"
+    },
+    {
+      "path": "assets/fonts/serif-OFL.txt",
+      "sha256": "6f5a41d57400577a50aae88475b11f292f3d7de78ee7d5113c69577331d8ad31"
+    },
+    {
+      "path": "assets/fonts/serif-cyrillic.woff2",
+      "sha256": "109ce34012f204b9794f2fa2e8e6fdff52b156636cd5da86d86ae7142b48aa03"
+    },
+    {
+      "path": "assets/fonts/serif-latin.woff2",
+      "sha256": "e48e58027030df56869b795ca6f19b7012158275f7ad7cde1900b4a0b68d02e2"
+    },
+    {
+      "path": "assets/onixbit-founder.webp",
+      "sha256": "400ba6d789b3e4c6d4baecd4958105c8989414ccae97e11dd3e8ee980e6a101c"
+    },
+    {
+      "path": "assets/onixbit-logo.png",
+      "sha256": "fe96338746ffe9767c2f0c0eb5f9c1bd8268435aaa78d31642184494967248ad"
+    },
+    {
+      "path": "assets/onixbit-mark.png",
+      "sha256": "21eef22ed5c37f39bce123e1eee88b6ff776acee0216c75414afe398e6ada865"
+    },
+    {
+      "path": "assets/three/LICENSE.txt",
+      "sha256": "bfe119ea4fd413f5f7ca3fcd63adb0c4a073ed39daa2fe7d3e6b769e21272601"
+    },
+    {
+      "path": "assets/three/three.core.min.js",
+      "sha256": "61ba0df005b05991361d040d8ff670e1aadfd0ce7aeebd1fdb0725957a8957de"
+    },
+    {
+      "path": "assets/three/three.module.min.js",
+      "sha256": "e2b5ee6bccd38fd6d8a2428546b83c5f2426d84b152ef82be8055556e3b40eb6"
+    },
+    {
+      "path": "company.html",
+      "sha256": "ec630bd56a2f3d8588400bd5b60865ef69a80ab8fd1ab0a411122e9d2abc5e99"
+    },
+    {
+      "path": "index.html",
+      "sha256": "6d5ffa5148b44d116a89f1d1f55bad355143c525532505cec556288d3e95fc16"
+    },
+    {
+      "path": "src/brand-theme.js",
+      "sha256": "cd02b40e7ccc5e1f4ee4986401b0afa3f65898150e84e34870dc32204e98a628"
+    },
+    {
+      "path": "src/company.css",
+      "sha256": "a38e37b634b3b20b4aca3a3121f4677baa48cb7e31cd3ffe738788cdc340cff7"
+    },
+    {
+      "path": "src/company.js",
+      "sha256": "519c20613323209a1e2f5f45a8ef451009a2411969e42d868f526a9905e28dde"
+    },
+    {
+      "path": "src/light-stream.js",
+      "sha256": "5bab32bc3945b973f44029a30e96f8330a033f8ed3a3a97e633c663adf84dabc"
+    },
+    {
+      "path": "src/main.js",
+      "sha256": "e7f28f642daf397dfe0930b4ded6042f7b3a79cebfc830537087ea0d97f71db4"
+    },
+    {
+      "path": "src/onixbit-theme.css",
+      "sha256": "fb25c8169b20eda1939fd97dab97dd490d7601d20044e5638341924584d1dc55"
+    },
+    {
+      "path": "src/scene-motion.css",
+      "sha256": "05e2ccbdf2c98e275f3fe9edfb47d80ede81be3ccb40d48e7e524f29a0ba253b"
+    },
+    {
+      "path": "src/scene-motion.js",
+      "sha256": "09cafb99017c3aac1481fe4dc195f4336887e62aab49a8e529952a0280d5f2c6"
+    },
+    {
+      "path": "src/sections-interactions.js",
+      "sha256": "5fd545ceb903b0baee9355ac9cfd58d71fa32ec4746e2731e44d2176d4ed4f9a"
+    },
+    {
+      "path": "src/sections.css",
+      "sha256": "a25c9dcf2786e2b6c3afd34b239589a98a75f11ae5afca6a4db9d237d44fceb1"
+    },
+    {
+      "path": "src/styles.css",
+      "sha256": "f94663fce78a4294585e03ad5e7966e4c04b849f7a674a13546808469dd6dae3"
+    }
+  ],
+  "scripts": {
+    "publish.py": "baf07b33c3dd24685255545bc5f98f0e2cdb2f02fc6f7aeec97a95b62dc4a1c9",
+    "preflight.py": "676068ae60981fcce75a2d6eff5606dfd9b2206a7c355f60c34f7251073c19a0",
+    "http-probe.py": "187e353bd0435b5977c385a9b3d6477afd192cfcbacabe8b8a1f45ef78524a61",
+    "config-transaction.py": "6de5a09a5cfd8797cfa54b83cc175abaef644a551099262b278264177c490a1a"
+  },
+  "parts": {
+    "runtime.part00": "e868d2043dead18d5a548c8c7c76e5e3f325c8a4dbb07b374b1c9e771cddc3e6",
+    "runtime.part01": "a0c9f706300e436f7cc4db22c0b47a2a107dce3458ca45b202b8404f8e389919"
+  },
+  "clientBuildSettings": {
+    "basePath": "",
+    "sentryEnabled": false,
+    "analyticsAndForms": "unchanged accepted source"
+  },
+  "capacityPolicy": "manifest allocation + actual filesystem blocks/directories +72MiB bounded overhead +1GiB retained reserve; tmpfs capped within768MiB no-swap cgroup;1.5GiB startup available memory",
+  "approvedMaintenance": {
+    "reportSHA256": "2a6381a9e72777d5c6f9e6c3c5d5a9a555dada451e84af5f8cf17bfa03da86fb",
+    "transportCommit": "448b81adc0b5a3aa3c3357129987fbbf10beffd9",
+    "ownerApproval": "Да, остановить старый контейнер",
+    "action": "STOPPED_ONLY_RETAINED_0F"
+  }
+}
