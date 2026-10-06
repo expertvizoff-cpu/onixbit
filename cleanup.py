@@ -14,12 +14,14 @@ def digest(p):return hashlib.sha256(p.read_bytes()).hexdigest()
 def http(url):
  with urllib.request.urlopen(urllib.request.Request(url,headers={'Accept-Encoding':'identity'}),timeout=25) as r:
   b=r.read(8*1024**2+1);need(len(b)<=8*1024**2,'HTTP_BOUND');return {'status':r.status,'sha256':hashlib.sha256(b).hexdigest(),'robots':r.headers.get('X-Robots-Tag','')}
+def canonical(c):
+ c=json.loads(json.dumps(c));c['mounts']=sorted(c['mounts'],key=lambda m:(m.get('Destination') or '',m.get('Source') or '',m.get('Type') or ''));return c
 def protected():
  p=Path(PLAN['configPath']);need(p.resolve()==p and not p.is_symlink(),'CONFIG_PATH');s=p.stat();need(digest(p)==PLAN['configSHA256'] and f'{s.st_dev}:{s.st_ino}'==PLAN['configInode'],'CONFIG_DRIFT');need(run('docker','exec',PROXY,'sha256sum','/etc/caddy/Caddyfile').split()[0]==PLAN['configSHA256'],'BOUND_CONFIG_DRIFT');need(str((ROOT/'current').resolve())==PLAN['current'],'CURRENT_DRIFT')
  for c in PLAN['keepContainers']:
   current=identity(c['name'])
-  if current!=c:REPORT['identityDifference']={'name':c['name'],'expected':c,'actual':current}
-  need(current==c,'PROTECTED_CONTAINER_DRIFT')
+  if canonical(current)!=canonical(c):REPORT['identityDifference']={'name':c['name'],'expected':c,'actual':current}
+  need(canonical(current)==canonical(c),'PROTECTED_CONTAINER_DRIFT')
  result={u:http(u) for u in PLAN['http']};need(result==PLAN['http'],'PROTECTED_HTTP_DRIFT');return result
 
 def target(e):
@@ -30,7 +32,9 @@ def target(e):
   for m in c['mounts']:
    source=m.get('Source');need(not source or not Path(source).is_relative_to(p),'PRESERVED_MOUNT_IN_TARGET')
  allowed={'node_modules','.next','public','package.json','package-lock.json','server.js','Caddyfile','index.html','assets','company.html','favicon.ico','release.json','.release.json'}
- names={x.name for x in p.iterdir()};need(names<=allowed,'UNREVIEWED_TOP_LEVEL_FILES')
+ names={x.name for x in p.iterdir()}
+ if not names<=allowed:REPORT['unreviewedTarget']={'path':e['path'],'topLevel':sorted(names),'unknown':sorted(names-allowed)}
+ need(names<=allowed,'UNREVIEWED_TOP_LEVEL_FILES')
  return p,sorted(names)
 
 def journal():
@@ -46,13 +50,13 @@ def main():
   names=set(run('docker','ps','-a','--format','{{.Names}}').splitlines());expected={c['name'] for c in PLAN['keepContainers']+PLAN['targetContainers']};need({n for n in names if re.fullmatch('onixbit-[a-z0-9-]+',n)}==expected,'CONTAINER_SET_DRIFT')
   config=Path(PLAN['configPath']).read_text()
   for c in PLAN['targetContainers']:
-   need(identity(c['name'])==c and c['name'] not in config,'TARGET_CONTAINER_DRIFT_OR_REFERENCED')
+   need(canonical(identity(c['name']))==canonical(c) and c['name'] not in config,'TARGET_CONTAINER_DRIFT_OR_REFERENCED')
    if c['running']:need(c['name'].startswith('onixbit-demo-') and field(c['name'],'.HostConfig.PortBindings') in (None,{}),'UNREVIEWED_RUNNING_TARGET')
   REPORT['validatedTargets']=[{'path':e['path'],'topLevel':target(e)[1],'expectedBytesOnDisk':e['bytesOnDisk']} for e in PLAN['directories']]
   if REPORT['mode']=='--plan':REPORT['status']='TARGETS_VALIDATED';return
   need(not BACKUP.exists() and not BACKUP.is_symlink(),'CLEANUP_ALREADY_STARTED');BACKUP.mkdir(parents=True,mode=0o700);(BACKUP/'plan.json').write_text(json.dumps(PLAN,indent=2)+'\n');(BACKUP/'Caddyfile.before').write_bytes(Path(PLAN['configPath']).read_bytes());journal()
   for c in PLAN['targetContainers']:
-   need(identity(c['name'])==c,'TARGET_CHANGED_BEFORE_REMOVE')
+   need(canonical(identity(c['name']))==canonical(c),'TARGET_CHANGED_BEFORE_REMOVE')
    if c['running']:run('docker','stop','--time','30',c['id'])
    need(field(c['name'],'.State.Running') is False and field(c['name'],'.Id')==c['id'],'TARGET_STOP_FAILED');run('docker','rm',c['id']);REPORT['removedContainers'].append({'name':c['name'],'id':c['id']});journal()
   REPORT['afterContainerHttp']=protected()
