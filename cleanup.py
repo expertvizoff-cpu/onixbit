@@ -16,7 +16,10 @@ def http(url):
   b=r.read(8*1024**2+1);need(len(b)<=8*1024**2,'HTTP_BOUND');return {'status':r.status,'sha256':hashlib.sha256(b).hexdigest(),'robots':r.headers.get('X-Robots-Tag','')}
 def protected():
  p=Path(PLAN['configPath']);need(p.resolve()==p and not p.is_symlink(),'CONFIG_PATH');s=p.stat();need(digest(p)==PLAN['configSHA256'] and f'{s.st_dev}:{s.st_ino}'==PLAN['configInode'],'CONFIG_DRIFT');need(run('docker','exec',PROXY,'sha256sum','/etc/caddy/Caddyfile').split()[0]==PLAN['configSHA256'],'BOUND_CONFIG_DRIFT');need(str((ROOT/'current').resolve())==PLAN['current'],'CURRENT_DRIFT')
- for c in PLAN['keepContainers']:need(identity(c['name'])==c,'PROTECTED_CONTAINER_DRIFT')
+ for c in PLAN['keepContainers']:
+  current=identity(c['name'])
+  if current!=c:REPORT['identityDifference']={'name':c['name'],'expected':c,'actual':current}
+  need(current==c,'PROTECTED_CONTAINER_DRIFT')
  result={u:http(u) for u in PLAN['http']};need(result==PLAN['http'],'PROTECTED_HTTP_DRIFT');return result
 
 def target(e):
