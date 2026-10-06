@@ -1,0 +1,107 @@
+# Install only on the isolated public transport. No source/main workflow copied.
+name: Release independent root copy; preserve design
+on:
+  push:
+    branches:
+      - prepare/onixbit-theme-mobile-performance-20261006
+      - publish/onixbit-theme-mobile-performance-20261006
+      - rollback/onixbit-theme-mobile-performance-20261006
+permissions:
+  contents: read
+concurrency:
+  group: production-deploy
+  cancel-in-progress: false
+jobs:
+  release:
+    if: github.repository == 'expertvizoff-cpu/onixbit'
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Fetch exact reviewed transport and verify allowlist
+        env:
+          TRANSPORT_SHA: ${{ github.sha }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ "$TRANSPORT_SHA" =~ ^[a-f0-9]{40}$ ]]
+          git init -q payload
+          git -C payload fetch -q --depth 1 https://github.com/expertvizoff-cpu/onixbit.git "$TRANSPORT_SHA"
+          git -C payload checkout -q --detach FETCH_HEAD
+          test "$(git -C payload rev-parse HEAD)" = "$TRANSPORT_SHA"
+          cd payload
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib,json,subprocess
+          expected={'.github/workflows/theme-mobile-performance.yml','publish.py','preflight.py','http-probe.py','config-transaction.py','run-phase.py','release.json','runtime-manifest.json','runtime.part00','runtime.part01'}
+          actual=set(subprocess.check_output(['git','ls-files','-z']).decode().split('\0')[:-1])
+          assert actual==expected
+          assert all(Path(p).is_file() and not Path(p).is_symlink() for p in expected)
+          release=json.loads(Path('release.json').read_text())
+          assert release['releaseId']=='20261006-theme-mobile-performance'
+          for name,sha in release['scripts'].items():assert hashlib.sha256(Path(name).read_bytes()).hexdigest()==sha
+          with Path('runtime.tar.gz').open('xb') as output:
+              for name in ('runtime.part00', 'runtime.part01'):
+                  data=Path(name).read_bytes()
+                  assert hashlib.sha256(data).hexdigest()==release['parts'][name]
+                  output.write(data)
+          assert hashlib.sha256(Path('runtime.tar.gz').read_bytes()).hexdigest()=='1bb1eac0a82a59721bc0583824298a60556bf403f16286848488ad99238d481f'
+          assert hashlib.sha256(Path('runtime-manifest.json').read_bytes()).hexdigest()=='b576969c9ec0ba852481744d0ba0b854794cf5ff191c5b124065e00502c0dd3b'
+          PY
+      - name: Execute only the selected reviewed phase
+        env:
+          BRANCH: ${{ github.ref_name }}
+          DEPLOY_HOST: ${{ secrets.VPS_HOST }}
+          DEPLOY_USER: ${{ secrets.VPS_USER }}
+          DEPLOY_PORT: ${{ secrets.VPS_PORT || '22' }}
+          DEPLOY_KEY: ${{ secrets.VPS_SSH_KEY }}
+          APP_DIR: ${{ secrets.VPS_APP_DIR || '/opt/onixbit-site' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          umask 077
+          [[ "$APP_DIR" == /opt/onixbit-site ]]
+          [[ "$DEPLOY_PORT" =~ ^[0-9]{1,5}$ && "$DEPLOY_PORT" -ge 1 && "$DEPLOY_PORT" -le 65535 ]]
+          [[ "$DEPLOY_USER" =~ ^[A-Za-z_][A-Za-z0-9_-]*$ ]]
+          [[ "$DEPLOY_HOST" =~ ^[A-Za-z0-9.-]+$ && "$DEPLOY_HOST" != -* ]]
+          case "$BRANCH" in
+            prepare/onixbit-theme-mobile-performance-20261006) mode=prepare ;;
+            publish/onixbit-theme-mobile-performance-20261006) mode=activate ;;
+            rollback/onixbit-theme-mobile-performance-20261006) mode=rollback ;;
+            *) exit 1 ;;
+          esac
+          key="$RUNNER_TEMP/onixbit-full-site-release-key"
+          hosts="$RUNNER_TEMP/onixbit-full-site-release-hosts"
+          trap 'rm -f -- "$key" "$hosts"' EXIT
+          test -n "$DEPLOY_KEY"
+          printf '%s\n' "$DEPLOY_KEY" > "$key"
+          unset DEPLOY_KEY
+          chmod 600 "$key"
+          ssh-keyscan -T 10 -p "$DEPLOY_PORT" "$DEPLOY_HOST" > "$hosts" 2>/dev/null
+          test -s "$hosts"
+          ssh_args=(-i "$key" -o BatchMode=yes -o ConnectTimeout=20
+            -o ServerAliveInterval=15 -o ServerAliveCountMax=4
+            -o UserKnownHostsFile="$hosts" -o StrictHostKeyChecking=yes)
+          incoming=/opt/onixbit-site/full-site-incoming/20261006-theme-mobile-performance
+          cd payload
+          if [[ "$mode" == prepare ]]; then
+            ssh "${ssh_args[@]}" -p "$DEPLOY_PORT" "$DEPLOY_USER@$DEPLOY_HOST" 'python3 -' <<'PY'
+          from pathlib import Path
+          import os
+          root=Path('/opt/onixbit-site');parent=root/'full-site-incoming';target=parent/'20261006-theme-mobile-performance'
+          assert root.is_dir() and not root.is_symlink() and root.resolve()==root
+          assert not parent.is_symlink() and parent.resolve()==parent
+          assert not target.exists() and not target.is_symlink()
+          parent.mkdir(mode=0o755,exist_ok=True)
+          target.mkdir(mode=0o755)
+          PY
+            scp "${ssh_args[@]}" -P "$DEPLOY_PORT" publish.py preflight.py http-probe.py config-transaction.py release.json runtime-manifest.json "$DEPLOY_USER@$DEPLOY_HOST:$incoming/"
+          fi
+          release_sha="$(sha256sum release.json | cut -d' ' -f1)"
+          [[ "$release_sha" =~ ^[a-f0-9]{64}$ ]]
+          if [[ "$mode" == prepare ]]; then
+            ssh "${ssh_args[@]}" -p "$DEPLOY_PORT" "$DEPLOY_USER@$DEPLOY_HOST" \
+              "cd '$incoming' && python3 -I - budget '$release_sha'" < run-phase.py
+            scp "${ssh_args[@]}" -P "$DEPLOY_PORT" runtime.tar.gz "$DEPLOY_USER@$DEPLOY_HOST:$incoming/runtime.tar.gz"
+          fi
+          ssh "${ssh_args[@]}" -p "$DEPLOY_PORT" "$DEPLOY_USER@$DEPLOY_HOST" \
+            "cd '$incoming' && python3 -I - '$mode' '$release_sha'" < run-phase.py
