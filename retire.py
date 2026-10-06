@@ -95,10 +95,13 @@ def candidate(before):
     s = before.decode(); begin = '  # BEGIN ONIXBIT DESIGN PREVIEW'; end = '  # END ONIXBIT DESIGN PREVIEW'
     need(s.count(begin) == s.count(end) == 1, 'DESIGN_MARKERS')
     a = s.index(begin); b = s.index(end,a)+len(end)
-    need('reverse_proxy onixbit-design-b24-concept-0b57c249b34d:3000' in s[a:b], 'DESIGN_UPSTREAM')
+    old = '    reverse_proxy onixbit-design-b24-concept-0b57c249b34d:3000'
+    need(s.count(old) == 1 and old in s[a:b], 'DESIGN_UPSTREAM')
     need('onixbit-design-' not in s[:a]+s[b:], 'OTHER_DESIGN_REFERENCE')
-    retired = '  # BEGIN ONIXBIT DESIGN RETIRED\n  @retiredDesign path /design /design/*\n  handle @retiredDesign {\n    header X-Robots-Tag "noindex, nofollow, noarchive"\n    respond "Not Found" 404\n  }\n  # END ONIXBIT DESIGN RETIRED'
-    return (s[:a]+retired+s[b:]).encode()
+    # Historical DESIGN PREVIEW markers also surround the main fallback route.
+    # Replace one exact upstream line; preserve all other routing byte-for-byte.
+    return s.replace(old, '    respond "Not Found" 404', 1).encode()
+
 
 def manifest():
     result = {}
