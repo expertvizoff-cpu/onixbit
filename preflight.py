@@ -144,8 +144,9 @@ def main():
     require(len(designs) == 1, 'DESIGN_UPSTREAM_NOT_UNIQUE')
     protected = {}
     for name in ('DEMO', 'DESIGN'):
-        begin = '  # BEGIN ONIXBIT ' + name + ' PREVIEW'
-        end = '  # END ONIXBIT ' + name + ' PREVIEW'
+        suffix = ' RETIRED' if name == 'DEMO' else ' PREVIEW'
+        begin = '  # BEGIN ONIXBIT ' + name + suffix
+        end = '  # END ONIXBIT ' + name + suffix
         require(config.count(begin) == config.count(end) == 1, 'PREVIEW_BLOCK_' + name)
         start = config.index(begin)
         stop = config.index(end, start) + len(end)
