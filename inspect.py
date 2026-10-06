@@ -36,4 +36,9 @@ for c in containers:
     if q.is_symlink():references.append({'container':c['name'],'path':str(q),'target':str(q.resolve())});count+=1
    assert count<5000
 mem=dict(x.split(':',1) for x in Path('/proc/meminfo').read_text().splitlines());st=CONFIG.stat();d={'readOnly':True,'checkedAt':datetime.datetime.now(datetime.timezone.utc).isoformat(),'configSHA256':sha,'configPath':str(CONFIG),'configInode':f'{st.st_dev}:{st.st_ino}','current':str((ROOT/'current').resolve()),'upstreams':re.findall(r'reverse_proxy\s+([^\s{]+)',text),'containers':containers,'symlinkReferences':references,'entries':entries,'diskFreeBytes':shutil.disk_usage(ROOT).free,'memoryAvailableBytes':int(mem['MemAvailable'].split()[0])*1024};assert CONFIG.read_text()==text
-print('ONIXBIT_SAFE_REPORT_AP='+json.dumps(d).encode().hex().translate(str.maketrans('0123456789abcdef','abcdefghijklmnop')))
+raw=json.dumps(d).encode();encoded=raw.hex().translate(str.maketrans('0123456789abcdef','abcdefghijklmnop'))
+for index,start in enumerate(range(0,len(encoded),8192)):
+ label=format(index,'08x').translate(str.maketrans('0123456789abcdef','abcdefghijklmnop'))
+ print('ONIXBIT_INVENTORY_CHUNK_'+label+'='+encoded[start:start+8192],flush=True)
+end={'chunks':(len(encoded)+8191)//8192,'sha256':hashlib.sha256(raw).hexdigest(),'containers':len(containers),'entries':len(entries),'symlinks':len(references)}
+print('ONIXBIT_INVENTORY_END_AP='+json.dumps(end).encode().hex().translate(str.maketrans('0123456789abcdef','abcdefghijklmnop')),flush=True)
