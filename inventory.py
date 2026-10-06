@@ -32,6 +32,11 @@ report['rootAvailable']=os.getuid()==0 or cmd(['sudo','-n','true'])['rc']==0
 report['disk']=shutil.disk_usage(ROOT)._asdict()
 report['packages']=cmd(['dpkg-query','-W','-f=${Package}\t${Version}\n'])
 report['heldPackages']=cmd(['apt-mark','showhold'])
+report['sudoPrivileges']=cmd(['sudo','-n','-l'])
+report['upgradablePackages']=cmd(['apt','list','--upgradable'])
+report['packageHealth']=cmd(['dpkg','--audit'])
+report['kernelPackageStatus']=cmd(['dpkg-query','-W','-f=${Package}\t${db:Status-Status}\t${Version}\n','linux-image-*'])
+report['moduleUnit']=cmd(['systemctl','show','install-modules-extra.service','-p','Result','-p','ExecMainStatus','-p','ActiveState','-p','FragmentPath'])
 report['aptIndexNewestMtime']=max([p.stat().st_mtime for p in pathlib.Path('/var/lib/apt/lists').glob('*InRelease')],default=None)
 report['dockerVersion']=cmd(['docker','version','--format','{{json .Server}}'])
 report['dockerSystem']=cmd(['docker','system','df','--format','{{json .}}'])
@@ -57,6 +62,7 @@ p=pathlib.Path(source)
 report['proxyConfig']={'boundSHA256':bound,'mountSource':source,'resolvedSource':str(p.resolve()),'sourceSHA256':digest(p),'sameAfterRestart':bound==digest(p),
     'sourceUpstreams':re.findall(r'reverse_proxy\s+([^\s{]+)',p.read_text())}
 config=ROOT/'releases/7c96b74bae0711ee9041b7ebfeb2bdc545b220b2/Caddyfile'
+report['persistentConfigWritable']=os.access(p,os.W_OK)
 report['knownActiveConfig']={'path':str(config),'sha256':digest(config),'upstreams':re.findall(r'reverse_proxy\s+([^\s{]+)',config.read_text())}
 report['databasePackageCandidates']=[line for line in report['packages']['output'].splitlines() if re.search(r'^(postgresql|mariadb|mysql-server|redis-server|sqlite3)\b',line)]
 report['databaseProcessNames']=cmd(['pgrep','-l','-x','postgres|mysqld|mariadbd|redis-server'])
