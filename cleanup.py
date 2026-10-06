@@ -31,7 +31,7 @@ def target(e,collect=False):
  for c in PLAN['keepContainers']:
   for m in c['mounts']:
    source=m.get('Source');need(not source or not Path(source).is_relative_to(p),'PRESERVED_MOUNT_IN_TARGET')
- allowed={'node_modules','.next','public','package.json','package-lock.json','server.js','Caddyfile','index.html','assets','company.html','favicon.ico','release.json','.release.json','Caddyfile.preview','check-auto.html','check-dark.html','check-light.html'}
+ allowed={'node_modules','.next','public','package.json','package-lock.json','server.js','Caddyfile','index.html','assets','company.html','favicon.ico','release.json','.release.json','Caddyfile.preview','check-auto.html','check-dark.html','check-light.html','check-bitrix24.html','site','MANIFEST.sha256'}
  names={x.name for x in p.iterdir()}
  if not names<=allowed:
   REPORT.setdefault('unreviewedTargets',[]).append({'path':e['path'],'topLevel':sorted(names),'unknown':sorted(names-allowed)})
