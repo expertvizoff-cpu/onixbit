@@ -128,7 +128,7 @@ def config_identity():
     require(active_path.is_relative_to(ROOT) and active_path.resolve(strict=True) == active_path
             and stat.S_ISREG(active_path.lstat().st_mode), 'ACTIVE_CONFIG_PATH')
     data = active_path.read_bytes(); info = active_path.stat(); text = data.decode('utf-8')
-    require(digest(data) == config['sha256'] == 'd61c951c85f625aa561ea2a012e1456f755c17385e86cdff3c482a6a205c42e5', 'CONFIG_SHA_DRIFT')
+    require(digest(data) == config['sha256'] == '8c4fb1bc13a606b85c1c8ed69bf96dca36715d8e3948d49dc46bdde9d2d1f5e5', 'CONFIG_SHA_DRIFT')
     require(f'{info.st_dev}:{info.st_ino}' == config['deviceInode'] == '64771:129052'
             and info.st_uid == config['uid'] and info.st_gid == config['gid']
             and oct(info.st_mode & 0o7777) == config['mode'], 'CONFIG_METADATA_DRIFT')
@@ -145,7 +145,7 @@ def config_identity():
 def snapshot(stopped=False):
     require(ROOT.is_dir() and not ROOT.is_symlink() and ROOT.resolve() == ROOT, 'ROOT_LAYOUT')
     config = config_identity(); expected = json.loads(json.dumps(PINNED_BASELINE['containers']))
-    require(len(expected) == 6, 'PROTECTED_SET_COUNT')
+    require(len(expected) == 7, 'PROTECTED_SET_COUNT')
     if stopped:
         for item in expected:
             if item['name'] == RETAINED: item['running'] = False
