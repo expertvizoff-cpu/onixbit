@@ -141,6 +141,7 @@ def main():
         need(run('docker','exec',ACTIVE,'cat','/app/.next/BUILD_ID')=='QiNFQdykc8e9xuMoIr_bK','ROOT_BUILD')
         need(json.loads(run('docker','exec',PROXY,'wget','-q','-T','10','-O','-','http://'+PREVIOUS+':3000/api/health'))=={'ok':True,'service':'onixbit'},'ROOT_ROLLBACK_HEALTH')
         before=CONFIG.read_bytes(); after=candidate(before)
+        REPORT['configStructure'] = {'beforeRootCount': before.count(('reverse_proxy '+ACTIVE+':3000').encode()), 'afterRootCount': after.count(('reverse_proxy '+ACTIVE+':3000').encode()), 'lines': [line.strip() for line in before.decode().splitlines() if any(token in line for token in ['# BEGIN ONIXBIT', '# END ONIXBIT', 'reverse_proxy', 'handle ', 'handle_path ', '@design', '@preview'])]}
         need(after.count(('reverse_proxy '+ACTIVE+':3000').encode())==1,'ROOT_UPSTREAM_SCOPE')
         rollback=after.replace(('reverse_proxy '+ACTIVE+':3000').encode(),('reverse_proxy '+PREVIOUS+':3000').encode())
         for data in (after,rollback):run('docker','exec','-i',PROXY,'caddy','validate','--config','-','--adapter','caddyfile',input=data.decode())
