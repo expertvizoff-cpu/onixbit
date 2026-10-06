@@ -193,7 +193,8 @@ def main():
             run('docker','rm',c['id']);REPORT['removedContainers'].append(c['name']);journal()
         REPORT['afterHttp']=protect(sha(after));REPORT['designHttp']=retired_http()
         need(not any((ROOT/e['path']).exists() for e in PLAN['paths']),'DIRECTORY_REMAINS')
-        REPORT.update(status='DESIGN_RETIRED_PASS',diskFreeAfter=shutil.disk_usage(ROOT).free)
+        disk=shutil.disk_usage(ROOT)
+        REPORT.update(status='DESIGN_RETIRED_PASS',diskFreeAfter=disk.free,diskTotalBytes=disk.total,diskUsedBytes=disk.used,completedAt=datetime.datetime.now(datetime.timezone.utc).isoformat())
         REPORT['freedBytes']=REPORT['diskFreeAfter']-REPORT['diskFreeBefore'];journal()
     finally:
         for fd in locks:os.close(fd)
