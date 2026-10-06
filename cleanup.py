@@ -24,17 +24,18 @@ def protected():
   need(canonical(current)==canonical(c),'PROTECTED_CONTAINER_DRIFT')
  result={u:http(u) for u in PLAN['http']};need(result==PLAN['http'],'PROTECTED_HTTP_DRIFT');return result
 
-def target(e):
+def target(e,collect=False):
  rel=Path(e['path']);need(len(rel.parts)==2 and rel.parts[0]=='previews' and re.fullmatch(r'2026[0-9a-z-]+',rel.parts[1]),'TARGET_PATH_SCOPE');p=ROOT/rel;need(p.is_dir() and not p.is_symlink() and p.resolve()==p,'TARGET_NOT_REAL_DIRECTORY');need(p.stat().st_dev==ROOT.stat().st_dev and abs(p.stat().st_mtime-e['mtime'])<.000001,'TARGET_IDENTITY_DRIFT')
  need(not Path(PLAN['configPath']).is_relative_to(p) and not Path(PLAN['current']).is_relative_to(p),'PROTECTED_PATH_IN_TARGET')
  ids=[q.read_text().strip() for q in [p/'.next/BUILD_ID',p/'runtime/.next/BUILD_ID'] if q.is_file() and not q.is_symlink() and q.stat().st_size<100];need(ids==e['buildIds'],'TARGET_BUILD_DRIFT')
  for c in PLAN['keepContainers']:
   for m in c['mounts']:
    source=m.get('Source');need(not source or not Path(source).is_relative_to(p),'PRESERVED_MOUNT_IN_TARGET')
- allowed={'node_modules','.next','public','package.json','package-lock.json','server.js','Caddyfile','index.html','assets','company.html','favicon.ico','release.json','.release.json'}
+ allowed={'node_modules','.next','public','package.json','package-lock.json','server.js','Caddyfile','index.html','assets','company.html','favicon.ico','release.json','.release.json','Caddyfile.preview','check-auto.html','check-dark.html','check-light.html'}
  names={x.name for x in p.iterdir()}
- if not names<=allowed:REPORT['unreviewedTarget']={'path':e['path'],'topLevel':sorted(names),'unknown':sorted(names-allowed)}
- need(names<=allowed,'UNREVIEWED_TOP_LEVEL_FILES')
+ if not names<=allowed:
+  REPORT.setdefault('unreviewedTargets',[]).append({'path':e['path'],'topLevel':sorted(names),'unknown':sorted(names-allowed)})
+  need(collect,'UNREVIEWED_TOP_LEVEL_FILES')
  return p,sorted(names)
 
 def journal():
@@ -52,7 +53,8 @@ def main():
   for c in PLAN['targetContainers']:
    need(canonical(identity(c['name']))==canonical(c) and c['name'] not in config,'TARGET_CONTAINER_DRIFT_OR_REFERENCED')
    if c['running']:need(c['name'].startswith('onixbit-demo-') and field(c['name'],'.HostConfig.PortBindings') in (None,{}),'UNREVIEWED_RUNNING_TARGET')
-  REPORT['validatedTargets']=[{'path':e['path'],'topLevel':target(e)[1],'expectedBytesOnDisk':e['bytesOnDisk']} for e in PLAN['directories']]
+  REPORT['validatedTargets']=[{'path':e['path'],'topLevel':target(e,collect=True)[1],'expectedBytesOnDisk':e['bytesOnDisk']} for e in PLAN['directories']]
+  need(not REPORT.get('unreviewedTargets'),'UNREVIEWED_TOP_LEVEL_FILES')
   if REPORT['mode']=='--plan':REPORT['status']='TARGETS_VALIDATED';return
   need(not BACKUP.exists() and not BACKUP.is_symlink(),'CLEANUP_ALREADY_STARTED');BACKUP.mkdir(parents=True,mode=0o700);(BACKUP/'plan.json').write_text(json.dumps(PLAN,indent=2)+'\n');(BACKUP/'Caddyfile.before').write_bytes(Path(PLAN['configPath']).read_bytes());journal()
   for c in PLAN['targetContainers']:
