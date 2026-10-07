@@ -82,6 +82,14 @@ for n in activeNames:
     p=subprocess.run(['docker','logs','--since',state['StartedAt'],'--tail','1000',n],capture_output=True,text=True,timeout=30)
     lines=(p.stdout+'\n'+p.stderr).splitlines()
     detail['logSample']={'rc':p.returncode,'limit':1000,'lines':len(lines),'errorLikeLines':sum(bool(re.search(r'(?i)\b(error|fatal|panic|uncaught|unhandled|exception)\b',line)) for line in lines)}
+    if n=='onixbit-site-caddy-1':
+        detail['logClassification']=[]
+        patterns=['connection refused','no such host','network is unreachable','permission denied','connection reset','context canceled','EOF','certificate','OCSP','acme','tls handshake','dial tcp','lookup','upstream','timeout','aborted','http.log.error','error']
+        for line in lines:
+            if not re.search(r'(?i)\b(error|fatal|panic|uncaught|unhandled|exception)\b',line):continue
+            try: obj=json.loads(line)
+            except ValueError: obj={}
+            detail['logClassification'].append({'level':obj.get('level'),'timestamp':obj.get('ts'),'httpStatus':obj.get('status'),'patterns':[p for p in patterns if p.lower() in line.lower()],'messageSHA256':hashlib.sha256(str(obj.get('msg','')).encode()).hexdigest(),'jsonKeys':sorted(obj.keys())})
     report['activeDetails'][n]=detail
 j=subprocess.run(['journalctl','-b','-p','err','-n','1000','-o','json','--no-pager'],capture_output=True,text=True,timeout=30)
 units=collections.Counter();count=0
