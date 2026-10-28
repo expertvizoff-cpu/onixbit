@@ -46,10 +46,18 @@ def caddy_metadata(output):
   raise Stop('CADDY_SCOPE_OR_STATE_INVALID')
  return dict(id=identity,image=image,running=running,startedAt=started,networkNames=sorted(networks),configPath=str(source))
 
+def config_metadata(source,root):
+ canonical_root=root.resolve(strict=True);resolved=source.resolve(strict=True)
+ if not resolved.is_relative_to(canonical_root):raise Stop('CADDY_FILE_OUTSIDE_SITE')
+ meta=resolved.lstat()
+ if not stat.S_ISREG(meta.st_mode):raise Stop('CADDY_FILE_NOT_REGULAR')
+ if meta.st_size>1048576:raise Stop('CADDY_FILE_OVERSIZED')
+ if source.resolve(strict=True)!=resolved or root.resolve(strict=True)!=canonical_root:raise Stop('CADDY_PATH_CHANGED')
+ return dict(resolvedPath=str(resolved),siteResolvedPath=str(canonical_root),device=meta.st_dev,inode=meta.st_ino,mtimeNs=meta.st_mtime_ns,bytes=meta.st_size,mode=oct(stat.S_IMODE(meta.st_mode)))
+
 def caddy_snapshot():
- data=caddy_metadata(command(['/usr/bin/docker','inspect','--format',FORMAT,CADDY]));source=Path(data['configPath']);meta=source.lstat()
- if not stat.S_ISREG(meta.st_mode) or meta.st_size>1048576 or any(p.is_symlink() for p in source.parents):raise Stop('CADDY_FILE_INVALID')
- data['config']=dict(device=meta.st_dev,inode=meta.st_ino,mtimeNs=meta.st_mtime_ns,bytes=meta.st_size,mode=oct(stat.S_IMODE(meta.st_mode)))
+ data=caddy_metadata(command(['/usr/bin/docker','inspect','--format',FORMAT,CADDY]))
+ data['config']=config_metadata(Path(data['configPath']),SITE)
  return data
 
 def version(binary,expression):
@@ -62,25 +70,30 @@ def version(binary,expression):
   return None
  except subprocess.TimeoutExpired:return None
 
-def inspect():
+def inspect(report=None):
+ report={} if report is None else report
  if pwd.getpwuid(os.geteuid()).pw_name!='deploy':raise Stop('EXPECTED_DEPLOY_ACCOUNT')
- before=caddy_snapshot();release={}
+ release={}
  for line in Path('/etc/os-release').read_text().splitlines():
   key,separator,value=line.partition('=')
   if separator and key in {'ID','VERSION_ID','VERSION_CODENAME'}:
    value=value.strip('"')
    if not re.fullmatch(r'[a-zA-Z0-9._-]{1,64}',value):raise Stop('OS_METADATA_INVALID')
    release[key]=value
- memory=available_memory(Path('/proc/meminfo').read_text())
- if not APP.parent.is_dir():raise Stop('APP_PARENT_ABSENT')
- disk=os.statvfs(APP.parent);free=disk.f_bavail*disk.f_frsize;occupied=set()
+ memory=available_memory(Path('/proc/meminfo').read_text());report.update(os=release,architecture=platform.machine(),libc=platform.libc_ver(),memoryAvailableBytes=memory)
+ parent_present=APP.parent.is_dir();disk_parent=APP.parent
+ while not disk_parent.is_dir() and disk_parent!=Path('/home/deploy'):disk_parent=disk_parent.parent
+ if not disk_parent.is_dir():raise Stop('APP_DISK_PARENT_ABSENT')
+ disk=os.statvfs(disk_parent);free=disk.f_bavail*disk.f_frsize;occupied=set()
  for file in ['/proc/net/tcp','/proc/net/tcp6']:occupied.update(listeners(Path(file).read_text()))
- report=dict(os=release,architecture=platform.machine(),libc=platform.libc_ver(),memoryAvailableBytes=memory,diskFreeBytes=free,
+ report.update(diskFreeBytes=free,parentPresent=parent_present,
   target=str(APP),targetAvailable=candidate_available(APP),occupiedCandidatePorts=sorted(occupied),
   hostNodeVersion=version('/usr/bin/node',r'v(\d+\.\d+\.\d+)'),
-  hostPostgresToolchainVersion=version('/usr/bin/pg_config',r'PostgreSQL (\d+(?:\.\d+)+)(?: .*)?'),caddy=before)
+  hostPostgresToolchainVersion=version('/usr/bin/pg_config',r'PostgreSQL (\d+(?:\.\d+)+)(?: .*)?'))
+ before=caddy_snapshot();report['caddy']=before
  if before!=caddy_snapshot():raise Stop('CADDY_BASELINE_DRIFT')
  reasons=[]
+ if not parent_present:reasons.append('APP_PARENT_ABSENT')
  if not report['targetAvailable']:reasons.append('TARGET_OCCUPIED_OR_SYMLINK')
  if occupied:reasons.append('CANDIDATE_PORT_OCCUPIED')
  if memory<768*1024*1024:reasons.append('MEMORY_BELOW_PREPARATION_BUDGET')
@@ -93,9 +106,10 @@ def main():
   print(json.dumps(dict(status='STOP',code='EXACT_INSPECTION_FLAG_REQUIRED')));return 2
  def expired(_signal,_frame):raise Stop('INSPECTION_DEADLINE')
  signal.signal(signal.SIGALRM,expired);signal.alarm(12);started=time.monotonic()
- try:report=inspect()
- except Stop as error:report=dict(status='STOP',code=str(error))
- except Exception:report=dict(status='STOP',code='INSPECTION_UNAVAILABLE')
+ report=dict(deploymentAuthorized=False,deploymentReady=False)
+ try:report=inspect(report)
+ except Stop as error:report.update(status='STOP',code=str(error))
+ except Exception:report.update(status='STOP',code='INSPECTION_UNAVAILABLE')
  finally:signal.alarm(0)
  report.update(readOnly=True,elapsedSeconds=round(time.monotonic()-started,3));print(json.dumps(report,separators=(',',':')))
  return 0 if report['status']=='INVENTORIED' else 2

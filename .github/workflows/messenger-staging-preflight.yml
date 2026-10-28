@@ -5,7 +5,7 @@ name: Inspect Messenger staging host prerequisites
 on:
   push:
     branches:
-      - probe/messenger-staging-20261028
+      - probe/messenger-staging-20261028-b
 
 permissions:
   contents: read
@@ -16,7 +16,7 @@ concurrency:
 
 jobs:
   inspect:
-    if: github.repository == 'expertvizoff-cpu/onixbit' && github.ref == 'refs/heads/probe/messenger-staging-20261028'
+    if: github.repository == 'expertvizoff-cpu/onixbit' && github.ref == 'refs/heads/probe/messenger-staging-20261028-b'
     runs-on: ubuntu-latest
     timeout-minutes: 4
     steps:
