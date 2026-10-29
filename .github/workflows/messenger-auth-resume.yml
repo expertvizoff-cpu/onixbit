@@ -35,7 +35,7 @@ jobs:
           from pathlib import Path
           import subprocess
           paths = subprocess.check_output(['git', '-C', 'payload', 'ls-files', '-z']).decode().split('\0')[:-1]
-          assert sorted(paths) == ['.github/workflows/messenger-auth-resume.yml', 'smoke.mjs', 'resume-auth.py']
+          assert sorted(paths) == sorted(['.github/workflows/messenger-auth-resume.yml', 'smoke.mjs', 'resume-auth.py'])
           assert all(not Path('payload',name).is_symlink() for name in ['resume-auth.py','smoke.mjs'])
           PY
 
