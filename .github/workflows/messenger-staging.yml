@@ -1,0 +1,75 @@
+# Template only; not an active workflow in the Messenger source repository.
+name: Activate isolated Messenger staging
+on:
+  push:
+    branches: [stage/messenger-20261029-bb3d7fdc2fb68cb5]
+permissions:
+  contents: read
+concurrency:
+  group: production-deploy
+  cancel-in-progress: false
+jobs:
+  activate:
+    if: github.repository == 'expertvizoff-cpu/onixbit' && github.ref == 'refs/heads/stage/messenger-20261029-bb3d7fdc2fb68cb5'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Fetch exact approved ciphertext transport
+        env:
+          TRANSPORT_SHA: ${{ github.sha }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ "$TRANSPORT_SHA" =~ ^[a-f0-9]{40}$ ]]
+          git init -q payload
+          git -C payload fetch -q --depth 1 https://github.com/expertvizoff-cpu/onixbit.git "$TRANSPORT_SHA"
+          git -C payload checkout -q --detach FETCH_HEAD
+          test "$(git -C payload rev-parse HEAD)" = "$TRANSPORT_SHA"
+          python3 - <<'PY'
+          import hashlib,json,subprocess
+          from pathlib import Path
+          root=Path('payload');manifest=json.loads((root/'transport.json').read_text())
+          files=subprocess.check_output(['git','-C','payload','ls-files','-z']).decode().split('\0')[:-1]
+          expected=['.github/workflows/messenger-staging.yml','loader.mjs','send-envelope.mjs','transport.json']+[p['path'] for p in manifest['parts']]
+          assert sorted(files)==sorted(expected)
+          for name in files:assert not (root/name).is_symlink()
+          assert hashlib.sha256((root/'loader.mjs').read_bytes()).hexdigest()==manifest['loaderSHA256']
+          assert hashlib.sha256((root/'send-envelope.mjs').read_bytes()).hexdigest()==manifest['senderSHA256']
+          PY
+      - name: Apply the single reviewed new-staging operation
+        env:
+          DEPLOY_HOST: ${{ secrets.VPS_HOST }}
+          DEPLOY_USER: ${{ secrets.VPS_USER }}
+          DEPLOY_PORT: ${{ secrets.VPS_PORT || '22' }}
+          DEPLOY_KEY: ${{ secrets.VPS_SSH_KEY }}
+          APP_DIR: ${{ secrets.VPS_APP_DIR || '/opt/onixbit-site' }}
+          STAGING_RELEASE_KEY: ${{ secrets.MESSENGER_STAGING_RELEASE_KEY }}
+          ONIXBIT_RELEASE_SEND: ssh-stdin
+        shell: bash
+        run: |
+          set -euo pipefail
+          umask 077
+          [[ "$APP_DIR" == /opt/onixbit-site && "$DEPLOY_USER" == deploy ]]
+          [[ "$DEPLOY_PORT" =~ ^[0-9]{1,5}$ && "$DEPLOY_PORT" -ge 1 && "$DEPLOY_PORT" -le 65535 ]]
+          [[ "$DEPLOY_HOST" =~ ^[A-Za-z0-9.-]+$ && "$DEPLOY_HOST" != -* ]]
+          [[ "$STAGING_RELEASE_KEY" =~ ^[a-f0-9]{64}$ ]]
+          key="$RUNNER_TEMP/messenger-stage-ssh-key"
+          hosts="$RUNNER_TEMP/messenger-stage-known-hosts"
+          trap 'rm -f -- "$key" "$hosts"' EXIT
+          printf '%s\n' "$DEPLOY_KEY" > "$key"
+          unset DEPLOY_KEY
+          chmod 600 "$key"
+          ssh-keyscan -T 10 -p "$DEPLOY_PORT" "$DEPLOY_HOST" > "$hosts" 2>/dev/null
+          test -s "$hosts"
+          # Preserve the existing transport's keyscan bootstrap, StrictHostKeyChecking=yes.
+          # This is not an independently verified out-of-band host-key pin.
+          remote=$(python3 - <<'PY'
+          import shlex
+          from pathlib import Path
+          print('node --input-type=module -e '+shlex.quote(Path('payload/loader.mjs').read_text())+' -- --receive-staging')
+          PY
+          )
+          node payload/send-envelope.mjs payload | ssh -i "$key" -p "$DEPLOY_PORT" \
+            -o BatchMode=yes -o ConnectTimeout=20 -o ServerAliveInterval=15 -o ServerAliveCountMax=3 \
+            -o UserKnownHostsFile="$hosts" -o StrictHostKeyChecking=yes \
+            "$DEPLOY_USER@$DEPLOY_HOST" "$remote"

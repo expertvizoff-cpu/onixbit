@@ -1,0 +1,42 @@
+{
+  "purpose": "onixbit-staging-release-v1",
+  "origin": "https://messenger-test.onixbit.ru",
+  "releaseId": "stage-bb3d7fdc2fb68cb5",
+  "plainSHA256": "e9cc11eafdee2ba3120007e2df5f9cec415cd1522dca36cbe24c74e2e8c6bd9d",
+  "cipherSHA256": "de0ba74e7920eb4b25edccb25e2711e1317a4c08a10f3410fd1f2d29027fc3da",
+  "cipherBytes": 182427249,
+  "parts": [
+    {
+      "path": "payload.000",
+      "bytes": 33554432,
+      "sha256": "1e2e5a640e9d9a896511e556b328f073f4730b4efee4ff86240f90cf7554b2ad"
+    },
+    {
+      "path": "payload.001",
+      "bytes": 33554432,
+      "sha256": "001ee01156b9a3761410c96bee401fcddbc03f3901e42f35149160b2ebb9f6bd"
+    },
+    {
+      "path": "payload.002",
+      "bytes": 33554432,
+      "sha256": "e35e56115abcccd6c7dc3ade98f3bb181c40cc2464877de64401ec990012e9a5"
+    },
+    {
+      "path": "payload.003",
+      "bytes": 33554432,
+      "sha256": "31ba91d638b243a864c81e10ae0a737a24d529b779812b849d495720768c1182"
+    },
+    {
+      "path": "payload.004",
+      "bytes": 33554432,
+      "sha256": "2a30431fa250b464f0bc696d5b928c15254ff80cc819a3167b6cbd7b1af98583"
+    },
+    {
+      "path": "payload.005",
+      "bytes": 14655089,
+      "sha256": "330f4948e07f375ee2ac2e9cfdf9813907c06a9736b6c2063cb6817f42d627e2"
+    }
+  ],
+  "loaderSHA256": "5f01c81d86af40a318a76e6e67709b1a8407f2ea4cac5ad52f981f13d306364a",
+  "senderSHA256": "df7ec5038d56c02797c93eaced2c0e8d004d0074de92f034f1b8be5db7674e21"
+}
