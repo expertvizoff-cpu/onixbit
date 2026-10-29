@@ -1,0 +1,73 @@
+# Four-file one-use read-only transport. No deploy, installation, mail send, or account mutation.
+name: Read one sealed Messenger verification link
+on:
+  push:
+    branches: [probe/messenger-mail-link-20261029-a]
+permissions:
+  contents: read
+concurrency:
+  group: production-deploy
+  cancel-in-progress: false
+jobs:
+  lookup:
+    if: github.repository == 'expertvizoff-cpu/onixbit' && github.ref == 'refs/heads/probe/messenger-mail-link-20261029-a'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Fetch exact four-file payload
+        env:
+          PAYLOAD_SHA: ${{ github.sha }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ "$PAYLOAD_SHA" =~ ^[a-f0-9]{40}$ ]]
+          git init -q payload
+          git -C payload fetch -q --depth 1 https://github.com/expertvizoff-cpu/onixbit.git "$PAYLOAD_SHA"
+          git -C payload checkout -q --detach FETCH_HEAD
+          test "$(git -C payload rev-parse HEAD)" = "$PAYLOAD_SHA"
+          python3 - <<'PY'
+          from pathlib import Path
+          import subprocess
+          names=['.github/workflows/messenger-mail-link.yml','mail-envelope.mjs','mail-lookup.py','query.json']
+          tracked=subprocess.check_output(['git','-C','payload','ls-files','-z']).decode().split('\0')[:-1]
+          assert sorted(tracked)==sorted(names)
+          assert all(Path('payload',name).is_file() and not Path('payload',name).is_symlink() for name in names)
+          PY
+      - name: One read-only lookup, encrypted response only
+        env:
+          DEPLOY_HOST: ${{ secrets.VPS_HOST }}
+          DEPLOY_USER: ${{ secrets.VPS_USER }}
+          DEPLOY_PORT: ${{ secrets.VPS_PORT || '22' }}
+          DEPLOY_KEY: ${{ secrets.VPS_SSH_KEY }}
+          MAIL_KEY: ${{ secrets.OM_MAIL_261029_A }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          umask 077
+          [[ "$DEPLOY_USER" == deploy ]]
+          [[ "$DEPLOY_HOST" =~ ^[A-Za-z0-9.-]+$ && "$DEPLOY_HOST" != -* ]]
+          [[ "$DEPLOY_PORT" =~ ^[0-9]{1,5}$ && "$DEPLOY_PORT" -ge 1 && "$DEPLOY_PORT" -le 65535 ]]
+          [[ "$MAIL_KEY" =~ ^[A-Za-z0-9+/]{43}=$ ]]
+          test -n "$DEPLOY_KEY"
+          key="$RUNNER_TEMP/messenger-mail-ssh-key"
+          hosts="$RUNNER_TEMP/messenger-mail-hosts"
+          trap 'rm -f -- "$key" "$hosts"' EXIT
+          printf '%s\n' "$DEPLOY_KEY" > "$key"
+          unset DEPLOY_KEY
+          chmod 600 "$key"
+          # Existing keyscan bootstrap, strict checking; not an independent host-key pin.
+          ssh-keyscan -T 5 -p "$DEPLOY_PORT" "$DEPLOY_HOST" > "$hosts" 2>/dev/null
+          test -s "$hosts"
+          remote=$(python3 - <<'PY'
+          import shlex
+          from pathlib import Path
+          print('cd /home/deploy/apps/onixbit-messenger-staging && timeout 15s python3 -B -c '+shlex.quote(Path('payload/mail-lookup.py').read_text()))
+          PY
+          )
+          python3 - <<'PY' | ssh -i "$key" -p "$DEPLOY_PORT" -o BatchMode=yes -o ConnectTimeout=10 \
+            -o ServerAliveInterval=5 -o ServerAliveCountMax=2 -o UserKnownHostsFile="$hosts" \
+            -o StrictHostKeyChecking=yes "$DEPLOY_USER@$DEPLOY_HOST" "$remote"
+          import json,os
+          from pathlib import Path
+          print(json.dumps({'library':Path('payload/mail-envelope.mjs').read_text(),'query':json.loads(Path('payload/query.json').read_text()),'key':os.environ['MAIL_KEY']}))
+          PY
