@@ -1,0 +1,99 @@
+# Transport template only. No active workflow in this source repository.
+# Three-file generic operation transport. No backend, credentials or image archives.
+name: Recover isolated Messenger staging network
+
+on:
+  push:
+    branches:
+      - stage/messenger-network-recovery-20261029-a
+
+permissions:
+  contents: read
+
+concurrency:
+  group: production-deploy
+  cancel-in-progress: false
+
+jobs:
+  inspect:
+    if: github.repository == 'expertvizoff-cpu/onixbit' && github.ref == 'refs/heads/stage/messenger-network-recovery-20261029-a'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Fetch exact reviewed diagnostic transport
+        env:
+          TRANSPORT_SHA: ${{ github.sha }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ "$TRANSPORT_SHA" =~ ^[a-f0-9]{40}$ ]]
+          git init -q payload
+          git -C payload fetch -q --depth 1 https://github.com/expertvizoff-cpu/onixbit.git "$TRANSPORT_SHA"
+          git -C payload checkout -q --detach FETCH_HEAD
+          test "$(git -C payload rev-parse HEAD)" = "$TRANSPORT_SHA"
+          python3 - <<'PY'
+          from pathlib import Path
+          import subprocess
+          paths = subprocess.check_output(['git', '-C', 'payload', 'ls-files', '-z']).decode().split('\0')[:-1]
+          assert sorted(paths) == ['.github/workflows/messenger-network-recovery.yml', 'image_runtime.py', 'recover-network.py']
+          assert all(not Path('payload',name).is_symlink() for name in ['recover-network.py','image_runtime.py'])
+          PY
+
+      - name: Resume only initialized staging on a checked explicit subnet
+        env:
+          DEPLOY_HOST: ${{ secrets.VPS_HOST }}
+          DEPLOY_USER: ${{ secrets.VPS_USER }}
+          DEPLOY_PORT: ${{ secrets.VPS_PORT || '22' }}
+          DEPLOY_KEY: ${{ secrets.VPS_SSH_KEY }}
+          APP_DIR: ${{ secrets.VPS_APP_DIR || '/opt/onixbit-site' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          umask 077
+          [[ "$APP_DIR" == /opt/onixbit-site ]]
+          [[ "$DEPLOY_PORT" =~ ^[0-9]{1,5}$ && "$DEPLOY_PORT" -ge 1 && "$DEPLOY_PORT" -le 65535 ]]
+          [[ "$DEPLOY_USER" == deploy ]]
+          [[ "$DEPLOY_HOST" =~ ^[A-Za-z0-9.-]+$ && "$DEPLOY_HOST" != -* ]]
+          test -n "$DEPLOY_KEY"
+          key="$RUNNER_TEMP/messenger-staging-preflight-key"
+          hosts="$RUNNER_TEMP/messenger-staging-preflight-hosts"
+          trap 'rm -f -- "$key" "$hosts"' EXIT
+          printf '%s\n' "$DEPLOY_KEY" > "$key"
+          unset DEPLOY_KEY
+          chmod 600 "$key"
+          # Preserve the existing transport's trust bootstrap. This is not an
+          # independently verified host-key pin; no StrictHostKeyChecking=no.
+          ssh-keyscan -T 10 -p "$DEPLOY_PORT" "$DEPLOY_HOST" > "$hosts" 2>/dev/null
+          test -s "$hosts"
+          remote=$(python3 - <<'PYREMOTE'
+          import shlex
+          loader = """import json,os,pathlib,subprocess,sys
+          try:
+           root=pathlib.Path('/home/deploy/apps/onixbit-messenger-staging')
+           if os.getuid()==0 or pathlib.Path.cwd()!=root or root.resolve(strict=True)!=root:raise RuntimeError('EXACT_ROOT_REQUIRED')
+           data=sys.stdin.buffer.read(131073)
+           if len(data)>131072:raise RuntimeError('INPUT_BUDGET')
+           files=json.loads(data)
+           if set(files)!={'recover-network.py','image_runtime.py'} or not all(isinstance(value,str) and len(value)<65536 for value in files.values()):raise RuntimeError('INPUT_LAYOUT')
+           folder=root/'operation/network-recovery-261029-a'
+           os.umask(0o077)
+           folder.mkdir(mode=0o700)
+           for name,value in files.items():
+            with (folder/name).open('x') as output:output.write(value)
+           result=subprocess.run(['python3','-B',str(folder/'recover-network.py'),'--recover-initialized-network'],cwd=root)
+           sys.exit(result.returncode)
+          except Exception as error:
+           print(json.dumps({"code":"NETWORK_RECEIVER_STOPPED","reason":type(error).__name__}))
+           sys.exit(1)
+          """
+          print('cd /home/deploy/apps/onixbit-messenger-staging && timeout 1080s python3 -c '+shlex.quote(loader))
+          PYREMOTE
+          )
+          python3 - <<'PYPAYLOAD' | ssh -i "$key" -p "$DEPLOY_PORT" -o BatchMode=yes -o ConnectTimeout=20 \
+            -o ServerAliveInterval=15 -o ServerAliveCountMax=3 \
+            -o UserKnownHostsFile="$hosts" -o StrictHostKeyChecking=yes \
+            "$DEPLOY_USER@$DEPLOY_HOST" "$remote"
+          import json
+          from pathlib import Path
+          print(json.dumps({name:Path('payload',name).read_text() for name in ['recover-network.py','image_runtime.py']}))
+          PYPAYLOAD
