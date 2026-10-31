@@ -1,0 +1,66 @@
+# Prepared transport only. Do not publish until this exact activation scope is approved.
+name: Publish isolated ai-mop staging
+on:
+  push:
+    branches: [stage/ai-mop-publish-20261031-a]
+permissions:
+  contents: read
+concurrency:
+  group: production-deploy
+  cancel-in-progress: false
+jobs:
+  publish:
+    if: github.repository == 'expertvizoff-cpu/onixbit' && github.ref == 'refs/heads/stage/ai-mop-publish-20261031-a'
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Fetch exact reviewed encrypted transport
+        env:
+          SOURCE_SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          [[ "$SOURCE_SHA" =~ ^[a-f0-9]{40}$ ]]
+          git init -q payload
+          git -C payload fetch -q --depth 1 https://github.com/expertvizoff-cpu/onixbit.git "$SOURCE_SHA"
+          git -C payload checkout -q --detach FETCH_HEAD
+          python3 - <<'PY'
+          import subprocess
+          from pathlib import Path
+          files=subprocess.check_output(['git','-C','payload','ls-files','-z']).decode().split('\0')[:-1]
+          assert sorted(files)==['.github/workflows/ai-mop-publish.yml','bundle.enc','grant.json','receive.mjs']
+          assert all(not (Path('payload')/name).is_symlink() for name in files)
+          PY
+      - name: Activate only the approved new staging service
+        env:
+          DEPLOY_HOST: ${{ secrets.VPS_HOST }}
+          DEPLOY_USER: ${{ secrets.VPS_USER }}
+          DEPLOY_PORT: ${{ secrets.VPS_PORT || '22' }}
+          DEPLOY_KEY: ${{ secrets.VPS_SSH_KEY }}
+          AI_MOP_ENVELOPE_KEY: ${{ secrets.AI_MOP_STAGING_ENVELOPE_KEY }}
+        run: |
+          set -euo pipefail
+          umask 077
+          [[ "$DEPLOY_HOST" == 213.159.208.219 && "$DEPLOY_USER" == deploy && "$DEPLOY_PORT" == 22 ]]
+          [[ "$AI_MOP_ENVELOPE_KEY" =~ ^[a-f0-9]{64}$ ]]
+          key="$RUNNER_TEMP/ai-mop-publish-key"
+          hosts="$RUNNER_TEMP/ai-mop-publish-hosts"
+          trap 'rm -f -- "$key" "$hosts"' EXIT
+          printf '%s\n' "$DEPLOY_KEY" > "$key"
+          unset DEPLOY_KEY
+          printf '%s\n' '213.159.208.219 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOipEWxmeTKFpmxeyiVhnD5XYPr+O9YUJXobStBB12BN' > "$hosts"
+          remote=$(python3 - <<'PY'
+          import shlex
+          from pathlib import Path
+          print('node --input-type=module -e '+shlex.quote(Path('payload/receive.mjs').read_text())+' -- --activate')
+          PY
+          )
+          node --input-type=module -e '
+            import fs from "node:fs";
+            const grant=JSON.parse(fs.readFileSync("payload/grant.json","utf8"));
+            if(grant.approved!==true||Date.now()/1000<grant.issued_at||Date.now()/1000>=grant.expires_at)throw Error("EXPIRED_OR_UNAPPROVED");
+            const sealed=JSON.parse(fs.readFileSync("payload/bundle.enc","utf8"));
+            process.stdout.write(JSON.stringify({key:process.env.AI_MOP_ENVELOPE_KEY,sealed,grant}));
+          ' | ssh -i "$key" -p "$DEPLOY_PORT" -o BatchMode=yes -o IdentitiesOnly=yes \
+            -o ConnectTimeout=15 -o ServerAliveInterval=15 -o ServerAliveCountMax=3 \
+            -o UserKnownHostsFile="$hosts" -o StrictHostKeyChecking=yes \
+            "$DEPLOY_USER@$DEPLOY_HOST" "$remote"
