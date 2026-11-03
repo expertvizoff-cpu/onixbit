@@ -1,0 +1,136 @@
+# Transport template only. No active workflow in this source repository.
+# The isolated public transport contains exactly this workflow and preflight.py.
+name: Inspect current Messenger runtime and database readiness RM1
+
+on:
+  push:
+    branches:
+      - probe/messenger-runtime-20261103-rm1
+
+permissions:
+  contents: read
+
+concurrency:
+  group: messenger-runtime-readonly-rm1
+  cancel-in-progress: false
+
+jobs:
+  inspect:
+    if: github.repository == 'expertvizoff-cpu/onixbit' && github.ref == 'refs/heads/probe/messenger-runtime-20261103-rm1'
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - name: Fetch exact reviewed diagnostic transport
+        env:
+          TRANSPORT_SHA: ${{ github.sha }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ "$TRANSPORT_SHA" =~ ^[a-f0-9]{40}$ ]]
+          git init -q payload
+          git -C payload fetch -q --depth 1 https://github.com/expertvizoff-cpu/onixbit.git "$TRANSPORT_SHA"
+          git -C payload checkout -q --detach FETCH_HEAD
+          test "$(git -C payload rev-parse HEAD)" = "$TRANSPORT_SHA"
+          python3 - <<'PY'
+          from pathlib import Path
+          import subprocess
+          paths = subprocess.check_output(['git', '-C', 'payload', 'ls-files', '-z']).decode().split('\0')[:-1]
+          assert sorted(paths) == ['.github/workflows/messenger-staging-preflight.yml', 'preflight.py']
+          assert not Path('payload/preflight.py').is_symlink()
+          import time
+          committed = int(subprocess.check_output(['git', '-C', 'payload', 'show', '-s', '--format=%ct', 'HEAD']))
+          assert -30 <= time.time() - committed <= 150, 'Transport window expired; no SSH'
+          import hashlib
+          assert hashlib.sha256(Path('payload/preflight.py').read_bytes()).hexdigest() == 'e5833182d71bd73f99e7fa451259a3be7b92efa3879465f64f9b24ea4ab0031f'
+          PY
+
+      - name: Inspect exact production contour without writes
+        env:
+          DEPLOY_HOST: ${{ secrets.VPS_HOST }}
+          DEPLOY_USER: ${{ secrets.VPS_USER }}
+          DEPLOY_PORT: ${{ secrets.VPS_PORT || '22' }}
+          DEPLOY_KEY: ${{ secrets.VPS_SSH_KEY }}
+          APP_DIR: ${{ secrets.VPS_APP_DIR || '/opt/onixbit-site' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          umask 077
+          [[ "$APP_DIR" == /opt/onixbit-site ]]
+          [[ "$DEPLOY_PORT" =~ ^[0-9]{1,5}$ && "$DEPLOY_PORT" -ge 1 && "$DEPLOY_PORT" -le 65535 ]]
+          [[ "$DEPLOY_USER" == deploy ]]
+          [[ "$DEPLOY_HOST" =~ ^[A-Za-z0-9.-]+$ && "$DEPLOY_HOST" != -* ]]
+          test -n "$DEPLOY_KEY"
+          key="$RUNNER_TEMP/messenger-staging-preflight-key"
+          hosts="$RUNNER_TEMP/messenger-staging-preflight-hosts"
+          trap 'rm -f -- "$key" "$hosts"' EXIT
+          printf '%s\n' "$DEPLOY_KEY" > "$key"
+          unset DEPLOY_KEY
+          chmod 600 "$key"
+          # Preserve the existing transport's trust bootstrap. This is not an
+          # independently verified host-key pin; no StrictHostKeyChecking=no.
+          timeout 12s ssh-keyscan -T 5 -p "$DEPLOY_PORT" "$DEPLOY_HOST" > "$hosts" 2>/dev/null
+          test -s "$hosts"
+          mkdir -m 700 metadata
+          if ssh -i "$key" -p "$DEPLOY_PORT" -o BatchMode=yes -o ConnectTimeout=10 \
+            -o ServerAliveInterval=5 -o ServerAliveCountMax=1 \
+            -o UserKnownHostsFile="$hosts" -o StrictHostKeyChecking=yes \
+            "$DEPLOY_USER@$DEPLOY_HOST" \
+            'timeout --signal=TERM --kill-after=3s 60s python3 - --inspect-rm1-readiness' < payload/preflight.py > metadata/receipt.json; then
+            :
+          else
+            python3 - <<'PYFAIL'
+          import json,re
+          from pathlib import Path
+          code='RM1_TRANSPORT_OR_TARGET_STOP'
+          p=Path('metadata/receipt.json')
+          if p.is_file() and p.stat().st_size<4096:
+              try:
+                  v=json.loads(p.read_bytes()); candidate=v.get('code','')
+                  if v.get('status')=='STOP' and re.fullmatch('RM1_[A-Za-z0-9_]{1,100}',candidate):code=candidate
+              except (ValueError,AttributeError):pass
+          print(json.dumps({'rm1Failure':code}))
+          PYFAIL
+            exit 1
+          fi
+
+          python3 - <<'PYVALIDATE'
+          import json,hashlib,re
+          from pathlib import Path
+          p=Path('metadata/receipt.json')
+          assert p.is_file() and not p.is_symlink() and p.stat().st_size<=2097152
+          raw=p.read_bytes(); value=json.loads(raw)
+          assert set(value)=={'purpose','status','runtime','catalog','targetWrites'}
+          assert value['purpose']=='rm1-nonsecret-readiness-v1' and value['status']=='OBSERVED'
+          assert value['targetWrites'] is False
+          assert value['runtime']['deploymentAuthorized'] is False
+          assert value['catalog']['status']=='READINESS_OBSERVED' and value['catalog']['recordDataExported'] is False
+          assert value['catalog']['rolesChanged'] is False and len(value['catalog']['databases'])==4
+          assert all(x['readOnly'] is True for x in value['catalog']['databases'])
+          def check(x):
+              if isinstance(x,dict):
+                  for key,item in x.items():
+                      assert not(key.lower() in {'password','authsecret','clientsecret','token','url'} and isinstance(item,str))
+                      check(item)
+              elif isinstance(x,list):
+                  for item in x:check(item)
+              elif isinstance(x,str):
+                  assert '://' not in x and '\x1b' not in x and '@' not in x and '***' not in x
+                  assert not re.fullmatch('[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}',x)
+          check(value)
+          Path('metadata/receipt.sha256').write_text(hashlib.sha256(raw).hexdigest()+'\n')
+          print('RM1 metadata captured; nonsecret artifact only')
+          PYVALIDATE
+
+      - name: Preserve nonsecret readiness metadata
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: rm1-readiness-metadata
+          path: |
+            metadata/receipt.json
+            metadata/receipt.sha256
+          if-no-files-found: error
+          retention-days: 1
+          compression-level: 6
+          overwrite: false
+          include-hidden-files: false
+          archive: true
