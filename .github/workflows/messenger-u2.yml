@@ -1,0 +1,115 @@
+# Preparation template only. No active source-repository workflow.
+# PIN_* values and owner-window.json are bound after explicit owner approval.
+name: Apply owned Messenger U2 additive update once
+on:
+  push:
+    branches: [update/messenger-u2-20261103]
+permissions:
+  contents: read
+concurrency:
+  group: messenger-staging-mutation
+  cancel-in-progress: false
+jobs:
+  update:
+    if: github.repository == 'expertvizoff-cpu/onixbit' && github.ref == 'refs/heads/update/messenger-u2-20261103' && github.run_attempt == 1
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Fetch only the exact fresh reviewed transport
+        env:
+          TRANSPORT_SHA: ${{ github.sha }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ "$TRANSPORT_SHA" =~ ^[a-f0-9]{40}$ ]]
+          git init -q payload
+          git -C payload fetch -q --depth 1 https://github.com/expertvizoff-cpu/onixbit.git "$TRANSPORT_SHA"
+          git -C payload checkout -q --detach FETCH_HEAD
+          test "$(git -C payload rev-parse HEAD)" = "$TRANSPORT_SHA"
+          python3 - <<'PY'
+          from pathlib import Path
+          import subprocess,hashlib,json,time
+          root=Path('payload')
+          paths=subprocess.check_output(['git','-C','payload','ls-files','-z']).decode().split('\0')[:-1]
+          assert sorted(paths)==sorted(['.github/workflows/messenger-u2.yml','receiver.mjs','sender.mjs','payload.enc','receipt.json','owner-window.json'])
+          stamp=int(subprocess.check_output(['git','-C','payload','show','-s','--format=%ct','HEAD']))
+          assert -30 <= time.time()-stamp <= 150
+          pins={'receiver.mjs':'bd67c2b961152857e4c68e0b9095d22db59372840586cc36c5c93146f5d6d017','sender.mjs':'6f1f8285356d33059bf36eaf7013b63fd745ff2b705b0c4942712b7723946ea6','payload.enc':'a196bbb0249913fd74dd610251c7a612b1f78a2f03d5f8ef153f17b762fe2dc7','receipt.json':'7005d306699895b905f6d7a7f28946bb7c7d0b2017783fd4d1a1358285bc6d0c','owner-window.json':'355e8441e2fc1f48406d7f325d4f218aa47139f7abfd3bf458659048fb98af06'}
+          for name,digest in pins.items():
+              p=root/name
+              assert p.is_file() and not p.is_symlink() and hashlib.sha256(p.read_bytes()).hexdigest()==digest
+          auth=json.loads((root/'owner-window.json').read_bytes())
+          assert auth['manifestSha256']=='49520aad21a96ceec3d88f0637b5f3ee41e1f19471edaae9c8c7e8624ca95cb3'
+          assert auth['approvedAt']-30<=time.time() and time.time()+690<=auth['expiresAt']
+          PY
+      - name: One encrypted input and maintenance window on the owned staging
+        env:
+          DEPLOY_HOST: ${{ secrets.VPS_HOST }}
+          DEPLOY_USER: ${{ secrets.VPS_USER }}
+          DEPLOY_PORT: ${{ secrets.VPS_PORT || '22' }}
+          DEPLOY_KEY: ${{ secrets.VPS_SSH_KEY }}
+          APP_DIR: ${{ secrets.VPS_APP_DIR || '/opt/onixbit-site' }}
+          U2_INPUT_KEY: ${{ secrets.ONIXBIT_U2_INPUT_KEY }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          umask 077
+          [[ "$APP_DIR" == /opt/onixbit-site && "$DEPLOY_USER" == deploy ]]
+          [[ "$DEPLOY_PORT" =~ ^[0-9]{1,5}$ && "$DEPLOY_PORT" -ge 1 && "$DEPLOY_PORT" -le 65535 ]]
+          [[ "$DEPLOY_HOST" =~ ^[A-Za-z0-9.-]+$ && "$DEPLOY_HOST" != -* ]]
+          test -n "$DEPLOY_KEY"
+          key="$RUNNER_TEMP/messenger-u2-ssh-key"
+          hosts="$RUNNER_TEMP/messenger-u2-hosts"
+          trap 'rm -f -- "$key" "$hosts"' EXIT
+          printf '%s\n' "$DEPLOY_KEY" > "$key"
+          unset DEPLOY_KEY
+          chmod 600 "$key"
+          timeout 12s ssh-keyscan -T 5 -p "$DEPLOY_PORT" "$DEPLOY_HOST" > "$hosts" 2>/dev/null
+          test -s "$hosts"
+          # Existing SSH trust bootstrap, not an independently verified host-key pin.
+          receiver64="$(base64 -w0 payload/receiver.mjs)"
+          [[ "$receiver64" =~ ^[A-Za-z0-9+/=]+$ ]]
+          remote="timeout --signal=TERM --kill-after=5s 710s node --max-old-space-size=64 --input-type=module --eval \"\$(printf '%s' '$receiver64' | base64 -d)\" -- --receive-u2"
+          mkdir -m 700 metadata
+          raw="$RUNNER_TEMP/messenger-u2-result-private"
+          set +e
+          node payload/sender.mjs | timeout --signal=TERM --kill-after=5s 720s ssh -i "$key" -p "$DEPLOY_PORT" \
+            -o BatchMode=yes -o ConnectTimeout=10 -o ServerAliveInterval=5 -o ServerAliveCountMax=1 \
+            -o UserKnownHostsFile="$hosts" -o StrictHostKeyChecking=yes \
+            "$DEPLOY_USER@$DEPLOY_HOST" "$remote" > "$raw"
+          code=$?
+          set -e
+          unset U2_INPUT_KEY
+          python3 - <<'PY'
+          import json,hashlib,os
+          from pathlib import Path
+          p=Path(os.environ['RUNNER_TEMP'])/'messenger-u2-result-private';assert p.is_file() and p.stat().st_size<=4096
+          value=json.loads(p.read_bytes());assert value['status'] in ['STOP','UPDATED_LIMITED_STARTUP_ACCEPTED']
+          def safe(v):
+              if isinstance(v,dict):
+                  assert not set(v)&{'password','authSecret','token','key','url'}
+                  for x in v.values():safe(x)
+              elif isinstance(v,list):
+                  for x in v:safe(x)
+              elif isinstance(v,str):
+                  assert len(v)<=150 and not any(x in v for x in ['://','@','\x1b','***','/home/'])
+          safe(value)
+          public=(json.dumps(value,sort_keys=True)+'\n').encode()
+          Path('metadata/result.json').write_bytes(public)
+          Path('metadata/result.sha256').write_text(hashlib.sha256(public).hexdigest()+'\n')
+          PY
+          test "$code" -eq 0
+      - name: Preserve only the nonsecret outcome
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: u2-update-result
+          path: |
+            metadata/result.json
+            metadata/result.sha256
+          if-no-files-found: warn
+          retention-days: 1
+          compression-level: 6
+          overwrite: false
+          include-hidden-files: false
+          archive: true
