@@ -1,0 +1,10 @@
+{
+  "plainBytes": 931840,
+  "plainSha256": "2a855f2acbd4e1e4ced3c90559674e247acca7275cb470cf01ea397a38450d6e",
+  "cipherBytes": 931882,
+  "cipherSha256": "6e7fde96972e2e05b5e826635c6901a1527c3cbef951d8695f5e3537ec92ddb3",
+  "purpose": "code-input",
+  "operation": "update-u1-261103",
+  "label": "source-inputs",
+  "verified": true
+}
