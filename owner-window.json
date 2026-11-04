@@ -1,0 +1,7 @@
+{
+  "approvedAt": 1793830032,
+  "expiresAt": 1793830932,
+  "manifestSha256": "4a2a870c9818ae26a72863ebdaede68f6a865e040630707e8aba3b70f6910924",
+  "operation": "native-install-i3-261105",
+  "purpose": "i3-explicit-owner-window-v1"
+}
