@@ -1,0 +1,122 @@
+# Preparation template only. No active source-repository workflow.
+# PIN_* values and owner-window.json are bound after explicit owner approval.
+name: Activate paused Messenger installation once
+on:
+  push:
+    branches: [setup/messenger-native-i2-20261105]
+permissions:
+  contents: read
+concurrency:
+  group: messenger-staging-mutation
+  cancel-in-progress: false
+jobs:
+  update:
+    if: github.repository == 'expertvizoff-cpu/onixbit' && github.ref == 'refs/heads/setup/messenger-native-i2-20261105' && github.run_attempt == 1
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Fetch only the exact fresh reviewed transport
+        env:
+          TRANSPORT_SHA: ${{ github.sha }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ "$TRANSPORT_SHA" =~ ^[a-f0-9]{40}$ ]]
+          git init -q payload
+          git -C payload fetch -q --depth 1 https://github.com/expertvizoff-cpu/onixbit.git "$TRANSPORT_SHA"
+          git -C payload checkout -q --detach FETCH_HEAD
+          test "$(git -C payload rev-parse HEAD)" = "$TRANSPORT_SHA"
+          python3 - <<'PY'
+          from pathlib import Path
+          import subprocess,hashlib,json,time
+          root=Path('payload')
+          paths=subprocess.check_output(['git','-C','payload','ls-files','-z']).decode().split('\0')[:-1]
+          assert sorted(paths)==sorted(['.github/workflows/messenger-native-i2.yml','receiver.mjs','sender.mjs','payload.enc','receipt.json','owner-window.json'])
+          stamp=int(subprocess.check_output(['git','-C','payload','show','-s','--format=%ct','HEAD']))
+          assert -30 <= time.time()-stamp <= 150
+          pins={'receiver.mjs':'e297bb715544cb1095ce7d3891893e67b6682817127ba9d3dce5c7146fb483cb','sender.mjs':'d33e94b2fa481647519127726ce0c8c688e569be1d680ca454e0e9eb17cbe57b','payload.enc':'30f4ca9e3581329272d402f57449a59d5e511e3de0749077fa1f1f73ff02b438','receipt.json':'c794af96a832abdc0c75f6bb591402ba717bf3b84a23b79faa0c88cd93d2091a','owner-window.json':'b2e9d63b38575852f6595b0dde621b3721ebdff136f2e23679f7777a9763be10'}
+          for name,digest in pins.items():
+              p=root/name
+              assert p.is_file() and not p.is_symlink() and hashlib.sha256(p.read_bytes()).hexdigest()==digest
+          auth=json.loads((root/'owner-window.json').read_bytes())
+          assert auth['manifestSha256']=='ca35a92085d53c7aac29a97200beb0828fdeee96adf12e2d19309adda7d398b5'
+          assert auth['approvedAt']-30<=time.time() and time.time()+500<=auth['expiresAt']
+          PY
+      - name: One encrypted input and maintenance window on the owned staging
+        env:
+          DEPLOY_HOST: ${{ secrets.VPS_HOST }}
+          DEPLOY_USER: ${{ secrets.VPS_USER }}
+          DEPLOY_PORT: ${{ secrets.VPS_PORT || '22' }}
+          DEPLOY_KEY: ${{ secrets.VPS_SSH_KEY }}
+          APP_DIR: ${{ secrets.VPS_APP_DIR || '/opt/onixbit-site' }}
+          I2_INPUT_KEY: ${{ secrets.ONIXBIT_I2_INPUT_KEY }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          umask 077
+          [[ "$APP_DIR" == /opt/onixbit-site && "$DEPLOY_USER" == deploy ]]
+          [[ "$DEPLOY_PORT" =~ ^[0-9]{1,5}$ && "$DEPLOY_PORT" -ge 1 && "$DEPLOY_PORT" -le 65535 ]]
+          [[ "$DEPLOY_HOST" =~ ^[A-Za-z0-9.-]+$ && "$DEPLOY_HOST" != -* ]]
+          test -n "$DEPLOY_KEY"
+          key="$RUNNER_TEMP/messenger-native-i2-ssh-key"
+          hosts="$RUNNER_TEMP/messenger-native-i2-hosts"
+          trap 'rm -f -- "$key" "$hosts"' EXIT
+          printf '%s\n' "$DEPLOY_KEY" > "$key"
+          unset DEPLOY_KEY
+          chmod 600 "$key"
+          timeout 12s ssh-keyscan -t ed25519 -T 5 -p "$DEPLOY_PORT" "$DEPLOY_HOST" > "$hosts" 2>/dev/null
+          test -s "$hosts"
+          python3 - "$hosts" <<'PY'
+          import base64,hashlib,sys
+          from pathlib import Path
+          rows=[line.split() for line in Path(sys.argv[1]).read_text().splitlines() if line and not line.startswith('#')]
+          assert rows and all(len(row)==3 and row[1]=='ssh-ed25519' for row in rows)
+          assert {hashlib.sha256(base64.b64decode(row[2],validate=True)).hexdigest() for row in rows}=={'a793e9bd4d65906a23cc0aef6bbd6b55620a04af871ada8fa9ebc314978c32ee'}
+          PY
+          # Existing pinned host key verified before sending encrypted input or key.
+          receiver64="$(base64 -w0 payload/receiver.mjs)"
+          [[ "$receiver64" =~ ^[A-Za-z0-9+/=]+$ ]]
+          remote="ulimit -c 0; exec timeout --signal=TERM --kill-after=5s 445s node --max-old-space-size=64 --input-type=module --eval \"\$(printf '%s' '$receiver64' | base64 -d)\" -- --receive-i2"
+          mkdir -m 700 metadata
+          raw="$RUNNER_TEMP/messenger-native-i2-result-private"
+          set +e
+          node payload/sender.mjs | timeout --signal=TERM --kill-after=5s 455s ssh -i "$key" -p "$DEPLOY_PORT" \
+            -o BatchMode=yes -o ConnectTimeout=10 -o ServerAliveInterval=5 -o ServerAliveCountMax=1 \
+            -o UserKnownHostsFile="$hosts" -o StrictHostKeyChecking=yes \
+            "$DEPLOY_USER@$DEPLOY_HOST" "$remote" > "$raw"
+          code=$?
+          set -e
+          unset I2_INPUT_KEY
+          python3 - <<'PY'
+          import json,hashlib,os
+          from pathlib import Path
+          p=Path(os.environ['RUNNER_TEMP'])/'messenger-native-i2-result-private';assert p.is_file() and p.stat().st_size<=4096
+          value=json.loads(p.read_bytes());assert value['status'] in ['STOP','PAUSED_NATIVE_SETUP_ACCEPTED','ROLLED_BACK']
+          def safe(v):
+              if isinstance(v,dict):
+                  assert not set(v)&{'password','authSecret','token','key','url'}
+                  for x in v.values():safe(x)
+              elif isinstance(v,list):
+                  for x in v:safe(x)
+              elif isinstance(v,str):
+                  assert len(v)<=150 and not any(x in v for x in ['://','@','\x1b','***','/home/'])
+          safe(value)
+          public=(json.dumps(value,sort_keys=True)+'\n').encode()
+          Path('metadata/result.json').write_bytes(public)
+          Path('metadata/result.sha256').write_text(hashlib.sha256(public).hexdigest()+'\n')
+          PY
+          test "$code" -eq 0
+      - name: Preserve only the nonsecret outcome
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: i2-native-config-result
+          path: |
+            metadata/result.json
+            metadata/result.sha256
+          if-no-files-found: warn
+          retention-days: 1
+          compression-level: 6
+          overwrite: false
+          include-hidden-files: false
+          archive: true

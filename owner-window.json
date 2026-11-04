@@ -1,0 +1,7 @@
+{
+  "approvedAt": 1793829148,
+  "expiresAt": 1793830048,
+  "manifestSha256": "ca35a92085d53c7aac29a97200beb0828fdeee96adf12e2d19309adda7d398b5",
+  "operation": "native-install-i2-261105",
+  "purpose": "i2-explicit-owner-window-v1"
+}
