@@ -1,0 +1,7 @@
+{
+  "approvedAt": 1794031291,
+  "expiresAt": 1794032191,
+  "manifestSha256": "d262ebce96e807806b93b92faeb59d79a7547473a13efea3093630f85ed71ac4",
+  "operation": "update-u3-261107",
+  "purpose": "u3-explicit-owner-window-v1"
+}
