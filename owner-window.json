@@ -1,0 +1,7 @@
+{
+  "expiresAt": 1794174319,
+  "manifestSha256": "75bb4614592354cfc0c280a60a47ab529e83fbcac5fbd9ff8b3e997c22874109",
+  "operation": "readonly-d1-261109",
+  "purpose": "d1-readonly-task-window-v1",
+  "windowOpenedAt": 1794173419
+}
